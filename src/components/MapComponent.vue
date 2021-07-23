@@ -1,39 +1,33 @@
 <template>
-  <div id="map">
-  </div>
+  <div id="map"></div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import Map from 'ol/Map';
-import View from 'ol/View';
-import { Coordinate } from 'ol/coordinate';
-import GML3 from 'ol/format/GML3';
-import Layer from 'ol/layer/Layer';
-import TileLayer from 'ol/layer/Tile';
-import VectorLayer from 'ol/layer/Vector';
-import TileWMS from 'ol/source/TileWMS';
-import VectorSource from 'ol/source/Vector';
-import Stroke from 'ol/style/Stroke';
-import Style from 'ol/style/Style';
-import 'ol/ol.css';
+import { Feature, Map, MapBrowserEvent, View } from "ol";
+import GML3 from "ol/format/GML3";
+import { Layer, Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
+import "ol/ol.css";
+import { TileWMS, Vector as VectorSource } from "ol/source";
+import { Fill, Stroke, Style, Text } from "ol/style";
+import { StyleFunction } from "ol/style/Style";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 interface MyVectorSource extends VectorSource {
   setLoaderForWFSWithFlippedCoordinates: () => void;
 }
 
 (VectorSource.prototype as MyVectorSource).setLoaderForWFSWithFlippedCoordinates = function () {
-  this.setLoader((extent) => {
+  this.setLoader(extent => {
     fetch(this.getUrl() as string)
       .then(response => response.text())
       .then(text => {
         this.addFeatures((this.getFormat() as GML3).readFeatures(text).map(f => {
-          const geom = f.getGeometry()
+          const geom = f.getGeometry() as unknown as {flatCoordinates: number[]};
           if (geom) {
             // flip XY
-            let coords = (geom as any).flatCoordinates as Coordinate;
-            coords = coords.map((_, i) => [coords[i/3*3+1], coords[i/3*3-1], _][i%3]);
-            (geom as any).flatCoordinates = coords;
+            let coords = geom.flatCoordinates;
+            coords = coords.map((_, i) => [coords[(i / 3) * 3 + 1], coords[(i / 3) * 3 - 1], _][i % 3]);
+            geom.flatCoordinates = coords;
           }
           return f;
         }));
@@ -42,31 +36,62 @@ interface MyVectorSource extends VectorSource {
         this.removeLoadedExtent(extent);
       });
   });
-}
+};
 
 @Component
 export default class MapComponent extends Vue {
-  @Prop() bezirkeVisible = false;
-  @Prop() stadtteileVisible = false;
-  @Prop() statGebieteVisible = false;
+  @Prop() layerVisibility!: {[name: string]: boolean};
+  @Prop() adminLayerVisibility!: {[name: string]: boolean};
 
-  sources: {[key: string]: MyVectorSource};
-  layers: {[key: string]: Layer};
+  sources: { [key: string]: MyVectorSource };
+  layers: { [key: string]: Layer };
   map!: Map;
+
+  getAdminAreaStyleFn(layerName: string, textAttr: string): StyleFunction {
+    return feature => this.adminLayerVisibility[layerName]
+      ? feature.get("selected")
+        ? new Style({
+            stroke: new Stroke({
+              color: "#f00",
+              width: 2
+            }),
+            fill: new Fill({
+              color: "rgba(255, 0, 0, 0.1)"
+            }),
+            text: new Text({
+              font: "16px Arial",
+              text: feature.get(textAttr),
+              fill: new Fill({ color: "white" })
+            }),
+            zIndex: 1
+          })
+        : new Style({
+            stroke: new Stroke({
+              color: "rgba(0, 120, 255, 1.0)",
+              width: 2
+            }),
+            text: new Text({
+              font: "16px Arial",
+              text: feature.get(textAttr),
+              fill: new Fill({ color: "white" })
+            })
+          })
+      : new Style();
+  }
 
   constructor() {
     super();
 
     this.sources = {
-      "Bezirke": new VectorSource({
+      Bezirke: new VectorSource({
         format: new GML3(),
         url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:4326&typename=app:bezirke"
       }) as MyVectorSource,
-      "Stadtteile": new VectorSource({
+      Stadtteile: new VectorSource({
         format: new GML3(),
         url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:4326&typename=app:stadtteile"
       }) as MyVectorSource,
-      "StatGebiete": new VectorSource({
+      StatGebiete: new VectorSource({
         format: new GML3(),
         url: "https://geodienste.hamburg.de/HH_WFS_Statistische_Gebiete?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:4326&typename=app:statistische_gebiete"
       }) as MyVectorSource
@@ -76,7 +101,7 @@ export default class MapComponent extends Vue {
     this.sources.StatGebiete.setLoaderForWFSWithFlippedCoordinates();
 
     this.layers = {
-      "Geobasiskarten": new TileLayer({
+      Geobasiskarten: new TileLayer({
         source: new TileWMS({
           url: "https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_SG",
           params: {
@@ -85,7 +110,7 @@ export default class MapComponent extends Vue {
           projection: "EPSG:25832"
         })
       }),
-      "Solaratlas": new TileLayer({
+      Solaratlas: new TileLayer({
         source: new TileWMS({
           url: "https://geodienste.hamburg.de/HH_WMS_Solaratlas",
           params: {
@@ -94,64 +119,85 @@ export default class MapComponent extends Vue {
           projection: "EPSG:25832"
         })
       }),
-      "Bezirke": new VectorLayer({
+      Bezirke: new VectorLayer({
         source: this.sources.Bezirke,
-        style: new Style({
-          stroke: new Stroke({
-            color: 'rgba(0, 120, 255, 1.0)',
-            width: 2,
-          })
-        }),
-        visible: false
+        style: this.getAdminAreaStyleFn("Bezirke", "bezirk_name")
       }),
-      "Stadtteile": new VectorLayer({
+      Stadtteile: new VectorLayer({
         source: this.sources.Stadtteile,
-        style: new Style({
-          stroke: new Stroke({
-            color: 'rgba(0, 120, 255, 1.0)',
-            width: 2,
-          })
-        }),
-        visible: false
+        style: this.getAdminAreaStyleFn("Stadtteile", "stadtteil_name")
       }),
-      "StatGebiete": new VectorLayer({
+      StatGebiete: new VectorLayer({
         source: this.sources.StatGebiete,
-        style: new Style({
-          stroke: new Stroke({
-            color: 'rgba(0, 120, 255, 1.0)',
-            width: 2,
-          })
-        }),
-        visible: false
+        style: this.getAdminAreaStyleFn("StatGebiete", "statgebiet")
       })
     };
   }
 
-  @Watch('bezirkeVisible')
-  onToggleBezirke(value: boolean): void {
-    this.layers.Bezirke.setVisible(value);
+  @Watch("layerVisibility", { deep: true })
+  onLayerSwitch(map: {[name: string]: boolean}): void {
+    for (const [layerName, visible] of Object.entries(map)) {
+      this.layers[layerName].setVisible(visible);
+    }
   }
 
-  @Watch('stadtteileVisible')
-  onToggleStadtteile(value: boolean): void {
-    this.layers.Stadtteile.setVisible(value);
-  }
-
-  @Watch('statGebieteVisible')
-  onToggleStatGebiete(value: boolean): void {
-    this.layers.StatGebiete.setVisible(value);
+  /**
+   * Admin layers take a different approach towards visibility (as opposed to using
+   * the "visible" property) because we want them to load eagerly, which requires
+   * to set visible=true.
+   * Instead, the style function checks whether the features should get an invisible
+   * style or not.
+   */
+  @Watch("adminLayerVisibility", { deep: true })
+  onAdminLayerSwitch(map: {[name: string]: boolean}): void {
+    for (const layerName of Object.keys(map)) {
+      // Trigger redrawing so the style function is reevaluated
+      (this.layers[layerName] as VectorLayer).getSource().changed();
+    }
   }
 
   mounted(): void {
     this.map = new Map({
-      target: 'map',
+      target: "map",
       layers: Object.values(this.layers),
       view: new View({
-        projection: 'EPSG:4326',
+        projection: "EPSG:4326",
         zoom: 12,
-        center: [10.0, 53.55]
+        minZoom: 9,
+        maxZoom: 18,
+        center: [10.0, 53.55],
       })
-    })
+    });
+
+    // Select map features
+    this.map.on("click", (evt: MapBrowserEvent) => {
+      const coord = this.map.getCoordinateFromPixel(evt.pixel);
+      const event: { [key: string]: Feature[] } = {};
+
+      for (const adminLevel of ["Bezirke", "Stadtteile", "StatGebiete"]) {
+        if (this.adminLayerVisibility[adminLevel]) {
+          this.sources[adminLevel].getFeaturesAtCoordinate(coord).forEach(feature => {
+            feature.set("selected", !feature.get("selected"));
+
+            if (adminLevel === "Bezirke") {
+              // alle Stadtteile des ausgewählten Bezirks werden ausgewählt
+              (this.layers.Stadtteile.getSource() as VectorSource)
+                .getFeatures()
+                .filter(stadtteil => feature.get("bezirk") == stadtteil.get("bezirk"))
+                .forEach(stadtteil => {
+                  stadtteil.set("selected", feature.get("selected"));
+                });
+            }
+          });
+        }
+
+        event[adminLevel] = this.sources[adminLevel]
+          .getFeatures()
+          .filter(feature => feature.get("selected"));
+      }
+
+      this.$emit("adminAreasSelected", event);
+    });
   }
 }
 </script>
