@@ -1,0 +1,7530 @@
+[
+  {
+    "STATGEB": 1001,
+    "Shape_Leng": 1658.2566967,
+    "Shape_Area": 110911.985215,
+    "STATGEB_AL": 1001,
+    "AnzFlur": 12,
+    "mttlFlur": 9243
+  },
+  {
+    "STATGEB": 1002,
+    "Shape_Leng": 1642.60570327,
+    "Shape_Area": 135019.34705,
+    "STATGEB_AL": 1002,
+    "AnzFlur": 94,
+    "mttlFlur": 1436
+  },
+  {
+    "STATGEB": 1003,
+    "Shape_Leng": 1091.39034987,
+    "Shape_Area": 71457.1214352,
+    "STATGEB_AL": 1003,
+    "AnzFlur": 72,
+    "mttlFlur": 992
+  },
+  {
+    "STATGEB": 1004,
+    "Shape_Leng": 1600.8227974,
+    "Shape_Area": 154778.4826,
+    "STATGEB_AL": 1004,
+    "AnzFlur": 86,
+    "mttlFlur": 1800
+  },
+  {
+    "STATGEB": 1005,
+    "Shape_Leng": 1379.12037961,
+    "Shape_Area": 109530.87762,
+    "STATGEB_AL": 1005,
+    "AnzFlur": 81,
+    "mttlFlur": 1352
+  },
+  {
+    "STATGEB": 1006,
+    "Shape_Leng": 1746.6193258,
+    "Shape_Area": 167628.893265,
+    "STATGEB_AL": 1006,
+    "AnzFlur": 164,
+    "mttlFlur": 1022
+  },
+  {
+    "STATGEB": 1007,
+    "Shape_Leng": 1464.18369354,
+    "Shape_Area": 136695.190075,
+    "STATGEB_AL": 1007,
+    "AnzFlur": 108,
+    "mttlFlur": 1266
+  },
+  {
+    "STATGEB": 1008,
+    "Shape_Leng": 1577.65936377,
+    "Shape_Area": 140369.454658,
+    "STATGEB_AL": 1008,
+    "AnzFlur": 110,
+    "mttlFlur": 1276
+  },
+  {
+    "STATGEB": 1009,
+    "Shape_Leng": 1562.97136613,
+    "Shape_Area": 118123.887531,
+    "STATGEB_AL": 1009,
+    "AnzFlur": 82,
+    "mttlFlur": 1441
+  },
+  {
+    "STATGEB": 1010,
+    "Shape_Leng": 1833.52913148,
+    "Shape_Area": 152311.887721,
+    "STATGEB_AL": 1010,
+    "AnzFlur": 74,
+    "mttlFlur": 2058
+  },
+  {
+    "STATGEB": 2001,
+    "Shape_Leng": 5016.047256,
+    "Shape_Area": 1079013.82863,
+    "STATGEB_AL": 2001,
+    "AnzFlur": 409,
+    "mttlFlur": 2638
+  },
+  {
+    "STATGEB": 2002,
+    "Shape_Leng": 6020.48203487,
+    "Shape_Area": 1415410.33298,
+    "STATGEB_AL": 2002,
+    "AnzFlur": 253,
+    "mttlFlur": 5595
+  },
+  {
+    "STATGEB": 3001,
+    "Shape_Leng": 5046.4868891,
+    "Shape_Area": 550293.944201,
+    "STATGEB_AL": 3001,
+    "AnzFlur": 78,
+    "mttlFlur": 7055
+  },
+  {
+    "STATGEB": 3002,
+    "Shape_Leng": 1726.2225955,
+    "Shape_Area": 109338.400798,
+    "STATGEB_AL": 3002,
+    "AnzFlur": 75,
+    "mttlFlur": 1458
+  },
+  {
+    "STATGEB": 3003,
+    "Shape_Leng": 1824.71278268,
+    "Shape_Area": 142679.271826,
+    "STATGEB_AL": 3003,
+    "AnzFlur": 100,
+    "mttlFlur": 1427
+  },
+  {
+    "STATGEB": 3004,
+    "Shape_Leng": 2194.17512134,
+    "Shape_Area": 186238.794214,
+    "STATGEB_AL": 3004,
+    "AnzFlur": 206,
+    "mttlFlur": 904
+  },
+  {
+    "STATGEB": 3005,
+    "Shape_Leng": 1654.88806458,
+    "Shape_Area": 147662.316933,
+    "STATGEB_AL": 3005,
+    "AnzFlur": 22,
+    "mttlFlur": 6712
+  },
+  {
+    "STATGEB": 3006,
+    "Shape_Leng": 2038.79398071,
+    "Shape_Area": 193399.58893,
+    "STATGEB_AL": 3006,
+    "AnzFlur": 164,
+    "mttlFlur": 1179
+  },
+  {
+    "STATGEB": 3007,
+    "Shape_Leng": 1999.95828878,
+    "Shape_Area": 120772.043249,
+    "STATGEB_AL": 3007,
+    "AnzFlur": 142,
+    "mttlFlur": 851
+  },
+  {
+    "STATGEB": 3008,
+    "Shape_Leng": 1503.63825497,
+    "Shape_Area": 87631.1587269,
+    "STATGEB_AL": 3008,
+    "AnzFlur": 61,
+    "mttlFlur": 1437
+  },
+  {
+    "STATGEB": 3009,
+    "Shape_Leng": 1550.38816288,
+    "Shape_Area": 121799.183942,
+    "STATGEB_AL": 3009,
+    "AnzFlur": 107,
+    "mttlFlur": 1138
+  },
+  {
+    "STATGEB": 3010,
+    "Shape_Leng": 1232.69251819,
+    "Shape_Area": 90004.2113707,
+    "STATGEB_AL": 3010,
+    "AnzFlur": 83,
+    "mttlFlur": 1084
+  },
+  {
+    "STATGEB": 3011,
+    "Shape_Leng": 1419.69681568,
+    "Shape_Area": 95161.5615257,
+    "STATGEB_AL": 3011,
+    "AnzFlur": 69,
+    "mttlFlur": 1379
+  },
+  {
+    "STATGEB": 3012,
+    "Shape_Leng": 1190.422699,
+    "Shape_Area": 81907.0464469,
+    "STATGEB_AL": 3012,
+    "AnzFlur": 109,
+    "mttlFlur": 751
+  },
+  {
+    "STATGEB": 3013,
+    "Shape_Leng": 3302.67138152,
+    "Shape_Area": 331694.399362,
+    "STATGEB_AL": 3013,
+    "AnzFlur": 85,
+    "mttlFlur": 3902
+  },
+  {
+    "STATGEB": 4001,
+    "Shape_Leng": 3010.01691711,
+    "Shape_Area": 258749.178325,
+    "STATGEB_AL": 4001,
+    "AnzFlur": 78,
+    "mttlFlur": 3317
+  },
+  {
+    "STATGEB": 4002,
+    "Shape_Leng": 1631.07797657,
+    "Shape_Area": 148405.909739,
+    "STATGEB_AL": 4002,
+    "AnzFlur": 182,
+    "mttlFlur": 815
+  },
+  {
+    "STATGEB": 4003,
+    "Shape_Leng": 3148.80943034,
+    "Shape_Area": 375729.44442,
+    "STATGEB_AL": 4003,
+    "AnzFlur": 62,
+    "mttlFlur": 6060
+  },
+  {
+    "STATGEB": 4004,
+    "Shape_Leng": 1772.93692606,
+    "Shape_Area": 170593.536227,
+    "STATGEB_AL": 4004,
+    "AnzFlur": 178,
+    "mttlFlur": 958
+  },
+  {
+    "STATGEB": 4005,
+    "Shape_Leng": 2309.79953107,
+    "Shape_Area": 327301.638763,
+    "STATGEB_AL": 4005,
+    "AnzFlur": 36,
+    "mttlFlur": 9092
+  },
+  {
+    "STATGEB": 4006,
+    "Shape_Leng": 1591.42058389,
+    "Shape_Area": 129004.06435,
+    "STATGEB_AL": 4006,
+    "AnzFlur": 183,
+    "mttlFlur": 705
+  },
+  {
+    "STATGEB": 4007,
+    "Shape_Leng": 1704.62033994,
+    "Shape_Area": 138268.020303,
+    "STATGEB_AL": 4007,
+    "AnzFlur": 207,
+    "mttlFlur": 668
+  },
+  {
+    "STATGEB": 4008,
+    "Shape_Leng": 2147.70661868,
+    "Shape_Area": 159340.632706,
+    "STATGEB_AL": 4008,
+    "AnzFlur": 221,
+    "mttlFlur": 721
+  },
+  {
+    "STATGEB": 4009,
+    "Shape_Leng": 2076.30588775,
+    "Shape_Area": 119128.975949,
+    "STATGEB_AL": 4009,
+    "AnzFlur": 124,
+    "mttlFlur": 961
+  },
+  {
+    "STATGEB": 4010,
+    "Shape_Leng": 3534.32104751,
+    "Shape_Area": 452350.060874,
+    "STATGEB_AL": 4010,
+    "AnzFlur": 250,
+    "mttlFlur": 1809
+  },
+  {
+    "STATGEB": 5001,
+    "Shape_Leng": 3057.10961095,
+    "Shape_Area": 475717.36615,
+    "STATGEB_AL": 5001,
+    "AnzFlur": 20,
+    "mttlFlur": 23786
+  },
+  {
+    "STATGEB": 5002,
+    "Shape_Leng": 2647.49918646,
+    "Shape_Area": 188810.187363,
+    "STATGEB_AL": 5002,
+    "AnzFlur": 241,
+    "mttlFlur": 783
+  },
+  {
+    "STATGEB": 5003,
+    "Shape_Leng": 1906.16218928,
+    "Shape_Area": 152951.239984,
+    "STATGEB_AL": 5003,
+    "AnzFlur": 61,
+    "mttlFlur": 2507
+  },
+  {
+    "STATGEB": 5004,
+    "Shape_Leng": 1148.74662685,
+    "Shape_Area": 83147.5126661,
+    "STATGEB_AL": 5004,
+    "AnzFlur": 107,
+    "mttlFlur": 777
+  },
+  {
+    "STATGEB": 5005,
+    "Shape_Leng": 1868.78429534,
+    "Shape_Area": 186027.80395,
+    "STATGEB_AL": 5005,
+    "AnzFlur": 179,
+    "mttlFlur": 1039
+  },
+  {
+    "STATGEB": 5006,
+    "Shape_Leng": 3029.37389497,
+    "Shape_Area": 282885.907462,
+    "STATGEB_AL": 5006,
+    "AnzFlur": 49,
+    "mttlFlur": 5773
+  },
+  {
+    "STATGEB": 5007,
+    "Shape_Leng": 1272.24420201,
+    "Shape_Area": 68229.4437339,
+    "STATGEB_AL": 5007,
+    "AnzFlur": 90,
+    "mttlFlur": 758
+  },
+  {
+    "STATGEB": 5008,
+    "Shape_Leng": 2308.50594282,
+    "Shape_Area": 183701.02556,
+    "STATGEB_AL": 5008,
+    "AnzFlur": 166,
+    "mttlFlur": 1107
+  },
+  {
+    "STATGEB": 5009,
+    "Shape_Leng": 2517.16263856,
+    "Shape_Area": 213251.063747,
+    "STATGEB_AL": 5009,
+    "AnzFlur": 94,
+    "mttlFlur": 2269
+  },
+  {
+    "STATGEB": 6001,
+    "Shape_Leng": 2912.82888945,
+    "Shape_Area": 481043.890874,
+    "STATGEB_AL": 6001,
+    "AnzFlur": 227,
+    "mttlFlur": 2119
+  },
+  {
+    "STATGEB": 6002,
+    "Shape_Leng": 3280.74550027,
+    "Shape_Area": 464940.07085,
+    "STATGEB_AL": 6002,
+    "AnzFlur": 57,
+    "mttlFlur": 8157
+  },
+  {
+    "STATGEB": 6003,
+    "Shape_Leng": 2516.47807412,
+    "Shape_Area": 386933.604276,
+    "STATGEB_AL": 6003,
+    "AnzFlur": 124,
+    "mttlFlur": 3120
+  },
+  {
+    "STATGEB": 6004,
+    "Shape_Leng": 3088.04316553,
+    "Shape_Area": 561190.677746,
+    "STATGEB_AL": 6004,
+    "AnzFlur": 173,
+    "mttlFlur": 3244
+  },
+  {
+    "STATGEB": 6005,
+    "Shape_Leng": 3004.9718729,
+    "Shape_Area": 602535.1442,
+    "STATGEB_AL": 6005,
+    "AnzFlur": 159,
+    "mttlFlur": 3790
+  },
+  {
+    "STATGEB": 7001,
+    "Shape_Leng": 2740.19066224,
+    "Shape_Area": 240467.880579,
+    "STATGEB_AL": 7001,
+    "AnzFlur": 133,
+    "mttlFlur": 1808
+  },
+  {
+    "STATGEB": 7002,
+    "Shape_Leng": 1869.13536259,
+    "Shape_Area": 192311.495655,
+    "STATGEB_AL": 7002,
+    "AnzFlur": 95,
+    "mttlFlur": 2024
+  },
+  {
+    "STATGEB": 7003,
+    "Shape_Leng": 3233.22696878,
+    "Shape_Area": 402302.11265,
+    "STATGEB_AL": 7003,
+    "AnzFlur": 137,
+    "mttlFlur": 2937
+  },
+  {
+    "STATGEB": 8001,
+    "Shape_Leng": 2288.90530736,
+    "Shape_Area": 194061.456872,
+    "STATGEB_AL": 8001,
+    "AnzFlur": 149,
+    "mttlFlur": 1302
+  },
+  {
+    "STATGEB": 8002,
+    "Shape_Leng": 1501.62244998,
+    "Shape_Area": 120111.626046,
+    "STATGEB_AL": 8002,
+    "AnzFlur": 64,
+    "mttlFlur": 1877
+  },
+  {
+    "STATGEB": 8003,
+    "Shape_Leng": 1375.2349229,
+    "Shape_Area": 100400.398365,
+    "STATGEB_AL": 8003,
+    "AnzFlur": 52,
+    "mttlFlur": 1931
+  },
+  {
+    "STATGEB": 8004,
+    "Shape_Leng": 2077.12413291,
+    "Shape_Area": 192326.988012,
+    "STATGEB_AL": 8004,
+    "AnzFlur": 92,
+    "mttlFlur": 2091
+  },
+  {
+    "STATGEB": 8005,
+    "Shape_Leng": 2539.75417934,
+    "Shape_Area": 290110.700053,
+    "STATGEB_AL": 8005,
+    "AnzFlur": 210,
+    "mttlFlur": 1381
+  },
+  {
+    "STATGEB": 8006,
+    "Shape_Leng": 2995.46586363,
+    "Shape_Area": 303998.290196,
+    "STATGEB_AL": 8006,
+    "AnzFlur": 140,
+    "mttlFlur": 2171
+  },
+  {
+    "STATGEB": 8007,
+    "Shape_Leng": 1818.01946736,
+    "Shape_Area": 178889.950982,
+    "STATGEB_AL": 8007,
+    "AnzFlur": 14,
+    "mttlFlur": 12778
+  },
+  {
+    "STATGEB": 8008,
+    "Shape_Leng": 2175.92813597,
+    "Shape_Area": 188186.518347,
+    "STATGEB_AL": 8008,
+    "AnzFlur": 102,
+    "mttlFlur": 1845
+  },
+  {
+    "STATGEB": 8009,
+    "Shape_Leng": 2423.53258768,
+    "Shape_Area": 191225.482117,
+    "STATGEB_AL": 8009,
+    "AnzFlur": 89,
+    "mttlFlur": 2149
+  },
+  {
+    "STATGEB": 9001,
+    "Shape_Leng": 2027.44026336,
+    "Shape_Area": 244375.30765,
+    "STATGEB_AL": 9001,
+    "AnzFlur": 86,
+    "mttlFlur": 2842
+  },
+  {
+    "STATGEB": 9002,
+    "Shape_Leng": 1706.00211945,
+    "Shape_Area": 175835.000176,
+    "STATGEB_AL": 9002,
+    "AnzFlur": 97,
+    "mttlFlur": 1813
+  },
+  {
+    "STATGEB": 9003,
+    "Shape_Leng": 1533.25734465,
+    "Shape_Area": 110124.70552,
+    "STATGEB_AL": 9003,
+    "AnzFlur": 57,
+    "mttlFlur": 1932
+  },
+  {
+    "STATGEB": 9004,
+    "Shape_Leng": 1741.42970348,
+    "Shape_Area": 173442.127154,
+    "STATGEB_AL": 9004,
+    "AnzFlur": 71,
+    "mttlFlur": 2443
+  },
+  {
+    "STATGEB": 9005,
+    "Shape_Leng": 1709.89073403,
+    "Shape_Area": 166379.06655,
+    "STATGEB_AL": 9005,
+    "AnzFlur": 87,
+    "mttlFlur": 1912
+  },
+  {
+    "STATGEB": 10001,
+    "Shape_Leng": 3400.32541984,
+    "Shape_Area": 426360.112701,
+    "STATGEB_AL": 10001,
+    "AnzFlur": 158,
+    "mttlFlur": 2698
+  },
+  {
+    "STATGEB": 10002,
+    "Shape_Leng": 2655.50585287,
+    "Shape_Area": 376653.099881,
+    "STATGEB_AL": 10002,
+    "AnzFlur": 126,
+    "mttlFlur": 2989
+  },
+  {
+    "STATGEB": 10003,
+    "Shape_Leng": 3613.33630048,
+    "Shape_Area": 462534.064018,
+    "STATGEB_AL": 10003,
+    "AnzFlur": 44,
+    "mttlFlur": 10512
+  },
+  {
+    "STATGEB": 11001,
+    "Shape_Leng": 2787.46308048,
+    "Shape_Area": 340608.65838,
+    "STATGEB_AL": 11001,
+    "AnzFlur": 72,
+    "mttlFlur": 4731
+  },
+  {
+    "STATGEB": 11002,
+    "Shape_Leng": 3738.79659567,
+    "Shape_Area": 859031.796146,
+    "STATGEB_AL": 11002,
+    "AnzFlur": 67,
+    "mttlFlur": 12821
+  },
+  {
+    "STATGEB": 11003,
+    "Shape_Leng": 2495.42201074,
+    "Shape_Area": 305614.9877,
+    "STATGEB_AL": 11003,
+    "AnzFlur": 64,
+    "mttlFlur": 4775
+  },
+  {
+    "STATGEB": 11004,
+    "Shape_Leng": 2385.81772126,
+    "Shape_Area": 344884.473699,
+    "STATGEB_AL": 11004,
+    "AnzFlur": 92,
+    "mttlFlur": 3749
+  },
+  {
+    "STATGEB": 11005,
+    "Shape_Leng": 2969.27529154,
+    "Shape_Area": 337424.618137,
+    "STATGEB_AL": 11005,
+    "AnzFlur": 76,
+    "mttlFlur": 4440
+  },
+  {
+    "STATGEB": 11006,
+    "Shape_Leng": 2796.03497643,
+    "Shape_Area": 353460.51,
+    "STATGEB_AL": 11006,
+    "AnzFlur": 133,
+    "mttlFlur": 2658
+  },
+  {
+    "STATGEB": 11007,
+    "Shape_Leng": 1765.09174456,
+    "Shape_Area": 162831.995872,
+    "STATGEB_AL": 11007,
+    "AnzFlur": 102,
+    "mttlFlur": 1596
+  },
+  {
+    "STATGEB": 11008,
+    "Shape_Leng": 2910.290502,
+    "Shape_Area": 255338.825623,
+    "STATGEB_AL": 11008,
+    "AnzFlur": 136,
+    "mttlFlur": 1877
+  },
+  {
+    "STATGEB": 11009,
+    "Shape_Leng": 2537.90817912,
+    "Shape_Area": 153505.559726,
+    "STATGEB_AL": 11009,
+    "AnzFlur": 47,
+    "mttlFlur": 3266
+  },
+  {
+    "STATGEB": 11010,
+    "Shape_Leng": 1932.92609063,
+    "Shape_Area": 222325.447245,
+    "STATGEB_AL": 11010,
+    "AnzFlur": 81,
+    "mttlFlur": 2745
+  },
+  {
+    "STATGEB": 11011,
+    "Shape_Leng": 2493.32110394,
+    "Shape_Area": 325939.98465,
+    "STATGEB_AL": 11011,
+    "AnzFlur": 100,
+    "mttlFlur": 3259
+  },
+  {
+    "STATGEB": 11012,
+    "Shape_Leng": 2374.40264689,
+    "Shape_Area": 287212.638512,
+    "STATGEB_AL": 11012,
+    "AnzFlur": 100,
+    "mttlFlur": 2872
+  },
+  {
+    "STATGEB": 11013,
+    "Shape_Leng": 3130.49034002,
+    "Shape_Area": 351769.39145,
+    "STATGEB_AL": 11013,
+    "AnzFlur": 62,
+    "mttlFlur": 5674
+  },
+  {
+    "STATGEB": 11014,
+    "Shape_Leng": 2301.10976191,
+    "Shape_Area": 167663.361864,
+    "STATGEB_AL": 11014,
+    "AnzFlur": 51,
+    "mttlFlur": 3288
+  },
+  {
+    "STATGEB": 11015,
+    "Shape_Leng": 2262.29424199,
+    "Shape_Area": 204283.074472,
+    "STATGEB_AL": 11015,
+    "AnzFlur": 69,
+    "mttlFlur": 2961
+  },
+  {
+    "STATGEB": 11016,
+    "Shape_Leng": 5005.96935982,
+    "Shape_Area": 1206409.70778,
+    "STATGEB_AL": 11016,
+    "AnzFlur": 167,
+    "mttlFlur": 7224
+  },
+  {
+    "STATGEB": 12001,
+    "Shape_Leng": 4377.87739607,
+    "Shape_Area": 443966.917356,
+    "STATGEB_AL": 12001,
+    "AnzFlur": 168,
+    "mttlFlur": 2643
+  },
+  {
+    "STATGEB": 12002,
+    "Shape_Leng": 3917.48779921,
+    "Shape_Area": 512216.454408,
+    "STATGEB_AL": 12002,
+    "AnzFlur": 662,
+    "mttlFlur": 774
+  },
+  {
+    "STATGEB": 12003,
+    "Shape_Leng": 2344.09794767,
+    "Shape_Area": 252914.734409,
+    "STATGEB_AL": 12003,
+    "AnzFlur": 62,
+    "mttlFlur": 4079
+  },
+  {
+    "STATGEB": 12004,
+    "Shape_Leng": 10301.6988921,
+    "Shape_Area": 5000578.71973,
+    "STATGEB_AL": 12004,
+    "AnzFlur": 953,
+    "mttlFlur": 5247
+  },
+  {
+    "STATGEB": 12005,
+    "Shape_Leng": 2322.92452787,
+    "Shape_Area": 324599.7195,
+    "STATGEB_AL": 12005,
+    "AnzFlur": 317,
+    "mttlFlur": 1024
+  },
+  {
+    "STATGEB": 12006,
+    "Shape_Leng": 4368.44162744,
+    "Shape_Area": 745893.214269,
+    "STATGEB_AL": 12006,
+    "AnzFlur": 775,
+    "mttlFlur": 962
+  },
+  {
+    "STATGEB": 12007,
+    "Shape_Leng": 1770.72445348,
+    "Shape_Area": 192782.530283,
+    "STATGEB_AL": 12007,
+    "AnzFlur": 85,
+    "mttlFlur": 2268
+  },
+  {
+    "STATGEB": 12008,
+    "Shape_Leng": 2075.62737933,
+    "Shape_Area": 265036.006807,
+    "STATGEB_AL": 12008,
+    "AnzFlur": 251,
+    "mttlFlur": 1056
+  },
+  {
+    "STATGEB": 12009,
+    "Shape_Leng": 2749.25204466,
+    "Shape_Area": 271052.16585,
+    "STATGEB_AL": 12009,
+    "AnzFlur": 57,
+    "mttlFlur": 4755
+  },
+  {
+    "STATGEB": 12010,
+    "Shape_Leng": 3567.62441154,
+    "Shape_Area": 605009.671317,
+    "STATGEB_AL": 12010,
+    "AnzFlur": 475,
+    "mttlFlur": 1274
+  },
+  {
+    "STATGEB": 12011,
+    "Shape_Leng": 1715.38333733,
+    "Shape_Area": 170810.630158,
+    "STATGEB_AL": 12011,
+    "AnzFlur": 45,
+    "mttlFlur": 3796
+  },
+  {
+    "STATGEB": 12012,
+    "Shape_Leng": 3613.15553745,
+    "Shape_Area": 565162.55042,
+    "STATGEB_AL": 12012,
+    "AnzFlur": 286,
+    "mttlFlur": 1976
+  },
+  {
+    "STATGEB": 12013,
+    "Shape_Leng": 2557.07675143,
+    "Shape_Area": 323967.941961,
+    "STATGEB_AL": 12013,
+    "AnzFlur": 61,
+    "mttlFlur": 5311
+  },
+  {
+    "STATGEB": 12014,
+    "Shape_Leng": 4738.73535748,
+    "Shape_Area": 664876.437073,
+    "STATGEB_AL": 12014,
+    "AnzFlur": 251,
+    "mttlFlur": 2649
+  },
+  {
+    "STATGEB": 12015,
+    "Shape_Leng": 3310.32631333,
+    "Shape_Area": 500091.196193,
+    "STATGEB_AL": 12015,
+    "AnzFlur": 232,
+    "mttlFlur": 2156
+  },
+  {
+    "STATGEB": 12016,
+    "Shape_Leng": 2680.15944256,
+    "Shape_Area": 309710.2156,
+    "STATGEB_AL": 12016,
+    "AnzFlur": 161,
+    "mttlFlur": 1924
+  },
+  {
+    "STATGEB": 12017,
+    "Shape_Leng": 2480.96249397,
+    "Shape_Area": 294333.481446,
+    "STATGEB_AL": 12017,
+    "AnzFlur": 345,
+    "mttlFlur": 853
+  },
+  {
+    "STATGEB": 12018,
+    "Shape_Leng": 3463.47748057,
+    "Shape_Area": 416120.25573,
+    "STATGEB_AL": 12018,
+    "AnzFlur": 241,
+    "mttlFlur": 1727
+  },
+  {
+    "STATGEB": 12019,
+    "Shape_Leng": 2386.68238567,
+    "Shape_Area": 361395.65767,
+    "STATGEB_AL": 12019,
+    "AnzFlur": 248,
+    "mttlFlur": 1457
+  },
+  {
+    "STATGEB": 12020,
+    "Shape_Leng": 2490.38545916,
+    "Shape_Area": 278099.229555,
+    "STATGEB_AL": 12020,
+    "AnzFlur": 124,
+    "mttlFlur": 2243
+  },
+  {
+    "STATGEB": 12021,
+    "Shape_Leng": 4295.25849965,
+    "Shape_Area": 506184.299045,
+    "STATGEB_AL": 12021,
+    "AnzFlur": 229,
+    "mttlFlur": 2210
+  },
+  {
+    "STATGEB": 12022,
+    "Shape_Leng": 3435.21303555,
+    "Shape_Area": 551079.794069,
+    "STATGEB_AL": 12022,
+    "AnzFlur": 180,
+    "mttlFlur": 3062
+  },
+  {
+    "STATGEB": 12023,
+    "Shape_Leng": 1679.57747685,
+    "Shape_Area": 156361.640216,
+    "STATGEB_AL": 12023,
+    "AnzFlur": 13,
+    "mttlFlur": 12028
+  },
+  {
+    "STATGEB": 12024,
+    "Shape_Leng": 7103.72738313,
+    "Shape_Area": 1218944.79606,
+    "STATGEB_AL": 12024,
+    "AnzFlur": 157,
+    "mttlFlur": 7764
+  },
+  {
+    "STATGEB": 12025,
+    "Shape_Leng": 5139.36449537,
+    "Shape_Area": 1187001.76374,
+    "STATGEB_AL": 12025,
+    "AnzFlur": 122,
+    "mttlFlur": 9730
+  },
+  {
+    "STATGEB": 12026,
+    "Shape_Leng": 2385.06337729,
+    "Shape_Area": 308097.527359,
+    "STATGEB_AL": 12026,
+    "AnzFlur": 245,
+    "mttlFlur": 1258
+  },
+  {
+    "STATGEB": 12027,
+    "Shape_Leng": 1508.44436577,
+    "Shape_Area": 125414.476562,
+    "STATGEB_AL": 12027,
+    "AnzFlur": 24,
+    "mttlFlur": 5226
+  },
+  {
+    "STATGEB": 12028,
+    "Shape_Leng": 2267.0550818,
+    "Shape_Area": 248712.308266,
+    "STATGEB_AL": 12028,
+    "AnzFlur": 45,
+    "mttlFlur": 5527
+  },
+  {
+    "STATGEB": 12029,
+    "Shape_Leng": 1866.14632606,
+    "Shape_Area": 194848.268036,
+    "STATGEB_AL": 12029,
+    "AnzFlur": 27,
+    "mttlFlur": 7217
+  },
+  {
+    "STATGEB": 13001,
+    "Shape_Leng": 7160.61677296,
+    "Shape_Area": 2241546.56636,
+    "STATGEB_AL": 13001,
+    "AnzFlur": 444,
+    "mttlFlur": 5049
+  },
+  {
+    "STATGEB": 13002,
+    "Shape_Leng": 9138.0397827,
+    "Shape_Area": 3904756.98808,
+    "STATGEB_AL": 13002,
+    "AnzFlur": 520,
+    "mttlFlur": 7509
+  },
+  {
+    "STATGEB": 14001,
+    "Shape_Leng": 3243.43363446,
+    "Shape_Area": 454618.5109,
+    "STATGEB_AL": 14001,
+    "AnzFlur": 38,
+    "mttlFlur": 11964
+  },
+  {
+    "STATGEB": 14002,
+    "Shape_Leng": 8110.64549895,
+    "Shape_Area": 2412892.07172,
+    "STATGEB_AL": 14002,
+    "AnzFlur": 427,
+    "mttlFlur": 5651
+  },
+  {
+    "STATGEB": 14003,
+    "Shape_Leng": 2531.80431217,
+    "Shape_Area": 383572.88444,
+    "STATGEB_AL": 14003,
+    "AnzFlur": 185,
+    "mttlFlur": 2073
+  },
+  {
+    "STATGEB": 14004,
+    "Shape_Leng": 4415.24497591,
+    "Shape_Area": 650433.374007,
+    "STATGEB_AL": 14004,
+    "AnzFlur": 121,
+    "mttlFlur": 5375
+  },
+  {
+    "STATGEB": 14005,
+    "Shape_Leng": 13093.3832936,
+    "Shape_Area": 3305993.58264,
+    "STATGEB_AL": 14005,
+    "AnzFlur": 236,
+    "mttlFlur": 14008
+  },
+  {
+    "STATGEB": 15001,
+    "Shape_Leng": 3470.02289704,
+    "Shape_Area": 355332.879329,
+    "STATGEB_AL": 15001,
+    "AnzFlur": 139,
+    "mttlFlur": 2556
+  },
+  {
+    "STATGEB": 15002,
+    "Shape_Leng": 10355.6725847,
+    "Shape_Area": 3997553.88835,
+    "STATGEB_AL": 15002,
+    "AnzFlur": 454,
+    "mttlFlur": 8805
+  },
+  {
+    "STATGEB": 16001,
+    "Shape_Leng": 9445.1055629,
+    "Shape_Area": 2459885.85496,
+    "STATGEB_AL": 16001,
+    "AnzFlur": 278,
+    "mttlFlur": 8849
+  },
+  {
+    "STATGEB": 16002,
+    "Shape_Leng": 14930.1994974,
+    "Shape_Area": 6426221.7786,
+    "STATGEB_AL": 16002,
+    "AnzFlur": 316,
+    "mttlFlur": 20336
+  },
+  {
+    "STATGEB": 16003,
+    "Shape_Leng": 9339.34725941,
+    "Shape_Area": 2218383.86609,
+    "STATGEB_AL": 16003,
+    "AnzFlur": 750,
+    "mttlFlur": 2958
+  },
+  {
+    "STATGEB": 16004,
+    "Shape_Leng": 2634.19775602,
+    "Shape_Area": 234091.99895,
+    "STATGEB_AL": 16004,
+    "AnzFlur": 287,
+    "mttlFlur": 816
+  },
+  {
+    "STATGEB": 16005,
+    "Shape_Leng": 8390.626015,
+    "Shape_Area": 2166366.51594,
+    "STATGEB_AL": 16005,
+    "AnzFlur": 532,
+    "mttlFlur": 4072
+  },
+  {
+    "STATGEB": 16006,
+    "Shape_Leng": 8695.10883812,
+    "Shape_Area": 3171869.99906,
+    "STATGEB_AL": 16006,
+    "AnzFlur": 902,
+    "mttlFlur": 3516
+  },
+  {
+    "STATGEB": 16007,
+    "Shape_Leng": 2183.7913459,
+    "Shape_Area": 216581.637273,
+    "STATGEB_AL": 16007,
+    "AnzFlur": 175,
+    "mttlFlur": 1238
+  },
+  {
+    "STATGEB": 16008,
+    "Shape_Leng": 1743.83828722,
+    "Shape_Area": 134172.867527,
+    "STATGEB_AL": 16008,
+    "AnzFlur": 107,
+    "mttlFlur": 1254
+  },
+  {
+    "STATGEB": 16009,
+    "Shape_Leng": 2496.1410651,
+    "Shape_Area": 126170.02115,
+    "STATGEB_AL": 16009,
+    "AnzFlur": 68,
+    "mttlFlur": 1855
+  },
+  {
+    "STATGEB": 16010,
+    "Shape_Leng": 4429.18108577,
+    "Shape_Area": 459002.550449,
+    "STATGEB_AL": 16010,
+    "AnzFlur": 113,
+    "mttlFlur": 4062
+  },
+  {
+    "STATGEB": 16011,
+    "Shape_Leng": 5853.7328288,
+    "Shape_Area": 930732.067513,
+    "STATGEB_AL": 16011,
+    "AnzFlur": 808,
+    "mttlFlur": 1152
+  },
+  {
+    "STATGEB": 16012,
+    "Shape_Leng": 16732.5694196,
+    "Shape_Area": 8113568.44879,
+    "STATGEB_AL": 16012,
+    "AnzFlur": 1087,
+    "mttlFlur": 7464
+  },
+  {
+    "STATGEB": 16013,
+    "Shape_Leng": 2671.21110204,
+    "Shape_Area": 329990.495,
+    "STATGEB_AL": 16013,
+    "AnzFlur": 139,
+    "mttlFlur": 2374
+  },
+  {
+    "STATGEB": 16014,
+    "Shape_Leng": 1912.0216397,
+    "Shape_Area": 211065.172937,
+    "STATGEB_AL": 16014,
+    "AnzFlur": 130,
+    "mttlFlur": 1624
+  },
+  {
+    "STATGEB": 16015,
+    "Shape_Leng": 2286.70199048,
+    "Shape_Area": 273408.62301,
+    "STATGEB_AL": 16015,
+    "AnzFlur": 190,
+    "mttlFlur": 1439
+  },
+  {
+    "STATGEB": 16016,
+    "Shape_Leng": 865.514469519,
+    "Shape_Area": 34136.9485138,
+    "STATGEB_AL": 16016,
+    "AnzFlur": 43,
+    "mttlFlur": 794
+  },
+  {
+    "STATGEB": 16017,
+    "Shape_Leng": 2986.50159587,
+    "Shape_Area": 262735.275982,
+    "STATGEB_AL": 16017,
+    "AnzFlur": 128,
+    "mttlFlur": 2053
+  },
+  {
+    "STATGEB": 16018,
+    "Shape_Leng": 5073.43553129,
+    "Shape_Area": 959509.932357,
+    "STATGEB_AL": 16018,
+    "AnzFlur": 241,
+    "mttlFlur": 3981
+  },
+  {
+    "STATGEB": 16019,
+    "Shape_Leng": 6958.763799,
+    "Shape_Area": 1626194.7099,
+    "STATGEB_AL": 16019,
+    "AnzFlur": 652,
+    "mttlFlur": 2494
+  },
+  {
+    "STATGEB": 16020,
+    "Shape_Leng": 7100.91433697,
+    "Shape_Area": 1724976.96315,
+    "STATGEB_AL": 16020,
+    "AnzFlur": 432,
+    "mttlFlur": 3993
+  },
+  {
+    "STATGEB": 16021,
+    "Shape_Leng": 2474.53775817,
+    "Shape_Area": 350811.255,
+    "STATGEB_AL": 16021,
+    "AnzFlur": 102,
+    "mttlFlur": 3439
+  },
+  {
+    "STATGEB": 16022,
+    "Shape_Leng": 3727.59040484,
+    "Shape_Area": 659703.4967,
+    "STATGEB_AL": 16022,
+    "AnzFlur": 619,
+    "mttlFlur": 1066
+  },
+  {
+    "STATGEB": 16023,
+    "Shape_Leng": 2524.15873679,
+    "Shape_Area": 362164.058243,
+    "STATGEB_AL": 16023,
+    "AnzFlur": 84,
+    "mttlFlur": 4311
+  },
+  {
+    "STATGEB": 16024,
+    "Shape_Leng": 6420.33034869,
+    "Shape_Area": 1906647.58815,
+    "STATGEB_AL": 16024,
+    "AnzFlur": 762,
+    "mttlFlur": 2502
+  },
+  {
+    "STATGEB": 17001,
+    "Shape_Leng": 6981.47350384,
+    "Shape_Area": 2311701.49858,
+    "STATGEB_AL": 17001,
+    "AnzFlur": 66,
+    "mttlFlur": 35026
+  },
+  {
+    "STATGEB": 17002,
+    "Shape_Leng": 6623.79275589,
+    "Shape_Area": 1855508.69094,
+    "STATGEB_AL": 17002,
+    "AnzFlur": 98,
+    "mttlFlur": 18934
+  },
+  {
+    "STATGEB": 17003,
+    "Shape_Leng": 5866.32283074,
+    "Shape_Area": 281417.127435,
+    "STATGEB_AL": 17003,
+    "AnzFlur": 38,
+    "mttlFlur": 7406
+  },
+  {
+    "STATGEB": 18001,
+    "Shape_Leng": 7715.89437623,
+    "Shape_Area": 2446354.67596,
+    "STATGEB_AL": 18001,
+    "AnzFlur": 66,
+    "mttlFlur": 37066
+  },
+  {
+    "STATGEB": 18002,
+    "Shape_Leng": 7232.38501405,
+    "Shape_Area": 2420618.456,
+    "STATGEB_AL": 18002,
+    "AnzFlur": 90,
+    "mttlFlur": 26896
+  },
+  {
+    "STATGEB": 18003,
+    "Shape_Leng": 9316.31975402,
+    "Shape_Area": 2263203.65347,
+    "STATGEB_AL": 18003,
+    "AnzFlur": 110,
+    "mttlFlur": 20575
+  },
+  {
+    "STATGEB": 19001,
+    "Shape_Leng": 12659.8065607,
+    "Shape_Area": 4188902.21383,
+    "STATGEB_AL": 19001,
+    "AnzFlur": 102,
+    "mttlFlur": 41068
+  },
+  {
+    "STATGEB": 19002,
+    "Shape_Leng": 10733.5353199,
+    "Shape_Area": 3446276.04925,
+    "STATGEB_AL": 19002,
+    "AnzFlur": 97,
+    "mttlFlur": 35529
+  },
+  {
+    "STATGEB": 19003,
+    "Shape_Leng": 8460.17688811,
+    "Shape_Area": 2114307.73635,
+    "STATGEB_AL": 19003,
+    "AnzFlur": 75,
+    "mttlFlur": 28191
+  },
+  {
+    "STATGEB": 20001,
+    "Shape_Leng": 14149.7371133,
+    "Shape_Area": 10298454.0679,
+    "STATGEB_AL": 20001,
+    "AnzFlur": 133,
+    "mttlFlur": 77432
+  },
+  {
+    "STATGEB": 20002,
+    "Shape_Leng": 4984.5346536,
+    "Shape_Area": 1169687.60096,
+    "STATGEB_AL": 20002,
+    "AnzFlur": 218,
+    "mttlFlur": 5366
+  },
+  {
+    "STATGEB": 20003,
+    "Shape_Leng": 3711.73470945,
+    "Shape_Area": 578832.745633,
+    "STATGEB_AL": 20003,
+    "AnzFlur": 256,
+    "mttlFlur": 2261
+  },
+  {
+    "STATGEB": 20004,
+    "Shape_Leng": 11597.0259702,
+    "Shape_Area": 5155950.19314,
+    "STATGEB_AL": 20004,
+    "AnzFlur": 734,
+    "mttlFlur": 7024
+  },
+  {
+    "STATGEB": 20005,
+    "Shape_Leng": 3566.93763253,
+    "Shape_Area": 555061.392038,
+    "STATGEB_AL": 20005,
+    "AnzFlur": 744,
+    "mttlFlur": 746
+  },
+  {
+    "STATGEB": 20006,
+    "Shape_Leng": 4258.21192752,
+    "Shape_Area": 563867.826053,
+    "STATGEB_AL": 20006,
+    "AnzFlur": 282,
+    "mttlFlur": 2000
+  },
+  {
+    "STATGEB": 20007,
+    "Shape_Leng": 3485.89812032,
+    "Shape_Area": 753497.927947,
+    "STATGEB_AL": 20007,
+    "AnzFlur": 289,
+    "mttlFlur": 2607
+  },
+  {
+    "STATGEB": 20008,
+    "Shape_Leng": 2752.31280662,
+    "Shape_Area": 224122.98918,
+    "STATGEB_AL": 20008,
+    "AnzFlur": 177,
+    "mttlFlur": 1266
+  },
+  {
+    "STATGEB": 20009,
+    "Shape_Leng": 3056.47226076,
+    "Shape_Area": 379898.111653,
+    "STATGEB_AL": 20009,
+    "AnzFlur": 378,
+    "mttlFlur": 1005
+  },
+  {
+    "STATGEB": 21001,
+    "Shape_Leng": 3180.74251655,
+    "Shape_Area": 333215.478479,
+    "STATGEB_AL": 21001,
+    "AnzFlur": 314,
+    "mttlFlur": 1061
+  },
+  {
+    "STATGEB": 21002,
+    "Shape_Leng": 1414.48300258,
+    "Shape_Area": 119237.068462,
+    "STATGEB_AL": 21002,
+    "AnzFlur": 157,
+    "mttlFlur": 759
+  },
+  {
+    "STATGEB": 21003,
+    "Shape_Leng": 1346.3413806,
+    "Shape_Area": 69421.0082,
+    "STATGEB_AL": 21003,
+    "AnzFlur": 121,
+    "mttlFlur": 574
+  },
+  {
+    "STATGEB": 21004,
+    "Shape_Leng": 1291.93093514,
+    "Shape_Area": 77392.50675,
+    "STATGEB_AL": 21004,
+    "AnzFlur": 127,
+    "mttlFlur": 609
+  },
+  {
+    "STATGEB": 21005,
+    "Shape_Leng": 1991.77951504,
+    "Shape_Area": 216346.0051,
+    "STATGEB_AL": 21005,
+    "AnzFlur": 157,
+    "mttlFlur": 1378
+  },
+  {
+    "STATGEB": 21006,
+    "Shape_Leng": 1768.34602202,
+    "Shape_Area": 162612.36345,
+    "STATGEB_AL": 21006,
+    "AnzFlur": 84,
+    "mttlFlur": 1936
+  },
+  {
+    "STATGEB": 21007,
+    "Shape_Leng": 2292.56275126,
+    "Shape_Area": 219916.154257,
+    "STATGEB_AL": 21007,
+    "AnzFlur": 201,
+    "mttlFlur": 1094
+  },
+  {
+    "STATGEB": 21008,
+    "Shape_Leng": 2495.51340162,
+    "Shape_Area": 251589.73185,
+    "STATGEB_AL": 21008,
+    "AnzFlur": 256,
+    "mttlFlur": 983
+  },
+  {
+    "STATGEB": 21009,
+    "Shape_Leng": 1618.25349745,
+    "Shape_Area": 152776.829546,
+    "STATGEB_AL": 21009,
+    "AnzFlur": 68,
+    "mttlFlur": 2247
+  },
+  {
+    "STATGEB": 21010,
+    "Shape_Leng": 4093.73998701,
+    "Shape_Area": 631904.03657,
+    "STATGEB_AL": 21010,
+    "AnzFlur": 255,
+    "mttlFlur": 2478
+  },
+  {
+    "STATGEB": 21011,
+    "Shape_Leng": 1594.76232239,
+    "Shape_Area": 144293.518293,
+    "STATGEB_AL": 21011,
+    "AnzFlur": 83,
+    "mttlFlur": 1738
+  },
+  {
+    "STATGEB": 21012,
+    "Shape_Leng": 2855.44671526,
+    "Shape_Area": 348387.866423,
+    "STATGEB_AL": 21012,
+    "AnzFlur": 200,
+    "mttlFlur": 1742
+  },
+  {
+    "STATGEB": 22001,
+    "Shape_Leng": 1784.97442121,
+    "Shape_Area": 121695.491172,
+    "STATGEB_AL": 22001,
+    "AnzFlur": 198,
+    "mttlFlur": 615
+  },
+  {
+    "STATGEB": 22002,
+    "Shape_Leng": 1716.79422359,
+    "Shape_Area": 129126.26635,
+    "STATGEB_AL": 22002,
+    "AnzFlur": 166,
+    "mttlFlur": 778
+  },
+  {
+    "STATGEB": 22003,
+    "Shape_Leng": 1673.80452583,
+    "Shape_Area": 106932.626608,
+    "STATGEB_AL": 22003,
+    "AnzFlur": 120,
+    "mttlFlur": 891
+  },
+  {
+    "STATGEB": 22004,
+    "Shape_Leng": 2221.36727736,
+    "Shape_Area": 191986.293195,
+    "STATGEB_AL": 22004,
+    "AnzFlur": 60,
+    "mttlFlur": 3200
+  },
+  {
+    "STATGEB": 23001,
+    "Shape_Leng": 3611.70207799,
+    "Shape_Area": 580493.502021,
+    "STATGEB_AL": 23001,
+    "AnzFlur": 162,
+    "mttlFlur": 3583
+  },
+  {
+    "STATGEB": 23002,
+    "Shape_Leng": 1773.54723904,
+    "Shape_Area": 107744.475209,
+    "STATGEB_AL": 23002,
+    "AnzFlur": 83,
+    "mttlFlur": 1298
+  },
+  {
+    "STATGEB": 23003,
+    "Shape_Leng": 1157.6404754,
+    "Shape_Area": 77070.0004542,
+    "STATGEB_AL": 23003,
+    "AnzFlur": 80,
+    "mttlFlur": 963
+  },
+  {
+    "STATGEB": 23004,
+    "Shape_Leng": 1928.40655561,
+    "Shape_Area": 184962.99785,
+    "STATGEB_AL": 23004,
+    "AnzFlur": 84,
+    "mttlFlur": 2202
+  },
+  {
+    "STATGEB": 23005,
+    "Shape_Leng": 1353.37317693,
+    "Shape_Area": 94632.7489647,
+    "STATGEB_AL": 23005,
+    "AnzFlur": 39,
+    "mttlFlur": 2426
+  },
+  {
+    "STATGEB": 23006,
+    "Shape_Leng": 1670.39644535,
+    "Shape_Area": 149707.50647,
+    "STATGEB_AL": 23006,
+    "AnzFlur": 127,
+    "mttlFlur": 1179
+  },
+  {
+    "STATGEB": 23007,
+    "Shape_Leng": 1976.01864959,
+    "Shape_Area": 125132.070964,
+    "STATGEB_AL": 23007,
+    "AnzFlur": 185,
+    "mttlFlur": 676
+  },
+  {
+    "STATGEB": 23008,
+    "Shape_Leng": 3509.26241612,
+    "Shape_Area": 387911.61904,
+    "STATGEB_AL": 23008,
+    "AnzFlur": 107,
+    "mttlFlur": 3625
+  },
+  {
+    "STATGEB": 23009,
+    "Shape_Leng": 2231.74226869,
+    "Shape_Area": 306464.814354,
+    "STATGEB_AL": 23009,
+    "AnzFlur": 176,
+    "mttlFlur": 1741
+  },
+  {
+    "STATGEB": 23010,
+    "Shape_Leng": 1521.88578992,
+    "Shape_Area": 72139.4977,
+    "STATGEB_AL": 23010,
+    "AnzFlur": 76,
+    "mttlFlur": 949
+  },
+  {
+    "STATGEB": 23011,
+    "Shape_Leng": 1929.1785661,
+    "Shape_Area": 139651.074734,
+    "STATGEB_AL": 23011,
+    "AnzFlur": 87,
+    "mttlFlur": 1605
+  },
+  {
+    "STATGEB": 24001,
+    "Shape_Leng": 2178.92624272,
+    "Shape_Area": 251634.514729,
+    "STATGEB_AL": 24001,
+    "AnzFlur": 137,
+    "mttlFlur": 1837
+  },
+  {
+    "STATGEB": 24002,
+    "Shape_Leng": 2069.03328185,
+    "Shape_Area": 183087.217514,
+    "STATGEB_AL": 24002,
+    "AnzFlur": 152,
+    "mttlFlur": 1205
+  },
+  {
+    "STATGEB": 24003,
+    "Shape_Leng": 2383.51947138,
+    "Shape_Area": 256046.987551,
+    "STATGEB_AL": 24003,
+    "AnzFlur": 215,
+    "mttlFlur": 1191
+  },
+  {
+    "STATGEB": 24004,
+    "Shape_Leng": 1603.01214921,
+    "Shape_Area": 135112.4888,
+    "STATGEB_AL": 24004,
+    "AnzFlur": 52,
+    "mttlFlur": 2598
+  },
+  {
+    "STATGEB": 24005,
+    "Shape_Leng": 2320.58610519,
+    "Shape_Area": 109204.309403,
+    "STATGEB_AL": 24005,
+    "AnzFlur": 60,
+    "mttlFlur": 1820
+  },
+  {
+    "STATGEB": 24006,
+    "Shape_Leng": 2236.72413744,
+    "Shape_Area": 207062.383097,
+    "STATGEB_AL": 24006,
+    "AnzFlur": 99,
+    "mttlFlur": 2092
+  },
+  {
+    "STATGEB": 24007,
+    "Shape_Leng": 1524.8344372,
+    "Shape_Area": 138039.1129,
+    "STATGEB_AL": 24007,
+    "AnzFlur": 139,
+    "mttlFlur": 993
+  },
+  {
+    "STATGEB": 24008,
+    "Shape_Leng": 1667.89575873,
+    "Shape_Area": 137609.719804,
+    "STATGEB_AL": 24008,
+    "AnzFlur": 185,
+    "mttlFlur": 744
+  },
+  {
+    "STATGEB": 24009,
+    "Shape_Leng": 1191.03972954,
+    "Shape_Area": 78135.8640609,
+    "STATGEB_AL": 24009,
+    "AnzFlur": 107,
+    "mttlFlur": 730
+  },
+  {
+    "STATGEB": 24010,
+    "Shape_Leng": 1403.68196617,
+    "Shape_Area": 101858.549758,
+    "STATGEB_AL": 24010,
+    "AnzFlur": 184,
+    "mttlFlur": 554
+  },
+  {
+    "STATGEB": 24011,
+    "Shape_Leng": 2246.48599536,
+    "Shape_Area": 229685.095677,
+    "STATGEB_AL": 24011,
+    "AnzFlur": 157,
+    "mttlFlur": 1463
+  },
+  {
+    "STATGEB": 24012,
+    "Shape_Leng": 1127.35568238,
+    "Shape_Area": 77425.1789784,
+    "STATGEB_AL": 24012,
+    "AnzFlur": 130,
+    "mttlFlur": 596
+  },
+  {
+    "STATGEB": 24013,
+    "Shape_Leng": 2246.75629315,
+    "Shape_Area": 139787.195191,
+    "STATGEB_AL": 24013,
+    "AnzFlur": 271,
+    "mttlFlur": 516
+  },
+  {
+    "STATGEB": 24014,
+    "Shape_Leng": 1970.32402053,
+    "Shape_Area": 214963.882464,
+    "STATGEB_AL": 24014,
+    "AnzFlur": 269,
+    "mttlFlur": 799
+  },
+  {
+    "STATGEB": 24015,
+    "Shape_Leng": 3764.41242653,
+    "Shape_Area": 525943.176167,
+    "STATGEB_AL": 24015,
+    "AnzFlur": 228,
+    "mttlFlur": 2307
+  },
+  {
+    "STATGEB": 25001,
+    "Shape_Leng": 8106.04826295,
+    "Shape_Area": 3356804.16835,
+    "STATGEB_AL": 25001,
+    "AnzFlur": 219,
+    "mttlFlur": 15328
+  },
+  {
+    "STATGEB": 25002,
+    "Shape_Leng": 2920.01422711,
+    "Shape_Area": 458168.669926,
+    "STATGEB_AL": 25002,
+    "AnzFlur": 44,
+    "mttlFlur": 10413
+  },
+  {
+    "STATGEB": 25003,
+    "Shape_Leng": 2752.79270102,
+    "Shape_Area": 224253.931753,
+    "STATGEB_AL": 25003,
+    "AnzFlur": 214,
+    "mttlFlur": 1048
+  },
+  {
+    "STATGEB": 25004,
+    "Shape_Leng": 4952.84667688,
+    "Shape_Area": 1270166.48965,
+    "STATGEB_AL": 25004,
+    "AnzFlur": 380,
+    "mttlFlur": 3343
+  },
+  {
+    "STATGEB": 25005,
+    "Shape_Leng": 1703.9239969,
+    "Shape_Area": 164812.5037,
+    "STATGEB_AL": 25005,
+    "AnzFlur": 47,
+    "mttlFlur": 3507
+  },
+  {
+    "STATGEB": 25006,
+    "Shape_Leng": 4062.23148981,
+    "Shape_Area": 549720.825996,
+    "STATGEB_AL": 25006,
+    "AnzFlur": 1227,
+    "mttlFlur": 448
+  },
+  {
+    "STATGEB": 25007,
+    "Shape_Leng": 3581.84534589,
+    "Shape_Area": 352435.15333,
+    "STATGEB_AL": 25007,
+    "AnzFlur": 164,
+    "mttlFlur": 2149
+  },
+  {
+    "STATGEB": 25008,
+    "Shape_Leng": 7488.30505521,
+    "Shape_Area": 893349.472154,
+    "STATGEB_AL": 25008,
+    "AnzFlur": 165,
+    "mttlFlur": 5414
+  },
+  {
+    "STATGEB": 25009,
+    "Shape_Leng": 2984.41685177,
+    "Shape_Area": 408112.009712,
+    "STATGEB_AL": 25009,
+    "AnzFlur": 72,
+    "mttlFlur": 5668
+  },
+  {
+    "STATGEB": 25010,
+    "Shape_Leng": 3865.29357291,
+    "Shape_Area": 560638.225698,
+    "STATGEB_AL": 25010,
+    "AnzFlur": 113,
+    "mttlFlur": 4961
+  },
+  {
+    "STATGEB": 25011,
+    "Shape_Leng": 3458.37881768,
+    "Shape_Area": 466735.682074,
+    "STATGEB_AL": 25011,
+    "AnzFlur": 191,
+    "mttlFlur": 2444
+  },
+  {
+    "STATGEB": 25012,
+    "Shape_Leng": 2991.94145835,
+    "Shape_Area": 245260.462876,
+    "STATGEB_AL": 25012,
+    "AnzFlur": 157,
+    "mttlFlur": 1562
+  },
+  {
+    "STATGEB": 25013,
+    "Shape_Leng": 4560.60553455,
+    "Shape_Area": 565508.633097,
+    "STATGEB_AL": 25013,
+    "AnzFlur": 218,
+    "mttlFlur": 2594
+  },
+  {
+    "STATGEB": 25014,
+    "Shape_Leng": 1460.67884633,
+    "Shape_Area": 107396.239321,
+    "STATGEB_AL": 25014,
+    "AnzFlur": 57,
+    "mttlFlur": 1884
+  },
+  {
+    "STATGEB": 25015,
+    "Shape_Leng": 3026.00914546,
+    "Shape_Area": 278900.131389,
+    "STATGEB_AL": 25015,
+    "AnzFlur": 198,
+    "mttlFlur": 1409
+  },
+  {
+    "STATGEB": 25016,
+    "Shape_Leng": 1979.03835185,
+    "Shape_Area": 233010.705503,
+    "STATGEB_AL": 25016,
+    "AnzFlur": 100,
+    "mttlFlur": 2330
+  },
+  {
+    "STATGEB": 25017,
+    "Shape_Leng": 2115.37351077,
+    "Shape_Area": 259749.638062,
+    "STATGEB_AL": 25017,
+    "AnzFlur": 155,
+    "mttlFlur": 1676
+  },
+  {
+    "STATGEB": 25018,
+    "Shape_Leng": 2136.51900711,
+    "Shape_Area": 153885.188894,
+    "STATGEB_AL": 25018,
+    "AnzFlur": 74,
+    "mttlFlur": 2080
+  },
+  {
+    "STATGEB": 26001,
+    "Shape_Leng": 2892.39689479,
+    "Shape_Area": 511953.638763,
+    "STATGEB_AL": 26001,
+    "AnzFlur": 413,
+    "mttlFlur": 1240
+  },
+  {
+    "STATGEB": 26002,
+    "Shape_Leng": 2812.1096191,
+    "Shape_Area": 321985.791254,
+    "STATGEB_AL": 26002,
+    "AnzFlur": 434,
+    "mttlFlur": 742
+  },
+  {
+    "STATGEB": 26003,
+    "Shape_Leng": 3304.90478759,
+    "Shape_Area": 642877.859932,
+    "STATGEB_AL": 26003,
+    "AnzFlur": 792,
+    "mttlFlur": 812
+  },
+  {
+    "STATGEB": 26004,
+    "Shape_Leng": 2653.76277616,
+    "Shape_Area": 401358.756583,
+    "STATGEB_AL": 26004,
+    "AnzFlur": 408,
+    "mttlFlur": 984
+  },
+  {
+    "STATGEB": 26005,
+    "Shape_Leng": 2930.57706986,
+    "Shape_Area": 477753.058361,
+    "STATGEB_AL": 26005,
+    "AnzFlur": 472,
+    "mttlFlur": 1012
+  },
+  {
+    "STATGEB": 27001,
+    "Shape_Leng": 4737.88860538,
+    "Shape_Area": 905800.956452,
+    "STATGEB_AL": 27001,
+    "AnzFlur": 577,
+    "mttlFlur": 1570
+  },
+  {
+    "STATGEB": 27002,
+    "Shape_Leng": 5340.43179881,
+    "Shape_Area": 827554.298305,
+    "STATGEB_AL": 27002,
+    "AnzFlur": 737,
+    "mttlFlur": 1123
+  },
+  {
+    "STATGEB": 27003,
+    "Shape_Leng": 2689.48927755,
+    "Shape_Area": 346835.687489,
+    "STATGEB_AL": 27003,
+    "AnzFlur": 115,
+    "mttlFlur": 3016
+  },
+  {
+    "STATGEB": 27004,
+    "Shape_Leng": 2506.00742691,
+    "Shape_Area": 299913.63635,
+    "STATGEB_AL": 27004,
+    "AnzFlur": 85,
+    "mttlFlur": 3528
+  },
+  {
+    "STATGEB": 27005,
+    "Shape_Leng": 10278.6451491,
+    "Shape_Area": 1553686.60831,
+    "STATGEB_AL": 27005,
+    "AnzFlur": 76,
+    "mttlFlur": 20443
+  },
+  {
+    "STATGEB": 27006,
+    "Shape_Leng": 5511.51183585,
+    "Shape_Area": 780527.059842,
+    "STATGEB_AL": 27006,
+    "AnzFlur": 552,
+    "mttlFlur": 1414
+  },
+  {
+    "STATGEB": 27007,
+    "Shape_Leng": 3038.97140753,
+    "Shape_Area": 401634.714565,
+    "STATGEB_AL": 27007,
+    "AnzFlur": 319,
+    "mttlFlur": 1259
+  },
+  {
+    "STATGEB": 27008,
+    "Shape_Leng": 2496.39089573,
+    "Shape_Area": 292078.77685,
+    "STATGEB_AL": 27008,
+    "AnzFlur": 108,
+    "mttlFlur": 2704
+  },
+  {
+    "STATGEB": 27009,
+    "Shape_Leng": 3554.46293025,
+    "Shape_Area": 595703.979842,
+    "STATGEB_AL": 27009,
+    "AnzFlur": 575,
+    "mttlFlur": 1036
+  },
+  {
+    "STATGEB": 28001,
+    "Shape_Leng": 2702.44783597,
+    "Shape_Area": 359441.78864,
+    "STATGEB_AL": 28001,
+    "AnzFlur": 253,
+    "mttlFlur": 1421
+  },
+  {
+    "STATGEB": 28002,
+    "Shape_Leng": 4342.11535756,
+    "Shape_Area": 481995.558217,
+    "STATGEB_AL": 28002,
+    "AnzFlur": 284,
+    "mttlFlur": 1697
+  },
+  {
+    "STATGEB": 28003,
+    "Shape_Leng": 4392.83766357,
+    "Shape_Area": 560397.310491,
+    "STATGEB_AL": 28003,
+    "AnzFlur": 166,
+    "mttlFlur": 3376
+  },
+  {
+    "STATGEB": 28004,
+    "Shape_Leng": 4919.54479531,
+    "Shape_Area": 640913.67972,
+    "STATGEB_AL": 28004,
+    "AnzFlur": 811,
+    "mttlFlur": 790
+  },
+  {
+    "STATGEB": 28005,
+    "Shape_Leng": 2961.73345901,
+    "Shape_Area": 310461.741938,
+    "STATGEB_AL": 28005,
+    "AnzFlur": 75,
+    "mttlFlur": 4139
+  },
+  {
+    "STATGEB": 28006,
+    "Shape_Leng": 3490.85700281,
+    "Shape_Area": 637939.495387,
+    "STATGEB_AL": 28006,
+    "AnzFlur": 283,
+    "mttlFlur": 2254
+  },
+  {
+    "STATGEB": 28007,
+    "Shape_Leng": 3381.46884258,
+    "Shape_Area": 476607.998701,
+    "STATGEB_AL": 28007,
+    "AnzFlur": 373,
+    "mttlFlur": 1278
+  },
+  {
+    "STATGEB": 28008,
+    "Shape_Leng": 1689.07247245,
+    "Shape_Area": 167489.730853,
+    "STATGEB_AL": 28008,
+    "AnzFlur": 46,
+    "mttlFlur": 3641
+  },
+  {
+    "STATGEB": 28009,
+    "Shape_Leng": 4380.21964423,
+    "Shape_Area": 888316.635619,
+    "STATGEB_AL": 28009,
+    "AnzFlur": 761,
+    "mttlFlur": 1167
+  },
+  {
+    "STATGEB": 28010,
+    "Shape_Leng": 3060.59371672,
+    "Shape_Area": 441473.99,
+    "STATGEB_AL": 28010,
+    "AnzFlur": 425,
+    "mttlFlur": 1039
+  },
+  {
+    "STATGEB": 28011,
+    "Shape_Leng": 1658.46800701,
+    "Shape_Area": 118884.5,
+    "STATGEB_AL": 28011,
+    "AnzFlur": 60,
+    "mttlFlur": 1981
+  },
+  {
+    "STATGEB": 28012,
+    "Shape_Leng": 5341.57533936,
+    "Shape_Area": 382184.487841,
+    "STATGEB_AL": 28012,
+    "AnzFlur": 172,
+    "mttlFlur": 2222
+  },
+  {
+    "STATGEB": 28013,
+    "Shape_Leng": 1843.94354084,
+    "Shape_Area": 168208.635723,
+    "STATGEB_AL": 28013,
+    "AnzFlur": 38,
+    "mttlFlur": 4427
+  },
+  {
+    "STATGEB": 28014,
+    "Shape_Leng": 1868.66089602,
+    "Shape_Area": 179348.157283,
+    "STATGEB_AL": 28014,
+    "AnzFlur": 83,
+    "mttlFlur": 2161
+  },
+  {
+    "STATGEB": 28015,
+    "Shape_Leng": 2274.67628217,
+    "Shape_Area": 290954.749276,
+    "STATGEB_AL": 28015,
+    "AnzFlur": 116,
+    "mttlFlur": 2508
+  },
+  {
+    "STATGEB": 28016,
+    "Shape_Leng": 2265.37399633,
+    "Shape_Area": 193573.0072,
+    "STATGEB_AL": 28016,
+    "AnzFlur": 197,
+    "mttlFlur": 983
+  },
+  {
+    "STATGEB": 29001,
+    "Shape_Leng": 6866.05574997,
+    "Shape_Area": 1559995.88882,
+    "STATGEB_AL": 29001,
+    "AnzFlur": 198,
+    "mttlFlur": 7879
+  },
+  {
+    "STATGEB": 29002,
+    "Shape_Leng": 1469.86837522,
+    "Shape_Area": 111622.711474,
+    "STATGEB_AL": 29002,
+    "AnzFlur": 25,
+    "mttlFlur": 4465
+  },
+  {
+    "STATGEB": 29003,
+    "Shape_Leng": 2040.967144,
+    "Shape_Area": 154613.224656,
+    "STATGEB_AL": 29003,
+    "AnzFlur": 30,
+    "mttlFlur": 5154
+  },
+  {
+    "STATGEB": 29004,
+    "Shape_Leng": 2806.00443937,
+    "Shape_Area": 217516.267892,
+    "STATGEB_AL": 29004,
+    "AnzFlur": 189,
+    "mttlFlur": 1151
+  },
+  {
+    "STATGEB": 29005,
+    "Shape_Leng": 3660.87345257,
+    "Shape_Area": 413692.867109,
+    "STATGEB_AL": 29005,
+    "AnzFlur": 518,
+    "mttlFlur": 799
+  },
+  {
+    "STATGEB": 29006,
+    "Shape_Leng": 2800.88025481,
+    "Shape_Area": 226838.42044,
+    "STATGEB_AL": 29006,
+    "AnzFlur": 37,
+    "mttlFlur": 6131
+  },
+  {
+    "STATGEB": 29007,
+    "Shape_Leng": 3796.01902218,
+    "Shape_Area": 663041.278611,
+    "STATGEB_AL": 29007,
+    "AnzFlur": 178,
+    "mttlFlur": 3725
+  },
+  {
+    "STATGEB": 29008,
+    "Shape_Leng": 3915.5596051,
+    "Shape_Area": 590764.162499,
+    "STATGEB_AL": 29008,
+    "AnzFlur": 323,
+    "mttlFlur": 1829
+  },
+  {
+    "STATGEB": 29009,
+    "Shape_Leng": 2381.88518858,
+    "Shape_Area": 306442.280603,
+    "STATGEB_AL": 29009,
+    "AnzFlur": 163,
+    "mttlFlur": 1880
+  },
+  {
+    "STATGEB": 29010,
+    "Shape_Leng": 3180.21298418,
+    "Shape_Area": 301821.601867,
+    "STATGEB_AL": 29010,
+    "AnzFlur": 260,
+    "mttlFlur": 1161
+  },
+  {
+    "STATGEB": 29011,
+    "Shape_Leng": 4835.89909546,
+    "Shape_Area": 1182889.67603,
+    "STATGEB_AL": 29011,
+    "AnzFlur": 543,
+    "mttlFlur": 2178
+  },
+  {
+    "STATGEB": 29012,
+    "Shape_Leng": 4611.54320394,
+    "Shape_Area": 737166.382089,
+    "STATGEB_AL": 29012,
+    "AnzFlur": 634,
+    "mttlFlur": 1163
+  },
+  {
+    "STATGEB": 29013,
+    "Shape_Leng": 4906.70865035,
+    "Shape_Area": 743386.727421,
+    "STATGEB_AL": 29013,
+    "AnzFlur": 709,
+    "mttlFlur": 1049
+  },
+  {
+    "STATGEB": 30001,
+    "Shape_Leng": 6799.59458432,
+    "Shape_Area": 2208813.56285,
+    "STATGEB_AL": 30001,
+    "AnzFlur": 868,
+    "mttlFlur": 2545
+  },
+  {
+    "STATGEB": 30002,
+    "Shape_Leng": 5589.54044961,
+    "Shape_Area": 603349.486296,
+    "STATGEB_AL": 30002,
+    "AnzFlur": 563,
+    "mttlFlur": 1072
+  },
+  {
+    "STATGEB": 30003,
+    "Shape_Leng": 2798.62631977,
+    "Shape_Area": 399151.094323,
+    "STATGEB_AL": 30003,
+    "AnzFlur": 193,
+    "mttlFlur": 2068
+  },
+  {
+    "STATGEB": 30004,
+    "Shape_Leng": 5548.20700787,
+    "Shape_Area": 1117538.74309,
+    "STATGEB_AL": 30004,
+    "AnzFlur": 505,
+    "mttlFlur": 2213
+  },
+  {
+    "STATGEB": 31001,
+    "Shape_Leng": 9523.68374197,
+    "Shape_Area": 4052667.06262,
+    "STATGEB_AL": 31001,
+    "AnzFlur": 974,
+    "mttlFlur": 4161
+  },
+  {
+    "STATGEB": 31002,
+    "Shape_Leng": 4140.36124639,
+    "Shape_Area": 854034.370023,
+    "STATGEB_AL": 31002,
+    "AnzFlur": 629,
+    "mttlFlur": 1358
+  },
+  {
+    "STATGEB": 31003,
+    "Shape_Leng": 5556.69434213,
+    "Shape_Area": 828406.972198,
+    "STATGEB_AL": 31003,
+    "AnzFlur": 800,
+    "mttlFlur": 1036
+  },
+  {
+    "STATGEB": 31004,
+    "Shape_Leng": 4907.21276905,
+    "Shape_Area": 672603.674981,
+    "STATGEB_AL": 31004,
+    "AnzFlur": 573,
+    "mttlFlur": 1174
+  },
+  {
+    "STATGEB": 31005,
+    "Shape_Leng": 4624.0132985,
+    "Shape_Area": 729653.801125,
+    "STATGEB_AL": 31005,
+    "AnzFlur": 586,
+    "mttlFlur": 1245
+  },
+  {
+    "STATGEB": 31006,
+    "Shape_Leng": 4578.975049,
+    "Shape_Area": 598937.398877,
+    "STATGEB_AL": 31006,
+    "AnzFlur": 734,
+    "mttlFlur": 816
+  },
+  {
+    "STATGEB": 32001,
+    "Shape_Leng": 2887.33233079,
+    "Shape_Area": 399608.842509,
+    "STATGEB_AL": 32001,
+    "AnzFlur": 419,
+    "mttlFlur": 954
+  },
+  {
+    "STATGEB": 32002,
+    "Shape_Leng": 3451.63642696,
+    "Shape_Area": 438013.989057,
+    "STATGEB_AL": 32002,
+    "AnzFlur": 486,
+    "mttlFlur": 901
+  },
+  {
+    "STATGEB": 32003,
+    "Shape_Leng": 5993.28666398,
+    "Shape_Area": 661823.219525,
+    "STATGEB_AL": 32003,
+    "AnzFlur": 322,
+    "mttlFlur": 2055
+  },
+  {
+    "STATGEB": 32004,
+    "Shape_Leng": 4543.71163696,
+    "Shape_Area": 556767.708949,
+    "STATGEB_AL": 32004,
+    "AnzFlur": 590,
+    "mttlFlur": 944
+  },
+  {
+    "STATGEB": 32005,
+    "Shape_Leng": 4076.15013067,
+    "Shape_Area": 611806.243211,
+    "STATGEB_AL": 32005,
+    "AnzFlur": 514,
+    "mttlFlur": 1190
+  },
+  {
+    "STATGEB": 33001,
+    "Shape_Leng": 10282.7484372,
+    "Shape_Area": 3553390.4953,
+    "STATGEB_AL": 33001,
+    "AnzFlur": 346,
+    "mttlFlur": 10270
+  },
+  {
+    "STATGEB": 33002,
+    "Shape_Leng": 2947.43194715,
+    "Shape_Area": 332523.95495,
+    "STATGEB_AL": 33002,
+    "AnzFlur": 190,
+    "mttlFlur": 1750
+  },
+  {
+    "STATGEB": 33003,
+    "Shape_Leng": 4901.64416848,
+    "Shape_Area": 1246269.12915,
+    "STATGEB_AL": 33003,
+    "AnzFlur": 980,
+    "mttlFlur": 1272
+  },
+  {
+    "STATGEB": 33004,
+    "Shape_Leng": 3327.75517699,
+    "Shape_Area": 435936.49875,
+    "STATGEB_AL": 33004,
+    "AnzFlur": 460,
+    "mttlFlur": 948
+  },
+  {
+    "STATGEB": 33005,
+    "Shape_Leng": 2336.19928347,
+    "Shape_Area": 164896.867071,
+    "STATGEB_AL": 33005,
+    "AnzFlur": 83,
+    "mttlFlur": 1987
+  },
+  {
+    "STATGEB": 34001,
+    "Shape_Leng": 20346.5325669,
+    "Shape_Area": 6832927.73199,
+    "STATGEB_AL": 34001,
+    "AnzFlur": 366,
+    "mttlFlur": 18669
+  },
+  {
+    "STATGEB": 34002,
+    "Shape_Leng": 5706.07275152,
+    "Shape_Area": 1117540.5184,
+    "STATGEB_AL": 34002,
+    "AnzFlur": 745,
+    "mttlFlur": 1500
+  },
+  {
+    "STATGEB": 34003,
+    "Shape_Leng": 6577.37301836,
+    "Shape_Area": 1468968.89144,
+    "STATGEB_AL": 34003,
+    "AnzFlur": 530,
+    "mttlFlur": 2772
+  },
+  {
+    "STATGEB": 34004,
+    "Shape_Leng": 4647.6054137,
+    "Shape_Area": 835686.846144,
+    "STATGEB_AL": 34004,
+    "AnzFlur": 738,
+    "mttlFlur": 1132
+  },
+  {
+    "STATGEB": 34005,
+    "Shape_Leng": 2540.54965571,
+    "Shape_Area": 353101.222873,
+    "STATGEB_AL": 34005,
+    "AnzFlur": 269,
+    "mttlFlur": 1313
+  },
+  {
+    "STATGEB": 34006,
+    "Shape_Leng": 4592.48753197,
+    "Shape_Area": 668709.291638,
+    "STATGEB_AL": 34006,
+    "AnzFlur": 558,
+    "mttlFlur": 1198
+  },
+  {
+    "STATGEB": 34007,
+    "Shape_Leng": 3709.34870789,
+    "Shape_Area": 603154.0363,
+    "STATGEB_AL": 34007,
+    "AnzFlur": 543,
+    "mttlFlur": 1111
+  },
+  {
+    "STATGEB": 34008,
+    "Shape_Leng": 13045.0633272,
+    "Shape_Area": 4838976.13596,
+    "STATGEB_AL": 34008,
+    "AnzFlur": 603,
+    "mttlFlur": 8025
+  },
+  {
+    "STATGEB": 35001,
+    "Shape_Leng": 946.164255857,
+    "Shape_Area": 55100.00105,
+    "STATGEB_AL": 35001,
+    "AnzFlur": 66,
+    "mttlFlur": 835
+  },
+  {
+    "STATGEB": 35002,
+    "Shape_Leng": 1124.89912763,
+    "Shape_Area": 80163.4998503,
+    "STATGEB_AL": 35002,
+    "AnzFlur": 87,
+    "mttlFlur": 921
+  },
+  {
+    "STATGEB": 35003,
+    "Shape_Leng": 1594.15035623,
+    "Shape_Area": 81934.5633704,
+    "STATGEB_AL": 35003,
+    "AnzFlur": 73,
+    "mttlFlur": 1122
+  },
+  {
+    "STATGEB": 35004,
+    "Shape_Leng": 1822.75483547,
+    "Shape_Area": 165251.46812,
+    "STATGEB_AL": 35004,
+    "AnzFlur": 165,
+    "mttlFlur": 1002
+  },
+  {
+    "STATGEB": 35005,
+    "Shape_Leng": 1183.11330684,
+    "Shape_Area": 81814,
+    "STATGEB_AL": 35005,
+    "AnzFlur": 102,
+    "mttlFlur": 802
+  },
+  {
+    "STATGEB": 35006,
+    "Shape_Leng": 1347.4731449,
+    "Shape_Area": 96830.0077,
+    "STATGEB_AL": 35006,
+    "AnzFlur": 105,
+    "mttlFlur": 922
+  },
+  {
+    "STATGEB": 35007,
+    "Shape_Leng": 975.986707959,
+    "Shape_Area": 53219.0145,
+    "STATGEB_AL": 35007,
+    "AnzFlur": 62,
+    "mttlFlur": 858
+  },
+  {
+    "STATGEB": 35008,
+    "Shape_Leng": 1194.62681061,
+    "Shape_Area": 85373.00545,
+    "STATGEB_AL": 35008,
+    "AnzFlur": 88,
+    "mttlFlur": 970
+  },
+  {
+    "STATGEB": 35009,
+    "Shape_Leng": 2194.39581528,
+    "Shape_Area": 124473.50215,
+    "STATGEB_AL": 35009,
+    "AnzFlur": 145,
+    "mttlFlur": 858
+  },
+  {
+    "STATGEB": 35010,
+    "Shape_Leng": 1531.96382195,
+    "Shape_Area": 134238.492,
+    "STATGEB_AL": 35010,
+    "AnzFlur": 98,
+    "mttlFlur": 1370
+  },
+  {
+    "STATGEB": 35011,
+    "Shape_Leng": 1189.83727927,
+    "Shape_Area": 86164.98665,
+    "STATGEB_AL": 35011,
+    "AnzFlur": 107,
+    "mttlFlur": 805
+  },
+  {
+    "STATGEB": 35012,
+    "Shape_Leng": 1448.92021544,
+    "Shape_Area": 117979.474945,
+    "STATGEB_AL": 35012,
+    "AnzFlur": 92,
+    "mttlFlur": 1282
+  },
+  {
+    "STATGEB": 35013,
+    "Shape_Leng": 1391.29891352,
+    "Shape_Area": 105612.50485,
+    "STATGEB_AL": 35013,
+    "AnzFlur": 73,
+    "mttlFlur": 1447
+  },
+  {
+    "STATGEB": 35014,
+    "Shape_Leng": 2054.60633203,
+    "Shape_Area": 129561.800604,
+    "STATGEB_AL": 35014,
+    "AnzFlur": 57,
+    "mttlFlur": 2273
+  },
+  {
+    "STATGEB": 35015,
+    "Shape_Leng": 2022.96184816,
+    "Shape_Area": 253007.0153,
+    "STATGEB_AL": 35015,
+    "AnzFlur": 182,
+    "mttlFlur": 1390
+  },
+  {
+    "STATGEB": 35016,
+    "Shape_Leng": 1484.23304677,
+    "Shape_Area": 113488.99645,
+    "STATGEB_AL": 35016,
+    "AnzFlur": 118,
+    "mttlFlur": 962
+  },
+  {
+    "STATGEB": 35017,
+    "Shape_Leng": 1675.21619832,
+    "Shape_Area": 129684.50285,
+    "STATGEB_AL": 35017,
+    "AnzFlur": 87,
+    "mttlFlur": 1491
+  },
+  {
+    "STATGEB": 35018,
+    "Shape_Leng": 1606.46292521,
+    "Shape_Area": 120896.4816,
+    "STATGEB_AL": 35018,
+    "AnzFlur": 137,
+    "mttlFlur": 882
+  },
+  {
+    "STATGEB": 35019,
+    "Shape_Leng": 2340.10286026,
+    "Shape_Area": 257894.9928,
+    "STATGEB_AL": 35019,
+    "AnzFlur": 103,
+    "mttlFlur": 2504
+  },
+  {
+    "STATGEB": 35020,
+    "Shape_Leng": 1908.06505247,
+    "Shape_Area": 206154.4992,
+    "STATGEB_AL": 35020,
+    "AnzFlur": 127,
+    "mttlFlur": 1623
+  },
+  {
+    "STATGEB": 35021,
+    "Shape_Leng": 1888.42565227,
+    "Shape_Area": 165721.454473,
+    "STATGEB_AL": 35021,
+    "AnzFlur": 159,
+    "mttlFlur": 1042
+  },
+  {
+    "STATGEB": 35022,
+    "Shape_Leng": 2204.14962418,
+    "Shape_Area": 181095.058527,
+    "STATGEB_AL": 35022,
+    "AnzFlur": 218,
+    "mttlFlur": 831
+  },
+  {
+    "STATGEB": 35023,
+    "Shape_Leng": 1245.4644006,
+    "Shape_Area": 80461.5104,
+    "STATGEB_AL": 35023,
+    "AnzFlur": 124,
+    "mttlFlur": 649
+  },
+  {
+    "STATGEB": 35024,
+    "Shape_Leng": 1340.75676013,
+    "Shape_Area": 94958.1343352,
+    "STATGEB_AL": 35024,
+    "AnzFlur": 125,
+    "mttlFlur": 760
+  },
+  {
+    "STATGEB": 35025,
+    "Shape_Leng": 1208.68365431,
+    "Shape_Area": 62197.0277,
+    "STATGEB_AL": 35025,
+    "AnzFlur": 29,
+    "mttlFlur": 2145
+  },
+  {
+    "STATGEB": 35026,
+    "Shape_Leng": 1669.42630355,
+    "Shape_Area": 167865.51095,
+    "STATGEB_AL": 35026,
+    "AnzFlur": 130,
+    "mttlFlur": 1291
+  },
+  {
+    "STATGEB": 36001,
+    "Shape_Leng": 1472.87175329,
+    "Shape_Area": 95738.5046499,
+    "STATGEB_AL": 36001,
+    "AnzFlur": 73,
+    "mttlFlur": 1311
+  },
+  {
+    "STATGEB": 36002,
+    "Shape_Leng": 1691.67322005,
+    "Shape_Area": 144183.5176,
+    "STATGEB_AL": 36002,
+    "AnzFlur": 164,
+    "mttlFlur": 879
+  },
+  {
+    "STATGEB": 36003,
+    "Shape_Leng": 3626.15801105,
+    "Shape_Area": 239958.99855,
+    "STATGEB_AL": 36003,
+    "AnzFlur": 154,
+    "mttlFlur": 1558
+  },
+  {
+    "STATGEB": 36004,
+    "Shape_Leng": 1980.26734287,
+    "Shape_Area": 174975.99965,
+    "STATGEB_AL": 36004,
+    "AnzFlur": 130,
+    "mttlFlur": 1346
+  },
+  {
+    "STATGEB": 36005,
+    "Shape_Leng": 4501.38100447,
+    "Shape_Area": 697657.45005,
+    "STATGEB_AL": 36005,
+    "AnzFlur": 35,
+    "mttlFlur": 19933
+  },
+  {
+    "STATGEB": 36006,
+    "Shape_Leng": 2141.73002282,
+    "Shape_Area": 158675.754397,
+    "STATGEB_AL": 36006,
+    "AnzFlur": 53,
+    "mttlFlur": 2994
+  },
+  {
+    "STATGEB": 36007,
+    "Shape_Leng": 1840.65638441,
+    "Shape_Area": 162620.47745,
+    "STATGEB_AL": 36007,
+    "AnzFlur": 61,
+    "mttlFlur": 2666
+  },
+  {
+    "STATGEB": 36008,
+    "Shape_Leng": 2585.4577397,
+    "Shape_Area": 363299.52045,
+    "STATGEB_AL": 36008,
+    "AnzFlur": 272,
+    "mttlFlur": 1336
+  },
+  {
+    "STATGEB": 36009,
+    "Shape_Leng": 2382.89157851,
+    "Shape_Area": 194707.276679,
+    "STATGEB_AL": 36009,
+    "AnzFlur": 167,
+    "mttlFlur": 1166
+  },
+  {
+    "STATGEB": 36010,
+    "Shape_Leng": 2087.22155437,
+    "Shape_Area": 210258.9963,
+    "STATGEB_AL": 36010,
+    "AnzFlur": 156,
+    "mttlFlur": 1348
+  },
+  {
+    "STATGEB": 36011,
+    "Shape_Leng": 3447.81301881,
+    "Shape_Area": 290116.49445,
+    "STATGEB_AL": 36011,
+    "AnzFlur": 165,
+    "mttlFlur": 1758
+  },
+  {
+    "STATGEB": 37001,
+    "Shape_Leng": 2499.74379439,
+    "Shape_Area": 168916.49025,
+    "STATGEB_AL": 37001,
+    "AnzFlur": 115,
+    "mttlFlur": 1469
+  },
+  {
+    "STATGEB": 37002,
+    "Shape_Leng": 2005.18885146,
+    "Shape_Area": 131967.937825,
+    "STATGEB_AL": 37002,
+    "AnzFlur": 133,
+    "mttlFlur": 992
+  },
+  {
+    "STATGEB": 37003,
+    "Shape_Leng": 2225.25489106,
+    "Shape_Area": 292831.578875,
+    "STATGEB_AL": 37003,
+    "AnzFlur": 336,
+    "mttlFlur": 872
+  },
+  {
+    "STATGEB": 37004,
+    "Shape_Leng": 2621.72317275,
+    "Shape_Area": 379610.5107,
+    "STATGEB_AL": 37004,
+    "AnzFlur": 344,
+    "mttlFlur": 1104
+  },
+  {
+    "STATGEB": 37005,
+    "Shape_Leng": 2052.91496399,
+    "Shape_Area": 214940.98555,
+    "STATGEB_AL": 37005,
+    "AnzFlur": 111,
+    "mttlFlur": 1936
+  },
+  {
+    "STATGEB": 37006,
+    "Shape_Leng": 1692.06123331,
+    "Shape_Area": 155054.4903,
+    "STATGEB_AL": 37006,
+    "AnzFlur": 80,
+    "mttlFlur": 1938
+  },
+  {
+    "STATGEB": 37007,
+    "Shape_Leng": 1605.01001192,
+    "Shape_Area": 157106.49255,
+    "STATGEB_AL": 37007,
+    "AnzFlur": 149,
+    "mttlFlur": 1054
+  },
+  {
+    "STATGEB": 37008,
+    "Shape_Leng": 2553.24088711,
+    "Shape_Area": 392343.51535,
+    "STATGEB_AL": 37008,
+    "AnzFlur": 266,
+    "mttlFlur": 1475
+  },
+  {
+    "STATGEB": 37009,
+    "Shape_Leng": 2015.95074955,
+    "Shape_Area": 158733.48465,
+    "STATGEB_AL": 37009,
+    "AnzFlur": 27,
+    "mttlFlur": 5879
+  },
+  {
+    "STATGEB": 38001,
+    "Shape_Leng": 1745.22487342,
+    "Shape_Area": 142367.98535,
+    "STATGEB_AL": 38001,
+    "AnzFlur": 84,
+    "mttlFlur": 1695
+  },
+  {
+    "STATGEB": 38002,
+    "Shape_Leng": 1922.13111941,
+    "Shape_Area": 140404.5043,
+    "STATGEB_AL": 38002,
+    "AnzFlur": 97,
+    "mttlFlur": 1447
+  },
+  {
+    "STATGEB": 38003,
+    "Shape_Leng": 2045.26552497,
+    "Shape_Area": 156630.51735,
+    "STATGEB_AL": 38003,
+    "AnzFlur": 132,
+    "mttlFlur": 1187
+  },
+  {
+    "STATGEB": 38004,
+    "Shape_Leng": 1150.24749208,
+    "Shape_Area": 73808.0075,
+    "STATGEB_AL": 38004,
+    "AnzFlur": 79,
+    "mttlFlur": 934
+  },
+  {
+    "STATGEB": 38005,
+    "Shape_Leng": 1858.41934474,
+    "Shape_Area": 87096.506,
+    "STATGEB_AL": 38005,
+    "AnzFlur": 118,
+    "mttlFlur": 738
+  },
+  {
+    "STATGEB": 38006,
+    "Shape_Leng": 1352.82388604,
+    "Shape_Area": 108640.4865,
+    "STATGEB_AL": 38006,
+    "AnzFlur": 162,
+    "mttlFlur": 671
+  },
+  {
+    "STATGEB": 39001,
+    "Shape_Leng": 3516.73411718,
+    "Shape_Area": 512781.96895,
+    "STATGEB_AL": 39001,
+    "AnzFlur": 430,
+    "mttlFlur": 1193
+  },
+  {
+    "STATGEB": 39002,
+    "Shape_Leng": 3590.3201421,
+    "Shape_Area": 524232.99755,
+    "STATGEB_AL": 39002,
+    "AnzFlur": 282,
+    "mttlFlur": 1859
+  },
+  {
+    "STATGEB": 39003,
+    "Shape_Leng": 2703.45830958,
+    "Shape_Area": 383598.99825,
+    "STATGEB_AL": 39003,
+    "AnzFlur": 205,
+    "mttlFlur": 1871
+  },
+  {
+    "STATGEB": 39004,
+    "Shape_Leng": 2525.80319448,
+    "Shape_Area": 338110.01725,
+    "STATGEB_AL": 39004,
+    "AnzFlur": 216,
+    "mttlFlur": 1565
+  },
+  {
+    "STATGEB": 39005,
+    "Shape_Leng": 2381.70498644,
+    "Shape_Area": 318955.5638,
+    "STATGEB_AL": 39005,
+    "AnzFlur": 62,
+    "mttlFlur": 5144
+  },
+  {
+    "STATGEB": 39006,
+    "Shape_Leng": 5898.05270942,
+    "Shape_Area": 688177.629203,
+    "STATGEB_AL": 39006,
+    "AnzFlur": 542,
+    "mttlFlur": 1270
+  },
+  {
+    "STATGEB": 39007,
+    "Shape_Leng": 2941.53543554,
+    "Shape_Area": 486404.966387,
+    "STATGEB_AL": 39007,
+    "AnzFlur": 417,
+    "mttlFlur": 1166
+  },
+  {
+    "STATGEB": 39008,
+    "Shape_Leng": 3699.57381924,
+    "Shape_Area": 559818.02265,
+    "STATGEB_AL": 39008,
+    "AnzFlur": 433,
+    "mttlFlur": 1293
+  },
+  {
+    "STATGEB": 39009,
+    "Shape_Leng": 3089.8088438,
+    "Shape_Area": 389779.99935,
+    "STATGEB_AL": 39009,
+    "AnzFlur": 289,
+    "mttlFlur": 1349
+  },
+  {
+    "STATGEB": 39010,
+    "Shape_Leng": 1491.67441144,
+    "Shape_Area": 89504.7817849,
+    "STATGEB_AL": 39010,
+    "AnzFlur": 24,
+    "mttlFlur": 3729
+  },
+  {
+    "STATGEB": 39011,
+    "Shape_Leng": 3588.7228273,
+    "Shape_Area": 413144.988755,
+    "STATGEB_AL": 39011,
+    "AnzFlur": 91,
+    "mttlFlur": 4540
+  },
+  {
+    "STATGEB": 39012,
+    "Shape_Leng": 1766.3330686,
+    "Shape_Area": 190572.51725,
+    "STATGEB_AL": 39012,
+    "AnzFlur": 58,
+    "mttlFlur": 3286
+  },
+  {
+    "STATGEB": 40001,
+    "Shape_Leng": 4872.16012707,
+    "Shape_Area": 643338.50795,
+    "STATGEB_AL": 40001,
+    "AnzFlur": 100,
+    "mttlFlur": 6433
+  },
+  {
+    "STATGEB": 40002,
+    "Shape_Leng": 3315.38919405,
+    "Shape_Area": 573017.9932,
+    "STATGEB_AL": 40002,
+    "AnzFlur": 343,
+    "mttlFlur": 1671
+  },
+  {
+    "STATGEB": 40003,
+    "Shape_Leng": 4944.61371993,
+    "Shape_Area": 881464.4934,
+    "STATGEB_AL": 40003,
+    "AnzFlur": 654,
+    "mttlFlur": 1348
+  },
+  {
+    "STATGEB": 40004,
+    "Shape_Leng": 6869.59853729,
+    "Shape_Area": 1498260.65316,
+    "STATGEB_AL": 40004,
+    "AnzFlur": 836,
+    "mttlFlur": 1792
+  },
+  {
+    "STATGEB": 40005,
+    "Shape_Leng": 2958.69382935,
+    "Shape_Area": 334811.5038,
+    "STATGEB_AL": 40005,
+    "AnzFlur": 133,
+    "mttlFlur": 2517
+  },
+  {
+    "STATGEB": 40006,
+    "Shape_Leng": 2128.71204753,
+    "Shape_Area": 233801.0053,
+    "STATGEB_AL": 40006,
+    "AnzFlur": 308,
+    "mttlFlur": 759
+  },
+  {
+    "STATGEB": 40007,
+    "Shape_Leng": 3393.70450642,
+    "Shape_Area": 408274.02055,
+    "STATGEB_AL": 40007,
+    "AnzFlur": 485,
+    "mttlFlur": 842
+  },
+  {
+    "STATGEB": 40008,
+    "Shape_Leng": 5519.28429496,
+    "Shape_Area": 767550.48075,
+    "STATGEB_AL": 40008,
+    "AnzFlur": 843,
+    "mttlFlur": 910
+  },
+  {
+    "STATGEB": 40009,
+    "Shape_Leng": 4164.38776178,
+    "Shape_Area": 509395.49055,
+    "STATGEB_AL": 40009,
+    "AnzFlur": 532,
+    "mttlFlur": 958
+  },
+  {
+    "STATGEB": 40010,
+    "Shape_Leng": 3412.49712824,
+    "Shape_Area": 379479.50305,
+    "STATGEB_AL": 40010,
+    "AnzFlur": 379,
+    "mttlFlur": 1001
+  },
+  {
+    "STATGEB": 40011,
+    "Shape_Leng": 3386.88078087,
+    "Shape_Area": 306462.49805,
+    "STATGEB_AL": 40011,
+    "AnzFlur": 151,
+    "mttlFlur": 2030
+  },
+  {
+    "STATGEB": 40012,
+    "Shape_Leng": 2559.39770804,
+    "Shape_Area": 324772.5013,
+    "STATGEB_AL": 40012,
+    "AnzFlur": 301,
+    "mttlFlur": 1079
+  },
+  {
+    "STATGEB": 40013,
+    "Shape_Leng": 3073.95994653,
+    "Shape_Area": 446026.5,
+    "STATGEB_AL": 40013,
+    "AnzFlur": 427,
+    "mttlFlur": 1045
+  },
+  {
+    "STATGEB": 40014,
+    "Shape_Leng": 2553.92158565,
+    "Shape_Area": 284872.502,
+    "STATGEB_AL": 40014,
+    "AnzFlur": 287,
+    "mttlFlur": 993
+  },
+  {
+    "STATGEB": 40015,
+    "Shape_Leng": 3405.03975468,
+    "Shape_Area": 398560.02175,
+    "STATGEB_AL": 40015,
+    "AnzFlur": 286,
+    "mttlFlur": 1394
+  },
+  {
+    "STATGEB": 40016,
+    "Shape_Leng": 3072.19655968,
+    "Shape_Area": 455938.9897,
+    "STATGEB_AL": 40016,
+    "AnzFlur": 293,
+    "mttlFlur": 1556
+  },
+  {
+    "STATGEB": 40017,
+    "Shape_Leng": 4554.58303326,
+    "Shape_Area": 916981.0169,
+    "STATGEB_AL": 40017,
+    "AnzFlur": 619,
+    "mttlFlur": 1481
+  },
+  {
+    "STATGEB": 40018,
+    "Shape_Leng": 7705.48698248,
+    "Shape_Area": 2047672.47455,
+    "STATGEB_AL": 40018,
+    "AnzFlur": 269,
+    "mttlFlur": 7612
+  },
+  {
+    "STATGEB": 40019,
+    "Shape_Leng": 4681.12965297,
+    "Shape_Area": 732419.5221,
+    "STATGEB_AL": 40019,
+    "AnzFlur": 284,
+    "mttlFlur": 2579
+  },
+  {
+    "STATGEB": 40020,
+    "Shape_Leng": 2350.91852243,
+    "Shape_Area": 264053.4663,
+    "STATGEB_AL": 40020,
+    "AnzFlur": 267,
+    "mttlFlur": 989
+  },
+  {
+    "STATGEB": 41001,
+    "Shape_Leng": 9409.33743052,
+    "Shape_Area": 1210979.5234,
+    "STATGEB_AL": 41001,
+    "AnzFlur": 633,
+    "mttlFlur": 1913
+  },
+  {
+    "STATGEB": 41002,
+    "Shape_Leng": 7535.18330754,
+    "Shape_Area": 2027252.95895,
+    "STATGEB_AL": 41002,
+    "AnzFlur": 181,
+    "mttlFlur": 11200
+  },
+  {
+    "STATGEB": 41003,
+    "Shape_Leng": 3808.71072961,
+    "Shape_Area": 826944.49435,
+    "STATGEB_AL": 41003,
+    "AnzFlur": 649,
+    "mttlFlur": 1274
+  },
+  {
+    "STATGEB": 41004,
+    "Shape_Leng": 1434.04042969,
+    "Shape_Area": 126050,
+    "STATGEB_AL": 41004,
+    "AnzFlur": 81,
+    "mttlFlur": 1556
+  },
+  {
+    "STATGEB": 41005,
+    "Shape_Leng": 4231.29339031,
+    "Shape_Area": 647290.0016,
+    "STATGEB_AL": 41005,
+    "AnzFlur": 644,
+    "mttlFlur": 1005
+  },
+  {
+    "STATGEB": 41006,
+    "Shape_Leng": 3106.06302862,
+    "Shape_Area": 525626.4968,
+    "STATGEB_AL": 41006,
+    "AnzFlur": 197,
+    "mttlFlur": 2668
+  },
+  {
+    "STATGEB": 41007,
+    "Shape_Leng": 3072.91787717,
+    "Shape_Area": 389195.00545,
+    "STATGEB_AL": 41007,
+    "AnzFlur": 249,
+    "mttlFlur": 1563
+  },
+  {
+    "STATGEB": 41008,
+    "Shape_Leng": 3501.72732621,
+    "Shape_Area": 462813.090285,
+    "STATGEB_AL": 41008,
+    "AnzFlur": 496,
+    "mttlFlur": 933
+  },
+  {
+    "STATGEB": 41009,
+    "Shape_Leng": 3525.34742568,
+    "Shape_Area": 540531.49735,
+    "STATGEB_AL": 41009,
+    "AnzFlur": 412,
+    "mttlFlur": 1312
+  },
+  {
+    "STATGEB": 41010,
+    "Shape_Leng": 3974.65006996,
+    "Shape_Area": 971937.672527,
+    "STATGEB_AL": 41010,
+    "AnzFlur": 1051,
+    "mttlFlur": 925
+  },
+  {
+    "STATGEB": 41011,
+    "Shape_Leng": 2106.53956898,
+    "Shape_Area": 251158.14268,
+    "STATGEB_AL": 41011,
+    "AnzFlur": 149,
+    "mttlFlur": 1686
+  },
+  {
+    "STATGEB": 41012,
+    "Shape_Leng": 4601.58240307,
+    "Shape_Area": 982047.99945,
+    "STATGEB_AL": 41012,
+    "AnzFlur": 697,
+    "mttlFlur": 1409
+  },
+  {
+    "STATGEB": 42001,
+    "Shape_Leng": 2532.42678937,
+    "Shape_Area": 226656.4994,
+    "STATGEB_AL": 42001,
+    "AnzFlur": 116,
+    "mttlFlur": 1954
+  },
+  {
+    "STATGEB": 42002,
+    "Shape_Leng": 3366.55325797,
+    "Shape_Area": 409081.50165,
+    "STATGEB_AL": 42002,
+    "AnzFlur": 437,
+    "mttlFlur": 936
+  },
+  {
+    "STATGEB": 42003,
+    "Shape_Leng": 2689.69666595,
+    "Shape_Area": 301187,
+    "STATGEB_AL": 42003,
+    "AnzFlur": 89,
+    "mttlFlur": 3384
+  },
+  {
+    "STATGEB": 42004,
+    "Shape_Leng": 3162.60530254,
+    "Shape_Area": 293152.01005,
+    "STATGEB_AL": 42004,
+    "AnzFlur": 118,
+    "mttlFlur": 2484
+  },
+  {
+    "STATGEB": 42005,
+    "Shape_Leng": 2085.4801064,
+    "Shape_Area": 229192.720335,
+    "STATGEB_AL": 42005,
+    "AnzFlur": 55,
+    "mttlFlur": 4167
+  },
+  {
+    "STATGEB": 42006,
+    "Shape_Leng": 4059.76014614,
+    "Shape_Area": 440271.075558,
+    "STATGEB_AL": 42006,
+    "AnzFlur": 209,
+    "mttlFlur": 2107
+  },
+  {
+    "STATGEB": 42007,
+    "Shape_Leng": 6448.42866502,
+    "Shape_Area": 1689922.58075,
+    "STATGEB_AL": 42007,
+    "AnzFlur": 425,
+    "mttlFlur": 3976
+  },
+  {
+    "STATGEB": 42008,
+    "Shape_Leng": 3599.36814781,
+    "Shape_Area": 483164.98445,
+    "STATGEB_AL": 42008,
+    "AnzFlur": 643,
+    "mttlFlur": 751
+  },
+  {
+    "STATGEB": 42009,
+    "Shape_Leng": 3508.65075788,
+    "Shape_Area": 332020.51405,
+    "STATGEB_AL": 42009,
+    "AnzFlur": 323,
+    "mttlFlur": 1028
+  },
+  {
+    "STATGEB": 42010,
+    "Shape_Leng": 5077.73920469,
+    "Shape_Area": 642689.4834,
+    "STATGEB_AL": 42010,
+    "AnzFlur": 620,
+    "mttlFlur": 1037
+  },
+  {
+    "STATGEB": 42011,
+    "Shape_Leng": 4168.23473019,
+    "Shape_Area": 458047.969628,
+    "STATGEB_AL": 42011,
+    "AnzFlur": 43,
+    "mttlFlur": 10652
+  },
+  {
+    "STATGEB": 42012,
+    "Shape_Leng": 3132.08410859,
+    "Shape_Area": 370376.98275,
+    "STATGEB_AL": 42012,
+    "AnzFlur": 98,
+    "mttlFlur": 3779
+  },
+  {
+    "STATGEB": 42013,
+    "Shape_Leng": 3984.07869756,
+    "Shape_Area": 403514.0195,
+    "STATGEB_AL": 42013,
+    "AnzFlur": 273,
+    "mttlFlur": 1478
+  },
+  {
+    "STATGEB": 42014,
+    "Shape_Leng": 4107.89786694,
+    "Shape_Area": 896102.762015,
+    "STATGEB_AL": 42014,
+    "AnzFlur": 394,
+    "mttlFlur": 2274
+  },
+  {
+    "STATGEB": 42015,
+    "Shape_Leng": 2163.01669449,
+    "Shape_Area": 264322.4951,
+    "STATGEB_AL": 42015,
+    "AnzFlur": 126,
+    "mttlFlur": 2098
+  },
+  {
+    "STATGEB": 42016,
+    "Shape_Leng": 2544.25803291,
+    "Shape_Area": 296212.4819,
+    "STATGEB_AL": 42016,
+    "AnzFlur": 195,
+    "mttlFlur": 1519
+  },
+  {
+    "STATGEB": 42017,
+    "Shape_Leng": 2838.2734428,
+    "Shape_Area": 344827.99485,
+    "STATGEB_AL": 42017,
+    "AnzFlur": 475,
+    "mttlFlur": 726
+  },
+  {
+    "STATGEB": 42018,
+    "Shape_Leng": 5167.62325601,
+    "Shape_Area": 637991.731259,
+    "STATGEB_AL": 42018,
+    "AnzFlur": 157,
+    "mttlFlur": 4064
+  },
+  {
+    "STATGEB": 43001,
+    "Shape_Leng": 2898.7829699,
+    "Shape_Area": 489127.99485,
+    "STATGEB_AL": 43001,
+    "AnzFlur": 358,
+    "mttlFlur": 1366
+  },
+  {
+    "STATGEB": 43002,
+    "Shape_Leng": 4217.94202682,
+    "Shape_Area": 706327.01715,
+    "STATGEB_AL": 43002,
+    "AnzFlur": 99,
+    "mttlFlur": 7135
+  },
+  {
+    "STATGEB": 43003,
+    "Shape_Leng": 2165.36176435,
+    "Shape_Area": 210876.99775,
+    "STATGEB_AL": 43003,
+    "AnzFlur": 230,
+    "mttlFlur": 917
+  },
+  {
+    "STATGEB": 43004,
+    "Shape_Leng": 3647.10217134,
+    "Shape_Area": 404989.601105,
+    "STATGEB_AL": 43004,
+    "AnzFlur": 143,
+    "mttlFlur": 2832
+  },
+  {
+    "STATGEB": 43005,
+    "Shape_Leng": 2504.42558103,
+    "Shape_Area": 325288.51535,
+    "STATGEB_AL": 43005,
+    "AnzFlur": 95,
+    "mttlFlur": 3424
+  },
+  {
+    "STATGEB": 43006,
+    "Shape_Leng": 1917.42985107,
+    "Shape_Area": 151817.9944,
+    "STATGEB_AL": 43006,
+    "AnzFlur": 102,
+    "mttlFlur": 1488
+  },
+  {
+    "STATGEB": 43007,
+    "Shape_Leng": 1874.72565587,
+    "Shape_Area": 149262.5028,
+    "STATGEB_AL": 43007,
+    "AnzFlur": 73,
+    "mttlFlur": 2045
+  },
+  {
+    "STATGEB": 43008,
+    "Shape_Leng": 3367.75484308,
+    "Shape_Area": 488061.9949,
+    "STATGEB_AL": 43008,
+    "AnzFlur": 348,
+    "mttlFlur": 1402
+  },
+  {
+    "STATGEB": 43009,
+    "Shape_Leng": 4600.09192031,
+    "Shape_Area": 478792.717041,
+    "STATGEB_AL": 43009,
+    "AnzFlur": 88,
+    "mttlFlur": 5441
+  },
+  {
+    "STATGEB": 43010,
+    "Shape_Leng": 4310.27739995,
+    "Shape_Area": 412985.738848,
+    "STATGEB_AL": 43010,
+    "AnzFlur": 193,
+    "mttlFlur": 2140
+  },
+  {
+    "STATGEB": 43011,
+    "Shape_Leng": 3373.9683618,
+    "Shape_Area": 503167.793516,
+    "STATGEB_AL": 43011,
+    "AnzFlur": 301,
+    "mttlFlur": 1672
+  },
+  {
+    "STATGEB": 43012,
+    "Shape_Leng": 2987.35203511,
+    "Shape_Area": 284792.5027,
+    "STATGEB_AL": 43012,
+    "AnzFlur": 144,
+    "mttlFlur": 1978
+  },
+  {
+    "STATGEB": 43013,
+    "Shape_Leng": 3046.09931631,
+    "Shape_Area": 416193.52255,
+    "STATGEB_AL": 43013,
+    "AnzFlur": 113,
+    "mttlFlur": 3683
+  },
+  {
+    "STATGEB": 43014,
+    "Shape_Leng": 2218.37721672,
+    "Shape_Area": 214861.4982,
+    "STATGEB_AL": 43014,
+    "AnzFlur": 50,
+    "mttlFlur": 4297
+  },
+  {
+    "STATGEB": 43015,
+    "Shape_Leng": 4772.57114327,
+    "Shape_Area": 573171.068495,
+    "STATGEB_AL": 43015,
+    "AnzFlur": 321,
+    "mttlFlur": 1786
+  },
+  {
+    "STATGEB": 43016,
+    "Shape_Leng": 3006.02290625,
+    "Shape_Area": 276421.00308,
+    "STATGEB_AL": 43016,
+    "AnzFlur": 275,
+    "mttlFlur": 1005
+  },
+  {
+    "STATGEB": 44001,
+    "Shape_Leng": 2096.36123105,
+    "Shape_Area": 168366.993834,
+    "STATGEB_AL": 44001,
+    "AnzFlur": 92,
+    "mttlFlur": 1830
+  },
+  {
+    "STATGEB": 44002,
+    "Shape_Leng": 1155.25083826,
+    "Shape_Area": 68133.9937206,
+    "STATGEB_AL": 44002,
+    "AnzFlur": 93,
+    "mttlFlur": 733
+  },
+  {
+    "STATGEB": 44003,
+    "Shape_Leng": 1645.59370849,
+    "Shape_Area": 93105.0029295,
+    "STATGEB_AL": 44003,
+    "AnzFlur": 114,
+    "mttlFlur": 817
+  },
+  {
+    "STATGEB": 44004,
+    "Shape_Leng": 1681.63478271,
+    "Shape_Area": 175034.484021,
+    "STATGEB_AL": 44004,
+    "AnzFlur": 138,
+    "mttlFlur": 1268
+  },
+  {
+    "STATGEB": 44005,
+    "Shape_Leng": 1340.89309167,
+    "Shape_Area": 75655.9830792,
+    "STATGEB_AL": 44005,
+    "AnzFlur": 85,
+    "mttlFlur": 890
+  },
+  {
+    "STATGEB": 45001,
+    "Shape_Leng": 2874.81152792,
+    "Shape_Area": 425006.9833,
+    "STATGEB_AL": 45001,
+    "AnzFlur": 142,
+    "mttlFlur": 2993
+  },
+  {
+    "STATGEB": 45002,
+    "Shape_Leng": 2817.33175112,
+    "Shape_Area": 376338.026246,
+    "STATGEB_AL": 45002,
+    "AnzFlur": 246,
+    "mttlFlur": 1530
+  },
+  {
+    "STATGEB": 45003,
+    "Shape_Leng": 1740.82515987,
+    "Shape_Area": 143478.5115,
+    "STATGEB_AL": 45003,
+    "AnzFlur": 137,
+    "mttlFlur": 1047
+  },
+  {
+    "STATGEB": 45004,
+    "Shape_Leng": 2171.93803131,
+    "Shape_Area": 171289.4835,
+    "STATGEB_AL": 45004,
+    "AnzFlur": 130,
+    "mttlFlur": 1318
+  },
+  {
+    "STATGEB": 45005,
+    "Shape_Leng": 2006.76130996,
+    "Shape_Area": 160738.50075,
+    "STATGEB_AL": 45005,
+    "AnzFlur": 148,
+    "mttlFlur": 1086
+  },
+  {
+    "STATGEB": 45006,
+    "Shape_Leng": 3442.4580638,
+    "Shape_Area": 535194.509366,
+    "STATGEB_AL": 45006,
+    "AnzFlur": 98,
+    "mttlFlur": 5461
+  },
+  {
+    "STATGEB": 45007,
+    "Shape_Leng": 1473.51771646,
+    "Shape_Area": 100979.0012,
+    "STATGEB_AL": 45007,
+    "AnzFlur": 69,
+    "mttlFlur": 1463
+  },
+  {
+    "STATGEB": 45008,
+    "Shape_Leng": 2140.33490406,
+    "Shape_Area": 167720.0101,
+    "STATGEB_AL": 45008,
+    "AnzFlur": 97,
+    "mttlFlur": 1729
+  },
+  {
+    "STATGEB": 45009,
+    "Shape_Leng": 2070.67876371,
+    "Shape_Area": 145937.55945,
+    "STATGEB_AL": 45009,
+    "AnzFlur": 96,
+    "mttlFlur": 1520
+  },
+  {
+    "STATGEB": 45010,
+    "Shape_Leng": 1427.04839913,
+    "Shape_Area": 109805.893618,
+    "STATGEB_AL": 45010,
+    "AnzFlur": 95,
+    "mttlFlur": 1156
+  },
+  {
+    "STATGEB": 45011,
+    "Shape_Leng": 2729.95755683,
+    "Shape_Area": 334457.045774,
+    "STATGEB_AL": 45011,
+    "AnzFlur": 287,
+    "mttlFlur": 1165
+  },
+  {
+    "STATGEB": 46001,
+    "Shape_Leng": 4904.80645192,
+    "Shape_Area": 614326.302713,
+    "STATGEB_AL": 46001,
+    "AnzFlur": 362,
+    "mttlFlur": 1697
+  },
+  {
+    "STATGEB": 46002,
+    "Shape_Leng": 4830.28955283,
+    "Shape_Area": 783469.972,
+    "STATGEB_AL": 46002,
+    "AnzFlur": 165,
+    "mttlFlur": 4748
+  },
+  {
+    "STATGEB": 46003,
+    "Shape_Leng": 2647.14755582,
+    "Shape_Area": 345863.9939,
+    "STATGEB_AL": 46003,
+    "AnzFlur": 71,
+    "mttlFlur": 4871
+  },
+  {
+    "STATGEB": 46004,
+    "Shape_Leng": 2954.43764356,
+    "Shape_Area": 451733.98935,
+    "STATGEB_AL": 46004,
+    "AnzFlur": 371,
+    "mttlFlur": 1218
+  },
+  {
+    "STATGEB": 46005,
+    "Shape_Leng": 2458.4669959,
+    "Shape_Area": 252806.5303,
+    "STATGEB_AL": 46005,
+    "AnzFlur": 122,
+    "mttlFlur": 2072
+  },
+  {
+    "STATGEB": 46006,
+    "Shape_Leng": 4713.60191857,
+    "Shape_Area": 933793.5282,
+    "STATGEB_AL": 46006,
+    "AnzFlur": 88,
+    "mttlFlur": 10611
+  },
+  {
+    "STATGEB": 46007,
+    "Shape_Leng": 4142.31184611,
+    "Shape_Area": 615685.281903,
+    "STATGEB_AL": 46007,
+    "AnzFlur": 276,
+    "mttlFlur": 2231
+  },
+  {
+    "STATGEB": 47001,
+    "Shape_Leng": 2794.67994161,
+    "Shape_Area": 281138.00695,
+    "STATGEB_AL": 47001,
+    "AnzFlur": 90,
+    "mttlFlur": 3124
+  },
+  {
+    "STATGEB": 47002,
+    "Shape_Leng": 5207.49201732,
+    "Shape_Area": 504983.99135,
+    "STATGEB_AL": 47002,
+    "AnzFlur": 345,
+    "mttlFlur": 1464
+  },
+  {
+    "STATGEB": 47003,
+    "Shape_Leng": 3623.68760275,
+    "Shape_Area": 300804.97995,
+    "STATGEB_AL": 47003,
+    "AnzFlur": 110,
+    "mttlFlur": 2735
+  },
+  {
+    "STATGEB": 47004,
+    "Shape_Leng": 4959.74543772,
+    "Shape_Area": 862574.96295,
+    "STATGEB_AL": 47004,
+    "AnzFlur": 439,
+    "mttlFlur": 1965
+  },
+  {
+    "STATGEB": 47005,
+    "Shape_Leng": 2587.23097756,
+    "Shape_Area": 384500.02315,
+    "STATGEB_AL": 47005,
+    "AnzFlur": 496,
+    "mttlFlur": 775
+  },
+  {
+    "STATGEB": 47006,
+    "Shape_Leng": 3567.50498336,
+    "Shape_Area": 480657.33902,
+    "STATGEB_AL": 47006,
+    "AnzFlur": 103,
+    "mttlFlur": 4667
+  },
+  {
+    "STATGEB": 47007,
+    "Shape_Leng": 1589.1491345,
+    "Shape_Area": 124411.227151,
+    "STATGEB_AL": 47007,
+    "AnzFlur": 43,
+    "mttlFlur": 2893
+  },
+  {
+    "STATGEB": 47008,
+    "Shape_Leng": 2444.74019279,
+    "Shape_Area": 227071.5303,
+    "STATGEB_AL": 47008,
+    "AnzFlur": 92,
+    "mttlFlur": 2468
+  },
+  {
+    "STATGEB": 48001,
+    "Shape_Leng": 4403.64102776,
+    "Shape_Area": 398051.724206,
+    "STATGEB_AL": 48001,
+    "AnzFlur": 229,
+    "mttlFlur": 1738
+  },
+  {
+    "STATGEB": 48002,
+    "Shape_Leng": 1259.30176902,
+    "Shape_Area": 83756.4897,
+    "STATGEB_AL": 48002,
+    "AnzFlur": 70,
+    "mttlFlur": 1197
+  },
+  {
+    "STATGEB": 48003,
+    "Shape_Leng": 3119.22554612,
+    "Shape_Area": 306588.98245,
+    "STATGEB_AL": 48003,
+    "AnzFlur": 33,
+    "mttlFlur": 9291
+  },
+  {
+    "STATGEB": 48004,
+    "Shape_Leng": 2014.10195857,
+    "Shape_Area": 198325.9764,
+    "STATGEB_AL": 48004,
+    "AnzFlur": 32,
+    "mttlFlur": 6198
+  },
+  {
+    "STATGEB": 48005,
+    "Shape_Leng": 3215.33227183,
+    "Shape_Area": 580932.4701,
+    "STATGEB_AL": 48005,
+    "AnzFlur": 94,
+    "mttlFlur": 6180
+  },
+  {
+    "STATGEB": 48006,
+    "Shape_Leng": 2048.63795608,
+    "Shape_Area": 140980.00595,
+    "STATGEB_AL": 48006,
+    "AnzFlur": 180,
+    "mttlFlur": 783
+  },
+  {
+    "STATGEB": 48007,
+    "Shape_Leng": 1988.40517026,
+    "Shape_Area": 184768.0034,
+    "STATGEB_AL": 48007,
+    "AnzFlur": 89,
+    "mttlFlur": 2076
+  },
+  {
+    "STATGEB": 48008,
+    "Shape_Leng": 3011.60996081,
+    "Shape_Area": 461871.51385,
+    "STATGEB_AL": 48008,
+    "AnzFlur": 48,
+    "mttlFlur": 9622
+  },
+  {
+    "STATGEB": 48009,
+    "Shape_Leng": 1837.86340711,
+    "Shape_Area": 181013.5085,
+    "STATGEB_AL": 48009,
+    "AnzFlur": 185,
+    "mttlFlur": 978
+  },
+  {
+    "STATGEB": 48010,
+    "Shape_Leng": 6822.63880936,
+    "Shape_Area": 2233738.9983,
+    "STATGEB_AL": 48010,
+    "AnzFlur": 206,
+    "mttlFlur": 10843
+  },
+  {
+    "STATGEB": 48011,
+    "Shape_Leng": 2553.2208446,
+    "Shape_Area": 260135.4882,
+    "STATGEB_AL": 48011,
+    "AnzFlur": 152,
+    "mttlFlur": 1711
+  },
+  {
+    "STATGEB": 48012,
+    "Shape_Leng": 2877.94548854,
+    "Shape_Area": 332898.749302,
+    "STATGEB_AL": 48012,
+    "AnzFlur": 283,
+    "mttlFlur": 1176
+  },
+  {
+    "STATGEB": 48013,
+    "Shape_Leng": 1964.18968882,
+    "Shape_Area": 120224.00455,
+    "STATGEB_AL": 48013,
+    "AnzFlur": 84,
+    "mttlFlur": 1431
+  },
+  {
+    "STATGEB": 48014,
+    "Shape_Leng": 2334.07461249,
+    "Shape_Area": 259143.48845,
+    "STATGEB_AL": 48014,
+    "AnzFlur": 129,
+    "mttlFlur": 2009
+  },
+  {
+    "STATGEB": 48015,
+    "Shape_Leng": 2052.95804608,
+    "Shape_Area": 154265.99675,
+    "STATGEB_AL": 48015,
+    "AnzFlur": 68,
+    "mttlFlur": 2269
+  },
+  {
+    "STATGEB": 48016,
+    "Shape_Leng": 1821.52951132,
+    "Shape_Area": 119682.0069,
+    "STATGEB_AL": 48016,
+    "AnzFlur": 54,
+    "mttlFlur": 2216
+  },
+  {
+    "STATGEB": 48017,
+    "Shape_Leng": 1189.09958514,
+    "Shape_Area": 71635.50475,
+    "STATGEB_AL": 48017,
+    "AnzFlur": 46,
+    "mttlFlur": 1557
+  },
+  {
+    "STATGEB": 48018,
+    "Shape_Leng": 2759.09357206,
+    "Shape_Area": 327051.0027,
+    "STATGEB_AL": 48018,
+    "AnzFlur": 296,
+    "mttlFlur": 1105
+  },
+  {
+    "STATGEB": 48019,
+    "Shape_Leng": 1383.02106074,
+    "Shape_Area": 119401.5079,
+    "STATGEB_AL": 48019,
+    "AnzFlur": 114,
+    "mttlFlur": 1047
+  },
+  {
+    "STATGEB": 48020,
+    "Shape_Leng": 1644.75433316,
+    "Shape_Area": 129418,
+    "STATGEB_AL": 48020,
+    "AnzFlur": 120,
+    "mttlFlur": 1078
+  },
+  {
+    "STATGEB": 48021,
+    "Shape_Leng": 2036.46333812,
+    "Shape_Area": 94898,
+    "STATGEB_AL": 48021,
+    "AnzFlur": 96,
+    "mttlFlur": 989
+  },
+  {
+    "STATGEB": 48022,
+    "Shape_Leng": 2212.8675056,
+    "Shape_Area": 175721.5,
+    "STATGEB_AL": 48022,
+    "AnzFlur": 127,
+    "mttlFlur": 1384
+  },
+  {
+    "STATGEB": 48023,
+    "Shape_Leng": 1420.27370769,
+    "Shape_Area": 86976.00385,
+    "STATGEB_AL": 48023,
+    "AnzFlur": 43,
+    "mttlFlur": 2023
+  },
+  {
+    "STATGEB": 48024,
+    "Shape_Leng": 1811.50105747,
+    "Shape_Area": 178224.99505,
+    "STATGEB_AL": 48024,
+    "AnzFlur": 87,
+    "mttlFlur": 2049
+  },
+  {
+    "STATGEB": 48025,
+    "Shape_Leng": 2130.62705736,
+    "Shape_Area": 232402.49255,
+    "STATGEB_AL": 48025,
+    "AnzFlur": 110,
+    "mttlFlur": 2113
+  },
+  {
+    "STATGEB": 48026,
+    "Shape_Leng": 2258.24743234,
+    "Shape_Area": 147087.00145,
+    "STATGEB_AL": 48026,
+    "AnzFlur": 15,
+    "mttlFlur": 9806
+  },
+  {
+    "STATGEB": 49001,
+    "Shape_Leng": 1782.43286904,
+    "Shape_Area": 188965.99665,
+    "STATGEB_AL": 49001,
+    "AnzFlur": 175,
+    "mttlFlur": 1080
+  },
+  {
+    "STATGEB": 49002,
+    "Shape_Leng": 4041.55493127,
+    "Shape_Area": 474799.00395,
+    "STATGEB_AL": 49002,
+    "AnzFlur": 43,
+    "mttlFlur": 11042
+  },
+  {
+    "STATGEB": 49003,
+    "Shape_Leng": 2732.88231485,
+    "Shape_Area": 314723.00755,
+    "STATGEB_AL": 49003,
+    "AnzFlur": 222,
+    "mttlFlur": 1418
+  },
+  {
+    "STATGEB": 49004,
+    "Shape_Leng": 1540.53185853,
+    "Shape_Area": 146389,
+    "STATGEB_AL": 49004,
+    "AnzFlur": 121,
+    "mttlFlur": 1210
+  },
+  {
+    "STATGEB": 49005,
+    "Shape_Leng": 2132.55442934,
+    "Shape_Area": 158627.50225,
+    "STATGEB_AL": 49005,
+    "AnzFlur": 134,
+    "mttlFlur": 1184
+  },
+  {
+    "STATGEB": 49006,
+    "Shape_Leng": 1859.57882625,
+    "Shape_Area": 189948.97235,
+    "STATGEB_AL": 49006,
+    "AnzFlur": 127,
+    "mttlFlur": 1496
+  },
+  {
+    "STATGEB": 49007,
+    "Shape_Leng": 1598.90491261,
+    "Shape_Area": 129960.5142,
+    "STATGEB_AL": 49007,
+    "AnzFlur": 111,
+    "mttlFlur": 1171
+  },
+  {
+    "STATGEB": 49008,
+    "Shape_Leng": 2884.28013682,
+    "Shape_Area": 293241.99715,
+    "STATGEB_AL": 49008,
+    "AnzFlur": 150,
+    "mttlFlur": 1955
+  },
+  {
+    "STATGEB": 49009,
+    "Shape_Leng": 2379.43116322,
+    "Shape_Area": 273670.0044,
+    "STATGEB_AL": 49009,
+    "AnzFlur": 152,
+    "mttlFlur": 1800
+  },
+  {
+    "STATGEB": 50001,
+    "Shape_Leng": 1559.61152436,
+    "Shape_Area": 122160,
+    "STATGEB_AL": 50001,
+    "AnzFlur": 6,
+    "mttlFlur": 20360
+  },
+  {
+    "STATGEB": 50002,
+    "Shape_Leng": 2150.36486961,
+    "Shape_Area": 236860.495051,
+    "STATGEB_AL": 50002,
+    "AnzFlur": 187,
+    "mttlFlur": 1267
+  },
+  {
+    "STATGEB": 50003,
+    "Shape_Leng": 2964.38437991,
+    "Shape_Area": 309513.874493,
+    "STATGEB_AL": 50003,
+    "AnzFlur": 135,
+    "mttlFlur": 2293
+  },
+  {
+    "STATGEB": 50004,
+    "Shape_Leng": 2352.93876213,
+    "Shape_Area": 209504.99325,
+    "STATGEB_AL": 50004,
+    "AnzFlur": 183,
+    "mttlFlur": 1145
+  },
+  {
+    "STATGEB": 50005,
+    "Shape_Leng": 2150.17418871,
+    "Shape_Area": 252827.50545,
+    "STATGEB_AL": 50005,
+    "AnzFlur": 212,
+    "mttlFlur": 1193
+  },
+  {
+    "STATGEB": 51001,
+    "Shape_Leng": 2479.17330861,
+    "Shape_Area": 295431.5001,
+    "STATGEB_AL": 51001,
+    "AnzFlur": 88,
+    "mttlFlur": 3357
+  },
+  {
+    "STATGEB": 51002,
+    "Shape_Leng": 1767.07177225,
+    "Shape_Area": 178589.0023,
+    "STATGEB_AL": 51002,
+    "AnzFlur": 90,
+    "mttlFlur": 1984
+  },
+  {
+    "STATGEB": 51003,
+    "Shape_Leng": 2067.89061137,
+    "Shape_Area": 234139.00115,
+    "STATGEB_AL": 51003,
+    "AnzFlur": 130,
+    "mttlFlur": 1801
+  },
+  {
+    "STATGEB": 51004,
+    "Shape_Leng": 1648.71614158,
+    "Shape_Area": 169024.51645,
+    "STATGEB_AL": 51004,
+    "AnzFlur": 127,
+    "mttlFlur": 1331
+  },
+  {
+    "STATGEB": 51005,
+    "Shape_Leng": 1942.4231909,
+    "Shape_Area": 192436.99015,
+    "STATGEB_AL": 51005,
+    "AnzFlur": 105,
+    "mttlFlur": 1833
+  },
+  {
+    "STATGEB": 51006,
+    "Shape_Leng": 1957.76482407,
+    "Shape_Area": 118933.4961,
+    "STATGEB_AL": 51006,
+    "AnzFlur": 88,
+    "mttlFlur": 1352
+  },
+  {
+    "STATGEB": 51007,
+    "Shape_Leng": 1904.26968648,
+    "Shape_Area": 173174.99345,
+    "STATGEB_AL": 51007,
+    "AnzFlur": 139,
+    "mttlFlur": 1246
+  },
+  {
+    "STATGEB": 51008,
+    "Shape_Leng": 1818.55749148,
+    "Shape_Area": 191901,
+    "STATGEB_AL": 51008,
+    "AnzFlur": 106,
+    "mttlFlur": 1810
+  },
+  {
+    "STATGEB": 51009,
+    "Shape_Leng": 2831.03836804,
+    "Shape_Area": 334536.98865,
+    "STATGEB_AL": 51009,
+    "AnzFlur": 200,
+    "mttlFlur": 1673
+  },
+  {
+    "STATGEB": 51010,
+    "Shape_Leng": 1798.83214657,
+    "Shape_Area": 207344.9711,
+    "STATGEB_AL": 51010,
+    "AnzFlur": 100,
+    "mttlFlur": 2073
+  },
+  {
+    "STATGEB": 51011,
+    "Shape_Leng": 2188.97498647,
+    "Shape_Area": 309327.01175,
+    "STATGEB_AL": 51011,
+    "AnzFlur": 84,
+    "mttlFlur": 3682
+  },
+  {
+    "STATGEB": 51012,
+    "Shape_Leng": 1709.74940158,
+    "Shape_Area": 160770.00715,
+    "STATGEB_AL": 51012,
+    "AnzFlur": 114,
+    "mttlFlur": 1410
+  },
+  {
+    "STATGEB": 51013,
+    "Shape_Leng": 1182.80435548,
+    "Shape_Area": 69383.51525,
+    "STATGEB_AL": 51013,
+    "AnzFlur": 102,
+    "mttlFlur": 680
+  },
+  {
+    "STATGEB": 51014,
+    "Shape_Leng": 1843.65265705,
+    "Shape_Area": 147930.9952,
+    "STATGEB_AL": 51014,
+    "AnzFlur": 108,
+    "mttlFlur": 1370
+  },
+  {
+    "STATGEB": 51015,
+    "Shape_Leng": 1589.25849538,
+    "Shape_Area": 155298,
+    "STATGEB_AL": 51015,
+    "AnzFlur": 100,
+    "mttlFlur": 1553
+  },
+  {
+    "STATGEB": 51016,
+    "Shape_Leng": 2386.96161301,
+    "Shape_Area": 139327.5083,
+    "STATGEB_AL": 51016,
+    "AnzFlur": 94,
+    "mttlFlur": 1482
+  },
+  {
+    "STATGEB": 52001,
+    "Shape_Leng": 2512.96285314,
+    "Shape_Area": 343470.253879,
+    "STATGEB_AL": 52001,
+    "AnzFlur": 77,
+    "mttlFlur": 4461
+  },
+  {
+    "STATGEB": 52002,
+    "Shape_Leng": 2740.04107995,
+    "Shape_Area": 309136.97785,
+    "STATGEB_AL": 52002,
+    "AnzFlur": 110,
+    "mttlFlur": 2810
+  },
+  {
+    "STATGEB": 52003,
+    "Shape_Leng": 1135.64049659,
+    "Shape_Area": 59013.51535,
+    "STATGEB_AL": 52003,
+    "AnzFlur": 19,
+    "mttlFlur": 3106
+  },
+  {
+    "STATGEB": 52004,
+    "Shape_Leng": 1145.96184957,
+    "Shape_Area": 81626.9957,
+    "STATGEB_AL": 52004,
+    "AnzFlur": 28,
+    "mttlFlur": 2915
+  },
+  {
+    "STATGEB": 52005,
+    "Shape_Leng": 1445.15427906,
+    "Shape_Area": 118377.99455,
+    "STATGEB_AL": 52005,
+    "AnzFlur": 34,
+    "mttlFlur": 3482
+  },
+  {
+    "STATGEB": 52006,
+    "Shape_Leng": 1867.66782441,
+    "Shape_Area": 172197.9883,
+    "STATGEB_AL": 52006,
+    "AnzFlur": 108,
+    "mttlFlur": 1594
+  },
+  {
+    "STATGEB": 52007,
+    "Shape_Leng": 1806.13621793,
+    "Shape_Area": 129979.00275,
+    "STATGEB_AL": 52007,
+    "AnzFlur": 62,
+    "mttlFlur": 2096
+  },
+  {
+    "STATGEB": 53001,
+    "Shape_Leng": 2192.24728271,
+    "Shape_Area": 261148.5195,
+    "STATGEB_AL": 53001,
+    "AnzFlur": 147,
+    "mttlFlur": 1777
+  },
+  {
+    "STATGEB": 53002,
+    "Shape_Leng": 1136.39836916,
+    "Shape_Area": 76044.9998,
+    "STATGEB_AL": 53002,
+    "AnzFlur": 48,
+    "mttlFlur": 1584
+  },
+  {
+    "STATGEB": 53003,
+    "Shape_Leng": 3869.48575244,
+    "Shape_Area": 202782.989956,
+    "STATGEB_AL": 53003,
+    "AnzFlur": 29,
+    "mttlFlur": 6993
+  },
+  {
+    "STATGEB": 53004,
+    "Shape_Leng": 1765.42519471,
+    "Shape_Area": 140139.9949,
+    "STATGEB_AL": 53004,
+    "AnzFlur": 98,
+    "mttlFlur": 1430
+  },
+  {
+    "STATGEB": 53005,
+    "Shape_Leng": 1717.86060949,
+    "Shape_Area": 152687.00245,
+    "STATGEB_AL": 53005,
+    "AnzFlur": 73,
+    "mttlFlur": 2092
+  },
+  {
+    "STATGEB": 53006,
+    "Shape_Leng": 2219.02591329,
+    "Shape_Area": 179151.50665,
+    "STATGEB_AL": 53006,
+    "AnzFlur": 56,
+    "mttlFlur": 3199
+  },
+  {
+    "STATGEB": 53007,
+    "Shape_Leng": 1221.01534139,
+    "Shape_Area": 70221.9939443,
+    "STATGEB_AL": 53007,
+    "AnzFlur": 46,
+    "mttlFlur": 1527
+  },
+  {
+    "STATGEB": 53008,
+    "Shape_Leng": 1227.98485852,
+    "Shape_Area": 90342.0096,
+    "STATGEB_AL": 53008,
+    "AnzFlur": 49,
+    "mttlFlur": 1844
+  },
+  {
+    "STATGEB": 53009,
+    "Shape_Leng": 1991.12924123,
+    "Shape_Area": 136248.5052,
+    "STATGEB_AL": 53009,
+    "AnzFlur": 57,
+    "mttlFlur": 2390
+  },
+  {
+    "STATGEB": 53010,
+    "Shape_Leng": 1141.76085744,
+    "Shape_Area": 67423.48655,
+    "STATGEB_AL": 53010,
+    "AnzFlur": 28,
+    "mttlFlur": 2408
+  },
+  {
+    "STATGEB": 53011,
+    "Shape_Leng": 1780.31162713,
+    "Shape_Area": 149716.5074,
+    "STATGEB_AL": 53011,
+    "AnzFlur": 55,
+    "mttlFlur": 2722
+  },
+  {
+    "STATGEB": 53012,
+    "Shape_Leng": 2110.91712294,
+    "Shape_Area": 147228.0139,
+    "STATGEB_AL": 53012,
+    "AnzFlur": 48,
+    "mttlFlur": 3067
+  },
+  {
+    "STATGEB": 53013,
+    "Shape_Leng": 2392.81670349,
+    "Shape_Area": 112074.323283,
+    "STATGEB_AL": 53013,
+    "AnzFlur": 71,
+    "mttlFlur": 1579
+  },
+  {
+    "STATGEB": 53014,
+    "Shape_Leng": 1224.17504325,
+    "Shape_Area": 82690.97335,
+    "STATGEB_AL": 53014,
+    "AnzFlur": 49,
+    "mttlFlur": 1688
+  },
+  {
+    "STATGEB": 53015,
+    "Shape_Leng": 1303.04485702,
+    "Shape_Area": 84259.5073,
+    "STATGEB_AL": 53015,
+    "AnzFlur": 41,
+    "mttlFlur": 2055
+  },
+  {
+    "STATGEB": 53016,
+    "Shape_Leng": 1809.41681675,
+    "Shape_Area": 199744.50885,
+    "STATGEB_AL": 53016,
+    "AnzFlur": 24,
+    "mttlFlur": 8323
+  },
+  {
+    "STATGEB": 53017,
+    "Shape_Leng": 1433.72869631,
+    "Shape_Area": 107030.50475,
+    "STATGEB_AL": 53017,
+    "AnzFlur": 65,
+    "mttlFlur": 1647
+  },
+  {
+    "STATGEB": 53018,
+    "Shape_Leng": 1098.06500875,
+    "Shape_Area": 68215.99535,
+    "STATGEB_AL": 53018,
+    "AnzFlur": 49,
+    "mttlFlur": 1392
+  },
+  {
+    "STATGEB": 53019,
+    "Shape_Leng": 2123.48417705,
+    "Shape_Area": 248061.98965,
+    "STATGEB_AL": 53019,
+    "AnzFlur": 221,
+    "mttlFlur": 1122
+  },
+  {
+    "STATGEB": 53020,
+    "Shape_Leng": 2599.37352958,
+    "Shape_Area": 260903.02025,
+    "STATGEB_AL": 53020,
+    "AnzFlur": 200,
+    "mttlFlur": 1305
+  },
+  {
+    "STATGEB": 53021,
+    "Shape_Leng": 2328.76502767,
+    "Shape_Area": 279301.50215,
+    "STATGEB_AL": 53021,
+    "AnzFlur": 40,
+    "mttlFlur": 6983
+  },
+  {
+    "STATGEB": 53022,
+    "Shape_Leng": 1806.09133469,
+    "Shape_Area": 200966.9935,
+    "STATGEB_AL": 53022,
+    "AnzFlur": 82,
+    "mttlFlur": 2451
+  },
+  {
+    "STATGEB": 53023,
+    "Shape_Leng": 3335.92464083,
+    "Shape_Area": 329008.4878,
+    "STATGEB_AL": 53023,
+    "AnzFlur": 184,
+    "mttlFlur": 1788
+  },
+  {
+    "STATGEB": 53024,
+    "Shape_Leng": 2403.70021657,
+    "Shape_Area": 198796.0065,
+    "STATGEB_AL": 53024,
+    "AnzFlur": 81,
+    "mttlFlur": 2454
+  },
+  {
+    "STATGEB": 54001,
+    "Shape_Leng": 6704.21286111,
+    "Shape_Area": 1041211.76424,
+    "STATGEB_AL": 54001,
+    "AnzFlur": 717,
+    "mttlFlur": 1452
+  },
+  {
+    "STATGEB": 54002,
+    "Shape_Leng": 10843.4348627,
+    "Shape_Area": 4113429.24321,
+    "STATGEB_AL": 54002,
+    "AnzFlur": 179,
+    "mttlFlur": 22980
+  },
+  {
+    "STATGEB": 54003,
+    "Shape_Leng": 3315.48306017,
+    "Shape_Area": 628281.02695,
+    "STATGEB_AL": 54003,
+    "AnzFlur": 122,
+    "mttlFlur": 5150
+  },
+  {
+    "STATGEB": 54004,
+    "Shape_Leng": 1730.18843943,
+    "Shape_Area": 183691.0028,
+    "STATGEB_AL": 54004,
+    "AnzFlur": 136,
+    "mttlFlur": 1351
+  },
+  {
+    "STATGEB": 54005,
+    "Shape_Leng": 3248.54462654,
+    "Shape_Area": 319901.47775,
+    "STATGEB_AL": 54005,
+    "AnzFlur": 90,
+    "mttlFlur": 3554
+  },
+  {
+    "STATGEB": 54006,
+    "Shape_Leng": 4046.64378474,
+    "Shape_Area": 304815.63288,
+    "STATGEB_AL": 54006,
+    "AnzFlur": 182,
+    "mttlFlur": 1675
+  },
+  {
+    "STATGEB": 54007,
+    "Shape_Leng": 1957.14264172,
+    "Shape_Area": 192781.9951,
+    "STATGEB_AL": 54007,
+    "AnzFlur": 75,
+    "mttlFlur": 2570
+  },
+  {
+    "STATGEB": 54008,
+    "Shape_Leng": 3026.77924566,
+    "Shape_Area": 395225.0068,
+    "STATGEB_AL": 54008,
+    "AnzFlur": 179,
+    "mttlFlur": 2208
+  },
+  {
+    "STATGEB": 55001,
+    "Shape_Leng": 14733.688229,
+    "Shape_Area": 5296212.72406,
+    "STATGEB_AL": 55001,
+    "AnzFlur": 105,
+    "mttlFlur": 50440
+  },
+  {
+    "STATGEB": 55002,
+    "Shape_Leng": 3073.7311057,
+    "Shape_Area": 347573.591153,
+    "STATGEB_AL": 55002,
+    "AnzFlur": 290,
+    "mttlFlur": 1199
+  },
+  {
+    "STATGEB": 55003,
+    "Shape_Leng": 3683.96044493,
+    "Shape_Area": 344111.49475,
+    "STATGEB_AL": 55003,
+    "AnzFlur": 218,
+    "mttlFlur": 1578
+  },
+  {
+    "STATGEB": 55004,
+    "Shape_Leng": 2032.42802946,
+    "Shape_Area": 230505.00105,
+    "STATGEB_AL": 55004,
+    "AnzFlur": 57,
+    "mttlFlur": 4044
+  },
+  {
+    "STATGEB": 55005,
+    "Shape_Leng": 3352.60196968,
+    "Shape_Area": 489332.4816,
+    "STATGEB_AL": 55005,
+    "AnzFlur": 452,
+    "mttlFlur": 1083
+  },
+  {
+    "STATGEB": 55006,
+    "Shape_Leng": 2638.4794929,
+    "Shape_Area": 305764.016124,
+    "STATGEB_AL": 55006,
+    "AnzFlur": 196,
+    "mttlFlur": 1560
+  },
+  {
+    "STATGEB": 55007,
+    "Shape_Leng": 3037.50578868,
+    "Shape_Area": 329023.99985,
+    "STATGEB_AL": 55007,
+    "AnzFlur": 229,
+    "mttlFlur": 1437
+  },
+  {
+    "STATGEB": 55008,
+    "Shape_Leng": 2610.97284265,
+    "Shape_Area": 431881.5095,
+    "STATGEB_AL": 55008,
+    "AnzFlur": 437,
+    "mttlFlur": 988
+  },
+  {
+    "STATGEB": 56001,
+    "Shape_Leng": 4629.99127136,
+    "Shape_Area": 779097.49925,
+    "STATGEB_AL": 56001,
+    "AnzFlur": 641,
+    "mttlFlur": 1215
+  },
+  {
+    "STATGEB": 56002,
+    "Shape_Leng": 4074.75683384,
+    "Shape_Area": 686890.475518,
+    "STATGEB_AL": 56002,
+    "AnzFlur": 422,
+    "mttlFlur": 1628
+  },
+  {
+    "STATGEB": 56003,
+    "Shape_Leng": 1908.45526081,
+    "Shape_Area": 210026.00365,
+    "STATGEB_AL": 56003,
+    "AnzFlur": 40,
+    "mttlFlur": 5251
+  },
+  {
+    "STATGEB": 56004,
+    "Shape_Leng": 3680.07051297,
+    "Shape_Area": 879676.50055,
+    "STATGEB_AL": 56004,
+    "AnzFlur": 312,
+    "mttlFlur": 2819
+  },
+  {
+    "STATGEB": 56005,
+    "Shape_Leng": 2929.67093308,
+    "Shape_Area": 460125.50405,
+    "STATGEB_AL": 56005,
+    "AnzFlur": 169,
+    "mttlFlur": 2723
+  },
+  {
+    "STATGEB": 56006,
+    "Shape_Leng": 2998.55918467,
+    "Shape_Area": 287421.49815,
+    "STATGEB_AL": 56006,
+    "AnzFlur": 139,
+    "mttlFlur": 2068
+  },
+  {
+    "STATGEB": 56007,
+    "Shape_Leng": 2181.09135287,
+    "Shape_Area": 170764.50095,
+    "STATGEB_AL": 56007,
+    "AnzFlur": 356,
+    "mttlFlur": 480
+  },
+  {
+    "STATGEB": 56008,
+    "Shape_Leng": 6844.25519925,
+    "Shape_Area": 895640.158936,
+    "STATGEB_AL": 56008,
+    "AnzFlur": 461,
+    "mttlFlur": 1943
+  },
+  {
+    "STATGEB": 56009,
+    "Shape_Leng": 3281.45331696,
+    "Shape_Area": 471981.520778,
+    "STATGEB_AL": 56009,
+    "AnzFlur": 153,
+    "mttlFlur": 3085
+  },
+  {
+    "STATGEB": 56010,
+    "Shape_Leng": 4205.39827967,
+    "Shape_Area": 712808.469054,
+    "STATGEB_AL": 56010,
+    "AnzFlur": 518,
+    "mttlFlur": 1376
+  },
+  {
+    "STATGEB": 56011,
+    "Shape_Leng": 6455.76748381,
+    "Shape_Area": 1275352.01085,
+    "STATGEB_AL": 56011,
+    "AnzFlur": 764,
+    "mttlFlur": 1669
+  },
+  {
+    "STATGEB": 56012,
+    "Shape_Leng": 2823.57236394,
+    "Shape_Area": 379006.9855,
+    "STATGEB_AL": 56012,
+    "AnzFlur": 290,
+    "mttlFlur": 1307
+  },
+  {
+    "STATGEB": 56013,
+    "Shape_Leng": 4510.09064278,
+    "Shape_Area": 1140661.39146,
+    "STATGEB_AL": 56013,
+    "AnzFlur": 252,
+    "mttlFlur": 4526
+  },
+  {
+    "STATGEB": 56014,
+    "Shape_Leng": 2143.56564918,
+    "Shape_Area": 264996.99545,
+    "STATGEB_AL": 56014,
+    "AnzFlur": 197,
+    "mttlFlur": 1345
+  },
+  {
+    "STATGEB": 56015,
+    "Shape_Leng": 2751.89478182,
+    "Shape_Area": 249466.00505,
+    "STATGEB_AL": 56015,
+    "AnzFlur": 266,
+    "mttlFlur": 938
+  },
+  {
+    "STATGEB": 56016,
+    "Shape_Leng": 3377.06635482,
+    "Shape_Area": 469551.98475,
+    "STATGEB_AL": 56016,
+    "AnzFlur": 162,
+    "mttlFlur": 2898
+  },
+  {
+    "STATGEB": 56017,
+    "Shape_Leng": 4926.96271638,
+    "Shape_Area": 1347012.48305,
+    "STATGEB_AL": 56017,
+    "AnzFlur": 1061,
+    "mttlFlur": 1270
+  },
+  {
+    "STATGEB": 56018,
+    "Shape_Leng": 3104.90542608,
+    "Shape_Area": 465270.0101,
+    "STATGEB_AL": 56018,
+    "AnzFlur": 92,
+    "mttlFlur": 5057
+  },
+  {
+    "STATGEB": 56019,
+    "Shape_Leng": 4911.117861,
+    "Shape_Area": 1211220.16029,
+    "STATGEB_AL": 56019,
+    "AnzFlur": 690,
+    "mttlFlur": 1755
+  },
+  {
+    "STATGEB": 56020,
+    "Shape_Leng": 4085.83146394,
+    "Shape_Area": 405987.01295,
+    "STATGEB_AL": 56020,
+    "AnzFlur": 224,
+    "mttlFlur": 1812
+  },
+  {
+    "STATGEB": 56021,
+    "Shape_Leng": 3663.22666634,
+    "Shape_Area": 609058.5098,
+    "STATGEB_AL": 56021,
+    "AnzFlur": 612,
+    "mttlFlur": 995
+  },
+  {
+    "STATGEB": 57001,
+    "Shape_Leng": 2712.44046049,
+    "Shape_Area": 362768.504439,
+    "STATGEB_AL": 57001,
+    "AnzFlur": 391,
+    "mttlFlur": 928
+  },
+  {
+    "STATGEB": 57002,
+    "Shape_Leng": 2417.15558644,
+    "Shape_Area": 325562.49676,
+    "STATGEB_AL": 57002,
+    "AnzFlur": 244,
+    "mttlFlur": 1334
+  },
+  {
+    "STATGEB": 57003,
+    "Shape_Leng": 2054.01393688,
+    "Shape_Area": 215968.0184,
+    "STATGEB_AL": 57003,
+    "AnzFlur": 220,
+    "mttlFlur": 982
+  },
+  {
+    "STATGEB": 57004,
+    "Shape_Leng": 2277.92652189,
+    "Shape_Area": 309282.235825,
+    "STATGEB_AL": 57004,
+    "AnzFlur": 224,
+    "mttlFlur": 1381
+  },
+  {
+    "STATGEB": 57005,
+    "Shape_Leng": 1774.35269024,
+    "Shape_Area": 196636.557958,
+    "STATGEB_AL": 57005,
+    "AnzFlur": 156,
+    "mttlFlur": 1260
+  },
+  {
+    "STATGEB": 57006,
+    "Shape_Leng": 2512.89682486,
+    "Shape_Area": 364919.274663,
+    "STATGEB_AL": 57006,
+    "AnzFlur": 178,
+    "mttlFlur": 2050
+  },
+  {
+    "STATGEB": 58001,
+    "Shape_Leng": 3551.09684931,
+    "Shape_Area": 566433.104883,
+    "STATGEB_AL": 58001,
+    "AnzFlur": 343,
+    "mttlFlur": 1651
+  },
+  {
+    "STATGEB": 58002,
+    "Shape_Leng": 3055.06717485,
+    "Shape_Area": 396446.244371,
+    "STATGEB_AL": 58002,
+    "AnzFlur": 304,
+    "mttlFlur": 1304
+  },
+  {
+    "STATGEB": 58003,
+    "Shape_Leng": 4233.86320124,
+    "Shape_Area": 975846.63144,
+    "STATGEB_AL": 58003,
+    "AnzFlur": 338,
+    "mttlFlur": 2887
+  },
+  {
+    "STATGEB": 58004,
+    "Shape_Leng": 2805.46219271,
+    "Shape_Area": 262799.464,
+    "STATGEB_AL": 58004,
+    "AnzFlur": 162,
+    "mttlFlur": 1622
+  },
+  {
+    "STATGEB": 58005,
+    "Shape_Leng": 2349.1231399,
+    "Shape_Area": 332351.96645,
+    "STATGEB_AL": 58005,
+    "AnzFlur": 201,
+    "mttlFlur": 1653
+  },
+  {
+    "STATGEB": 58006,
+    "Shape_Leng": 1508.88546428,
+    "Shape_Area": 95180.4654,
+    "STATGEB_AL": 58006,
+    "AnzFlur": 132,
+    "mttlFlur": 721
+  },
+  {
+    "STATGEB": 58007,
+    "Shape_Leng": 1880.00226694,
+    "Shape_Area": 199127.5164,
+    "STATGEB_AL": 58007,
+    "AnzFlur": 92,
+    "mttlFlur": 2164
+  },
+  {
+    "STATGEB": 58008,
+    "Shape_Leng": 3005.59283685,
+    "Shape_Area": 559266.1613,
+    "STATGEB_AL": 58008,
+    "AnzFlur": 165,
+    "mttlFlur": 3389
+  },
+  {
+    "STATGEB": 58009,
+    "Shape_Leng": 1860.68254936,
+    "Shape_Area": 157292.487,
+    "STATGEB_AL": 58009,
+    "AnzFlur": 142,
+    "mttlFlur": 1108
+  },
+  {
+    "STATGEB": 58010,
+    "Shape_Leng": 2784.00527919,
+    "Shape_Area": 448624.04325,
+    "STATGEB_AL": 58010,
+    "AnzFlur": 398,
+    "mttlFlur": 1127
+  },
+  {
+    "STATGEB": 58011,
+    "Shape_Leng": 2749.46322811,
+    "Shape_Area": 399250.505,
+    "STATGEB_AL": 58011,
+    "AnzFlur": 206,
+    "mttlFlur": 1938
+  },
+  {
+    "STATGEB": 58012,
+    "Shape_Leng": 3287.44662913,
+    "Shape_Area": 393732.931539,
+    "STATGEB_AL": 58012,
+    "AnzFlur": 247,
+    "mttlFlur": 1594
+  },
+  {
+    "STATGEB": 58013,
+    "Shape_Leng": 3672.3969293,
+    "Shape_Area": 513935.01405,
+    "STATGEB_AL": 58013,
+    "AnzFlur": 223,
+    "mttlFlur": 2305
+  },
+  {
+    "STATGEB": 58014,
+    "Shape_Leng": 3659.10539201,
+    "Shape_Area": 653780.58405,
+    "STATGEB_AL": 58014,
+    "AnzFlur": 727,
+    "mttlFlur": 899
+  },
+  {
+    "STATGEB": 59001,
+    "Shape_Leng": 2965.20001675,
+    "Shape_Area": 414752.586879,
+    "STATGEB_AL": 59001,
+    "AnzFlur": 341,
+    "mttlFlur": 1216
+  },
+  {
+    "STATGEB": 59002,
+    "Shape_Leng": 3418.39834537,
+    "Shape_Area": 710736.869835,
+    "STATGEB_AL": 59002,
+    "AnzFlur": 505,
+    "mttlFlur": 1407
+  },
+  {
+    "STATGEB": 59003,
+    "Shape_Leng": 4856.94663877,
+    "Shape_Area": 1068011.76435,
+    "STATGEB_AL": 59003,
+    "AnzFlur": 716,
+    "mttlFlur": 1492
+  },
+  {
+    "STATGEB": 59004,
+    "Shape_Leng": 6307.59001016,
+    "Shape_Area": 754476.602199,
+    "STATGEB_AL": 59004,
+    "AnzFlur": 344,
+    "mttlFlur": 2193
+  },
+  {
+    "STATGEB": 59005,
+    "Shape_Leng": 2628.63073925,
+    "Shape_Area": 274714.98755,
+    "STATGEB_AL": 59005,
+    "AnzFlur": 244,
+    "mttlFlur": 1126
+  },
+  {
+    "STATGEB": 60001,
+    "Shape_Leng": 2872.83203476,
+    "Shape_Area": 345673.028592,
+    "STATGEB_AL": 60001,
+    "AnzFlur": 124,
+    "mttlFlur": 2788
+  },
+  {
+    "STATGEB": 60002,
+    "Shape_Leng": 3738.12596846,
+    "Shape_Area": 649957.983837,
+    "STATGEB_AL": 60002,
+    "AnzFlur": 559,
+    "mttlFlur": 1163
+  },
+  {
+    "STATGEB": 60003,
+    "Shape_Leng": 2435.82373786,
+    "Shape_Area": 202884.116045,
+    "STATGEB_AL": 60003,
+    "AnzFlur": 86,
+    "mttlFlur": 2359
+  },
+  {
+    "STATGEB": 60004,
+    "Shape_Leng": 2037.54322371,
+    "Shape_Area": 208620.99715,
+    "STATGEB_AL": 60004,
+    "AnzFlur": 62,
+    "mttlFlur": 3365
+  },
+  {
+    "STATGEB": 60005,
+    "Shape_Leng": 3749.28707073,
+    "Shape_Area": 672460.387263,
+    "STATGEB_AL": 60005,
+    "AnzFlur": 278,
+    "mttlFlur": 2419
+  },
+  {
+    "STATGEB": 60006,
+    "Shape_Leng": 2728.25360817,
+    "Shape_Area": 285187.99535,
+    "STATGEB_AL": 60006,
+    "AnzFlur": 76,
+    "mttlFlur": 3752
+  },
+  {
+    "STATGEB": 60007,
+    "Shape_Leng": 1448.56103713,
+    "Shape_Area": 127469,
+    "STATGEB_AL": 60007,
+    "AnzFlur": 54,
+    "mttlFlur": 2361
+  },
+  {
+    "STATGEB": 60008,
+    "Shape_Leng": 3459.02633202,
+    "Shape_Area": 632505.132445,
+    "STATGEB_AL": 60008,
+    "AnzFlur": 162,
+    "mttlFlur": 3904
+  },
+  {
+    "STATGEB": 60009,
+    "Shape_Leng": 3306.06709974,
+    "Shape_Area": 588522.489747,
+    "STATGEB_AL": 60009,
+    "AnzFlur": 192,
+    "mttlFlur": 3065
+  },
+  {
+    "STATGEB": 60010,
+    "Shape_Leng": 3172.5364839,
+    "Shape_Area": 481070.783159,
+    "STATGEB_AL": 60010,
+    "AnzFlur": 347,
+    "mttlFlur": 1386
+  },
+  {
+    "STATGEB": 60011,
+    "Shape_Leng": 3386.10569766,
+    "Shape_Area": 486096.223214,
+    "STATGEB_AL": 60011,
+    "AnzFlur": 169,
+    "mttlFlur": 2876
+  },
+  {
+    "STATGEB": 60012,
+    "Shape_Leng": 2362.7825444,
+    "Shape_Area": 310415.47505,
+    "STATGEB_AL": 60012,
+    "AnzFlur": 368,
+    "mttlFlur": 844
+  },
+  {
+    "STATGEB": 61001,
+    "Shape_Leng": 1811.11419243,
+    "Shape_Area": 179206.879341,
+    "STATGEB_AL": 61001,
+    "AnzFlur": 24,
+    "mttlFlur": 7467
+  },
+  {
+    "STATGEB": 61002,
+    "Shape_Leng": 3763.56025537,
+    "Shape_Area": 499916.626054,
+    "STATGEB_AL": 61002,
+    "AnzFlur": 188,
+    "mttlFlur": 2659
+  },
+  {
+    "STATGEB": 61003,
+    "Shape_Leng": 3746.56355919,
+    "Shape_Area": 745297.99815,
+    "STATGEB_AL": 61003,
+    "AnzFlur": 386,
+    "mttlFlur": 1931
+  },
+  {
+    "STATGEB": 61004,
+    "Shape_Leng": 3628.31518574,
+    "Shape_Area": 511151.00955,
+    "STATGEB_AL": 61004,
+    "AnzFlur": 370,
+    "mttlFlur": 1381
+  },
+  {
+    "STATGEB": 61005,
+    "Shape_Leng": 4315.16709173,
+    "Shape_Area": 662200.58315,
+    "STATGEB_AL": 61005,
+    "AnzFlur": 487,
+    "mttlFlur": 1360
+  },
+  {
+    "STATGEB": 61006,
+    "Shape_Leng": 2018.83922051,
+    "Shape_Area": 182101.292057,
+    "STATGEB_AL": 61006,
+    "AnzFlur": 142,
+    "mttlFlur": 1282
+  },
+  {
+    "STATGEB": 61007,
+    "Shape_Leng": 2073.65941478,
+    "Shape_Area": 209320.614183,
+    "STATGEB_AL": 61007,
+    "AnzFlur": 157,
+    "mttlFlur": 1333
+  },
+  {
+    "STATGEB": 61008,
+    "Shape_Leng": 3669.33301554,
+    "Shape_Area": 444596.820367,
+    "STATGEB_AL": 61008,
+    "AnzFlur": 324,
+    "mttlFlur": 1372
+  },
+  {
+    "STATGEB": 61009,
+    "Shape_Leng": 2988.44769321,
+    "Shape_Area": 506880.0934,
+    "STATGEB_AL": 61009,
+    "AnzFlur": 150,
+    "mttlFlur": 3379
+  },
+  {
+    "STATGEB": 62001,
+    "Shape_Leng": 4449.53432713,
+    "Shape_Area": 606649.44615,
+    "STATGEB_AL": 62001,
+    "AnzFlur": 479,
+    "mttlFlur": 1266
+  },
+  {
+    "STATGEB": 62002,
+    "Shape_Leng": 6812.93218746,
+    "Shape_Area": 1348940.95845,
+    "STATGEB_AL": 62002,
+    "AnzFlur": 687,
+    "mttlFlur": 1964
+  },
+  {
+    "STATGEB": 62003,
+    "Shape_Leng": 3815.31991628,
+    "Shape_Area": 642573.49035,
+    "STATGEB_AL": 62003,
+    "AnzFlur": 292,
+    "mttlFlur": 2201
+  },
+  {
+    "STATGEB": 62004,
+    "Shape_Leng": 4607.51831323,
+    "Shape_Area": 468500.717064,
+    "STATGEB_AL": 62004,
+    "AnzFlur": 92,
+    "mttlFlur": 5092
+  },
+  {
+    "STATGEB": 62005,
+    "Shape_Leng": 2779.82369048,
+    "Shape_Area": 408003.98965,
+    "STATGEB_AL": 62005,
+    "AnzFlur": 345,
+    "mttlFlur": 1183
+  },
+  {
+    "STATGEB": 62006,
+    "Shape_Leng": 2918.72522435,
+    "Shape_Area": 424508.01125,
+    "STATGEB_AL": 62006,
+    "AnzFlur": 94,
+    "mttlFlur": 4516
+  },
+  {
+    "STATGEB": 62007,
+    "Shape_Leng": 5656.28554832,
+    "Shape_Area": 1116081.16878,
+    "STATGEB_AL": 62007,
+    "AnzFlur": 727,
+    "mttlFlur": 1535
+  },
+  {
+    "STATGEB": 62008,
+    "Shape_Leng": 2833.4125961,
+    "Shape_Area": 435787.50135,
+    "STATGEB_AL": 62008,
+    "AnzFlur": 72,
+    "mttlFlur": 6053
+  },
+  {
+    "STATGEB": 62009,
+    "Shape_Leng": 2461.31769275,
+    "Shape_Area": 261228.50665,
+    "STATGEB_AL": 62009,
+    "AnzFlur": 36,
+    "mttlFlur": 7256
+  },
+  {
+    "STATGEB": 62010,
+    "Shape_Leng": 4608.06070039,
+    "Shape_Area": 579261.15276,
+    "STATGEB_AL": 62010,
+    "AnzFlur": 208,
+    "mttlFlur": 2785
+  },
+  {
+    "STATGEB": 62011,
+    "Shape_Leng": 2555.56343293,
+    "Shape_Area": 261740.44475,
+    "STATGEB_AL": 62011,
+    "AnzFlur": 106,
+    "mttlFlur": 2469
+  },
+  {
+    "STATGEB": 62012,
+    "Shape_Leng": 2297.1217822,
+    "Shape_Area": 294287.5575,
+    "STATGEB_AL": 62012,
+    "AnzFlur": 129,
+    "mttlFlur": 2281
+  },
+  {
+    "STATGEB": 62013,
+    "Shape_Leng": 3572.95606753,
+    "Shape_Area": 521583.835025,
+    "STATGEB_AL": 62013,
+    "AnzFlur": 488,
+    "mttlFlur": 1069
+  },
+  {
+    "STATGEB": 62014,
+    "Shape_Leng": 3590.87294842,
+    "Shape_Area": 478617.96445,
+    "STATGEB_AL": 62014,
+    "AnzFlur": 369,
+    "mttlFlur": 1297
+  },
+  {
+    "STATGEB": 62015,
+    "Shape_Leng": 2227.01962613,
+    "Shape_Area": 260355.352404,
+    "STATGEB_AL": 62015,
+    "AnzFlur": 41,
+    "mttlFlur": 6350
+  },
+  {
+    "STATGEB": 62016,
+    "Shape_Leng": 2032.05809124,
+    "Shape_Area": 141315.48835,
+    "STATGEB_AL": 62016,
+    "AnzFlur": 40,
+    "mttlFlur": 3533
+  },
+  {
+    "STATGEB": 63001,
+    "Shape_Leng": 3017.02826425,
+    "Shape_Area": 311394.219999,
+    "STATGEB_AL": 63001,
+    "AnzFlur": 411,
+    "mttlFlur": 758
+  },
+  {
+    "STATGEB": 63002,
+    "Shape_Leng": 3484.31444265,
+    "Shape_Area": 635456.640403,
+    "STATGEB_AL": 63002,
+    "AnzFlur": 917,
+    "mttlFlur": 693
+  },
+  {
+    "STATGEB": 63003,
+    "Shape_Leng": 4486.28702901,
+    "Shape_Area": 672887.5063,
+    "STATGEB_AL": 63003,
+    "AnzFlur": 647,
+    "mttlFlur": 1040
+  },
+  {
+    "STATGEB": 63004,
+    "Shape_Leng": 3659.36805961,
+    "Shape_Area": 709831.99295,
+    "STATGEB_AL": 63004,
+    "AnzFlur": 685,
+    "mttlFlur": 1036
+  },
+  {
+    "STATGEB": 63005,
+    "Shape_Leng": 3618.2181786,
+    "Shape_Area": 556084.0009,
+    "STATGEB_AL": 63005,
+    "AnzFlur": 433,
+    "mttlFlur": 1284
+  },
+  {
+    "STATGEB": 63006,
+    "Shape_Leng": 3032.13533665,
+    "Shape_Area": 314728.89971,
+    "STATGEB_AL": 63006,
+    "AnzFlur": 87,
+    "mttlFlur": 3618
+  },
+  {
+    "STATGEB": 63007,
+    "Shape_Leng": 3618.93600906,
+    "Shape_Area": 363554.50505,
+    "STATGEB_AL": 63007,
+    "AnzFlur": 96,
+    "mttlFlur": 3787
+  },
+  {
+    "STATGEB": 63008,
+    "Shape_Leng": 2529.85410545,
+    "Shape_Area": 344357.5,
+    "STATGEB_AL": 63008,
+    "AnzFlur": 313,
+    "mttlFlur": 1100
+  },
+  {
+    "STATGEB": 63009,
+    "Shape_Leng": 5447.523368,
+    "Shape_Area": 730108.0103,
+    "STATGEB_AL": 63009,
+    "AnzFlur": 438,
+    "mttlFlur": 1667
+  },
+  {
+    "STATGEB": 63010,
+    "Shape_Leng": 2067.70762162,
+    "Shape_Area": 268981,
+    "STATGEB_AL": 63010,
+    "AnzFlur": 344,
+    "mttlFlur": 782
+  },
+  {
+    "STATGEB": 63011,
+    "Shape_Leng": 3274.89161867,
+    "Shape_Area": 660530,
+    "STATGEB_AL": 63011,
+    "AnzFlur": 500,
+    "mttlFlur": 1321
+  },
+  {
+    "STATGEB": 63012,
+    "Shape_Leng": 2426.38435015,
+    "Shape_Area": 373018.198877,
+    "STATGEB_AL": 63012,
+    "AnzFlur": 268,
+    "mttlFlur": 1392
+  },
+  {
+    "STATGEB": 63013,
+    "Shape_Leng": 3659.10141708,
+    "Shape_Area": 411803.4846,
+    "STATGEB_AL": 63013,
+    "AnzFlur": 147,
+    "mttlFlur": 2801
+  },
+  {
+    "STATGEB": 63014,
+    "Shape_Leng": 1967.91124228,
+    "Shape_Area": 224878.320423,
+    "STATGEB_AL": 63014,
+    "AnzFlur": 97,
+    "mttlFlur": 2318
+  },
+  {
+    "STATGEB": 63015,
+    "Shape_Leng": 1569.63155982,
+    "Shape_Area": 130616.9982,
+    "STATGEB_AL": 63015,
+    "AnzFlur": 21,
+    "mttlFlur": 6220
+  },
+  {
+    "STATGEB": 63016,
+    "Shape_Leng": 4364.8992096,
+    "Shape_Area": 609330.49191,
+    "STATGEB_AL": 63016,
+    "AnzFlur": 284,
+    "mttlFlur": 2146
+  },
+  {
+    "STATGEB": 63017,
+    "Shape_Leng": 2093.87835239,
+    "Shape_Area": 253266.51225,
+    "STATGEB_AL": 63017,
+    "AnzFlur": 258,
+    "mttlFlur": 982
+  },
+  {
+    "STATGEB": 63018,
+    "Shape_Leng": 4792.916951,
+    "Shape_Area": 711718.323296,
+    "STATGEB_AL": 63018,
+    "AnzFlur": 220,
+    "mttlFlur": 3235
+  },
+  {
+    "STATGEB": 63019,
+    "Shape_Leng": 3027.66234602,
+    "Shape_Area": 332119.153826,
+    "STATGEB_AL": 63019,
+    "AnzFlur": 109,
+    "mttlFlur": 3047
+  },
+  {
+    "STATGEB": 63020,
+    "Shape_Leng": 3130.57210852,
+    "Shape_Area": 331641.51425,
+    "STATGEB_AL": 63020,
+    "AnzFlur": 198,
+    "mttlFlur": 1675
+  },
+  {
+    "STATGEB": 63021,
+    "Shape_Leng": 2932.91622347,
+    "Shape_Area": 377477.98964,
+    "STATGEB_AL": 63021,
+    "AnzFlur": 165,
+    "mttlFlur": 2288
+  },
+  {
+    "STATGEB": 63022,
+    "Shape_Leng": 1595.69099856,
+    "Shape_Area": 169974.173159,
+    "STATGEB_AL": 63022,
+    "AnzFlur": 61,
+    "mttlFlur": 2786
+  },
+  {
+    "STATGEB": 63023,
+    "Shape_Leng": 2845.98508078,
+    "Shape_Area": 331888.45205,
+    "STATGEB_AL": 63023,
+    "AnzFlur": 377,
+    "mttlFlur": 880
+  },
+  {
+    "STATGEB": 63024,
+    "Shape_Leng": 2789.67361071,
+    "Shape_Area": 252788.497308,
+    "STATGEB_AL": 63024,
+    "AnzFlur": 152,
+    "mttlFlur": 1663
+  },
+  {
+    "STATGEB": 64001,
+    "Shape_Leng": 5912.986826,
+    "Shape_Area": 707616.870584,
+    "STATGEB_AL": 64001,
+    "AnzFlur": 268,
+    "mttlFlur": 2640
+  },
+  {
+    "STATGEB": 64002,
+    "Shape_Leng": 1607.40967351,
+    "Shape_Area": 136496.5,
+    "STATGEB_AL": 64002,
+    "AnzFlur": 15,
+    "mttlFlur": 9100
+  },
+  {
+    "STATGEB": 64003,
+    "Shape_Leng": 1016.16172602,
+    "Shape_Area": 61494.4932,
+    "STATGEB_AL": 64003,
+    "AnzFlur": 7,
+    "mttlFlur": 8785
+  },
+  {
+    "STATGEB": 64004,
+    "Shape_Leng": 1601.127395,
+    "Shape_Area": 128115,
+    "STATGEB_AL": 64004,
+    "AnzFlur": 43,
+    "mttlFlur": 2979
+  },
+  {
+    "STATGEB": 64005,
+    "Shape_Leng": 1665.94960445,
+    "Shape_Area": 137206.48555,
+    "STATGEB_AL": 64005,
+    "AnzFlur": 13,
+    "mttlFlur": 10554
+  },
+  {
+    "STATGEB": 64006,
+    "Shape_Leng": 1530.23424817,
+    "Shape_Area": 83868.5068,
+    "STATGEB_AL": 64006,
+    "AnzFlur": 11,
+    "mttlFlur": 7624
+  },
+  {
+    "STATGEB": 64007,
+    "Shape_Leng": 1596.76822751,
+    "Shape_Area": 124413.5,
+    "STATGEB_AL": 64007,
+    "AnzFlur": 33,
+    "mttlFlur": 3770
+  },
+  {
+    "STATGEB": 64008,
+    "Shape_Leng": 4596.7836601,
+    "Shape_Area": 428582.50495,
+    "STATGEB_AL": 64008,
+    "AnzFlur": 86,
+    "mttlFlur": 4984
+  },
+  {
+    "STATGEB": 64009,
+    "Shape_Leng": 2583.51639528,
+    "Shape_Area": 369183.00475,
+    "STATGEB_AL": 64009,
+    "AnzFlur": 122,
+    "mttlFlur": 3026
+  },
+  {
+    "STATGEB": 64010,
+    "Shape_Leng": 2612.90737217,
+    "Shape_Area": 321418.99805,
+    "STATGEB_AL": 64010,
+    "AnzFlur": 119,
+    "mttlFlur": 2701
+  },
+  {
+    "STATGEB": 65001,
+    "Shape_Leng": 5247.70613452,
+    "Shape_Area": 542269.52005,
+    "STATGEB_AL": 65001,
+    "AnzFlur": 170,
+    "mttlFlur": 3190
+  },
+  {
+    "STATGEB": 65002,
+    "Shape_Leng": 5304.60706515,
+    "Shape_Area": 751887.645029,
+    "STATGEB_AL": 65002,
+    "AnzFlur": 466,
+    "mttlFlur": 1613
+  },
+  {
+    "STATGEB": 65003,
+    "Shape_Leng": 3797.19971065,
+    "Shape_Area": 671171.48065,
+    "STATGEB_AL": 65003,
+    "AnzFlur": 545,
+    "mttlFlur": 1232
+  },
+  {
+    "STATGEB": 65004,
+    "Shape_Leng": 3645.27221615,
+    "Shape_Area": 691105.500698,
+    "STATGEB_AL": 65004,
+    "AnzFlur": 752,
+    "mttlFlur": 919
+  },
+  {
+    "STATGEB": 65005,
+    "Shape_Leng": 3625.57591784,
+    "Shape_Area": 656394.307445,
+    "STATGEB_AL": 65005,
+    "AnzFlur": 431,
+    "mttlFlur": 1523
+  },
+  {
+    "STATGEB": 65006,
+    "Shape_Leng": 3826.32151154,
+    "Shape_Area": 758557.010176,
+    "STATGEB_AL": 65006,
+    "AnzFlur": 516,
+    "mttlFlur": 1470
+  },
+  {
+    "STATGEB": 66001,
+    "Shape_Leng": 6317.80632173,
+    "Shape_Area": 1339193.57808,
+    "STATGEB_AL": 66001,
+    "AnzFlur": 751,
+    "mttlFlur": 1783
+  },
+  {
+    "STATGEB": 66002,
+    "Shape_Leng": 4125.14303969,
+    "Shape_Area": 519540.49115,
+    "STATGEB_AL": 66002,
+    "AnzFlur": 501,
+    "mttlFlur": 1037
+  },
+  {
+    "STATGEB": 66003,
+    "Shape_Leng": 5541.18171458,
+    "Shape_Area": 912258.9867,
+    "STATGEB_AL": 66003,
+    "AnzFlur": 727,
+    "mttlFlur": 1255
+  },
+  {
+    "STATGEB": 66004,
+    "Shape_Leng": 3312.08883035,
+    "Shape_Area": 520540.99315,
+    "STATGEB_AL": 66004,
+    "AnzFlur": 563,
+    "mttlFlur": 925
+  },
+  {
+    "STATGEB": 66005,
+    "Shape_Leng": 3221.30421402,
+    "Shape_Area": 561124.51105,
+    "STATGEB_AL": 66005,
+    "AnzFlur": 575,
+    "mttlFlur": 976
+  },
+  {
+    "STATGEB": 66006,
+    "Shape_Leng": 3958.57309407,
+    "Shape_Area": 743870.5,
+    "STATGEB_AL": 66006,
+    "AnzFlur": 630,
+    "mttlFlur": 1181
+  },
+  {
+    "STATGEB": 66007,
+    "Shape_Leng": 4670.61873566,
+    "Shape_Area": 792801.99205,
+    "STATGEB_AL": 66007,
+    "AnzFlur": 669,
+    "mttlFlur": 1185
+  },
+  {
+    "STATGEB": 66008,
+    "Shape_Leng": 3260.26400773,
+    "Shape_Area": 670750.50945,
+    "STATGEB_AL": 66008,
+    "AnzFlur": 723,
+    "mttlFlur": 928
+  },
+  {
+    "STATGEB": 66009,
+    "Shape_Leng": 3766.17740943,
+    "Shape_Area": 624170.9986,
+    "STATGEB_AL": 66009,
+    "AnzFlur": 795,
+    "mttlFlur": 785
+  },
+  {
+    "STATGEB": 66010,
+    "Shape_Leng": 5315.69769167,
+    "Shape_Area": 825853.134298,
+    "STATGEB_AL": 66010,
+    "AnzFlur": 688,
+    "mttlFlur": 1200
+  },
+  {
+    "STATGEB": 66011,
+    "Shape_Leng": 4012.18425816,
+    "Shape_Area": 860624.0046,
+    "STATGEB_AL": 66011,
+    "AnzFlur": 114,
+    "mttlFlur": 7549
+  },
+  {
+    "STATGEB": 67001,
+    "Shape_Leng": 6584.18818999,
+    "Shape_Area": 1063030.80945,
+    "STATGEB_AL": 67001,
+    "AnzFlur": 93,
+    "mttlFlur": 11430
+  },
+  {
+    "STATGEB": 67002,
+    "Shape_Leng": 2855.52941323,
+    "Shape_Area": 379690.5242,
+    "STATGEB_AL": 67002,
+    "AnzFlur": 471,
+    "mttlFlur": 806
+  },
+  {
+    "STATGEB": 67003,
+    "Shape_Leng": 3998.35426396,
+    "Shape_Area": 804798.881628,
+    "STATGEB_AL": 67003,
+    "AnzFlur": 581,
+    "mttlFlur": 1385
+  },
+  {
+    "STATGEB": 67004,
+    "Shape_Leng": 2600.26805959,
+    "Shape_Area": 368125.607522,
+    "STATGEB_AL": 67004,
+    "AnzFlur": 617,
+    "mttlFlur": 597
+  },
+  {
+    "STATGEB": 67005,
+    "Shape_Leng": 3195.8240056,
+    "Shape_Area": 525017.796946,
+    "STATGEB_AL": 67005,
+    "AnzFlur": 542,
+    "mttlFlur": 969
+  },
+  {
+    "STATGEB": 67006,
+    "Shape_Leng": 3580.6655938,
+    "Shape_Area": 691975.788041,
+    "STATGEB_AL": 67006,
+    "AnzFlur": 602,
+    "mttlFlur": 1149
+  },
+  {
+    "STATGEB": 67007,
+    "Shape_Leng": 3692.28588319,
+    "Shape_Area": 424046.642601,
+    "STATGEB_AL": 67007,
+    "AnzFlur": 123,
+    "mttlFlur": 3448
+  },
+  {
+    "STATGEB": 67008,
+    "Shape_Leng": 3062.07930013,
+    "Shape_Area": 444351.762676,
+    "STATGEB_AL": 67008,
+    "AnzFlur": 665,
+    "mttlFlur": 668
+  },
+  {
+    "STATGEB": 67009,
+    "Shape_Leng": 2963.02545448,
+    "Shape_Area": 414372.4936,
+    "STATGEB_AL": 67009,
+    "AnzFlur": 252,
+    "mttlFlur": 1644
+  },
+  {
+    "STATGEB": 67010,
+    "Shape_Leng": 2632.14737641,
+    "Shape_Area": 373026.008914,
+    "STATGEB_AL": 67010,
+    "AnzFlur": 184,
+    "mttlFlur": 2027
+  },
+  {
+    "STATGEB": 67011,
+    "Shape_Leng": 3550.02846366,
+    "Shape_Area": 596747.9968,
+    "STATGEB_AL": 67011,
+    "AnzFlur": 591,
+    "mttlFlur": 1010
+  },
+  {
+    "STATGEB": 67012,
+    "Shape_Leng": 1881.85144102,
+    "Shape_Area": 186418.9975,
+    "STATGEB_AL": 67012,
+    "AnzFlur": 64,
+    "mttlFlur": 2913
+  },
+  {
+    "STATGEB": 67013,
+    "Shape_Leng": 6182.30215308,
+    "Shape_Area": 801944.998994,
+    "STATGEB_AL": 67013,
+    "AnzFlur": 180,
+    "mttlFlur": 4455
+  },
+  {
+    "STATGEB": 67014,
+    "Shape_Leng": 3511.43565899,
+    "Shape_Area": 468796.06045,
+    "STATGEB_AL": 67014,
+    "AnzFlur": 160,
+    "mttlFlur": 2930
+  },
+  {
+    "STATGEB": 67015,
+    "Shape_Leng": 4332.43161672,
+    "Shape_Area": 564691.768973,
+    "STATGEB_AL": 67015,
+    "AnzFlur": 445,
+    "mttlFlur": 1269
+  },
+  {
+    "STATGEB": 68001,
+    "Shape_Leng": 10761.8116909,
+    "Shape_Area": 4806958.492,
+    "STATGEB_AL": 68001,
+    "AnzFlur": 438,
+    "mttlFlur": 10975
+  },
+  {
+    "STATGEB": 68002,
+    "Shape_Leng": 3085.56749975,
+    "Shape_Area": 386125.417714,
+    "STATGEB_AL": 68002,
+    "AnzFlur": 277,
+    "mttlFlur": 1394
+  },
+  {
+    "STATGEB": 68003,
+    "Shape_Leng": 2945.35859469,
+    "Shape_Area": 531696.0173,
+    "STATGEB_AL": 68003,
+    "AnzFlur": 227,
+    "mttlFlur": 2342
+  },
+  {
+    "STATGEB": 68004,
+    "Shape_Leng": 4098.31046687,
+    "Shape_Area": 969589.488597,
+    "STATGEB_AL": 68004,
+    "AnzFlur": 448,
+    "mttlFlur": 2164
+  },
+  {
+    "STATGEB": 68005,
+    "Shape_Leng": 2999.21331571,
+    "Shape_Area": 361535.487,
+    "STATGEB_AL": 68005,
+    "AnzFlur": 257,
+    "mttlFlur": 1407
+  },
+  {
+    "STATGEB": 68006,
+    "Shape_Leng": 3909.15555282,
+    "Shape_Area": 667844.52225,
+    "STATGEB_AL": 68006,
+    "AnzFlur": 548,
+    "mttlFlur": 1219
+  },
+  {
+    "STATGEB": 68007,
+    "Shape_Leng": 2883.8616174,
+    "Shape_Area": 256784.001453,
+    "STATGEB_AL": 68007,
+    "AnzFlur": 137,
+    "mttlFlur": 1874
+  },
+  {
+    "STATGEB": 68008,
+    "Shape_Leng": 3320.88824229,
+    "Shape_Area": 611519.4846,
+    "STATGEB_AL": 68008,
+    "AnzFlur": 532,
+    "mttlFlur": 1149
+  },
+  {
+    "STATGEB": 68009,
+    "Shape_Leng": 5121.47904203,
+    "Shape_Area": 488257.243915,
+    "STATGEB_AL": 68009,
+    "AnzFlur": 209,
+    "mttlFlur": 2336
+  },
+  {
+    "STATGEB": 69001,
+    "Shape_Leng": 10123.4038732,
+    "Shape_Area": 4431994.50935,
+    "STATGEB_AL": 69001,
+    "AnzFlur": 1350,
+    "mttlFlur": 3283
+  },
+  {
+    "STATGEB": 69002,
+    "Shape_Leng": 11696.3208942,
+    "Shape_Area": 3576800.38976,
+    "STATGEB_AL": 69002,
+    "AnzFlur": 1373,
+    "mttlFlur": 2605
+  },
+  {
+    "STATGEB": 70001,
+    "Shape_Leng": 10895.1547123,
+    "Shape_Area": 4845560.5145,
+    "STATGEB_AL": 70001,
+    "AnzFlur": 1124,
+    "mttlFlur": 4311
+  },
+  {
+    "STATGEB": 70002,
+    "Shape_Leng": 7518.05171219,
+    "Shape_Area": 1944186.76079,
+    "STATGEB_AL": 70002,
+    "AnzFlur": 1031,
+    "mttlFlur": 1886
+  },
+  {
+    "STATGEB": 71001,
+    "Shape_Leng": 18239.5578505,
+    "Shape_Area": 13410304.0178,
+    "STATGEB_AL": 71001,
+    "AnzFlur": 554,
+    "mttlFlur": 24206
+  },
+  {
+    "STATGEB": 71002,
+    "Shape_Leng": 10484.2065461,
+    "Shape_Area": 1680207.89998,
+    "STATGEB_AL": 71002,
+    "AnzFlur": 780,
+    "mttlFlur": 2154
+  },
+  {
+    "STATGEB": 71003,
+    "Shape_Leng": 6956.66374048,
+    "Shape_Area": 2188562.49725,
+    "STATGEB_AL": 71003,
+    "AnzFlur": 783,
+    "mttlFlur": 2795
+  },
+  {
+    "STATGEB": 72001,
+    "Shape_Leng": 7832.659617,
+    "Shape_Area": 2282725.67636,
+    "STATGEB_AL": 72001,
+    "AnzFlur": 715,
+    "mttlFlur": 3193
+  },
+  {
+    "STATGEB": 72002,
+    "Shape_Leng": 5561.2535051,
+    "Shape_Area": 1017134.76425,
+    "STATGEB_AL": 72002,
+    "AnzFlur": 643,
+    "mttlFlur": 1582
+  },
+  {
+    "STATGEB": 72003,
+    "Shape_Leng": 4309.43803616,
+    "Shape_Area": 786166.122351,
+    "STATGEB_AL": 72003,
+    "AnzFlur": 142,
+    "mttlFlur": 5536
+  },
+  {
+    "STATGEB": 72004,
+    "Shape_Leng": 5693.55587944,
+    "Shape_Area": 959796.0077,
+    "STATGEB_AL": 72004,
+    "AnzFlur": 424,
+    "mttlFlur": 2264
+  },
+  {
+    "STATGEB": 72005,
+    "Shape_Leng": 7328.23142528,
+    "Shape_Area": 1635499.64525,
+    "STATGEB_AL": 72005,
+    "AnzFlur": 717,
+    "mttlFlur": 2281
+  },
+  {
+    "STATGEB": 72006,
+    "Shape_Leng": 3009.69975072,
+    "Shape_Area": 352004.0014,
+    "STATGEB_AL": 72006,
+    "AnzFlur": 139,
+    "mttlFlur": 2532
+  },
+  {
+    "STATGEB": 73001,
+    "Shape_Leng": 3446.32106962,
+    "Shape_Area": 572223.50425,
+    "STATGEB_AL": 73001,
+    "AnzFlur": 368,
+    "mttlFlur": 1555
+  },
+  {
+    "STATGEB": 73002,
+    "Shape_Leng": 10107.4319394,
+    "Shape_Area": 1260873.79262,
+    "STATGEB_AL": 73002,
+    "AnzFlur": 173,
+    "mttlFlur": 7288
+  },
+  {
+    "STATGEB": 73003,
+    "Shape_Leng": 6275.06796536,
+    "Shape_Area": 1335218.37655,
+    "STATGEB_AL": 73003,
+    "AnzFlur": 894,
+    "mttlFlur": 1494
+  },
+  {
+    "STATGEB": 73004,
+    "Shape_Leng": 3897.99254404,
+    "Shape_Area": 597634.217779,
+    "STATGEB_AL": 73004,
+    "AnzFlur": 376,
+    "mttlFlur": 1589
+  },
+  {
+    "STATGEB": 73005,
+    "Shape_Leng": 4831.37676197,
+    "Shape_Area": 1001154.46365,
+    "STATGEB_AL": 73005,
+    "AnzFlur": 1005,
+    "mttlFlur": 996
+  },
+  {
+    "STATGEB": 73006,
+    "Shape_Leng": 4357.51377247,
+    "Shape_Area": 742579.01685,
+    "STATGEB_AL": 73006,
+    "AnzFlur": 208,
+    "mttlFlur": 3570
+  },
+  {
+    "STATGEB": 73007,
+    "Shape_Leng": 4486.36496965,
+    "Shape_Area": 852791.391159,
+    "STATGEB_AL": 73007,
+    "AnzFlur": 434,
+    "mttlFlur": 1965
+  },
+  {
+    "STATGEB": 73008,
+    "Shape_Leng": 4144.93643788,
+    "Shape_Area": 464376.866724,
+    "STATGEB_AL": 73008,
+    "AnzFlur": 377,
+    "mttlFlur": 1232
+  },
+  {
+    "STATGEB": 73009,
+    "Shape_Leng": 5781.65491211,
+    "Shape_Area": 1159065.75932,
+    "STATGEB_AL": 73009,
+    "AnzFlur": 113,
+    "mttlFlur": 10257
+  },
+  {
+    "STATGEB": 73010,
+    "Shape_Leng": 5787.85146481,
+    "Shape_Area": 1703552.9606,
+    "STATGEB_AL": 73010,
+    "AnzFlur": 784,
+    "mttlFlur": 2173
+  },
+  {
+    "STATGEB": 73011,
+    "Shape_Leng": 5645.67864381,
+    "Shape_Area": 941148.87705,
+    "STATGEB_AL": 73011,
+    "AnzFlur": 82,
+    "mttlFlur": 11477
+  },
+  {
+    "STATGEB": 73012,
+    "Shape_Leng": 4089.75436294,
+    "Shape_Area": 941640.50435,
+    "STATGEB_AL": 73012,
+    "AnzFlur": 1036,
+    "mttlFlur": 909
+  },
+  {
+    "STATGEB": 74001,
+    "Shape_Leng": 3127.42896435,
+    "Shape_Area": 525503.6082,
+    "STATGEB_AL": 74001,
+    "AnzFlur": 483,
+    "mttlFlur": 1088
+  },
+  {
+    "STATGEB": 74002,
+    "Shape_Leng": 5691.86173782,
+    "Shape_Area": 1029197.0956,
+    "STATGEB_AL": 74002,
+    "AnzFlur": 822,
+    "mttlFlur": 1252
+  },
+  {
+    "STATGEB": 74003,
+    "Shape_Leng": 8261.29327814,
+    "Shape_Area": 1857219.0549,
+    "STATGEB_AL": 74003,
+    "AnzFlur": 677,
+    "mttlFlur": 2743
+  },
+  {
+    "STATGEB": 74004,
+    "Shape_Leng": 12981.9972489,
+    "Shape_Area": 5428531.56066,
+    "STATGEB_AL": 74004,
+    "AnzFlur": 352,
+    "mttlFlur": 15422
+  },
+  {
+    "STATGEB": 74005,
+    "Shape_Leng": 2543.24792051,
+    "Shape_Area": 364775.095264,
+    "STATGEB_AL": 74005,
+    "AnzFlur": 357,
+    "mttlFlur": 1022
+  },
+  {
+    "STATGEB": 74006,
+    "Shape_Leng": 2308.54872937,
+    "Shape_Area": 254330.5049,
+    "STATGEB_AL": 74006,
+    "AnzFlur": 166,
+    "mttlFlur": 1532
+  },
+  {
+    "STATGEB": 74007,
+    "Shape_Leng": 2526.56863501,
+    "Shape_Area": 400261.9964,
+    "STATGEB_AL": 74007,
+    "AnzFlur": 351,
+    "mttlFlur": 1140
+  },
+  {
+    "STATGEB": 74008,
+    "Shape_Leng": 2485.21383923,
+    "Shape_Area": 329443.50695,
+    "STATGEB_AL": 74008,
+    "AnzFlur": 319,
+    "mttlFlur": 1033
+  },
+  {
+    "STATGEB": 74009,
+    "Shape_Leng": 2732.62909258,
+    "Shape_Area": 389748.98895,
+    "STATGEB_AL": 74009,
+    "AnzFlur": 183,
+    "mttlFlur": 2130
+  },
+  {
+    "STATGEB": 74010,
+    "Shape_Leng": 2668.29958763,
+    "Shape_Area": 194920.697122,
+    "STATGEB_AL": 74010,
+    "AnzFlur": 52,
+    "mttlFlur": 3748
+  },
+  {
+    "STATGEB": 74011,
+    "Shape_Leng": 3624.83095962,
+    "Shape_Area": 584189.4964,
+    "STATGEB_AL": 74011,
+    "AnzFlur": 556,
+    "mttlFlur": 1051
+  },
+  {
+    "STATGEB": 74012,
+    "Shape_Leng": 4086.76433514,
+    "Shape_Area": 867256.00425,
+    "STATGEB_AL": 74012,
+    "AnzFlur": 398,
+    "mttlFlur": 2179
+  },
+  {
+    "STATGEB": 74013,
+    "Shape_Leng": 4024.02727177,
+    "Shape_Area": 852656.56435,
+    "STATGEB_AL": 74013,
+    "AnzFlur": 741,
+    "mttlFlur": 1151
+  },
+  {
+    "STATGEB": 74014,
+    "Shape_Leng": 2417.8991396,
+    "Shape_Area": 338860.9962,
+    "STATGEB_AL": 74014,
+    "AnzFlur": 127,
+    "mttlFlur": 2668
+  },
+  {
+    "STATGEB": 74015,
+    "Shape_Leng": 3357.30154238,
+    "Shape_Area": 413273.00595,
+    "STATGEB_AL": 74015,
+    "AnzFlur": 370,
+    "mttlFlur": 1117
+  },
+  {
+    "STATGEB": 74016,
+    "Shape_Leng": 4112.4500499,
+    "Shape_Area": 524851.715462,
+    "STATGEB_AL": 74016,
+    "AnzFlur": 216,
+    "mttlFlur": 2430
+  },
+  {
+    "STATGEB": 74017,
+    "Shape_Leng": 3671.30484809,
+    "Shape_Area": 585444.97635,
+    "STATGEB_AL": 74017,
+    "AnzFlur": 636,
+    "mttlFlur": 921
+  },
+  {
+    "STATGEB": 74018,
+    "Shape_Leng": 6527.77774913,
+    "Shape_Area": 807495.42145,
+    "STATGEB_AL": 74018,
+    "AnzFlur": 505,
+    "mttlFlur": 1599
+  },
+  {
+    "STATGEB": 74019,
+    "Shape_Leng": 3000.97166766,
+    "Shape_Area": 373514.487742,
+    "STATGEB_AL": 74019,
+    "AnzFlur": 360,
+    "mttlFlur": 1038
+  },
+  {
+    "STATGEB": 74020,
+    "Shape_Leng": 3889.94586759,
+    "Shape_Area": 744421.996969,
+    "STATGEB_AL": 74020,
+    "AnzFlur": 634,
+    "mttlFlur": 1174
+  },
+  {
+    "STATGEB": 74021,
+    "Shape_Leng": 3931.14800334,
+    "Shape_Area": 793125.032131,
+    "STATGEB_AL": 74021,
+    "AnzFlur": 599,
+    "mttlFlur": 1324
+  },
+  {
+    "STATGEB": 74022,
+    "Shape_Leng": 2807.70588889,
+    "Shape_Area": 332097.50865,
+    "STATGEB_AL": 74022,
+    "AnzFlur": 261,
+    "mttlFlur": 1272
+  },
+  {
+    "STATGEB": 74023,
+    "Shape_Leng": 4646.86437825,
+    "Shape_Area": 1070975.4911,
+    "STATGEB_AL": 74023,
+    "AnzFlur": 595,
+    "mttlFlur": 1800
+  },
+  {
+    "STATGEB": 74024,
+    "Shape_Leng": 2695.15958554,
+    "Shape_Area": 285529.9979,
+    "STATGEB_AL": 74024,
+    "AnzFlur": 75,
+    "mttlFlur": 3807
+  },
+  {
+    "STATGEB": 74025,
+    "Shape_Leng": 5383.58228787,
+    "Shape_Area": 1385340.09616,
+    "STATGEB_AL": 74025,
+    "AnzFlur": 375,
+    "mttlFlur": 3694
+  },
+  {
+    "STATGEB": 74026,
+    "Shape_Leng": 3221.41465234,
+    "Shape_Area": 521636.5361,
+    "STATGEB_AL": 74026,
+    "AnzFlur": 236,
+    "mttlFlur": 2210
+  },
+  {
+    "STATGEB": 74027,
+    "Shape_Leng": 3009.27356499,
+    "Shape_Area": 377647.9996,
+    "STATGEB_AL": 74027,
+    "AnzFlur": 320,
+    "mttlFlur": 1180
+  },
+  {
+    "STATGEB": 74028,
+    "Shape_Leng": 1684.04858829,
+    "Shape_Area": 142070.93085,
+    "STATGEB_AL": 74028,
+    "AnzFlur": 71,
+    "mttlFlur": 2001
+  },
+  {
+    "STATGEB": 74029,
+    "Shape_Leng": 2638.22717248,
+    "Shape_Area": 417957.5067,
+    "STATGEB_AL": 74029,
+    "AnzFlur": 420,
+    "mttlFlur": 995
+  },
+  {
+    "STATGEB": 74030,
+    "Shape_Leng": 3803.6357227,
+    "Shape_Area": 732893.51405,
+    "STATGEB_AL": 74030,
+    "AnzFlur": 440,
+    "mttlFlur": 1666
+  },
+  {
+    "STATGEB": 74031,
+    "Shape_Leng": 2446.63373839,
+    "Shape_Area": 375090.501,
+    "STATGEB_AL": 74031,
+    "AnzFlur": 375,
+    "mttlFlur": 1000
+  },
+  {
+    "STATGEB": 74032,
+    "Shape_Leng": 1277.43700365,
+    "Shape_Area": 103221.259203,
+    "STATGEB_AL": 74032,
+    "AnzFlur": 29,
+    "mttlFlur": 3559
+  },
+  {
+    "STATGEB": 74033,
+    "Shape_Leng": 2635.78840894,
+    "Shape_Area": 311417.316169,
+    "STATGEB_AL": 74033,
+    "AnzFlur": 216,
+    "mttlFlur": 1442
+  },
+  {
+    "STATGEB": 74034,
+    "Shape_Leng": 1798.25732874,
+    "Shape_Area": 188354,
+    "STATGEB_AL": 74034,
+    "AnzFlur": 123,
+    "mttlFlur": 1531
+  },
+  {
+    "STATGEB": 74035,
+    "Shape_Leng": 3987.00446603,
+    "Shape_Area": 709923.486839,
+    "STATGEB_AL": 74035,
+    "AnzFlur": 252,
+    "mttlFlur": 2817
+  },
+  {
+    "STATGEB": 74036,
+    "Shape_Leng": 2611.91015213,
+    "Shape_Area": 329298.02125,
+    "STATGEB_AL": 74036,
+    "AnzFlur": 134,
+    "mttlFlur": 2457
+  },
+  {
+    "STATGEB": 74037,
+    "Shape_Leng": 5158.72828478,
+    "Shape_Area": 570919.0593,
+    "STATGEB_AL": 74037,
+    "AnzFlur": 320,
+    "mttlFlur": 1784
+  },
+  {
+    "STATGEB": 74038,
+    "Shape_Leng": 6215.53242499,
+    "Shape_Area": 1037846.33951,
+    "STATGEB_AL": 74038,
+    "AnzFlur": 61,
+    "mttlFlur": 17014
+  },
+  {
+    "STATGEB": 75001,
+    "Shape_Leng": 8757.71956511,
+    "Shape_Area": 3803664.30179,
+    "STATGEB_AL": 75001,
+    "AnzFlur": 172,
+    "mttlFlur": 22114
+  },
+  {
+    "STATGEB": 75002,
+    "Shape_Leng": 8457.87432181,
+    "Shape_Area": 1955467.28355,
+    "STATGEB_AL": 75002,
+    "AnzFlur": 1728,
+    "mttlFlur": 1132
+  },
+  {
+    "STATGEB": 75003,
+    "Shape_Leng": 5469.35870681,
+    "Shape_Area": 840213.0002,
+    "STATGEB_AL": 75003,
+    "AnzFlur": 470,
+    "mttlFlur": 1788
+  },
+  {
+    "STATGEB": 75004,
+    "Shape_Leng": 6059.92639381,
+    "Shape_Area": 1594343.45048,
+    "STATGEB_AL": 75004,
+    "AnzFlur": 706,
+    "mttlFlur": 2258
+  },
+  {
+    "STATGEB": 75005,
+    "Shape_Leng": 3021.57139551,
+    "Shape_Area": 402032.48245,
+    "STATGEB_AL": 75005,
+    "AnzFlur": 336,
+    "mttlFlur": 1197
+  },
+  {
+    "STATGEB": 75006,
+    "Shape_Leng": 3028.62325358,
+    "Shape_Area": 557113.0157,
+    "STATGEB_AL": 75006,
+    "AnzFlur": 213,
+    "mttlFlur": 2616
+  },
+  {
+    "STATGEB": 75007,
+    "Shape_Leng": 3248.22524617,
+    "Shape_Area": 430814.494352,
+    "STATGEB_AL": 75007,
+    "AnzFlur": 307,
+    "mttlFlur": 1403
+  },
+  {
+    "STATGEB": 75008,
+    "Shape_Leng": 2507.89515145,
+    "Shape_Area": 196120.81079,
+    "STATGEB_AL": 75008,
+    "AnzFlur": 43,
+    "mttlFlur": 4561
+  },
+  {
+    "STATGEB": 75009,
+    "Shape_Leng": 1770.95239172,
+    "Shape_Area": 193075.4768,
+    "STATGEB_AL": 75009,
+    "AnzFlur": 59,
+    "mttlFlur": 3272
+  },
+  {
+    "STATGEB": 75010,
+    "Shape_Leng": 2256.52700435,
+    "Shape_Area": 279836.01015,
+    "STATGEB_AL": 75010,
+    "AnzFlur": 114,
+    "mttlFlur": 2455
+  },
+  {
+    "STATGEB": 75011,
+    "Shape_Leng": 3721.21755555,
+    "Shape_Area": 466929.010986,
+    "STATGEB_AL": 75011,
+    "AnzFlur": 331,
+    "mttlFlur": 1411
+  },
+  {
+    "STATGEB": 75012,
+    "Shape_Leng": 1289.915061,
+    "Shape_Area": 86088.0121,
+    "STATGEB_AL": 75012,
+    "AnzFlur": 9,
+    "mttlFlur": 9565
+  },
+  {
+    "STATGEB": 75013,
+    "Shape_Leng": 2504.39453156,
+    "Shape_Area": 236104.295563,
+    "STATGEB_AL": 75013,
+    "AnzFlur": 128,
+    "mttlFlur": 1845
+  },
+  {
+    "STATGEB": 75014,
+    "Shape_Leng": 2751.79367911,
+    "Shape_Area": 455289.536462,
+    "STATGEB_AL": 75014,
+    "AnzFlur": 157,
+    "mttlFlur": 2900
+  },
+  {
+    "STATGEB": 75015,
+    "Shape_Leng": 2447.64972821,
+    "Shape_Area": 269891.51455,
+    "STATGEB_AL": 75015,
+    "AnzFlur": 250,
+    "mttlFlur": 1080
+  },
+  {
+    "STATGEB": 75016,
+    "Shape_Leng": 4250.82548802,
+    "Shape_Area": 580582.332508,
+    "STATGEB_AL": 75016,
+    "AnzFlur": 316,
+    "mttlFlur": 1837
+  },
+  {
+    "STATGEB": 75017,
+    "Shape_Leng": 2231.43872576,
+    "Shape_Area": 222045.47365,
+    "STATGEB_AL": 75017,
+    "AnzFlur": 205,
+    "mttlFlur": 1083
+  },
+  {
+    "STATGEB": 75018,
+    "Shape_Leng": 1816.26390996,
+    "Shape_Area": 134429.919645,
+    "STATGEB_AL": 75018,
+    "AnzFlur": 109,
+    "mttlFlur": 1233
+  },
+  {
+    "STATGEB": 75019,
+    "Shape_Leng": 2950.257164,
+    "Shape_Area": 313322.092901,
+    "STATGEB_AL": 75019,
+    "AnzFlur": 152,
+    "mttlFlur": 2061
+  },
+  {
+    "STATGEB": 76001,
+    "Shape_Leng": 4134.04149063,
+    "Shape_Area": 338057.670183,
+    "STATGEB_AL": 76001,
+    "AnzFlur": 77,
+    "mttlFlur": 4390
+  },
+  {
+    "STATGEB": 76002,
+    "Shape_Leng": 2114.28721772,
+    "Shape_Area": 190642.98735,
+    "STATGEB_AL": 76002,
+    "AnzFlur": 46,
+    "mttlFlur": 4144
+  },
+  {
+    "STATGEB": 76003,
+    "Shape_Leng": 5910.43232747,
+    "Shape_Area": 861811.841016,
+    "STATGEB_AL": 76003,
+    "AnzFlur": 297,
+    "mttlFlur": 2902
+  },
+  {
+    "STATGEB": 76004,
+    "Shape_Leng": 3219.0099613,
+    "Shape_Area": 422541.270743,
+    "STATGEB_AL": 76004,
+    "AnzFlur": 359,
+    "mttlFlur": 1177
+  },
+  {
+    "STATGEB": 76005,
+    "Shape_Leng": 3889.32606835,
+    "Shape_Area": 322066.329021,
+    "STATGEB_AL": 76005,
+    "AnzFlur": 190,
+    "mttlFlur": 1695
+  },
+  {
+    "STATGEB": 76006,
+    "Shape_Leng": 2677.59373818,
+    "Shape_Area": 383206.5106,
+    "STATGEB_AL": 76006,
+    "AnzFlur": 49,
+    "mttlFlur": 7821
+  },
+  {
+    "STATGEB": 76007,
+    "Shape_Leng": 4782.30118625,
+    "Shape_Area": 612428.12031,
+    "STATGEB_AL": 76007,
+    "AnzFlur": 617,
+    "mttlFlur": 993
+  },
+  {
+    "STATGEB": 76008,
+    "Shape_Leng": 3497.80614327,
+    "Shape_Area": 432583.012,
+    "STATGEB_AL": 76008,
+    "AnzFlur": 485,
+    "mttlFlur": 892
+  },
+  {
+    "STATGEB": 107012,
+    "Shape_Leng": 1747.88267149,
+    "Shape_Area": 142588.5128,
+    "STATGEB_AL": 76009,
+    "AnzFlur": 121,
+    "mttlFlur": 1178
+  },
+  {
+    "STATGEB": 76010,
+    "Shape_Leng": 4777.86209724,
+    "Shape_Area": 1289996.11352,
+    "STATGEB_AL": 76010,
+    "AnzFlur": 1244,
+    "mttlFlur": 1037
+  },
+  {
+    "STATGEB": 76011,
+    "Shape_Leng": 1976.60811743,
+    "Shape_Area": 164638.346414,
+    "STATGEB_AL": 76011,
+    "AnzFlur": 76,
+    "mttlFlur": 2166
+  },
+  {
+    "STATGEB": 76012,
+    "Shape_Leng": 7825.31678215,
+    "Shape_Area": 2396474.6292,
+    "STATGEB_AL": 76012,
+    "AnzFlur": 673,
+    "mttlFlur": 3561
+  },
+  {
+    "STATGEB": 76013,
+    "Shape_Leng": 3133.74139204,
+    "Shape_Area": 399225.595205,
+    "STATGEB_AL": 76013,
+    "AnzFlur": 352,
+    "mttlFlur": 1134
+  },
+  {
+    "STATGEB": 76014,
+    "Shape_Leng": 2604.72830768,
+    "Shape_Area": 205731.99175,
+    "STATGEB_AL": 76014,
+    "AnzFlur": 207,
+    "mttlFlur": 994
+  },
+  {
+    "STATGEB": 76015,
+    "Shape_Leng": 2356.54266126,
+    "Shape_Area": 225873.5,
+    "STATGEB_AL": 76015,
+    "AnzFlur": 232,
+    "mttlFlur": 974
+  },
+  {
+    "STATGEB": 76016,
+    "Shape_Leng": 2929.06934819,
+    "Shape_Area": 306843.0635,
+    "STATGEB_AL": 76016,
+    "AnzFlur": 223,
+    "mttlFlur": 1376
+  },
+  {
+    "STATGEB": 76017,
+    "Shape_Leng": 1977.19034719,
+    "Shape_Area": 211294.99575,
+    "STATGEB_AL": 76017,
+    "AnzFlur": 154,
+    "mttlFlur": 1372
+  },
+  {
+    "STATGEB": 76018,
+    "Shape_Leng": 7982.29359666,
+    "Shape_Area": 1171151.61245,
+    "STATGEB_AL": 76018,
+    "AnzFlur": 325,
+    "mttlFlur": 3604
+  },
+  {
+    "STATGEB": 107013,
+    "Shape_Leng": 2230.43460092,
+    "Shape_Area": 193019.25707,
+    "STATGEB_AL": 76019,
+    "AnzFlur": 65,
+    "mttlFlur": 2970
+  },
+  {
+    "STATGEB": 107014,
+    "Shape_Leng": 2739.30373229,
+    "Shape_Area": 293000.785167,
+    "STATGEB_AL": 76020,
+    "AnzFlur": 345,
+    "mttlFlur": 849
+  },
+  {
+    "STATGEB": 107015,
+    "Shape_Leng": 3357.60571672,
+    "Shape_Area": 420368.136857,
+    "STATGEB_AL": 76021,
+    "AnzFlur": 541,
+    "mttlFlur": 777
+  },
+  {
+    "STATGEB": 107011,
+    "Shape_Leng": 1975.97083887,
+    "Shape_Area": 123656.097624,
+    "STATGEB_AL": 76022,
+    "AnzFlur": 377,
+    "mttlFlur": 328
+  },
+  {
+    "STATGEB": 107010,
+    "Shape_Leng": 3254.79700046,
+    "Shape_Area": 204339.94599,
+    "STATGEB_AL": 76023,
+    "AnzFlur": 114,
+    "mttlFlur": 1792
+  },
+  {
+    "STATGEB": 77001,
+    "Shape_Leng": 17097.1155573,
+    "Shape_Area": 10579709.7791,
+    "STATGEB_AL": 77001,
+    "AnzFlur": 1597,
+    "mttlFlur": 6625
+  },
+  {
+    "STATGEB": 78001,
+    "Shape_Leng": 21801.830604,
+    "Shape_Area": 15619872.117,
+    "STATGEB_AL": 78001,
+    "AnzFlur": 1450,
+    "mttlFlur": 10772
+  },
+  {
+    "STATGEB": 79001,
+    "Shape_Leng": 18320.9490389,
+    "Shape_Area": 10271661.9053,
+    "STATGEB_AL": 79001,
+    "AnzFlur": 1240,
+    "mttlFlur": 8284
+  },
+  {
+    "STATGEB": 79002,
+    "Shape_Leng": 14704.1177091,
+    "Shape_Area": 8356798.22512,
+    "STATGEB_AL": 79002,
+    "AnzFlur": 876,
+    "mttlFlur": 9540
+  },
+  {
+    "STATGEB": 80001,
+    "Shape_Leng": 17661.931623,
+    "Shape_Area": 11377581.7711,
+    "STATGEB_AL": 80001,
+    "AnzFlur": 1991,
+    "mttlFlur": 5715
+  },
+  {
+    "STATGEB": 80002,
+    "Shape_Leng": 13549.8042121,
+    "Shape_Area": 8052069.81182,
+    "STATGEB_AL": 80002,
+    "AnzFlur": 968,
+    "mttlFlur": 8318
+  },
+  {
+    "STATGEB": 80003,
+    "Shape_Leng": 10261.6658288,
+    "Shape_Area": 6108599.1557,
+    "STATGEB_AL": 80003,
+    "AnzFlur": 1235,
+    "mttlFlur": 4946
+  },
+  {
+    "STATGEB": 80004,
+    "Shape_Leng": 12248.287543,
+    "Shape_Area": 6788336.55933,
+    "STATGEB_AL": 80004,
+    "AnzFlur": 1195,
+    "mttlFlur": 5681
+  },
+  {
+    "STATGEB": 81001,
+    "Shape_Leng": 18570.6427259,
+    "Shape_Area": 14039542.9634,
+    "STATGEB_AL": 81001,
+    "AnzFlur": 2003,
+    "mttlFlur": 7009
+  },
+  {
+    "STATGEB": 82001,
+    "Shape_Leng": 13474.7034715,
+    "Shape_Area": 6919878.45125,
+    "STATGEB_AL": 82001,
+    "AnzFlur": 621,
+    "mttlFlur": 11143
+  },
+  {
+    "STATGEB": 83001,
+    "Shape_Leng": 6864.52499013,
+    "Shape_Area": 2518227.00999,
+    "STATGEB_AL": 83001,
+    "AnzFlur": 355,
+    "mttlFlur": 7094
+  },
+  {
+    "STATGEB": 107001,
+    "Shape_Leng": 5841.66116881,
+    "Shape_Area": 1183566.31498,
+    "STATGEB_AL": 83002,
+    "AnzFlur": 86,
+    "mttlFlur": 13762
+  },
+  {
+    "STATGEB": 83003,
+    "Shape_Leng": 18716.5338524,
+    "Shape_Area": 6015456.64479,
+    "STATGEB_AL": 83003,
+    "AnzFlur": 880,
+    "mttlFlur": 6836
+  },
+  {
+    "STATGEB": 76024,
+    "Shape_Leng": 3346.29938536,
+    "Shape_Area": 453939.994075,
+    "STATGEB_AL": 83004,
+    "AnzFlur": 633,
+    "mttlFlur": 717
+  },
+  {
+    "STATGEB": 107009,
+    "Shape_Leng": 3360.22229609,
+    "Shape_Area": 516799.307795,
+    "STATGEB_AL": 83005,
+    "AnzFlur": 508,
+    "mttlFlur": 1017
+  },
+  {
+    "STATGEB": 107002,
+    "Shape_Leng": 1787.09286721,
+    "Shape_Area": 180480.970678,
+    "STATGEB_AL": 83006,
+    "AnzFlur": 47,
+    "mttlFlur": 3840
+  },
+  {
+    "STATGEB": 107003,
+    "Shape_Leng": 2050.10526634,
+    "Shape_Area": 205363.76275,
+    "STATGEB_AL": 83007,
+    "AnzFlur": 309,
+    "mttlFlur": 665
+  },
+  {
+    "STATGEB": 107004,
+    "Shape_Leng": 1439.99180268,
+    "Shape_Area": 127364.914319,
+    "STATGEB_AL": 83008,
+    "AnzFlur": 45,
+    "mttlFlur": 2830
+  },
+  {
+    "STATGEB": 107005,
+    "Shape_Leng": 2074.67087448,
+    "Shape_Area": 191900.948428,
+    "STATGEB_AL": 83009,
+    "AnzFlur": 51,
+    "mttlFlur": 3763
+  },
+  {
+    "STATGEB": 107006,
+    "Shape_Leng": 1595.65133619,
+    "Shape_Area": 114355.99625,
+    "STATGEB_AL": 83010,
+    "AnzFlur": 63,
+    "mttlFlur": 1815
+  },
+  {
+    "STATGEB": 107007,
+    "Shape_Leng": 2315.35479296,
+    "Shape_Area": 267545.663224,
+    "STATGEB_AL": 83011,
+    "AnzFlur": 100,
+    "mttlFlur": 2675
+  },
+  {
+    "STATGEB": 107008,
+    "Shape_Leng": 1714.15237677,
+    "Shape_Area": 127907.831747,
+    "STATGEB_AL": 83012,
+    "AnzFlur": 70,
+    "mttlFlur": 1827
+  },
+  {
+    "STATGEB": 84001,
+    "Shape_Leng": 11717.7376987,
+    "Shape_Area": 5389397.00415,
+    "STATGEB_AL": 84001,
+    "AnzFlur": 823,
+    "mttlFlur": 6548
+  },
+  {
+    "STATGEB": 84002,
+    "Shape_Leng": 9264.15957595,
+    "Shape_Area": 4081504.8932,
+    "STATGEB_AL": 84002,
+    "AnzFlur": 432,
+    "mttlFlur": 9448
+  },
+  {
+    "STATGEB": 85001,
+    "Shape_Leng": 12223.000526,
+    "Shape_Area": 3017405.40003,
+    "STATGEB_AL": 85001,
+    "AnzFlur": 919,
+    "mttlFlur": 3283
+  },
+  {
+    "STATGEB": 85002,
+    "Shape_Leng": 4922.97057584,
+    "Shape_Area": 1443125.92631,
+    "STATGEB_AL": 85002,
+    "AnzFlur": 103,
+    "mttlFlur": 14011
+  },
+  {
+    "STATGEB": 86001,
+    "Shape_Leng": 7713.93597004,
+    "Shape_Area": 3051325.53195,
+    "STATGEB_AL": 86001,
+    "AnzFlur": 419,
+    "mttlFlur": 7282
+  },
+  {
+    "STATGEB": 87001,
+    "Shape_Leng": 9722.31017652,
+    "Shape_Area": 3428462.99561,
+    "STATGEB_AL": 87001,
+    "AnzFlur": 677,
+    "mttlFlur": 5064
+  },
+  {
+    "STATGEB": 88001,
+    "Shape_Leng": 2820.39670988,
+    "Shape_Area": 332946.279109,
+    "STATGEB_AL": 88001,
+    "AnzFlur": 165,
+    "mttlFlur": 2018
+  },
+  {
+    "STATGEB": 88002,
+    "Shape_Leng": 5247.77297063,
+    "Shape_Area": 1357066.5091,
+    "STATGEB_AL": 88002,
+    "AnzFlur": 589,
+    "mttlFlur": 2304
+  },
+  {
+    "STATGEB": 88003,
+    "Shape_Leng": 5226.34259643,
+    "Shape_Area": 814052.54325,
+    "STATGEB_AL": 88003,
+    "AnzFlur": 247,
+    "mttlFlur": 3296
+  },
+  {
+    "STATGEB": 88004,
+    "Shape_Leng": 2237.85846461,
+    "Shape_Area": 283609.8417,
+    "STATGEB_AL": 88004,
+    "AnzFlur": 246,
+    "mttlFlur": 1153
+  },
+  {
+    "STATGEB": 88005,
+    "Shape_Leng": 3570.54325374,
+    "Shape_Area": 416249.388211,
+    "STATGEB_AL": 88005,
+    "AnzFlur": 443,
+    "mttlFlur": 940
+  },
+  {
+    "STATGEB": 88006,
+    "Shape_Leng": 2108.16493593,
+    "Shape_Area": 157542.621899,
+    "STATGEB_AL": 88006,
+    "AnzFlur": 274,
+    "mttlFlur": 575
+  },
+  {
+    "STATGEB": 88007,
+    "Shape_Leng": 2056.61495998,
+    "Shape_Area": 205643.46078,
+    "STATGEB_AL": 88007,
+    "AnzFlur": 212,
+    "mttlFlur": 970
+  },
+  {
+    "STATGEB": 88008,
+    "Shape_Leng": 2396.1360577,
+    "Shape_Area": 194934.8769,
+    "STATGEB_AL": 88008,
+    "AnzFlur": 150,
+    "mttlFlur": 1300
+  },
+  {
+    "STATGEB": 88009,
+    "Shape_Leng": 1999.93556404,
+    "Shape_Area": 190759.5072,
+    "STATGEB_AL": 88009,
+    "AnzFlur": 363,
+    "mttlFlur": 526
+  },
+  {
+    "STATGEB": 88010,
+    "Shape_Leng": 1349.86390308,
+    "Shape_Area": 75573.5711,
+    "STATGEB_AL": 88010,
+    "AnzFlur": 58,
+    "mttlFlur": 1303
+  },
+  {
+    "STATGEB": 89001,
+    "Shape_Leng": 6080.13594998,
+    "Shape_Area": 2049464.87972,
+    "STATGEB_AL": 89001,
+    "AnzFlur": 580,
+    "mttlFlur": 3534
+  },
+  {
+    "STATGEB": 89002,
+    "Shape_Leng": 10154.8554131,
+    "Shape_Area": 3577687.54582,
+    "STATGEB_AL": 89002,
+    "AnzFlur": 403,
+    "mttlFlur": 8878
+  },
+  {
+    "STATGEB": 89003,
+    "Shape_Leng": 3558.35792443,
+    "Shape_Area": 778710.99585,
+    "STATGEB_AL": 89003,
+    "AnzFlur": 373,
+    "mttlFlur": 2088
+  },
+  {
+    "STATGEB": 89004,
+    "Shape_Leng": 5302.57972721,
+    "Shape_Area": 1625648.4818,
+    "STATGEB_AL": 89004,
+    "AnzFlur": 153,
+    "mttlFlur": 10625
+  },
+  {
+    "STATGEB": 90001,
+    "Shape_Leng": 9281.42218719,
+    "Shape_Area": 1979182.4979,
+    "STATGEB_AL": 90001,
+    "AnzFlur": 204,
+    "mttlFlur": 9702
+  },
+  {
+    "STATGEB": 91001,
+    "Shape_Leng": 6782.31385959,
+    "Shape_Area": 1501977.95182,
+    "STATGEB_AL": 91001,
+    "AnzFlur": 495,
+    "mttlFlur": 3034
+  },
+  {
+    "STATGEB": 91002,
+    "Shape_Leng": 3482.33773257,
+    "Shape_Area": 567489.55935,
+    "STATGEB_AL": 91002,
+    "AnzFlur": 320,
+    "mttlFlur": 1773
+  },
+  {
+    "STATGEB": 91003,
+    "Shape_Leng": 2366.39971501,
+    "Shape_Area": 157385,
+    "STATGEB_AL": 91003,
+    "AnzFlur": 181,
+    "mttlFlur": 870
+  },
+  {
+    "STATGEB": 91004,
+    "Shape_Leng": 2295.95330563,
+    "Shape_Area": 302327,
+    "STATGEB_AL": 91004,
+    "AnzFlur": 418,
+    "mttlFlur": 723
+  },
+  {
+    "STATGEB": 91005,
+    "Shape_Leng": 2464.99406151,
+    "Shape_Area": 267327.50285,
+    "STATGEB_AL": 91005,
+    "AnzFlur": 432,
+    "mttlFlur": 619
+  },
+  {
+    "STATGEB": 91006,
+    "Shape_Leng": 3294.24812649,
+    "Shape_Area": 233519.02065,
+    "STATGEB_AL": 91006,
+    "AnzFlur": 176,
+    "mttlFlur": 1327
+  },
+  {
+    "STATGEB": 91007,
+    "Shape_Leng": 3008.87154341,
+    "Shape_Area": 386388.4959,
+    "STATGEB_AL": 91007,
+    "AnzFlur": 102,
+    "mttlFlur": 3788
+  },
+  {
+    "STATGEB": 92001,
+    "Shape_Leng": 9023.91344811,
+    "Shape_Area": 2262253.33471,
+    "STATGEB_AL": 92001,
+    "AnzFlur": 992,
+    "mttlFlur": 2280
+  },
+  {
+    "STATGEB": 93001,
+    "Shape_Leng": 4457.00019079,
+    "Shape_Area": 790494.0038,
+    "STATGEB_AL": 93001,
+    "AnzFlur": 1481,
+    "mttlFlur": 534
+  },
+  {
+    "STATGEB": 94001,
+    "Shape_Leng": 7119.83350245,
+    "Shape_Area": 1434374.52402,
+    "STATGEB_AL": 94001,
+    "AnzFlur": 446,
+    "mttlFlur": 3216
+  },
+  {
+    "STATGEB": 94002,
+    "Shape_Leng": 5541.53354199,
+    "Shape_Area": 1081990.01295,
+    "STATGEB_AL": 94002,
+    "AnzFlur": 677,
+    "mttlFlur": 1598
+  },
+  {
+    "STATGEB": 95001,
+    "Shape_Leng": 4247.75245227,
+    "Shape_Area": 652447.07925,
+    "STATGEB_AL": 95001,
+    "AnzFlur": 479,
+    "mttlFlur": 1362
+  },
+  {
+    "STATGEB": 95002,
+    "Shape_Leng": 10012.3365548,
+    "Shape_Area": 3373083.95485,
+    "STATGEB_AL": 95002,
+    "AnzFlur": 524,
+    "mttlFlur": 6437
+  },
+  {
+    "STATGEB": 95003,
+    "Shape_Leng": 6207.21506641,
+    "Shape_Area": 747617.5085,
+    "STATGEB_AL": 95003,
+    "AnzFlur": 373,
+    "mttlFlur": 2004
+  },
+  {
+    "STATGEB": 95004,
+    "Shape_Leng": 4452.64129073,
+    "Shape_Area": 737819.353284,
+    "STATGEB_AL": 95004,
+    "AnzFlur": 669,
+    "mttlFlur": 1103
+  },
+  {
+    "STATGEB": 95005,
+    "Shape_Leng": 2805.17262596,
+    "Shape_Area": 323909.006078,
+    "STATGEB_AL": 95005,
+    "AnzFlur": 618,
+    "mttlFlur": 524
+  },
+  {
+    "STATGEB": 96001,
+    "Shape_Leng": 3377.12265347,
+    "Shape_Area": 428504.59455,
+    "STATGEB_AL": 96001,
+    "AnzFlur": 204,
+    "mttlFlur": 2101
+  },
+  {
+    "STATGEB": 96002,
+    "Shape_Leng": 2427.87299744,
+    "Shape_Area": 309345.60725,
+    "STATGEB_AL": 96002,
+    "AnzFlur": 353,
+    "mttlFlur": 876
+  },
+  {
+    "STATGEB": 96003,
+    "Shape_Leng": 4007.93786682,
+    "Shape_Area": 522458.41945,
+    "STATGEB_AL": 96003,
+    "AnzFlur": 427,
+    "mttlFlur": 1224
+  },
+  {
+    "STATGEB": 96004,
+    "Shape_Leng": 2227.67536808,
+    "Shape_Area": 127380.0411,
+    "STATGEB_AL": 96004,
+    "AnzFlur": 105,
+    "mttlFlur": 1213
+  },
+  {
+    "STATGEB": 96005,
+    "Shape_Leng": 4830.90818628,
+    "Shape_Area": 765800.564899,
+    "STATGEB_AL": 96005,
+    "AnzFlur": 316,
+    "mttlFlur": 2423
+  },
+  {
+    "STATGEB": 96006,
+    "Shape_Leng": 7028.36101222,
+    "Shape_Area": 2464252.12105,
+    "STATGEB_AL": 96006,
+    "AnzFlur": 1113,
+    "mttlFlur": 2214
+  },
+  {
+    "STATGEB": 96007,
+    "Shape_Leng": 3359.69658674,
+    "Shape_Area": 414249.98915,
+    "STATGEB_AL": 96007,
+    "AnzFlur": 478,
+    "mttlFlur": 867
+  },
+  {
+    "STATGEB": 96008,
+    "Shape_Leng": 1765.3540854,
+    "Shape_Area": 96377.5177,
+    "STATGEB_AL": 96008,
+    "AnzFlur": 38,
+    "mttlFlur": 2536
+  },
+  {
+    "STATGEB": 96009,
+    "Shape_Leng": 4258.7853577,
+    "Shape_Area": 715293.43595,
+    "STATGEB_AL": 96009,
+    "AnzFlur": 199,
+    "mttlFlur": 3594
+  },
+  {
+    "STATGEB": 96010,
+    "Shape_Leng": 3435.37772042,
+    "Shape_Area": 563347.114601,
+    "STATGEB_AL": 96010,
+    "AnzFlur": 559,
+    "mttlFlur": 1008
+  },
+  {
+    "STATGEB": 96011,
+    "Shape_Leng": 9992.82731789,
+    "Shape_Area": 1939449.2922,
+    "STATGEB_AL": 96011,
+    "AnzFlur": 31,
+    "mttlFlur": 62563
+  },
+  {
+    "STATGEB": 97001,
+    "Shape_Leng": 6039.29183627,
+    "Shape_Area": 1732254.48075,
+    "STATGEB_AL": 97001,
+    "AnzFlur": 807,
+    "mttlFlur": 2147
+  },
+  {
+    "STATGEB": 97002,
+    "Shape_Leng": 6392.59456217,
+    "Shape_Area": 2071317.98185,
+    "STATGEB_AL": 97002,
+    "AnzFlur": 207,
+    "mttlFlur": 10006
+  },
+  {
+    "STATGEB": 97003,
+    "Shape_Leng": 8000.61723754,
+    "Shape_Area": 985476.09885,
+    "STATGEB_AL": 97003,
+    "AnzFlur": 421,
+    "mttlFlur": 2341
+  },
+  {
+    "STATGEB": 97004,
+    "Shape_Leng": 9887.8104631,
+    "Shape_Area": 4406363.38875,
+    "STATGEB_AL": 97004,
+    "AnzFlur": 72,
+    "mttlFlur": 61199
+  },
+  {
+    "STATGEB": 97005,
+    "Shape_Leng": 8870.7079095,
+    "Shape_Area": 2147014.5511,
+    "STATGEB_AL": 97005,
+    "AnzFlur": 382,
+    "mttlFlur": 5620
+  },
+  {
+    "STATGEB": 97006,
+    "Shape_Leng": 3001.44597427,
+    "Shape_Area": 384268.5177,
+    "STATGEB_AL": 97006,
+    "AnzFlur": 427,
+    "mttlFlur": 900
+  },
+  {
+    "STATGEB": 97007,
+    "Shape_Leng": 2751.82061196,
+    "Shape_Area": 176241.5514,
+    "STATGEB_AL": 97007,
+    "AnzFlur": 103,
+    "mttlFlur": 1711
+  },
+  {
+    "STATGEB": 97008,
+    "Shape_Leng": 2433.22949061,
+    "Shape_Area": 255320.9986,
+    "STATGEB_AL": 97008,
+    "AnzFlur": 176,
+    "mttlFlur": 1451
+  },
+  {
+    "STATGEB": 97009,
+    "Shape_Leng": 2040.10285664,
+    "Shape_Area": 174105.04475,
+    "STATGEB_AL": 97009,
+    "AnzFlur": 151,
+    "mttlFlur": 1153
+  },
+  {
+    "STATGEB": 97010,
+    "Shape_Leng": 4230.34456917,
+    "Shape_Area": 516249.90035,
+    "STATGEB_AL": 97010,
+    "AnzFlur": 440,
+    "mttlFlur": 1173
+  },
+  {
+    "STATGEB": 97011,
+    "Shape_Leng": 2016.82192979,
+    "Shape_Area": 163660.04015,
+    "STATGEB_AL": 97011,
+    "AnzFlur": 255,
+    "mttlFlur": 642
+  },
+  {
+    "STATGEB": 98001,
+    "Shape_Leng": 8212.93811799,
+    "Shape_Area": 2608493.6189,
+    "STATGEB_AL": 98001,
+    "AnzFlur": 475,
+    "mttlFlur": 5492
+  },
+  {
+    "STATGEB": 98002,
+    "Shape_Leng": 9753.32325407,
+    "Shape_Area": 5298465.4747,
+    "STATGEB_AL": 98002,
+    "AnzFlur": 692,
+    "mttlFlur": 7657
+  },
+  {
+    "STATGEB": 98003,
+    "Shape_Leng": 6135.31816512,
+    "Shape_Area": 2138299.13745,
+    "STATGEB_AL": 98003,
+    "AnzFlur": 106,
+    "mttlFlur": 20173
+  },
+  {
+    "STATGEB": 99001,
+    "Shape_Leng": 8028.04632398,
+    "Shape_Area": 2852400.31952,
+    "STATGEB_AL": 99001,
+    "AnzFlur": 105,
+    "mttlFlur": 27166
+  },
+  {
+    "STATGEB": 99002,
+    "Shape_Leng": 8253.83193326,
+    "Shape_Area": 3854827.77468,
+    "STATGEB_AL": 99002,
+    "AnzFlur": 92,
+    "mttlFlur": 41900
+  },
+  {
+    "STATGEB": 100001,
+    "Shape_Leng": 5769.01921816,
+    "Shape_Area": 1104654.47758,
+    "STATGEB_AL": 100001,
+    "AnzFlur": 273,
+    "mttlFlur": 4046
+  },
+  {
+    "STATGEB": 100002,
+    "Shape_Leng": 4182.38236488,
+    "Shape_Area": 954282.593844,
+    "STATGEB_AL": 100002,
+    "AnzFlur": 533,
+    "mttlFlur": 1790
+  },
+  {
+    "STATGEB": 100003,
+    "Shape_Leng": 5368.25606282,
+    "Shape_Area": 1539032.55743,
+    "STATGEB_AL": 100003,
+    "AnzFlur": 354,
+    "mttlFlur": 4348
+  },
+  {
+    "STATGEB": 100004,
+    "Shape_Leng": 2391.97440378,
+    "Shape_Area": 233427.226239,
+    "STATGEB_AL": 100004,
+    "AnzFlur": 78,
+    "mttlFlur": 2993
+  },
+  {
+    "STATGEB": 100005,
+    "Shape_Leng": 2817.56853713,
+    "Shape_Area": 387016.023664,
+    "STATGEB_AL": 100005,
+    "AnzFlur": 392,
+    "mttlFlur": 987
+  },
+  {
+    "STATGEB": 100006,
+    "Shape_Leng": 3118.75649896,
+    "Shape_Area": 307528.171783,
+    "STATGEB_AL": 100006,
+    "AnzFlur": 382,
+    "mttlFlur": 805
+  },
+  {
+    "STATGEB": 100007,
+    "Shape_Leng": 2940.3972129,
+    "Shape_Area": 454089.99505,
+    "STATGEB_AL": 100007,
+    "AnzFlur": 213,
+    "mttlFlur": 2132
+  },
+  {
+    "STATGEB": 100008,
+    "Shape_Leng": 6515.45148722,
+    "Shape_Area": 310013.989982,
+    "STATGEB_AL": 100008,
+    "AnzFlur": 271,
+    "mttlFlur": 1144
+  },
+  {
+    "STATGEB": 100009,
+    "Shape_Leng": 7973.43762066,
+    "Shape_Area": 2729743.5585,
+    "STATGEB_AL": 100009,
+    "AnzFlur": 830,
+    "mttlFlur": 3289
+  },
+  {
+    "STATGEB": 100010,
+    "Shape_Leng": 5948.68242581,
+    "Shape_Area": 1811870.57405,
+    "STATGEB_AL": 100010,
+    "AnzFlur": 236,
+    "mttlFlur": 7677
+  },
+  {
+    "STATGEB": 101001,
+    "Shape_Leng": 14927.3429734,
+    "Shape_Area": 7054409.91335,
+    "STATGEB_AL": 101001,
+    "AnzFlur": 646,
+    "mttlFlur": 10920
+  },
+  {
+    "STATGEB": 101002,
+    "Shape_Leng": 4623.26537872,
+    "Shape_Area": 574313.903295,
+    "STATGEB_AL": 101002,
+    "AnzFlur": 77,
+    "mttlFlur": 7459
+  },
+  {
+    "STATGEB": 101003,
+    "Shape_Leng": 4036.27175429,
+    "Shape_Area": 805686.562218,
+    "STATGEB_AL": 101003,
+    "AnzFlur": 183,
+    "mttlFlur": 4403
+  },
+  {
+    "STATGEB": 101004,
+    "Shape_Leng": 3982.67761641,
+    "Shape_Area": 570226.004232,
+    "STATGEB_AL": 101004,
+    "AnzFlur": 406,
+    "mttlFlur": 1404
+  },
+  {
+    "STATGEB": 101005,
+    "Shape_Leng": 5923.61552813,
+    "Shape_Area": 883240.633034,
+    "STATGEB_AL": 101005,
+    "AnzFlur": 770,
+    "mttlFlur": 1147
+  },
+  {
+    "STATGEB": 101006,
+    "Shape_Leng": 3409.89637168,
+    "Shape_Area": 431175.053552,
+    "STATGEB_AL": 101006,
+    "AnzFlur": 263,
+    "mttlFlur": 1639
+  },
+  {
+    "STATGEB": 101007,
+    "Shape_Leng": 3032.7009806,
+    "Shape_Area": 349638.4903,
+    "STATGEB_AL": 101007,
+    "AnzFlur": 170,
+    "mttlFlur": 2057
+  },
+  {
+    "STATGEB": 101008,
+    "Shape_Leng": 4379.31606815,
+    "Shape_Area": 420665.48815,
+    "STATGEB_AL": 101008,
+    "AnzFlur": 87,
+    "mttlFlur": 4835
+  },
+  {
+    "STATGEB": 101009,
+    "Shape_Leng": 3856.0847843,
+    "Shape_Area": 635460.98945,
+    "STATGEB_AL": 101009,
+    "AnzFlur": 176,
+    "mttlFlur": 3611
+  },
+  {
+    "STATGEB": 101010,
+    "Shape_Leng": 7638.84027681,
+    "Shape_Area": 1839876.5718,
+    "STATGEB_AL": 101010,
+    "AnzFlur": 1453,
+    "mttlFlur": 1266
+  },
+  {
+    "STATGEB": 101011,
+    "Shape_Leng": 5780.30245482,
+    "Shape_Area": 725326.388612,
+    "STATGEB_AL": 101011,
+    "AnzFlur": 368,
+    "mttlFlur": 1971
+  },
+  {
+    "STATGEB": 101012,
+    "Shape_Leng": 3847.24891359,
+    "Shape_Area": 299038.36423,
+    "STATGEB_AL": 101012,
+    "AnzFlur": 265,
+    "mttlFlur": 1128
+  },
+  {
+    "STATGEB": 101013,
+    "Shape_Leng": 2797.44730831,
+    "Shape_Area": 378794.588008,
+    "STATGEB_AL": 101013,
+    "AnzFlur": 192,
+    "mttlFlur": 1973
+  },
+  {
+    "STATGEB": 101014,
+    "Shape_Leng": 4344.43770759,
+    "Shape_Area": 880905.619007,
+    "STATGEB_AL": 101014,
+    "AnzFlur": 976,
+    "mttlFlur": 903
+  },
+  {
+    "STATGEB": 101015,
+    "Shape_Leng": 9082.58784171,
+    "Shape_Area": 3169557.20963,
+    "STATGEB_AL": 101015,
+    "AnzFlur": 145,
+    "mttlFlur": 21859
+  },
+  {
+    "STATGEB": 101016,
+    "Shape_Leng": 10660.3903884,
+    "Shape_Area": 3517445.81417,
+    "STATGEB_AL": 101016,
+    "AnzFlur": 1359,
+    "mttlFlur": 2588
+  },
+  {
+    "STATGEB": 102001,
+    "Shape_Leng": 13878.4105308,
+    "Shape_Area": 8848513.6126,
+    "STATGEB_AL": 102001,
+    "AnzFlur": 998,
+    "mttlFlur": 8866
+  },
+  {
+    "STATGEB": 103001,
+    "Shape_Leng": 13313.6631663,
+    "Shape_Area": 4591681.71112,
+    "STATGEB_AL": 103001,
+    "AnzFlur": 955,
+    "mttlFlur": 4808
+  },
+  {
+    "STATGEB": 103002,
+    "Shape_Leng": 2553.02783451,
+    "Shape_Area": 265737.458219,
+    "STATGEB_AL": 103002,
+    "AnzFlur": 120,
+    "mttlFlur": 2214
+  },
+  {
+    "STATGEB": 103003,
+    "Shape_Leng": 5427.10287295,
+    "Shape_Area": 1551644.37524,
+    "STATGEB_AL": 103003,
+    "AnzFlur": 503,
+    "mttlFlur": 3085
+  },
+  {
+    "STATGEB": 103004,
+    "Shape_Leng": 14187.1925079,
+    "Shape_Area": 9223908.01486,
+    "STATGEB_AL": 103004,
+    "AnzFlur": 915,
+    "mttlFlur": 10081
+  },
+  {
+    "STATGEB": 104001,
+    "Shape_Leng": 5920.82655316,
+    "Shape_Area": 1344601.5139,
+    "STATGEB_AL": 104001,
+    "AnzFlur": 384,
+    "mttlFlur": 3502
+  }
+]

@@ -94,11 +94,16 @@ export default class MapComponent extends Vue {
       StatGebiete: new VectorSource({
         format: new GML3(),
         url: "https://geodienste.hamburg.de/HH_WFS_Statistische_Gebiete?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:4326&typename=app:statistische_gebiete"
+      }) as MyVectorSource,
+      Baublöcke: new VectorSource({
+        format: new GML3(),
+        url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:4326&typename=baubloecke"
       }) as MyVectorSource
     };
     this.sources.Bezirke.setLoaderForWFSWithFlippedCoordinates();
     this.sources.Stadtteile.setLoaderForWFSWithFlippedCoordinates();
     this.sources.StatGebiete.setLoaderForWFSWithFlippedCoordinates();
+    this.sources.Baublöcke.setLoaderForWFSWithFlippedCoordinates();
 
     this.layers = {
       Geobasiskarten: new TileLayer({
@@ -130,6 +135,11 @@ export default class MapComponent extends Vue {
       StatGebiete: new VectorLayer({
         source: this.sources.StatGebiete,
         style: this.getAdminAreaStyleFn("StatGebiete", "statgebiet")
+      }),
+      Baublöcke: new VectorLayer({
+        source: this.sources.Baublöcke,
+        style: this.getAdminAreaStyleFn("Baublöcke", "baublockbezeichnung"),
+        minZoom: 13
       })
     };
   }
@@ -174,7 +184,7 @@ export default class MapComponent extends Vue {
       const coord = this.map.getCoordinateFromPixel(evt.pixel);
       const event: { [key: string]: Feature[] } = {};
 
-      for (const adminLevel of ["Bezirke", "Stadtteile", "StatGebiete"]) {
+      for (const adminLevel of ["Bezirke", "Stadtteile", "StatGebiete", "Baublöcke"]) {
         if (this.adminLayerVisibility[adminLevel]) {
           this.sources[adminLevel].getFeaturesAtCoordinate(coord).forEach(feature => {
             feature.set("selected", !feature.get("selected"));
