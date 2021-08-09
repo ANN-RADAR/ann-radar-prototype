@@ -1,10 +1,12 @@
 export interface Bezirk {
-  Bezirk: string;
+  bezirk: string;
+  bezirk_name: string;
   MWh_a: number;
 }
 
 export interface Stadtteil {
-  Stadtteil: string;
+  stadtteil_name: string;
+  stadtteil_nummer: string;
   MWh_a: number;
 }
 

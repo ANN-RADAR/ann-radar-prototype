@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { Feature, Map, MapBrowserEvent, View } from "ol";
+import { Map, MapBrowserEvent, View } from "ol";
 import GML3 from "ol/format/GML3";
 import { Layer, Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import "ol/ol.css";
@@ -158,7 +158,6 @@ export default class MapComponent extends Vue {
     // Select map features
     this.map.on("click", (evt: MapBrowserEvent) => {
       const coord = this.map.getCoordinateFromPixel(evt.pixel);
-      const event: { [key: string]: Feature[] } = {};
 
       for (const adminLevel of ["Bezirke", "Stadtteile", "StatGebiete", "Baublöcke"]) {
         if (this.adminLayerVisibility[adminLevel]) {
@@ -176,11 +175,26 @@ export default class MapComponent extends Vue {
             }
           });
         }
-
-        event[adminLevel] = this.sources[adminLevel]
-          .getFeatures()
-          .filter(feature => feature.get("selected"));
       }
+
+      const event = {
+        Bezirke: this.sources.Bezirke
+          .getFeatures()
+          .filter(feature => feature.get("selected"))
+          .map(feature => feature.get("bezirk")),
+        Stadtteile: this.sources.Stadtteile
+          .getFeatures()
+          .filter(feature => feature.get("selected"))
+          .map(feature => feature.get("stadtteil_nummer")),
+        StatGebiete: this.sources.StatGebiete
+          .getFeatures()
+          .filter(feature => feature.get("selected"))
+          .map(feature => feature.get("statgebiet")),
+        Baublöcke: this.sources.Baublöcke
+          .getFeatures()
+          .filter(feature => feature.get("selected"))
+          .map(feature => feature.get("baublockbezeichnung"))
+      };
 
       this.$emit("adminAreasSelected", event);
     });

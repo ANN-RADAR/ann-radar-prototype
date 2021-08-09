@@ -12,9 +12,9 @@
         style="display: flex; flex-direction: column; height: 100%; padding: 0"
       >
         <v-tabs v-model="tab">
-          <v-tab>Potenzial</v-tab>
-          <v-tab>Strategie</v-tab>
-          <v-tab>Stakeholder</v-tab>
+          <v-tab>Potential</v-tab>
+          <v-tab>Plans</v-tab>
+          <v-tab>Stakeholders</v-tab>
           <v-tab>Urban Data</v-tab>
           <v-tab>Governance</v-tab>
         </v-tabs>
@@ -25,7 +25,7 @@
               style="display: flex; flex-direction: column; height: 100%"
             >
               <v-row style="flex-grow: 1">
-                <v-col cols="8">
+                <v-col cols="7">
                   <MapComponent
                     :layerVisibility="mapLayers.reduce((obj, layer) => {
                       obj[layer.name] = layer.visible;
@@ -61,7 +61,7 @@
                           :color="areaUnit === 'Bezirk' ? 'primary' : ''"
                           @click="areaUnit = areaUnit != 'Bezirk' ? 'Bezirk' : ''"
                         >
-                          Bezirke
+                          Stadt
                         </v-btn>
                         <v-btn
                           :color="areaUnit === 'Stadtteil' ? 'primary' : ''"
@@ -82,120 +82,58 @@
                           Baublöcke
                         </v-btn>
                       </v-sheet>
-                      <v-sheet v-if="areaUnit === 'Bezirk'">
-                        <div style="margin: 10px; font-size: 120%">
-                          <span v-if="selectedBezirke.length">
-                            {{ selectedBezirke.length }} Bezirke ausgewählt
-                          </span>
-                          <span v-else>
-                            Nichts ausgewählt
-                          </span>
-                        </div>
-                        <v-btn
-                          v-if="selectedBezirke.length"
-                          style="margin-bottom: 20px"
-                        >
-                          Auswahl speichern
-                        </v-btn>
-                      </v-sheet>
-                      <v-sheet v-if="areaUnit === 'Stadtteil'">
-                        <div style="margin: 10px; font-size: 120%">
-                          <span v-if="selectedStadtteile.length">
-                            {{ selectedStadtteile.length }} Stadtteile ausgewählt
-                          </span>
-                          <span v-else>
-                            Nichts ausgewählt
-                          </span>
-                        </div>
-                        <v-btn
-                          v-if="selectedStadtteile.length"
-                          style="margin-bottom: 20px"
-                        >
-                          Auswahl speichern
-                        </v-btn>
-                      </v-sheet>
-                      <v-sheet v-if="areaUnit === 'StatGebiet'">
-                        <div style="margin: 10px; font-size: 120%">
-                          <span v-if="selectedStatGebiete.length">
-                            {{ selectedStatGebiete.length }} statistische Gebiete ausgewählt
-                          </span>
-                          <span v-else>
-                            Nichts ausgewählt
-                          </span>
-                        </div>
-                        <v-btn
-                          v-if="selectedStatGebiete.length"
-                          style="margin-bottom: 20px"
-                        >
-                          Auswahl speichern
-                        </v-btn>
-                      </v-sheet>
-                      <v-sheet v-if="areaUnit === 'Baublock'">
-                        <div style="margin: 10px; font-size: 120%">
-                          <span v-if="selectedBaublöcke.length">
-                            {{ selectedBaublöcke.length }} Baublöcke ausgewählt
-                          </span>
-                          <span v-else>
-                            Nichts ausgewählt
-                          </span>
-                        </div>
-                        <v-btn
-                          v-if="selectedBaublöcke.length"
-                          style="margin-bottom: 20px"
-                        >
-                          Auswahl speichern
-                        </v-btn>
-                      </v-sheet>
-                      <v-sheet v-if="areaUnit === 'Bezirk'">
-                        <div
-                          v-for="feature in selectedBezirke"
-                          :key="feature.ol_uid"
-                        >
-                          <h3>{{ feature.get("bezirk_name") }}</h3>
-                          <p v-if="getBezirkData(feature)">
-                            Jährliches Solarpotential: {{ getBezirkData(feature).MWh_a }} MWh/a
-                          </p>
-                        </div>
-                      </v-sheet>
-                      <v-sheet v-if="areaUnit === 'Stadtteil'">
-                        <div
-                          v-for="feature in selectedStadtteile"
-                          :key="feature.ol_uid"
-                        >
-                          <h3>{{ feature.get("stadtteil_name") }}</h3>
-                          <p v-if="getStadtteilData(feature)">
-                            Jährliches Solarpotential: {{ getStadtteilData(feature).MWh_a }} MWh/a
-                          </p>
-                        </div>
-                      </v-sheet>
-                      <v-sheet v-if="areaUnit === 'StatGebiet'">
-                        <div
-                          v-for="feature in selectedStatGebiete"
-                          :key="feature.ol_uid"
-                        >
-                          <h3>
-                            Nr. {{ feature.get("statgebiet") }}
-                          </h3>
-                          <p v-if="getStatGebietData(feature)">
-                            {{ getStatGebietData(feature).AnzFlur }} Flurstücke<br>
-                            Mittlere Flurstückgröße: {{ getStatGebietData(feature).mttlFlur }} m²<br>
-                          </p>
-                        </div>
-                      </v-sheet>
-                      <v-sheet v-if="areaUnit === 'Baublock'">
-                        <div
-                          v-for="feature in selectedBaublöcke"
-                          :key="feature.ol_uid"
-                        >
-                          <h3>
-                            Nr. {{ feature.get("baublockbezeichnung") }}
-                          </h3>
-                          <p v-if="getBaublockData(feature)">
-                            {{ getBaublockData(feature).Anz_Fl }} Flurstücke<br>
-                            Jährliches Solarpotential: {{ getBaublockData(feature).p_st_mwh_a }} MWh/a<br>
-                          </p>
-                        </div>
-                      </v-sheet>
+                      <v-data-table
+                        v-if="areaUnit === 'Bezirk'"
+                        v-model="selectedBezirke"
+                        :headers="[
+                          { text: 'Bezirk', sortable: true, value: 'bezirk_name' },
+                          { text: 'Solarpotenzial', sortable: true, value: 'MWh_a' }
+                        ]"
+                        :items="bezirke"
+                        item-key="bezirk"
+                        :show-select="true"
+                        style="margin: 15px 0"
+                      ></v-data-table>
+                      <v-data-table
+                        v-if="areaUnit === 'Stadtteil'"
+                        v-model="selectedStadtteile"
+                        :headers="[
+                          { text: 'Stadtteil', sortable: true, value: 'stadtteil_name' },
+                          { text: 'Solarpotenzial', sortable: true, value: 'MWh_a' }
+                        ]"
+                        :items="stadtteile"
+                        item-key="stadtteil_nummer"
+                        :show-select="true"
+                        style="margin: 15px 0"
+                      ></v-data-table>
+                      <v-data-table
+                        v-if="areaUnit === 'StatGebiet'"
+                        v-model="selectedStatGebiete"
+                        :headers="[
+                          { text: 'Nr.', sortable: true, value: 'STATGEB' },
+                          { text: 'Flurstücke', sortable: true, value: 'AnzFlur' },
+                          { text: 'mittl. Flurstückgröße', sortable: true, value: 'mttlFlur' },
+                          { text: 'Solarpotenzial', sortable: true, value: 'MWh_a' }
+                        ]"
+                        :items="selectedStatGebiete"
+                        item-key="STATGEB"
+                        :show-select="true"
+                        style="margin: 15px 0"
+                      ></v-data-table>
+                      <v-data-table
+                        v-if="areaUnit === 'Baublock'"
+                        v-model="selectedBaublöcke"
+                        :headers="[
+                          { text: 'Nr.', sortable: true, value: 'BBZ' },
+                          { text: 'Flurstücke', sortable: true, value: 'Anz_Fl' },
+                          { text: 'Bevölkerung', sortable: true, value: 'Bev_Ges' },
+                          { text: 'Solarpotenzial', sortable: true, value: 'p_st_mwh_a' }
+                        ]"
+                        :items="selectedBaublöcke"
+                        item-key="BBZ"
+                        :show-select="true"
+                        style="margin: 15px 0"
+                      ></v-data-table>
                     </v-card-text>
                   </v-card>
                 </v-col>
@@ -209,12 +147,11 @@
 </template>
 
 <script lang="ts">
-import Feature from "ol/Feature";
 import { Component, Vue } from "vue-property-decorator";
 
 import MapComponent from "./components/MapComponent.vue";
-import BezirkeData from "./data/solarflächenpotenzial_bezirke.json";
-import StadtteileData from "./data/solarflächenpotenzial_stadtteile.json";
+import BezirkeData from "./data/bezirke.json";
+import StadtteileData from "./data/stadtteile.json";
 import StatGebieteData from "./data/statistische_gebiete.json";
 import BaublöckeData from "./data/baublöcke.json";
 import { Baublock, Bezirk, Stadtteil, StatGebiet } from "./typings";
@@ -227,10 +164,14 @@ import { Baublock, Bezirk, Stadtteil, StatGebiet } from "./typings";
 export default class App extends Vue {
   tab = 0;
   areaUnit = "";
-  selectedBezirke: Feature[] = [];
-  selectedStadtteile: Feature[] = [];
-  selectedStatGebiete: Feature[] = [];
-  selectedBaublöcke: Feature[] = [];
+  bezirke = BezirkeData as Bezirk[];
+  stadtteile = StadtteileData as Stadtteil[];
+  statGebiete = StatGebieteData as StatGebiet[];
+  baublöcke = BaublöckeData as Baublock[];
+  selectedBezirke: Bezirk[] = [];
+  selectedStadtteile: Stadtteil[] = [];
+  selectedStatGebiete: StatGebiet[] = [];
+  selectedBaublöcke: Baublock[] = [];
   mapLayers = [
     {
       name: "Geobasiskarten",
@@ -248,35 +189,11 @@ export default class App extends Vue {
     this.areaUnit = "Bezirk";
   }
 
-  onAdminAreasSelected(event: { [key: string]: Feature[] }): void {
-    if (Object.hasOwnProperty.call(event, "Bezirke")) {
-      this.selectedBezirke = event.Bezirke;
-    }
-    if (Object.hasOwnProperty.call(event, "Stadtteile")) {
-      this.selectedStadtteile = event.Stadtteile;
-    }
-    if (Object.hasOwnProperty.call(event, "StatGebiete")) {
-      this.selectedStatGebiete = event.StatGebiete;
-    }
-    if (Object.hasOwnProperty.call(event, "Baublöcke")) {
-      this.selectedBaublöcke = event.Baublöcke;
-    }
-  }
-
-  getBezirkData(feature: Feature): Bezirk | undefined {
-    return BezirkeData.find(object => object.Bezirk === feature.get("bezirk"));
-  }
-
-  getStadtteilData(feature: Feature): Stadtteil | undefined {
-    return StadtteileData.find(object => object.Stadtteil === feature.get("stadtteil_nummer"));
-  }
-
-  getStatGebietData(feature: Feature): StatGebiet | undefined {
-    return StatGebieteData.find(object => object.STATGEB.toString() === feature.get("statgebiet"));
-  }
-
-  getBaublockData(feature: Feature): Baublock | undefined {
-    return BaublöckeData.find(object => object.BBZ.toString() === feature.get("baublockbezeichnung"));
+  onAdminAreasSelected(event: { [key: string]: string[] }): void {
+    this.selectedBezirke = this.bezirke.filter(area => event.Bezirke.indexOf(area.bezirk) > -1);
+    this.selectedStadtteile = this.stadtteile.filter(area => event.Stadtteile.indexOf(area.stadtteil_nummer) > -1);
+    this.selectedStatGebiete = this.statGebiete.filter(area => event.StatGebiete.indexOf(area.STATGEB.toString()) > -1);
+    this.selectedBaublöcke = this.baublöcke.filter(area => event.Baublöcke.indexOf(area.BBZ.toString()) > -1);
   }
 }
 </script>
