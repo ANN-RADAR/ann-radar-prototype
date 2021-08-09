@@ -1,0 +1,418 @@
+[
+  {
+    "stadtteil_name": "Hamburg-Altstadt",
+    "stadtteil_nummer": "101"
+  },
+  {
+    "stadtteil_name": "HafenCity",
+    "stadtteil_nummer": "102"
+  },
+  {
+    "stadtteil_name": "Neustadt",
+    "stadtteil_nummer": "103"
+  },
+  {
+    "stadtteil_name": "St. Pauli",
+    "stadtteil_nummer": "104"
+  },
+  {
+    "stadtteil_name": "St. Georg",
+    "stadtteil_nummer": "105"
+  },
+  {
+    "stadtteil_name": "Hammerbrook",
+    "stadtteil_nummer": "106"
+  },
+  {
+    "stadtteil_name": "Borgfelde",
+    "stadtteil_nummer": "107"
+  },
+  {
+    "stadtteil_name": "Hamm",
+    "stadtteil_nummer": "108"
+  },
+  {
+    "stadtteil_name": "Horn",
+    "stadtteil_nummer": "111"
+  },
+  {
+    "stadtteil_name": "Billstedt",
+    "stadtteil_nummer": "112"
+  },
+  {
+    "stadtteil_name": "Billbrook",
+    "stadtteil_nummer": "113"
+  },
+  {
+    "stadtteil_name": "Rothenburgsort",
+    "stadtteil_nummer": "114"
+  },
+  {
+    "stadtteil_name": "Veddel",
+    "stadtteil_nummer": "115"
+  },
+  {
+    "stadtteil_name": "Wilhelmsburg",
+    "stadtteil_nummer": "116"
+  },
+  {
+    "stadtteil_name": "Kleiner Grasbrook",
+    "stadtteil_nummer": "117"
+  },
+  {
+    "stadtteil_name": "Steinwerder",
+    "stadtteil_nummer": "118"
+  },
+  {
+    "stadtteil_name": "Waltershof",
+    "stadtteil_nummer": "119"
+  },
+  {
+    "stadtteil_name": "Finkenwerder",
+    "stadtteil_nummer": "120"
+  },
+  {
+    "stadtteil_name": "Neuwerk",
+    "stadtteil_nummer": "121"
+  },
+  {
+    "stadtteil_name": "Altona-Altstadt",
+    "stadtteil_nummer": "201"
+  },
+  {
+    "stadtteil_name": "Sternschanze",
+    "stadtteil_nummer": "202"
+  },
+  {
+    "stadtteil_name": "Altona-Nord",
+    "stadtteil_nummer": "203"
+  },
+  {
+    "stadtteil_name": "Ottensen",
+    "stadtteil_nummer": "204"
+  },
+  {
+    "stadtteil_name": "Bahrenfeld",
+    "stadtteil_nummer": "205"
+  },
+  {
+    "stadtteil_name": "Groß Flottbek",
+    "stadtteil_nummer": "206"
+  },
+  {
+    "stadtteil_name": "Othmarschen",
+    "stadtteil_nummer": "207"
+  },
+  {
+    "stadtteil_name": "Lurup",
+    "stadtteil_nummer": "208"
+  },
+  {
+    "stadtteil_name": "Osdorf",
+    "stadtteil_nummer": "209"
+  },
+  {
+    "stadtteil_name": "Nienstedten",
+    "stadtteil_nummer": "210"
+  },
+  {
+    "stadtteil_name": "Blankenese",
+    "stadtteil_nummer": "211"
+  },
+  {
+    "stadtteil_name": "Iserbrook",
+    "stadtteil_nummer": "212"
+  },
+  {
+    "stadtteil_name": "Sülldorf",
+    "stadtteil_nummer": "213"
+  },
+  {
+    "stadtteil_name": "Rissen",
+    "stadtteil_nummer": "214"
+  },
+  {
+    "stadtteil_name": "Eimsbüttel",
+    "stadtteil_nummer": "301"
+  },
+  {
+    "stadtteil_name": "Rotherbaum",
+    "stadtteil_nummer": "302"
+  },
+  {
+    "stadtteil_name": "Harvestehude",
+    "stadtteil_nummer": "303"
+  },
+  {
+    "stadtteil_name": "Hoheluft-West",
+    "stadtteil_nummer": "304"
+  },
+  {
+    "stadtteil_name": "Lokstedt",
+    "stadtteil_nummer": "305"
+  },
+  {
+    "stadtteil_name": "Niendorf",
+    "stadtteil_nummer": "306"
+  },
+  {
+    "stadtteil_name": "Schnelsen",
+    "stadtteil_nummer": "307"
+  },
+  {
+    "stadtteil_name": "Eidelstedt",
+    "stadtteil_nummer": "308"
+  },
+  {
+    "stadtteil_name": "Stellingen",
+    "stadtteil_nummer": "309"
+  },
+  {
+    "stadtteil_name": "Hoheluft-Ost",
+    "stadtteil_nummer": "401"
+  },
+  {
+    "stadtteil_name": "Eppendorf",
+    "stadtteil_nummer": "402"
+  },
+  {
+    "stadtteil_name": "Groß Borstel",
+    "stadtteil_nummer": "403"
+  },
+  {
+    "stadtteil_name": "Alsterdorf",
+    "stadtteil_nummer": "404"
+  },
+  {
+    "stadtteil_name": "Winterhude",
+    "stadtteil_nummer": "405"
+  },
+  {
+    "stadtteil_name": "Uhlenhorst",
+    "stadtteil_nummer": "406"
+  },
+  {
+    "stadtteil_name": "Hohenfelde",
+    "stadtteil_nummer": "407"
+  },
+  {
+    "stadtteil_name": "Barmbek-Süd",
+    "stadtteil_nummer": "408"
+  },
+  {
+    "stadtteil_name": "Dulsberg",
+    "stadtteil_nummer": "409"
+  },
+  {
+    "stadtteil_name": "Barmbek-Nord",
+    "stadtteil_nummer": "410"
+  },
+  {
+    "stadtteil_name": "Ohlsdorf",
+    "stadtteil_nummer": "411"
+  },
+  {
+    "stadtteil_name": "Fuhlsbüttel",
+    "stadtteil_nummer": "412"
+  },
+  {
+    "stadtteil_name": "Langenhorn",
+    "stadtteil_nummer": "413"
+  },
+  {
+    "stadtteil_name": "Eilbek",
+    "stadtteil_nummer": "501"
+  },
+  {
+    "stadtteil_name": "Wandsbek",
+    "stadtteil_nummer": "502"
+  },
+  {
+    "stadtteil_name": "Marienthal",
+    "stadtteil_nummer": "503"
+  },
+  {
+    "stadtteil_name": "Jenfeld",
+    "stadtteil_nummer": "504"
+  },
+  {
+    "stadtteil_name": "Tonndorf",
+    "stadtteil_nummer": "505"
+  },
+  {
+    "stadtteil_name": "Farmsen-Berne",
+    "stadtteil_nummer": "506"
+  },
+  {
+    "stadtteil_name": "Bramfeld",
+    "stadtteil_nummer": "507"
+  },
+  {
+    "stadtteil_name": "Steilshoop",
+    "stadtteil_nummer": "508"
+  },
+  {
+    "stadtteil_name": "Wellingsbüttel",
+    "stadtteil_nummer": "509"
+  },
+  {
+    "stadtteil_name": "Sasel",
+    "stadtteil_nummer": "510"
+  },
+  {
+    "stadtteil_name": "Poppenbüttel",
+    "stadtteil_nummer": "511"
+  },
+  {
+    "stadtteil_name": "Hummelsbüttel",
+    "stadtteil_nummer": "512"
+  },
+  {
+    "stadtteil_name": "Lemsahl-Mellingstedt",
+    "stadtteil_nummer": "513"
+  },
+  {
+    "stadtteil_name": "Duvenstedt",
+    "stadtteil_nummer": "514"
+  },
+  {
+    "stadtteil_name": "Wohldorf-Ohlstedt",
+    "stadtteil_nummer": "515"
+  },
+  {
+    "stadtteil_name": "Bergstedt",
+    "stadtteil_nummer": "516"
+  },
+  {
+    "stadtteil_name": "Volksdorf",
+    "stadtteil_nummer": "517"
+  },
+  {
+    "stadtteil_name": "Rahlstedt",
+    "stadtteil_nummer": "518"
+  },
+  {
+    "stadtteil_name": "Lohbrügge",
+    "stadtteil_nummer": "601"
+  },
+  {
+    "stadtteil_name": "Bergedorf",
+    "stadtteil_nummer": "602"
+  },
+  {
+    "stadtteil_name": "Curslack",
+    "stadtteil_nummer": "603"
+  },
+  {
+    "stadtteil_name": "Altengamme",
+    "stadtteil_nummer": "604"
+  },
+  {
+    "stadtteil_name": "Neuengamme",
+    "stadtteil_nummer": "605"
+  },
+  {
+    "stadtteil_name": "Kirchwerder",
+    "stadtteil_nummer": "606"
+  },
+  {
+    "stadtteil_name": "Ochsenwerder",
+    "stadtteil_nummer": "607"
+  },
+  {
+    "stadtteil_name": "Reitbrook",
+    "stadtteil_nummer": "608"
+  },
+  {
+    "stadtteil_name": "Allermöhe",
+    "stadtteil_nummer": "609"
+  },
+  {
+    "stadtteil_name": "Billwerder",
+    "stadtteil_nummer": "610"
+  },
+  {
+    "stadtteil_name": "Moorfleet",
+    "stadtteil_nummer": "611"
+  },
+  {
+    "stadtteil_name": "Tatenberg",
+    "stadtteil_nummer": "612"
+  },
+  {
+    "stadtteil_name": "Spadenland",
+    "stadtteil_nummer": "613"
+  },
+  {
+    "stadtteil_name": "Neuallermöhe",
+    "stadtteil_nummer": "614"
+  },
+  {
+    "stadtteil_name": "Harburg",
+    "stadtteil_nummer": "701"
+  },
+  {
+    "stadtteil_name": "Neuland",
+    "stadtteil_nummer": "702"
+  },
+  {
+    "stadtteil_name": "Gut Moor",
+    "stadtteil_nummer": "703"
+  },
+  {
+    "stadtteil_name": "Wilstorf",
+    "stadtteil_nummer": "704"
+  },
+  {
+    "stadtteil_name": "Rönneburg",
+    "stadtteil_nummer": "705"
+  },
+  {
+    "stadtteil_name": "Langenbek",
+    "stadtteil_nummer": "706"
+  },
+  {
+    "stadtteil_name": "Sinstorf",
+    "stadtteil_nummer": "707"
+  },
+  {
+    "stadtteil_name": "Marmstorf",
+    "stadtteil_nummer": "708"
+  },
+  {
+    "stadtteil_name": "Eißendorf",
+    "stadtteil_nummer": "709"
+  },
+  {
+    "stadtteil_name": "Heimfeld",
+    "stadtteil_nummer": "710"
+  },
+  {
+    "stadtteil_name": "Moorburg",
+    "stadtteil_nummer": "711"
+  },
+  {
+    "stadtteil_name": "Altenwerder",
+    "stadtteil_nummer": "712"
+  },
+  {
+    "stadtteil_name": "Hausbruch",
+    "stadtteil_nummer": "713"
+  },
+  {
+    "stadtteil_name": "Neugraben-Fischbek",
+    "stadtteil_nummer": "714"
+  },
+  {
+    "stadtteil_name": "Francop",
+    "stadtteil_nummer": "715"
+  },
+  {
+    "stadtteil_name": "Neuenfelde",
+    "stadtteil_nummer": "716"
+  },
+  {
+    "stadtteil_name": "Cranz",
+    "stadtteil_nummer": "717"
+  }
+]

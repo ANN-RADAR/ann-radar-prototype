@@ -1,0 +1,30 @@
+[
+  {
+    "bezirk": "1",
+    "bezirk_name": "Hamburg-Mitte"
+  },
+  {
+    "bezirk": "2",
+    "bezirk_name": "Altona"
+  },
+  {
+    "bezirk": "3",
+    "bezirk_name": "Eimsbüttel"
+  },
+  {
+    "bezirk": "4",
+    "bezirk_name": "Hamburg-Nord"
+  },
+  {
+    "bezirk": "5",
+    "bezirk_name": "Wandsbek"
+  },
+  {
+    "bezirk": "6",
+    "bezirk_name": "Bergedorf"
+  },
+  {
+    "bezirk": "7",
+    "bezirk_name": "Harburg"
+  }
+]
