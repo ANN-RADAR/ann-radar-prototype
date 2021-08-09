@@ -7,43 +7,23 @@ import { Feature, Map, MapBrowserEvent, View } from "ol";
 import GML3 from "ol/format/GML3";
 import { Layer, Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import "ol/ol.css";
+import { register } from 'ol/proj/proj4';
 import { TileWMS, Vector as VectorSource } from "ol/source";
 import { Fill, Stroke, Style, Text } from "ol/style";
 import { StyleFunction } from "ol/style/Style";
+import proj4 from "proj4";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
-interface MyVectorSource extends VectorSource {
-  setLoaderForWFSWithFlippedCoordinates: () => void;
-}
-
-(VectorSource.prototype as MyVectorSource).setLoaderForWFSWithFlippedCoordinates = function () {
-  this.setLoader(extent => {
-    fetch(this.getUrl() as string)
-      .then(response => response.text())
-      .then(text => {
-        this.addFeatures((this.getFormat() as GML3).readFeatures(text).map(f => {
-          const geom = f.getGeometry() as unknown as {flatCoordinates: number[]};
-          if (geom) {
-            // flip XY
-            let coords = geom.flatCoordinates;
-            coords = coords.map((_, i) => [coords[(i / 3) * 3 + 1], coords[(i / 3) * 3 - 1], _][i % 3]);
-            geom.flatCoordinates = coords;
-          }
-          return f;
-        }));
-      })
-      .catch(() => {
-        this.removeLoadedExtent(extent);
-      });
-  });
-};
+// projection for UTM zone 32N
+proj4.defs("EPSG:25832", "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+register(proj4);
 
 @Component
 export default class MapComponent extends Vue {
   @Prop() layerVisibility!: {[name: string]: boolean};
   @Prop() adminLayerVisibility!: {[name: string]: boolean};
 
-  sources: { [key: string]: MyVectorSource };
+  sources: { [key: string]: VectorSource };
   layers: { [key: string]: Layer };
   map!: Map;
 
@@ -85,25 +65,21 @@ export default class MapComponent extends Vue {
     this.sources = {
       Bezirke: new VectorSource({
         format: new GML3(),
-        url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:4326&typename=app:bezirke"
-      }) as MyVectorSource,
+        url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=app:bezirke"
+      }),
       Stadtteile: new VectorSource({
         format: new GML3(),
-        url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:4326&typename=app:stadtteile"
-      }) as MyVectorSource,
+        url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=app:stadtteile"
+      }),
       StatGebiete: new VectorSource({
         format: new GML3(),
-        url: "https://geodienste.hamburg.de/HH_WFS_Statistische_Gebiete?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:4326&typename=app:statistische_gebiete"
-      }) as MyVectorSource,
+        url: "https://geodienste.hamburg.de/HH_WFS_Statistische_Gebiete?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=app:statistische_gebiete"
+      }),
       Baublöcke: new VectorSource({
         format: new GML3(),
-        url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:4326&typename=baubloecke"
-      }) as MyVectorSource
+        url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=baubloecke"
+      })
     };
-    this.sources.Bezirke.setLoaderForWFSWithFlippedCoordinates();
-    this.sources.Stadtteile.setLoaderForWFSWithFlippedCoordinates();
-    this.sources.StatGebiete.setLoaderForWFSWithFlippedCoordinates();
-    this.sources.Baublöcke.setLoaderForWFSWithFlippedCoordinates();
 
     this.layers = {
       Geobasiskarten: new TileLayer({
@@ -171,11 +147,11 @@ export default class MapComponent extends Vue {
       target: "map",
       layers: Object.values(this.layers),
       view: new View({
-        projection: "EPSG:4326",
+        projection: "EPSG:25832",
         zoom: 12,
         minZoom: 9,
         maxZoom: 18,
-        center: [10.0, 53.55],
+        center: [565811, 5933977]
       })
     });
 
