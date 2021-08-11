@@ -187,6 +187,11 @@ export default class App extends Vue {
       name: "Sozialmonitoring",
       title: "Sozialmonitoring",
       visible: false,
+    },
+    {
+      name: "RISE",
+      title: "RISE-Fördergebiete",
+      visible: false
     }
   ];
 

@@ -123,6 +123,15 @@ export default class MapComponent extends Vue {
           });
         }
       }),
+      RISE: new TileLayer({
+        source: new TileWMS({
+          url: "https://geodienste.hamburg.de/HH_WMS_RISE_FG",
+          params: {
+            LAYERS: "rise_fg"
+          },
+          projection: "EPSG:25832"
+        })
+      }),
       Bezirke: new VectorLayer({
         source: this.sources.Bezirke,
         style: this.getAdminAreaStyleFn("Bezirke", "bezirk_name")
