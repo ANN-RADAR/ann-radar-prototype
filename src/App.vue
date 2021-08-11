@@ -25,7 +25,7 @@
               style="display: flex; flex-direction: column; height: 100%"
             >
               <v-row style="flex-grow: 1">
-                <v-col cols="7">
+                <v-col cols="6">
                   <MapComponent
                     :layerVisibility="mapLayers.reduce((obj, layer) => {
                       obj[layer.name] = layer.visible;
@@ -93,7 +93,11 @@
                         item-key="bezirk"
                         :show-select="true"
                         style="margin: 15px 0"
-                      ></v-data-table>
+                      >
+                        <template v-slot:item.MWh_a="{ item }">
+                          <span v-if="item.MWh_a !== undefined">{{ item.MWh_a }}&nbsp;MWh/a</span>
+                        </template>
+                      </v-data-table>
                       <v-data-table
                         v-if="areaUnit === 'Stadtteil'"
                         v-model="selectedStadtteile"
@@ -105,12 +109,17 @@
                         item-key="stadtteil_nummer"
                         :show-select="true"
                         style="margin: 15px 0"
-                      ></v-data-table>
+                      >
+                        <template v-slot:item.MWh_a="{ item }">
+                          <span v-if="item.MWh_a !== undefined">{{ item.MWh_a }}&nbsp;MWh/a</span>
+                        </template>
+                      </v-data-table>
                       <v-data-table
                         v-if="areaUnit === 'StatGebiet'"
                         v-model="selectedStatGebiete"
                         :headers="[
                           { text: 'Nr.', sortable: true, value: 'STATGEB' },
+                          { text: 'Fläche', sortable: true, value: 'Shape_Area' },
                           { text: 'Flurstücke', sortable: true, value: 'AnzFlur' },
                           { text: 'mittl. Flurstückgröße', sortable: true, value: 'mttlFlur' },
                           { text: 'Solarpotenzial', sortable: true, value: 'MWh_a' }
@@ -119,13 +128,24 @@
                         item-key="STATGEB"
                         :show-select="true"
                         style="margin: 15px 0"
-                      ></v-data-table>
+                      >
+                        <template v-slot:item.Shape_Area="{ item }">
+                          {{ Math.round(item.Shape_Area / 10000) / 100 }}&nbsp;km²
+                        </template>
+                        <template v-slot:item.mttlFlur="{ item }">
+                          {{ Math.round(item.mttlFlur) }}&nbsp;m²
+                        </template>
+                        <template v-slot:item.MWh_a="{ item }">
+                          <span v-if="item.MWh_a !== undefined">{{ item.MWh_a }}&nbsp;MWh/a</span>
+                        </template>
+                      </v-data-table>
                       <v-data-table
                         v-if="areaUnit === 'Baublock'"
                         v-model="selectedBaublöcke"
                         :headers="[
                           { text: 'Nr.', sortable: true, value: 'BBZ' },
                           { text: 'Flurstücke', sortable: true, value: 'Anz_Fl' },
+                          { text: 'Wohnbaufläche', sortable: true, value: 'tatNu_WB_P' },
                           { text: 'Bevölkerung', sortable: true, value: 'Bev_Ges' },
                           { text: 'Solarpotenzial', sortable: true, value: 'p_st_mwh_a' }
                         ]"
@@ -133,7 +153,14 @@
                         item-key="BBZ"
                         :show-select="true"
                         style="margin: 15px 0"
-                      ></v-data-table>
+                      >
+                        <template v-slot:item.tatNu_WB_P="{ item }">
+                          {{ item.tatNu_WB_P }}&nbsp;%
+                        </template>
+                        <template v-slot:item.p_st_mwh_a="{ item }">
+                          <span v-if="item.p_st_mwh_a !== undefined">{{ item.p_st_mwh_a }}&nbsp;MWh/a</span>
+                        </template>
+                      </v-data-table>
                     </v-card-text>
                   </v-card>
                 </v-col>
