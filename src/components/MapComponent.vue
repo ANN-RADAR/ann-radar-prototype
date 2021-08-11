@@ -4,6 +4,7 @@
 
 <script lang="ts">
 import { Map, MapBrowserEvent, View } from "ol";
+import { GeoJSON } from "ol/format";
 import GML3 from "ol/format/GML3";
 import { Layer, Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import "ol/ol.css";
@@ -99,6 +100,28 @@ export default class MapComponent extends Vue {
           },
           projection: "EPSG:25832"
         })
+      }),
+      Sozialmonitoring: new VectorLayer({
+        source: new VectorSource({
+          format: new GeoJSON(),
+          url: "data/Sozialmonitoring2020.json"
+        }),
+        style: feature => {
+          return new Style({
+            stroke: new Stroke({
+              color: "#fff",
+              width: 1
+            }),
+            fill: new Fill({
+              color: ({
+                "hoch": "rgba(112, 168, 0, 0.6)",
+                "mittel": "rgba(115, 178, 255, 0.6)",
+                "niedrig": "rgba(255, 170, 1, 0.6)",
+                "sehr niedrig": "rgba(229, 83, 122, 0.6)"
+              } as {[key: string]: string})[feature.get("STATUSINDE")] || "rgba(0, 0, 0, 0)"
+            })
+          });
+        }
       }),
       Bezirke: new VectorLayer({
         source: this.sources.Bezirke,

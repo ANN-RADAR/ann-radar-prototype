@@ -182,6 +182,11 @@ export default class App extends Vue {
       name: "Solaratlas",
       title: "Solaratlas",
       visible: false,
+    },
+    {
+      name: "Sozialmonitoring",
+      title: "Sozialmonitoring",
+      visible: false,
     }
   ];
 
