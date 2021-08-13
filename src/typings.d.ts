@@ -43,3 +43,9 @@ export interface Baublock {
   area_st_2a: number;
   p_st_mwh_a: number;
 }
+
+export interface Selection {
+  type: string;
+  areas: (Bezirk | Stadtteil | StatGebiet | Baublock)[];
+  note: string;
+}

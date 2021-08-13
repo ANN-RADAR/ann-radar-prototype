@@ -165,6 +165,40 @@
                           <span v-if="item.p_st_mwh_a !== undefined">{{ item.p_st_mwh_a }}&nbsp;MWh/a</span>
                         </template>
                       </v-data-table>
+                      <v-sheet>
+                        <SaveDialog
+                          v-if="areaUnit === 'Bezirk' && selectedBezirke.length"
+                          :selected-areas="selectedBezirke"
+                          :type="areaUnit"
+                          id-prop="bezirk"
+                          name-prop="bezirk_name"
+                          @saveselection="addSelection($event)"
+                        ></SaveDialog>
+                        <SaveDialog
+                          v-if="areaUnit === 'Stadtteil' && selectedStadtteile.length"
+                          :selected-areas="selectedStadtteile"
+                          :type="areaUnit"
+                          id-prop="stadtteil_nummer"
+                          name-prop="stadtteil_name"
+                          @saveselection="addSelection($event)"
+                        ></SaveDialog>
+                        <SaveDialog
+                          v-if="areaUnit === 'StatGebiet' && selectedStatGebiete.length"
+                          :selected-areas="selectedStatGebiete"
+                          :type="areaUnit"
+                          id-prop="STATGEB"
+                          name-prop="STATGEB"
+                          @saveselection="addSelection($event)"
+                        ></SaveDialog>
+                        <SaveDialog
+                          v-if="areaUnit === 'Baublock' && selectedBaublöcke.length"
+                          :selected-areas="selectedBaublöcke"
+                          :type="areaUnit"
+                          id-prop="BBZ"
+                          name-prop="BBZ"
+                          @saveselection="addSelection($event)"
+                        ></SaveDialog>
+                      </v-sheet>
                     </v-card-text>
                   </v-card>
                 </v-col>
@@ -181,15 +215,17 @@
 import { Component, Vue } from "vue-property-decorator";
 
 import MapComponent from "./components/MapComponent.vue";
+import SaveDialog from "./components/SaveDialog.vue";
 import BezirkeData from "./data/bezirke.json";
 import StadtteileData from "./data/stadtteile.json";
 import StatGebieteData from "./data/statistische_gebiete.json";
 import BaublöckeData from "./data/baublöcke.json";
-import { Baublock, Bezirk, Stadtteil, StatGebiet } from "./typings";
+import { Baublock, Bezirk, Selection, Stadtteil, StatGebiet } from "./typings";
 
 @Component({
   components: {
-    MapComponent
+    MapComponent,
+    SaveDialog
   }
 })
 export default class App extends Vue {
@@ -225,6 +261,8 @@ export default class App extends Vue {
       visible: false
     }
   ];
+  dialog = false;
+  savedSelections: Selection[] = [];
 
   mounted(): void {
     this.areaUnit = "Bezirk";
@@ -235,6 +273,15 @@ export default class App extends Vue {
     this.selectedStadtteile = this.stadtteile.filter(area => event.Stadtteile.indexOf(area.stadtteil_nummer) > -1);
     this.selectedStatGebiete = this.statGebiete.filter(area => event.StatGebiete.indexOf(area.STATGEB.toString()) > -1);
     this.selectedBaublöcke = this.baublöcke.filter(area => event.Baublöcke.indexOf(area.BBZ.toString()) > -1);
+  }
+
+  addSelection(selection: Selection): void {
+    const storageString = localStorage.getItem("selections");
+    if (storageString) {
+      this.savedSelections = JSON.parse(storageString);
+    }
+    this.savedSelections.push(selection);
+    localStorage.setItem('selections', JSON.stringify(this.savedSelections));
   }
 }
 </script>
@@ -257,5 +304,9 @@ body {
 
 .heading {
   font-size: 140%;
+}
+
+.v-btn {
+  margin-right: 10px;
 }
 </style>
