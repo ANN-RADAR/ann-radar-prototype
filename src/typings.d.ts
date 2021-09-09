@@ -44,8 +44,10 @@ export interface Baublock {
   p_st_mwh_a: number;
 }
 
+type AdminArea = Bezirk | Stadtteil | StatGebiet | Baublock;
+
 export interface Selection {
   type: string;
-  areas: (Bezirk | Stadtteil | StatGebiet | Baublock)[];
+  areas: AdminArea[];
   note: string;
 }

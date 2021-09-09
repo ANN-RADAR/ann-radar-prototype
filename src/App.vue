@@ -41,7 +41,13 @@
                       'StatGebiete': areaUnit === 'StatGebiet',
                       'Baublöcke': areaUnit === 'Baublock'
                     }"
-                    @adminAreasSelected="onAdminAreasSelected($event)"
+                    :selectedAdminAreas="{
+                      'Bezirk': selectedBezirke,
+                      'Stadtteil': selectedStadtteile,
+                      'StatGebiet': selectedStatGebiete,
+                      'Baublock': selectedBaublöcke
+                    }[areaUnit]"
+                    @selectedAdminAreas="onAdminAreasSelected($event)"
                   />
                 </v-col>
                 <v-col>
@@ -212,7 +218,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 
 import MapComponent from "./components/MapComponent.vue";
 import SaveDialog from "./components/SaveDialog.vue";
@@ -263,6 +269,24 @@ export default class App extends Vue {
   ];
   dialog = false;
   savedSelections: Selection[] = [];
+
+  @Watch("selectedBezirke")
+  onSelectedBezirkeChange(after: Bezirk[], before: Bezirk[]): void {
+    const added = after.filter(bez => before.indexOf(bez) < 0);
+    const removed = before.filter(bez => after.indexOf(bez) < 0);
+
+    // wähle alle Stadtteile innerhalb des gewählten Bezirks aus
+    for (const st of this.stadtteile) {
+      const sti = this.selectedStadtteile.indexOf(st);
+
+      if (sti < 0 && added.find(bez => bez.bezirk == st.stadtteil_nummer[0])) {
+        this.selectedStadtteile.push(st);
+      }
+      else if (sti > -1 && removed.find(bez => bez.bezirk == st.stadtteil_nummer[0])) {
+        this.selectedStadtteile.splice(sti, 1);
+      }
+    }
+  }
 
   mounted(): void {
     this.areaUnit = "Bezirk";

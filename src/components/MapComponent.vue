@@ -3,7 +3,8 @@
 </template>
 
 <script lang="ts">
-import { Map, MapBrowserEvent, View } from "ol";
+import { AdminArea, Baublock, Bezirk, Stadtteil, StatGebiet } from "@/typings";
+import { Feature, Map, MapBrowserEvent, View } from "ol";
 import { GeoJSON } from "ol/format";
 import GML3 from "ol/format/GML3";
 import { Layer, Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
@@ -23,6 +24,7 @@ register(proj4);
 export default class MapComponent extends Vue {
   @Prop() layerVisibility!: {[name: string]: boolean};
   @Prop() adminLayerVisibility!: {[name: string]: boolean};
+  @Prop() selectedAdminAreas!: {[name: string]: AdminArea[]};
 
   sources: { [key: string]: VectorSource };
   layers: { [key: string]: Layer };
@@ -174,6 +176,34 @@ export default class MapComponent extends Vue {
     }
   }
 
+  @Watch("selectedAdminAreas", { deep: true })
+  onSelectAreas(list: AdminArea[]): void {
+    const adminLevel = this.getVisibleAdminLevel();
+    if (!adminLevel) {
+      throw new Error("No admin level layer is visible");
+    }
+
+    for (const feature of this.sources[adminLevel].getFeatures()) {
+      const found = !!list.find(area => {
+        const areaId = ({
+          Bezirke: (area as Bezirk).bezirk,
+          Stadtteile: (area as Stadtteil).stadtteil_nummer,
+          StatGebiete: (area as StatGebiet).STATGEB,
+          Baublöcke: (area as Baublock).BBZ
+        } as {[key: string]: string | number})[adminLevel],
+        featureId = ({
+          Bezirke: feature.get("bezirk"),
+          Stadtteile: feature.get("stadtteil_nummer"),
+          StatGebiete: feature.get("statgebiet"),
+          Baublöcke: feature.get("baublockbezeichnung")
+        } as {[key: string]: string | number})[adminLevel];
+        // no strict comparison, as in some cases we compare numbers to strings
+        return featureId == areaId;
+      });
+      this.setFeatureSelected(adminLevel, feature, found);
+    }
+  }
+
   mounted(): void {
     this.map = new Map({
       target: "map",
@@ -190,25 +220,32 @@ export default class MapComponent extends Vue {
     // Select map features
     this.map.on("click", (evt: MapBrowserEvent) => {
       const coord = this.map.getCoordinateFromPixel(evt.pixel);
-
-      for (const adminLevel of ["Bezirke", "Stadtteile", "StatGebiete", "Baublöcke"]) {
-        if (this.adminLayerVisibility[adminLevel]) {
-          this.sources[adminLevel].getFeaturesAtCoordinate(coord).forEach(feature => {
-            feature.set("selected", !feature.get("selected"));
-
-            if (adminLevel === "Bezirke") {
-              // alle Stadtteile des ausgewählten Bezirks werden ausgewählt
-              (this.layers.Stadtteile.getSource() as VectorSource)
-                .getFeatures()
-                .filter(stadtteil => feature.get("bezirk") == stadtteil.get("bezirk"))
-                .forEach(stadtteil => {
-                  stadtteil.set("selected", feature.get("selected"));
-                });
-            }
-          });
-        }
+      const adminLevel = this.getVisibleAdminLevel();
+      if (!adminLevel) {
+        throw new Error("No admin level layer is visible");
       }
 
+      for (const feature of this.sources[adminLevel].getFeaturesAtCoordinate(coord)) {
+        this.setFeatureSelected(adminLevel, feature, !feature.get("selected"));
+      }
+
+      this.emitSelected();
+    });
+  }
+
+  getVisibleAdminLevel(): string | undefined {
+    for (const adminLevel of ["Bezirke", "Stadtteile", "StatGebiete", "Baublöcke"]) {
+      if (this.adminLayerVisibility[adminLevel]) {
+        return adminLevel;
+      }
+    }
+  }
+
+  setFeatureSelected(adminLevel: string, feature: Feature, selected: boolean): void {
+    feature.set("selected", selected);
+  }
+
+  emitSelected(): void {
       const event = {
         Bezirke: this.sources.Bezirke
           .getFeatures()
@@ -228,8 +265,7 @@ export default class MapComponent extends Vue {
           .map(feature => feature.get("baublockbezeichnung"))
       };
 
-      this.$emit("adminAreasSelected", event);
-    });
+      this.$emit("selectedAdminAreas", event);
   }
 }
 </script>
