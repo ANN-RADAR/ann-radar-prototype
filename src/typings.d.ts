@@ -1,3 +1,7 @@
+export interface Stadt {
+  name: string;
+}
+
 export interface Bezirk {
   bezirk: string;
   bezirk_name: string;
@@ -44,7 +48,7 @@ export interface Baublock {
   p_st_mwh_a: number;
 }
 
-type AdminArea = Bezirk | Stadtteil | StatGebiet | Baublock;
+type AdminArea = Stadt | Bezirk | Stadtteil | StatGebiet | Baublock;
 
 export interface Selection {
   type: string;

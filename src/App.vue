@@ -36,12 +36,14 @@
                       return obj;
                     }, {})"
                     :adminLayerVisibility="{
+                      'Stadt': areaUnit === 'Stadt',
                       'Bezirke': areaUnit === 'Bezirk',
                       'Stadtteile': areaUnit === 'Stadtteil',
                       'StatGebiete': areaUnit === 'StatGebiet',
                       'Baublöcke': areaUnit === 'Baublock'
                     }"
                     :selectedAdminAreas="{
+                      'Stadt': selectedStadt,
                       'Bezirk': selectedBezirke,
                       'Stadtteil': selectedStadtteile,
                       'StatGebiet': selectedStatGebiete,
@@ -68,30 +70,47 @@
                     <v-card-text>
                       <v-sheet>
                         <v-btn
-                          :color="areaUnit === 'Bezirk' ? 'primary' : ''"
-                          @click="areaUnit = areaUnit != 'Bezirk' ? 'Bezirk' : ''"
+                          :color="areaUnit === 'Stadt' ? 'primary' : ''"
+                          @click="areaUnit = areaUnit !== 'Stadt' ? 'Stadt' : ''"
                         >
                           Stadt
                         </v-btn>
                         <v-btn
+                          :color="areaUnit === 'Bezirk' ? 'primary' : ''"
+                          @click="areaUnit = areaUnit !== 'Bezirk' ? 'Bezirk' : ''"
+                        >
+                          Bezirke
+                        </v-btn>
+                        <v-btn
                           :color="areaUnit === 'Stadtteil' ? 'primary' : ''"
-                          @click="areaUnit = areaUnit != 'Stadtteil' ? 'Stadtteil' : ''"
+                          @click="areaUnit = areaUnit !== 'Stadtteil' ? 'Stadtteil' : ''"
                         >
                           Stadtteile
                         </v-btn>
                         <v-btn
                           :color="areaUnit === 'StatGebiet' ? 'primary' : ''"
-                          @click="areaUnit = areaUnit != 'StatGebiet' ? 'StatGebiet' : ''"
+                          @click="areaUnit = areaUnit !== 'StatGebiet' ? 'StatGebiet' : ''"
                         >
                           Stat. Gebiete
                         </v-btn>
                         <v-btn
                           :color="areaUnit === 'Baublock' ? 'primary' : ''"
-                          @click="areaUnit = areaUnit != 'Baublock' ? 'Baublock' : ''"
+                          @click="areaUnit = areaUnit !== 'Baublock' ? 'Baublock' : ''"
                         >
                           Baublöcke
                         </v-btn>
                       </v-sheet>
+                      <v-data-table
+                        v-if="areaUnit === 'Stadt'"
+                        v-model="selectedStadt"
+                        :headers="[
+                          { text: 'Stadt', sortable: true, value: 'name' }
+                        ]"
+                        :items="stadt"
+                        item-key="name"
+                        :show-select="true"
+                        style="margin: 15px 0"
+                      ></v-data-table>
                       <v-data-table
                         v-if="areaUnit === 'Bezirk'"
                         v-model="selectedBezirke"
@@ -226,7 +245,7 @@ import BezirkeData from "./data/bezirke.json";
 import StadtteileData from "./data/stadtteile.json";
 import StatGebieteData from "./data/statistische_gebiete.json";
 import BaublöckeData from "./data/baublöcke.json";
-import { Baublock, Bezirk, Selection, Stadtteil, StatGebiet } from "./typings";
+import { Baublock, Bezirk, Selection, Stadt, Stadtteil, StatGebiet } from "./typings";
 
 @Component({
   components: {
@@ -237,10 +256,12 @@ import { Baublock, Bezirk, Selection, Stadtteil, StatGebiet } from "./typings";
 export default class App extends Vue {
   tab = 0;
   areaUnit = "";
+  stadt = [{ name: "FHH" }] as Stadt[];
   bezirke = BezirkeData as Bezirk[];
   stadtteile = StadtteileData as Stadtteil[];
   statGebiete = StatGebieteData as StatGebiet[];
   baublöcke = BaublöckeData as Baublock[];
+  selectedStadt: Stadt[] = [];
   selectedBezirke: Bezirk[] = [];
   selectedStadtteile: Stadtteil[] = [];
   selectedStatGebiete: StatGebiet[] = [];
@@ -289,10 +310,11 @@ export default class App extends Vue {
   }
 
   mounted(): void {
-    this.areaUnit = "Bezirk";
+    this.areaUnit = "Stadt";
   }
 
   onAdminAreasSelected(event: { [key: string]: string[] }): void {
+    this.selectedStadt = this.stadt.filter(area => event.Stadt.indexOf(area.name) > -1);
     this.selectedBezirke = this.bezirke.filter(area => event.Bezirke.indexOf(area.bezirk) > -1);
     this.selectedStadtteile = this.stadtteile.filter(area => event.Stadtteile.indexOf(area.stadtteil_nummer) > -1);
     this.selectedStatGebiete = this.statGebiete.filter(area => event.StatGebiete.indexOf(area.STATGEB.toString()) > -1);

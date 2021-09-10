@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { AdminArea, Baublock, Bezirk, Stadtteil, StatGebiet } from "@/typings";
+import { AdminArea, Baublock, Bezirk, Stadt, Stadtteil, StatGebiet } from "@/typings";
 import { Feature, Map, MapBrowserEvent, View } from "ol";
 import { GeoJSON } from "ol/format";
 import GML3 from "ol/format/GML3";
@@ -66,17 +66,21 @@ export default class MapComponent extends Vue {
     super();
 
     this.sources = {
+      Stadt: new VectorSource({
+        format: new GML3(),
+        url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=landesgrenze"
+      }),
       Bezirke: new VectorSource({
         format: new GML3(),
-        url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=app:bezirke"
+        url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=bezirke"
       }),
       Stadtteile: new VectorSource({
         format: new GML3(),
-        url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=app:stadtteile"
+        url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=stadtteile"
       }),
       StatGebiete: new VectorSource({
         format: new GML3(),
-        url: "https://geodienste.hamburg.de/HH_WFS_Statistische_Gebiete?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=app:statistische_gebiete"
+        url: "https://geodienste.hamburg.de/HH_WFS_Statistische_Gebiete?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=statistische_gebiete"
       }),
       Baublöcke: new VectorSource({
         format: new GML3(),
@@ -134,6 +138,10 @@ export default class MapComponent extends Vue {
           projection: "EPSG:25832"
         })
       }),
+      Stadt: new VectorLayer({
+        source: this.sources.Stadt,
+        style: this.getAdminAreaStyleFn("Stadt", "fhh")
+      }),
       Bezirke: new VectorLayer({
         source: this.sources.Bezirke,
         style: this.getAdminAreaStyleFn("Bezirke", "bezirk_name")
@@ -186,12 +194,14 @@ export default class MapComponent extends Vue {
     for (const feature of this.sources[adminLevel].getFeatures()) {
       const found = !!list.find(area => {
         const areaId = ({
+          Stadt: (area as Stadt).name,
           Bezirke: (area as Bezirk).bezirk,
           Stadtteile: (area as Stadtteil).stadtteil_nummer,
           StatGebiete: (area as StatGebiet).STATGEB,
           Baublöcke: (area as Baublock).BBZ
         } as {[key: string]: string | number})[adminLevel],
         featureId = ({
+          Stadt: feature.get("fhh"),
           Bezirke: feature.get("bezirk"),
           Stadtteile: feature.get("stadtteil_nummer"),
           StatGebiete: feature.get("statgebiet"),
@@ -234,7 +244,7 @@ export default class MapComponent extends Vue {
   }
 
   getVisibleAdminLevel(): string | undefined {
-    for (const adminLevel of ["Bezirke", "Stadtteile", "StatGebiete", "Baublöcke"]) {
+    for (const adminLevel of ["Stadt", "Bezirke", "Stadtteile", "StatGebiete", "Baublöcke"]) {
       if (this.adminLayerVisibility[adminLevel]) {
         return adminLevel;
       }
@@ -247,6 +257,10 @@ export default class MapComponent extends Vue {
 
   emitSelected(): void {
       const event = {
+        Stadt: this.sources.Stadt
+          .getFeatures()
+          .filter(feature => feature.get("selected"))
+          .map(feature => feature.get("fhh")),
         Bezirke: this.sources.Bezirke
           .getFeatures()
           .filter(feature => feature.get("selected"))
