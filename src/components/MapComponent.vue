@@ -96,11 +96,29 @@ export default class MapComponent extends Vue {
     };
 
     this.layers = {
-      Geobasiskarten: new TileLayer({
+      "Geobasiskarten": new TileLayer({
+        source: new TileWMS({
+          url: "https://geodienste.hamburg.de/HH_WMS_Geobasiskarten",
+          params: {
+            LAYERS: "Geobasiskarten_farbig"
+          },
+          projection: "EPSG:25832"
+        })
+      }),
+      "Geobasiskarten GB": new TileLayer({
+        source: new TileWMS({
+          url: "https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_GB",
+          params: {
+            LAYERS: "HH_WMS_Geobasiskarten_GB"
+          },
+          projection: "EPSG:25832"
+        })
+      }),
+      "Geobasiskarten SG": new TileLayer({
         source: new TileWMS({
           url: "https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_SG",
           params: {
-            LAYERS: "M2500_schwarzgrau,M5000_schwarzgrau,M10000_schwarzgrau,M20000_schwarzgrau,M40000_schwarzgrau,M60000_schwarzgrau,M100000_schwarzgrau,M125000_schwarzgrau"
+            LAYERS: "HH_WMS_Geobasiskarten_SG"
           },
           projection: "EPSG:25832"
         })

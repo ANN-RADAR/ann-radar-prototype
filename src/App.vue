@@ -31,7 +31,7 @@
               <v-row style="flex-grow: 1">
                 <v-col cols="6">
                   <MapComponent
-                    :layerVisibility="mapLayers.reduce((obj, layer) => {
+                    :layerVisibility="mapLayers.concat(thematicLayers).reduce((obj, layer) => {
                       obj[layer.name] = layer.visible;
                       return obj;
                     }, {})"
@@ -47,13 +47,26 @@
                   <v-card>
                     <v-card-title>Layer</v-card-title>
                     <v-card-text>
-                      <v-checkbox
-                        v-for="layer in mapLayers"
-                        :key="layer.name"
-                        v-model="layer.visible"
-                        :label="layer.title"
-                        style="margin-top: 0"
-                      ></v-checkbox>
+                      <v-radio-group
+                        v-model="currentMapLayer"
+                        @change="onBasemapChange()"
+                      >
+                        <v-radio
+                          v-for="layer in mapLayers"
+                          :key="layer.name"
+                          :label="layer.title"
+                          :value="layer.name"
+                        ></v-radio>
+                      </v-radio-group>
+                      <div style="display: grid; grid-template-columns: auto auto">
+                        <v-checkbox
+                          v-for="layer in thematicLayers"
+                          :key="layer.name"
+                          v-model="layer.visible"
+                          :label="layer.title"
+                          style="margin-top: 0"
+                        ></v-checkbox>
+                      </div>
                     </v-card-text>
                   </v-card>
                   <v-card>
@@ -256,12 +269,25 @@ export default class App extends Vue {
     StatGebiet: [],
     Baublock: []
   };
+  currentMapLayer = "Geobasiskarten SG";
   mapLayers = [
     {
       name: "Geobasiskarten",
-      title: "Geobasiskarten (schwarz/grau)",
-      visible: true,
+      title: "Geobasiskarten (farbig)",
+      visible: false
     },
+    {
+      name: "Geobasiskarten GB",
+      title: "Geobasiskarten (grau-blau)",
+      visible: false
+    },
+    {
+      name: "Geobasiskarten SG",
+      title: "Geobasiskarten (schwarz-grau)",
+      visible: true
+    }
+  ];
+  thematicLayers = [
     {
       name: "Solaratlas",
       title: "Solaratlas",
@@ -281,6 +307,16 @@ export default class App extends Vue {
   dialog = false;
   savedSelections: Selection[] = [];
 
+  mounted(): void {
+    this.areaUnit = "Stadt";
+  }
+
+  onBasemapChange(): void {
+    for (const layer of this.mapLayers) {
+      layer.visible = layer.name === this.currentMapLayer;
+    }
+  }
+
   @Watch("selectedAreas.Bezirk")
   onSelectedBezirkeChange(after: Bezirk[], before: Bezirk[]): void {
     const added = after.filter(bez => before.indexOf(bez) < 0);
@@ -297,10 +333,6 @@ export default class App extends Vue {
         this.selectedAreas.Stadtteil.splice(sti, 1);
       }
     }
-  }
-
-  mounted(): void {
-    this.areaUnit = "Stadt";
   }
 
   onAdminAreasSelected(event: { [key: string]: string[] }): void {
