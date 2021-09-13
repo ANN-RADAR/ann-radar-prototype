@@ -24,9 +24,9 @@
           <v-col cols="12">
             <span
               v-for="(item, i) in selectedAreas"
-              :key="item[idProp]"
+              :key="item.getId()"
             >
-              {{ item[nameProp] }}<span v-if="i < selectedAreas.length - 1">, </span>
+              {{ item.getName() }}<span v-if="i < selectedAreas.length - 1">, </span>
             </span>
           </v-col>
         </v-row>
@@ -65,14 +65,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-import { Baublock, Bezirk, Selection, Stadtteil, StatGebiet } from "@/typings";
+import { AdminLevelUnit, Selection } from "@/typings";
 
 @Component
 export default class SaveDialog extends Vue {
-  @Prop() selectedAreas!: (Bezirk | Stadtteil | StatGebiet | Baublock)[];
+  @Prop() selectedAreas!: AdminLevelUnit[];
   @Prop() type!: string;
-  @Prop() idProp!: string;
-  @Prop() nameProp!: string;
   dialog = false;
   note = "";
 

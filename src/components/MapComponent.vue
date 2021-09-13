@@ -3,7 +3,6 @@
 </template>
 
 <script lang="ts">
-import { AdminArea, Baublock, Bezirk, Stadt, Stadtteil, StatGebiet } from "@/typings";
 import { Feature, Map, MapBrowserEvent, View } from "ol";
 import { GeoJSON } from "ol/format";
 import GML3 from "ol/format/GML3";
@@ -16,6 +15,14 @@ import { StyleFunction } from "ol/style/Style";
 import proj4 from "proj4";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
+import { AdminLevelUnit } from "@/typings";
+import { adminLevelClassMap } from "../App.vue";
+import { Baublock } from  "../models/Baublock";
+import { Bezirk } from  "../models/Bezirk";
+import { Stadt } from  "../models/Stadt";
+import { Stadtteil } from  "../models/Stadtteil";
+import { StatGebiet } from  "../models/StatGebiet";
+
 // projection for UTM zone 32N
 proj4.defs("EPSG:25832", "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 register(proj4);
@@ -24,7 +31,7 @@ register(proj4);
 export default class MapComponent extends Vue {
   @Prop() layerVisibility!: {[name: string]: boolean};
   @Prop() adminLayerVisibility!: {[name: string]: boolean};
-  @Prop() selectedAdminAreas!: {[name: string]: AdminArea[]};
+  @Prop() selectedAdminAreas!: {[name: string]: AdminLevelUnit[]};
 
   sources: { [key: string]: VectorSource };
   layers: { [key: string]: Layer };
@@ -70,19 +77,19 @@ export default class MapComponent extends Vue {
         format: new GML3(),
         url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=landesgrenze"
       }),
-      Bezirke: new VectorSource({
+      Bezirk: new VectorSource({
         format: new GML3(),
         url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=bezirke"
       }),
-      Stadtteile: new VectorSource({
+      Stadtteil: new VectorSource({
         format: new GML3(),
         url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=stadtteile"
       }),
-      StatGebiete: new VectorSource({
+      StatGebiet: new VectorSource({
         format: new GML3(),
         url: "https://geodienste.hamburg.de/HH_WFS_Statistische_Gebiete?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=statistische_gebiete"
       }),
-      Baublöcke: new VectorSource({
+      Baublock: new VectorSource({
         format: new GML3(),
         url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=baubloecke"
       })
@@ -140,23 +147,23 @@ export default class MapComponent extends Vue {
       }),
       Stadt: new VectorLayer({
         source: this.sources.Stadt,
-        style: this.getAdminAreaStyleFn("Stadt", "fhh")
+        style: this.getAdminAreaStyleFn("Stadt", Stadt.featureNameProp)
       }),
-      Bezirke: new VectorLayer({
-        source: this.sources.Bezirke,
-        style: this.getAdminAreaStyleFn("Bezirke", "bezirk_name")
+      Bezirk: new VectorLayer({
+        source: this.sources.Bezirk,
+        style: this.getAdminAreaStyleFn("Bezirk", Bezirk.featureNameProp)
       }),
-      Stadtteile: new VectorLayer({
-        source: this.sources.Stadtteile,
-        style: this.getAdminAreaStyleFn("Stadtteile", "stadtteil_name")
+      Stadtteil: new VectorLayer({
+        source: this.sources.Stadtteil,
+        style: this.getAdminAreaStyleFn("Stadtteil", Stadtteil.featureNameProp)
       }),
-      StatGebiete: new VectorLayer({
-        source: this.sources.StatGebiete,
-        style: this.getAdminAreaStyleFn("StatGebiete", "statgebiet")
+      StatGebiet: new VectorLayer({
+        source: this.sources.StatGebiet,
+        style: this.getAdminAreaStyleFn("StatGebiet", StatGebiet.featureNameProp)
       }),
-      Baublöcke: new VectorLayer({
-        source: this.sources.Baublöcke,
-        style: this.getAdminAreaStyleFn("Baublöcke", "baublockbezeichnung"),
+      Baublock: new VectorLayer({
+        source: this.sources.Baublock,
+        style: this.getAdminAreaStyleFn("Baublock", Baublock.featureNameProp),
         minZoom: 13
       })
     };
@@ -185,32 +192,15 @@ export default class MapComponent extends Vue {
   }
 
   @Watch("selectedAdminAreas", { deep: true })
-  onSelectAreas(list: AdminArea[]): void {
+  onSelectAreas(list: AdminLevelUnit[]): void {
     const adminLevel = this.getVisibleAdminLevel();
     if (!adminLevel) {
       throw new Error("No admin level layer is visible");
     }
 
     for (const feature of this.sources[adminLevel].getFeatures()) {
-      const found = !!list.find(area => {
-        const areaId = ({
-          Stadt: (area as Stadt).name,
-          Bezirke: (area as Bezirk).bezirk,
-          Stadtteile: (area as Stadtteil).stadtteil_nummer,
-          StatGebiete: (area as StatGebiet).STATGEB,
-          Baublöcke: (area as Baublock).BBZ
-        } as {[key: string]: string | number})[adminLevel],
-        featureId = ({
-          Stadt: feature.get("fhh"),
-          Bezirke: feature.get("bezirk"),
-          Stadtteile: feature.get("stadtteil_nummer"),
-          StatGebiete: feature.get("statgebiet"),
-          Baublöcke: feature.get("baublockbezeichnung")
-        } as {[key: string]: string | number})[adminLevel];
-        // no strict comparison, as in some cases we compare numbers to strings
-        return featureId == areaId;
-      });
-      this.setFeatureSelected(adminLevel, feature, found);
+      const found = !!list.find(area => area.getFeatureId(feature) === area.getId());
+      this.setFeatureSelected(feature, found);
     }
   }
 
@@ -236,7 +226,7 @@ export default class MapComponent extends Vue {
       }
 
       for (const feature of this.sources[adminLevel].getFeaturesAtCoordinate(coord)) {
-        this.setFeatureSelected(adminLevel, feature, !feature.get("selected"));
+        this.setFeatureSelected(feature, !feature.get("selected"));
       }
 
       this.emitSelected();
@@ -244,42 +234,27 @@ export default class MapComponent extends Vue {
   }
 
   getVisibleAdminLevel(): string | undefined {
-    for (const adminLevel of ["Stadt", "Bezirke", "Stadtteile", "StatGebiete", "Baublöcke"]) {
+    for (const adminLevel of ["Stadt", "Bezirk", "Stadtteil", "StatGebiet", "Baublock"]) {
       if (this.adminLayerVisibility[adminLevel]) {
         return adminLevel;
       }
     }
   }
 
-  setFeatureSelected(adminLevel: string, feature: Feature, selected: boolean): void {
+  setFeatureSelected(feature: Feature, selected: boolean): void {
     feature.set("selected", selected);
   }
 
   emitSelected(): void {
-      const event = {
-        Stadt: this.sources.Stadt
-          .getFeatures()
-          .filter(feature => feature.get("selected"))
-          .map(feature => feature.get("fhh")),
-        Bezirke: this.sources.Bezirke
-          .getFeatures()
-          .filter(feature => feature.get("selected"))
-          .map(feature => feature.get("bezirk")),
-        Stadtteile: this.sources.Stadtteile
-          .getFeatures()
-          .filter(feature => feature.get("selected"))
-          .map(feature => feature.get("stadtteil_nummer")),
-        StatGebiete: this.sources.StatGebiete
-          .getFeatures()
-          .filter(feature => feature.get("selected"))
-          .map(feature => feature.get("statgebiet")),
-        Baublöcke: this.sources.Baublöcke
-          .getFeatures()
-          .filter(feature => feature.get("selected"))
-          .map(feature => feature.get("baublockbezeichnung"))
-      };
+    const event = Object.entries(adminLevelClassMap).reduce((obj, [key, type]) => {
+      obj[key] = this.sources[key]
+        .getFeatures()
+        .filter(feature => feature.get("selected"))
+        .map(feature => feature.get(type.featureIdProp));
+      return obj;
+    }, {} as {[key: string]: string[]});
 
-      this.$emit("selectedAdminAreas", event);
+    this.$emit("selectedAdminAreas", event);
   }
 }
 </script>

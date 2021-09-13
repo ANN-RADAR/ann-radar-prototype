@@ -35,20 +35,11 @@
                       obj[layer.name] = layer.visible;
                       return obj;
                     }, {})"
-                    :adminLayerVisibility="{
-                      'Stadt': areaUnit === 'Stadt',
-                      'Bezirke': areaUnit === 'Bezirk',
-                      'Stadtteile': areaUnit === 'Stadtteil',
-                      'StatGebiete': areaUnit === 'StatGebiet',
-                      'Baublöcke': areaUnit === 'Baublock'
-                    }"
-                    :selectedAdminAreas="{
-                      'Stadt': selectedStadt,
-                      'Bezirk': selectedBezirke,
-                      'Stadtteil': selectedStadtteile,
-                      'StatGebiet': selectedStatGebiete,
-                      'Baublock': selectedBaublöcke
-                    }[areaUnit]"
+                    :adminLayerVisibility="adminLevels.reduce((obj, key) => {
+                      obj[key] = areaUnit === key;
+                      return obj;
+                    }, {})"
+                    :selectedAdminAreas="selectedAreas[areaUnit]"
                     @selectedAdminAreas="onAdminAreasSelected($event)"
                   />
                 </v-col>
@@ -102,23 +93,23 @@
                       </v-sheet>
                       <v-data-table
                         v-if="areaUnit === 'Stadt'"
-                        v-model="selectedStadt"
+                        v-model="selectedAreas.Stadt"
                         :headers="[
                           { text: 'Stadt', sortable: true, value: 'name' }
                         ]"
-                        :items="stadt"
+                        :items="areaData.Stadt"
                         item-key="name"
                         :show-select="true"
                         style="margin: 15px 0"
                       ></v-data-table>
                       <v-data-table
                         v-if="areaUnit === 'Bezirk'"
-                        v-model="selectedBezirke"
+                        v-model="selectedAreas.Bezirk"
                         :headers="[
                           { text: 'Bezirk', sortable: true, value: 'bezirk_name' },
                           { text: 'Solarpotenzial', sortable: true, value: 'MWh_a' }
                         ]"
-                        :items="bezirke"
+                        :items="areaData.Bezirk"
                         item-key="bezirk"
                         :show-select="true"
                         style="margin: 15px 0"
@@ -129,12 +120,12 @@
                       </v-data-table>
                       <v-data-table
                         v-if="areaUnit === 'Stadtteil'"
-                        v-model="selectedStadtteile"
+                        v-model="selectedAreas.Stadtteil"
                         :headers="[
                           { text: 'Stadtteil', sortable: true, value: 'stadtteil_name' },
                           { text: 'Solarpotenzial', sortable: true, value: 'MWh_a' }
                         ]"
-                        :items="stadtteile"
+                        :items="areaData.Stadtteil"
                         item-key="stadtteil_nummer"
                         :show-select="true"
                         style="margin: 15px 0"
@@ -145,15 +136,16 @@
                       </v-data-table>
                       <v-data-table
                         v-if="areaUnit === 'StatGebiet'"
-                        v-model="selectedStatGebiete"
+                        v-model="selectedAreas.StatGebiet"
                         :headers="[
                           { text: 'Nr.', sortable: true, value: 'STATGEB' },
-                          { text: 'Fläche', sortable: true, value: 'Shape_Area' },
-                          { text: 'Flurstücke', sortable: true, value: 'AnzFlur' },
-                          { text: 'mittl. Flurstückgröße', sortable: true, value: 'mttlFlur' },
-                          { text: 'Solarpotenzial', sortable: true, value: 'MWh_a' }
+                          { text: 'Flurstücke', sortable: true, value: 'AnzFl' },
+                          { text: 'mittl. Flurstückgröße', sortable: true, value: 'mittlFl' },
+                          { text: 'BGF', sortable: true, value: 'BGF' },
+                          { text: 'Wohnbaufläche', sortable: true, value: 'tatNu_WB_P' },
+                          { text: 'Soz. Status', sortable: true, value: 'Soz_Status' }
                         ]"
-                        :items="selectedStatGebiete"
+                        :items="selectedAreas.StatGebiet"
                         item-key="STATGEB"
                         :show-select="true"
                         style="margin: 15px 0"
@@ -161,16 +153,19 @@
                         <template v-slot:item.Shape_Area="{ item }">
                           {{ Math.round(item.Shape_Area / 10000) / 100 }}&nbsp;km²
                         </template>
-                        <template v-slot:item.mttlFlur="{ item }">
-                          {{ Math.round(item.mttlFlur) }}&nbsp;m²
+                        <template v-slot:item.mittlFl="{ item }">
+                          {{ Math.round(item.mittlFl) }}&nbsp;m²
                         </template>
-                        <template v-slot:item.MWh_a="{ item }">
-                          <span v-if="item.MWh_a !== undefined">{{ item.MWh_a }}&nbsp;MWh/a</span>
+                        <template v-slot:item.BGF="{ item }">
+                          {{ Math.round(item.BGF) }}&nbsp;m²
+                        </template>
+                        <template v-slot:item.tatNu_WB_P="{ item }">
+                          {{ item.tatNu_WB_P }}&nbsp;%
                         </template>
                       </v-data-table>
                       <v-data-table
                         v-if="areaUnit === 'Baublock'"
-                        v-model="selectedBaublöcke"
+                        v-model="selectedAreas.Baublock"
                         :headers="[
                           { text: 'Nr.', sortable: true, value: 'BBZ' },
                           { text: 'Flurstücke', sortable: true, value: 'Anz_Fl' },
@@ -178,7 +173,7 @@
                           { text: 'Bevölkerung', sortable: true, value: 'Bev_Ges' },
                           { text: 'Solarpotenzial', sortable: true, value: 'p_st_mwh_a' }
                         ]"
-                        :items="selectedBaublöcke"
+                        :items="selectedAreas.Baublock"
                         item-key="BBZ"
                         :show-select="true"
                         style="margin: 15px 0"
@@ -190,37 +185,14 @@
                           <span v-if="item.p_st_mwh_a !== undefined">{{ item.p_st_mwh_a }}&nbsp;MWh/a</span>
                         </template>
                       </v-data-table>
-                      <v-sheet>
+                      <v-sheet
+                        v-for="adminLevel in adminLevels"
+                        :key="adminLevel"
+                      >
                         <SaveDialog
-                          v-if="areaUnit === 'Bezirk' && selectedBezirke.length"
-                          :selected-areas="selectedBezirke"
+                          v-if="areaUnit === adminLevel && selectedAreas[adminLevel].length"
+                          :selected-areas="selectedAreas[adminLevel]"
                           :type="areaUnit"
-                          id-prop="bezirk"
-                          name-prop="bezirk_name"
-                          @saveselection="addSelection($event)"
-                        ></SaveDialog>
-                        <SaveDialog
-                          v-if="areaUnit === 'Stadtteil' && selectedStadtteile.length"
-                          :selected-areas="selectedStadtteile"
-                          :type="areaUnit"
-                          id-prop="stadtteil_nummer"
-                          name-prop="stadtteil_name"
-                          @saveselection="addSelection($event)"
-                        ></SaveDialog>
-                        <SaveDialog
-                          v-if="areaUnit === 'StatGebiet' && selectedStatGebiete.length"
-                          :selected-areas="selectedStatGebiete"
-                          :type="areaUnit"
-                          id-prop="STATGEB"
-                          name-prop="STATGEB"
-                          @saveselection="addSelection($event)"
-                        ></SaveDialog>
-                        <SaveDialog
-                          v-if="areaUnit === 'Baublock' && selectedBaublöcke.length"
-                          :selected-areas="selectedBaublöcke"
-                          :type="areaUnit"
-                          id-prop="BBZ"
-                          name-prop="BBZ"
                           @saveselection="addSelection($event)"
                         ></SaveDialog>
                       </v-sheet>
@@ -239,13 +211,26 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 
+import { AdminLevelKey, AdminLevelUnit, Selection } from "@/typings";
 import MapComponent from "./components/MapComponent.vue";
 import SaveDialog from "./components/SaveDialog.vue";
-import BezirkeData from "./data/bezirke.json";
-import StadtteileData from "./data/stadtteile.json";
-import StatGebieteData from "./data/statistische_gebiete.json";
-import BaublöckeData from "./data/baublöcke.json";
-import { Baublock, Bezirk, Selection, Stadt, Stadtteil, StatGebiet } from "./typings";
+import BezirkData from "./data/bezirke.json";
+import StadtteilData from "./data/stadtteile.json";
+import StatGebietData from "./data/statistische_gebiete.json";
+import BaublockData from "./data/baublöcke.json";
+import { Baublock } from  "./models/Baublock";
+import { Bezirk } from  "./models/Bezirk";
+import { Stadt } from  "./models/Stadt";
+import { Stadtteil } from  "./models/Stadtteil";
+import { StatGebiet } from  "./models/StatGebiet";
+
+export const adminLevelClassMap = {
+  "Stadt": Stadt,
+  "Bezirk": Bezirk,
+  "Stadtteil": Stadtteil,
+  "StatGebiet": StatGebiet,
+  "Baublock": Baublock
+};
 
 @Component({
   components: {
@@ -256,16 +241,21 @@ import { Baublock, Bezirk, Selection, Stadt, Stadtteil, StatGebiet } from "./typ
 export default class App extends Vue {
   tab = 0;
   areaUnit = "";
-  stadt = [{ name: "FHH" }] as Stadt[];
-  bezirke = BezirkeData as Bezirk[];
-  stadtteile = StadtteileData as Stadtteil[];
-  statGebiete = StatGebieteData as StatGebiet[];
-  baublöcke = BaublöckeData as Baublock[];
-  selectedStadt: Stadt[] = [];
-  selectedBezirke: Bezirk[] = [];
-  selectedStadtteile: Stadtteil[] = [];
-  selectedStatGebiete: StatGebiet[] = [];
-  selectedBaublöcke: Baublock[] = [];
+  adminLevels = Object.keys(adminLevelClassMap);
+  areaData = {
+    Stadt: [new Stadt({name: "FHH"})],
+    Bezirk: BezirkData.map(data => new Bezirk(data)),
+    Stadtteil: StadtteilData.map(data => new Stadtteil(data)),
+    StatGebiet: StatGebietData.map(data => new StatGebiet(data)),
+    Baublock: BaublockData.map(data => new Baublock(data))
+  };
+  selectedAreas: {[key: string]: AdminLevelUnit[]} = {
+    Stadt: [],
+    Bezirk: [],
+    Stadtteil: [],
+    StatGebiet: [],
+    Baublock: []
+  };
   mapLayers = [
     {
       name: "Geobasiskarten",
@@ -291,20 +281,20 @@ export default class App extends Vue {
   dialog = false;
   savedSelections: Selection[] = [];
 
-  @Watch("selectedBezirke")
+  @Watch("selectedAreas.Bezirk")
   onSelectedBezirkeChange(after: Bezirk[], before: Bezirk[]): void {
     const added = after.filter(bez => before.indexOf(bez) < 0);
     const removed = before.filter(bez => after.indexOf(bez) < 0);
 
     // wähle alle Stadtteile innerhalb des gewählten Bezirks aus
-    for (const st of this.stadtteile) {
-      const sti = this.selectedStadtteile.indexOf(st);
+    for (const st of this.areaData.Stadtteil) {
+      const sti = this.selectedAreas.Stadtteil.indexOf(st);
 
       if (sti < 0 && added.find(bez => bez.bezirk == st.stadtteil_nummer[0])) {
-        this.selectedStadtteile.push(st);
+        this.selectedAreas.Stadtteil.push(st);
       }
       else if (sti > -1 && removed.find(bez => bez.bezirk == st.stadtteil_nummer[0])) {
-        this.selectedStadtteile.splice(sti, 1);
+        this.selectedAreas.Stadtteil.splice(sti, 1);
       }
     }
   }
@@ -314,11 +304,10 @@ export default class App extends Vue {
   }
 
   onAdminAreasSelected(event: { [key: string]: string[] }): void {
-    this.selectedStadt = this.stadt.filter(area => event.Stadt.indexOf(area.name) > -1);
-    this.selectedBezirke = this.bezirke.filter(area => event.Bezirke.indexOf(area.bezirk) > -1);
-    this.selectedStadtteile = this.stadtteile.filter(area => event.Stadtteile.indexOf(area.stadtteil_nummer) > -1);
-    this.selectedStatGebiete = this.statGebiete.filter(area => event.StatGebiete.indexOf(area.STATGEB.toString()) > -1);
-    this.selectedBaublöcke = this.baublöcke.filter(area => event.Baublöcke.indexOf(area.BBZ.toString()) > -1);
+    for (const key of this.adminLevels) {
+      this.selectedAreas[key] =
+        (this.areaData[key as AdminLevelKey] as AdminLevelUnit[]).filter(area => event[key].indexOf(area.getId()) > -1);
+    }
   }
 
   addSelection(selection: Selection): void {
