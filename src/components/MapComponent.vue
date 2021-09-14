@@ -51,7 +51,8 @@ export default class MapComponent extends Vue {
             text: new Text({
               font: "16px Arial",
               text: feature.get(textAttr),
-              fill: new Fill({ color: "white" })
+              fill: new Fill({ color: "black" }),
+              stroke: new Stroke({ color: "#fee", width: 4 })
             }),
             zIndex: 1
           })
@@ -63,7 +64,8 @@ export default class MapComponent extends Vue {
             text: new Text({
               font: "16px Arial",
               text: feature.get(textAttr),
-              fill: new Fill({ color: "white" })
+              fill: new Fill({ color: "black" }),
+              stroke: new Stroke({ color: "#eee", width: 4 })
             })
           })
       : new Style();
