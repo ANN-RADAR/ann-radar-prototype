@@ -43,7 +43,7 @@
                     @selectedAdminAreas="onAdminAreasSelected($event)"
                   />
                 </v-col>
-                <v-col>
+                <v-col v-resize="onResize">
                   <v-card>
                     <v-card-title>Layer</v-card-title>
                     <v-card-text>
@@ -106,101 +106,103 @@
                           Baublöcke
                         </v-btn>
                       </v-sheet>
-                      <v-data-table
-                        v-if="areaUnit === 'Stadt'"
-                        v-model="selectedAreas.Stadt"
-                        :headers="[
-                          { text: 'Stadt', sortable: true, value: 'name' }
-                        ]"
-                        :items="areaData.Stadt"
-                        item-key="name"
-                        :show-select="true"
-                        style="margin: 15px 0"
-                      ></v-data-table>
-                      <v-data-table
-                        v-if="areaUnit === 'Bezirk'"
-                        v-model="selectedAreas.Bezirk"
-                        :headers="[
-                          { text: 'Bezirk', sortable: true, value: 'bezirk_name' },
-                          { text: 'Solarpotenzial', sortable: true, value: 'MWh_a' }
-                        ]"
-                        :items="areaData.Bezirk"
-                        item-key="bezirk"
-                        :show-select="true"
-                        style="margin: 15px 0"
-                      >
-                        <template v-slot:item.MWh_a="{ item }">
-                          <span v-if="item.MWh_a !== undefined">{{ item.MWh_a }}&nbsp;MWh/a</span>
-                        </template>
-                      </v-data-table>
-                      <v-data-table
-                        v-if="areaUnit === 'Stadtteil'"
-                        v-model="selectedAreas.Stadtteil"
-                        :headers="[
-                          { text: 'Stadtteil', sortable: true, value: 'stadtteil_name' },
-                          { text: 'Solarpotenzial', sortable: true, value: 'MWh_a' }
-                        ]"
-                        :items="areaData.Stadtteil"
-                        item-key="stadtteil_nummer"
-                        :show-select="true"
-                        style="margin: 15px 0"
-                      >
-                        <template v-slot:item.MWh_a="{ item }">
-                          <span v-if="item.MWh_a !== undefined">{{ item.MWh_a }}&nbsp;MWh/a</span>
-                        </template>
-                      </v-data-table>
-                      <v-data-table
-                        v-if="areaUnit === 'StatGebiet'"
-                        v-model="selectedAreas.StatGebiet"
-                        :headers="[
-                          { text: 'Nr.', sortable: true, value: 'STATGEB' },
-                          { text: 'Flurstücke', sortable: true, value: 'AnzFl' },
-                          { text: 'mittl. Flurstückgröße', sortable: true, value: 'mittlFl' },
-                          { text: 'BGF', sortable: true, value: 'BGF' },
-                          { text: 'Wohnbaufläche', sortable: true, value: 'tatNu_WB_P' },
-                          { text: 'Soz. Status', sortable: true, value: 'Soz_Status' }
-                        ]"
-                        :items="selectedAreas.StatGebiet"
-                        item-key="STATGEB"
-                        :show-select="true"
-                        style="margin: 15px 0"
-                      >
-                        <template v-slot:item.Shape_Area="{ item }">
-                          {{ Math.round(item.Shape_Area / 10000) / 100 }}&nbsp;km²
-                        </template>
-                        <template v-slot:item.mittlFl="{ item }">
-                          {{ Math.round(item.mittlFl) }}&nbsp;m²
-                        </template>
-                        <template v-slot:item.BGF="{ item }">
-                          {{ Math.round(item.BGF) }}&nbsp;m²
-                        </template>
-                        <template v-slot:item.tatNu_WB_P="{ item }">
-                          {{ item.tatNu_WB_P }}&nbsp;%
-                        </template>
-                      </v-data-table>
-                      <v-data-table
-                        v-if="areaUnit === 'Baublock'"
-                        v-model="selectedAreas.Baublock"
-                        :headers="[
-                          { text: 'Nr.', sortable: true, value: 'BBZ' },
-                          { text: 'Flurstücke', sortable: true, value: 'Anz_Fl' },
-                          { text: 'Wohnbaufläche', sortable: true, value: 'tatNu_WB_P' },
-                          { text: 'Bevölkerung', sortable: true, value: 'Bev_Ges' },
-                          { text: 'Solarpotenzial', sortable: true, value: 'p_st_mwh_a' }
-                        ]"
-                        :items="selectedAreas.Baublock"
-                        item-key="BBZ"
-                        :show-select="true"
-                        style="margin: 15px 0"
-                      >
-                        <template v-slot:item.tatNu_WB_P="{ item }">
-                          {{ item.tatNu_WB_P }}&nbsp;%
-                        </template>
-                        <template v-slot:item.p_st_mwh_a="{ item }">
-                          <span v-if="item.p_st_mwh_a !== undefined">{{ item.p_st_mwh_a }}&nbsp;MWh/a</span>
-                        </template>
-                      </v-data-table>
-                      <v-sheet
+                      <v-container class="table-container" ref="tableContainer">
+                        <v-data-table
+                          v-if="areaUnit === 'Stadt'"
+                          v-model="selectedAreas.Stadt"
+                          :headers="[
+                            { text: 'Stadt', sortable: true, value: 'name' }
+                          ]"
+                          :items="areaData.Stadt"
+                          item-key="name"
+                          :show-select="true"
+                          :height="tableHeight"
+                        ></v-data-table>
+                        <v-data-table
+                          v-if="areaUnit === 'Bezirk'"
+                          v-model="selectedAreas.Bezirk"
+                          :headers="[
+                            { text: 'Bezirk', sortable: true, value: 'bezirk_name' },
+                            { text: 'Solarpotenzial', sortable: true, value: 'MWh_a' }
+                          ]"
+                          :items="areaData.Bezirk"
+                          item-key="bezirk"
+                          :show-select="true"
+                          :height="tableHeight"
+                        >
+                          <template v-slot:item.MWh_a="{ item }">
+                            <span v-if="item.MWh_a !== undefined">{{ item.MWh_a }}&nbsp;MWh/a</span>
+                          </template>
+                        </v-data-table>
+                        <v-data-table
+                          v-if="areaUnit === 'Stadtteil'"
+                          v-model="selectedAreas.Stadtteil"
+                          :headers="[
+                            { text: 'Stadtteil', sortable: true, value: 'stadtteil_name' },
+                            { text: 'Solarpotenzial', sortable: true, value: 'MWh_a' }
+                          ]"
+                          :items="areaData.Stadtteil"
+                          item-key="stadtteil_nummer"
+                          :show-select="true"
+                          :height="tableHeight"
+                        >
+                          <template v-slot:item.MWh_a="{ item }">
+                            <span v-if="item.MWh_a !== undefined">{{ item.MWh_a }}&nbsp;MWh/a</span>
+                          </template>
+                        </v-data-table>
+                        <v-data-table
+                          v-if="areaUnit === 'StatGebiet'"
+                          v-model="selectedAreas.StatGebiet"
+                          :headers="[
+                            { text: 'Nr.', sortable: true, value: 'STATGEB' },
+                            { text: 'Flurstücke', sortable: true, value: 'AnzFl' },
+                            { text: 'mittl. Flurstückgröße', sortable: true, value: 'mittlFl' },
+                            { text: 'BGF', sortable: true, value: 'BGF' },
+                            { text: 'Wohnbaufläche', sortable: true, value: 'tatNu_WB_P' },
+                            { text: 'Soz. Status', sortable: true, value: 'Soz_Status' }
+                          ]"
+                          :items="selectedAreas.StatGebiet"
+                          item-key="STATGEB"
+                          :show-select="true"
+                          :height="tableHeight"
+                        >
+                          <template v-slot:item.Shape_Area="{ item }">
+                            {{ Math.round(item.Shape_Area / 10000) / 100 }}&nbsp;km²
+                          </template>
+                          <template v-slot:item.mittlFl="{ item }">
+                            {{ Math.round(item.mittlFl) }}&nbsp;m²
+                          </template>
+                          <template v-slot:item.BGF="{ item }">
+                            {{ Math.round(item.BGF) }}&nbsp;m²
+                          </template>
+                          <template v-slot:item.tatNu_WB_P="{ item }">
+                            {{ item.tatNu_WB_P }}&nbsp;%
+                          </template>
+                        </v-data-table>
+                        <v-data-table
+                          v-if="areaUnit === 'Baublock'"
+                          v-model="selectedAreas.Baublock"
+                          :headers="[
+                            { text: 'Nr.', sortable: true, value: 'BBZ' },
+                            { text: 'Flurstücke', sortable: true, value: 'Anz_Fl' },
+                            { text: 'Wohnbaufläche', sortable: true, value: 'tatNu_WB_P' },
+                            { text: 'Bevölkerung', sortable: true, value: 'Bev_Ges' },
+                            { text: 'Solarpotenzial', sortable: true, value: 'p_st_mwh_a' }
+                          ]"
+                          :items="selectedAreas.Baublock"
+                          item-key="BBZ"
+                          :show-select="true"
+                          :height="tableHeight"
+                        >
+                          <template v-slot:item.tatNu_WB_P="{ item }">
+                            {{ item.tatNu_WB_P }}&nbsp;%
+                          </template>
+                          <template v-slot:item.p_st_mwh_a="{ item }">
+                            <span v-if="item.p_st_mwh_a !== undefined">{{ item.p_st_mwh_a }}&nbsp;MWh/a</span>
+                          </template>
+                        </v-data-table>
+                      </v-container>
+                      <!-- <v-sheet
                         v-for="adminLevel in adminLevels"
                         :key="adminLevel"
                       >
@@ -210,7 +212,7 @@
                           :type="areaUnit"
                           @saveselection="addSelection($event)"
                         ></SaveDialog>
-                      </v-sheet>
+                      </v-sheet> -->
                     </v-card-text>
                   </v-card>
                 </v-col>
@@ -318,6 +320,7 @@ export default class App extends Vue {
   ];
   dialog = false;
   savedSelections: Selection[] = [];
+  tableHeight = 0;
 
   mounted(): void {
     this.areaUnit = "Stadt";
@@ -362,6 +365,15 @@ export default class App extends Vue {
     this.savedSelections.push(selection);
     localStorage.setItem('selections', JSON.stringify(this.savedSelections));
   }
+
+  onResize(): void {
+    // a hacky way of resizing the data table
+    const container = this.$refs.tableContainer as Element;
+    if (container) {
+      // subtract margins, paddings and footer height
+      this.tableHeight = window.innerHeight - container.getBoundingClientRect().y - 12 - 16 - 16 - 59;
+    }
+  }
 }
 </script>
 
@@ -370,6 +382,7 @@ html,
 body {
   height: 100%;
   margin: 0;
+  overflow-y: auto;
 }
 
 #app {
@@ -383,6 +396,14 @@ body {
 
 .heading {
   font-size: 140%;
+}
+
+.table-container {
+  padding: 0;
+}
+
+.v-data-table {
+  margin-top: 16px;
 }
 
 .v-btn {
