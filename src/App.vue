@@ -31,7 +31,7 @@
               <v-row style="flex-grow: 1">
                 <v-col cols="6">
                   <MapComponent
-                    :layerVisibility="mapLayers.concat(thematicLayers).reduce((obj, layer) => {
+                    :layerVisibility="basemaps.concat(thematicLayers).reduce((obj, layer) => {
                       obj[layer.name] = layer.visible;
                       return obj;
                     }, {})"
@@ -47,26 +47,28 @@
                   <v-card>
                     <v-card-title>Layer</v-card-title>
                     <v-card-text>
-                      <v-radio-group
-                        v-model="currentMapLayer"
-                        @change="onBasemapChange()"
-                      >
-                        <v-radio
-                          v-for="layer in mapLayers"
-                          :key="layer.name"
-                          :label="layer.title"
-                          :value="layer.name"
-                        ></v-radio>
-                      </v-radio-group>
                       <div style="display: grid; grid-template-columns: auto auto">
                         <v-checkbox
                           v-for="layer in thematicLayers"
                           :key="layer.name"
                           v-model="layer.visible"
-                          :label="layer.title"
+                          :label="layer.name"
                           style="margin-top: 0"
                         ></v-checkbox>
                       </div>
+                      <v-radio-group
+                        v-model="currentBasemap"
+                        @change="onBasemapChange()"
+                        row
+                      >
+                        <span style="margin-right: 16px">Hintergrundkarte:</span>
+                        <v-radio
+                          v-for="layer in basemaps"
+                          :key="layer.name"
+                          :label="layer.name"
+                          :value="layer.name"
+                        ></v-radio>
+                      </v-radio-group>
                     </v-card-text>
                   </v-card>
                   <v-card>
@@ -269,39 +271,49 @@ export default class App extends Vue {
     StatGebiet: [],
     Baublock: []
   };
-  currentMapLayer = "Geobasiskarten SG";
-  mapLayers = [
+  basemaps = [
     {
-      name: "Geobasiskarten",
-      title: "Geobasiskarten (farbig)",
-      visible: false
-    },
-    {
-      name: "Geobasiskarten GB",
-      title: "Geobasiskarten (grau-blau)",
-      visible: false
-    },
-    {
-      name: "Geobasiskarten SG",
-      title: "Geobasiskarten (schwarz-grau)",
+      name: "farbig",
       visible: true
+    },
+    {
+      name: "grau-blau",
+      visible: false
+    },
+    {
+      name: "schwarz-grau",
+      visible: false
     }
   ];
+  currentBasemap = this.basemaps[0].name;
   thematicLayers = [
     {
       name: "Solaratlas",
-      title: "Solaratlas",
       visible: false,
     },
     {
-      name: "Sozialmonitoring",
-      title: "Sozialmonitoring",
-      visible: false,
-    },
-    {
-      name: "RISE",
-      title: "RISE-Fördergebiete",
+      name: "Bildung und Wissenschaft",
       visible: false
+    },
+    {
+      name: "Kultur, Freizeit, Sport und Tourismus",
+      visible: false
+    },
+    {
+      name: "Soziales",
+      visible: false
+    },
+    {
+      name: "Infrastruktur, Bauen, Wohnen",
+      visible: false
+    },
+    {
+      name: "RISE-Fördergebiete",
+      visible: false
+    },
+    {
+      name: "Sozialmonitoring 2020",
+      visible: false,
     }
   ];
   dialog = false;
@@ -312,8 +324,8 @@ export default class App extends Vue {
   }
 
   onBasemapChange(): void {
-    for (const layer of this.mapLayers) {
-      layer.visible = layer.name === this.currentMapLayer;
+    for (const layer of this.basemaps) {
+      layer.visible = layer.name === this.currentBasemap;
     }
   }
 
@@ -375,5 +387,9 @@ body {
 
 .v-btn {
   margin-right: 10px;
+}
+
+.v-input__slot {
+  margin: 0;
 }
 </style>

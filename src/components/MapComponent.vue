@@ -7,6 +7,7 @@ import { Feature, Map, MapBrowserEvent, View } from "ol";
 import { GeoJSON } from "ol/format";
 import GML3 from "ol/format/GML3";
 import { Layer, Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
+import LayerGroup from "ol/layer/Group";
 import "ol/ol.css";
 import { register } from 'ol/proj/proj4';
 import { TileWMS, Vector as VectorSource } from "ol/source";
@@ -34,7 +35,7 @@ export default class MapComponent extends Vue {
   @Prop() selectedAdminAreas!: {[name: string]: AdminLevelUnit[]};
 
   sources: { [key: string]: VectorSource };
-  layers: { [key: string]: Layer };
+  layers: { [key: string]: Layer | LayerGroup };
   map!: Map;
 
   getAdminAreaStyleFn(layerName: string, textAttr: string): StyleFunction {
@@ -98,7 +99,7 @@ export default class MapComponent extends Vue {
     };
 
     this.layers = {
-      "Geobasiskarten": new TileLayer({
+      "farbig": new TileLayer({
         source: new TileWMS({
           url: "https://geodienste.hamburg.de/HH_WMS_Geobasiskarten",
           params: {
@@ -107,7 +108,7 @@ export default class MapComponent extends Vue {
           projection: "EPSG:25832"
         })
       }),
-      "Geobasiskarten GB": new TileLayer({
+      "grau-blau": new TileLayer({
         source: new TileWMS({
           url: "https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_GB",
           params: {
@@ -116,7 +117,7 @@ export default class MapComponent extends Vue {
           projection: "EPSG:25832"
         })
       }),
-      "Geobasiskarten SG": new TileLayer({
+      "schwarz-grau": new TileLayer({
         source: new TileWMS({
           url: "https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_SG",
           params: {
@@ -125,7 +126,7 @@ export default class MapComponent extends Vue {
           projection: "EPSG:25832"
         })
       }),
-      Solaratlas: new TileLayer({
+      "Solaratlas": new TileLayer({
         source: new TileWMS({
           url: "https://geodienste.hamburg.de/HH_WMS_Solaratlas",
           params: {
@@ -134,7 +135,131 @@ export default class MapComponent extends Vue {
           projection: "EPSG:25832"
         })
       }),
-      Sozialmonitoring: new VectorLayer({
+      "Bildung und Wissenschaft": new LayerGroup({
+        layers: [
+          new TileLayer({
+            source: new TileWMS({
+              url: "https://geodienste.hamburg.de/HH_WMS_Schulen",
+              params: {
+                LAYERS: "hh_schulen_dwh"
+              },
+              projection: "EPSG:25832"
+            })
+          })
+        ]
+      }),
+      "Kultur, Freizeit, Sport und Tourismus": new LayerGroup({
+        layers: [
+          new TileLayer({
+            source: new TileWMS({
+              url: "https://geodienste.hamburg.de/HH_WMS_Sportstaetten",
+              params: {
+                LAYERS: "sportstaetten"
+              },
+              projection: "EPSG:25832"
+            })
+          }),
+          new TileLayer({
+            source: new TileWMS({
+              url: "https://geodienste.hamburg.de/HH_WMS_Oeffentliche_Bibliotheken",
+              params: {
+                LAYERS: "oeffentliche_bibs"
+              },
+              projection: "EPSG:25832"
+            })
+          })
+        ]
+      }),
+      "Soziales": new LayerGroup({
+        layers: [
+          new TileLayer({
+            source: new TileWMS({
+              url: "https://geodienste.hamburg.de/HH_WMS_Freiwilliges_Engagement",
+              params: {
+                LAYERS: "mehrgenerationenhaeuser"
+              },
+              projection: "EPSG:25832"
+            })
+          }),
+          new TileLayer({
+            source: new TileWMS({
+              url: "https://geodienste.hamburg.de/HH_WMS_Familien_Angebote",
+              params: {
+                LAYERS: "eltern_kind_zentrum,kinder_familienzentrum"
+              },
+              projection: "EPSG:25832"
+            })
+          }),
+          new TileLayer({
+            source: new TileWMS({
+              url: "https://geodienste.hamburg.de/HH_WMS_Sozialraeumliche_Angebote_der_Jugend-_und_Familienhilfe",
+              params: {
+                LAYERS: "begleitung_kinder,schulbezogene_angebote"
+              },
+              projection: "EPSG:25832"
+            })
+          }),
+          new TileLayer({
+            source: new TileWMS({
+              url: "https://geodienste.hamburg.de/HH_WMS_Jugend_Aktiv_Plus",
+              params: {
+                LAYERS: "jugend_aktiv_plus"
+              },
+              projection: "EPSG:25832"
+            })
+          }),
+          new TileLayer({
+            source: new TileWMS({
+              url: "https://geodienste.hamburg.de/HH_WMS_KitaEinrichtung",
+              params: {
+                LAYERS: "KitaEinrichtungen"
+              },
+              projection: "EPSG:25832"
+            })
+          }),
+          new TileLayer({
+            source: new TileWMS({
+              url: "https://geodienste.hamburg.de/HH_WMS_Uebernachtungsangebote",
+              params: {
+                LAYERS: "uebernachtungsangebote"
+              },
+              projection: "EPSG:25832"
+            })
+          })
+        ]
+      }),
+      "Infrastruktur, Bauen, Wohnen": new LayerGroup({
+        layers: [
+          new TileLayer({
+            source: new TileWMS({
+              url: "https://geodienste.hamburg.de/HH_WMS_Wohnungsbauprojekte",
+              params: {
+                LAYERS: "projekte"
+              },
+              projection: "EPSG:25832"
+            })
+          }),
+          new TileLayer({
+            source: new TileWMS({
+              url: "https://geodienste.hamburg.de/HH_WMS_Wohnbauflaechenpotenziale",
+              params: {
+                LAYERS: "hh_wohnbauflaechenpotentiale"
+              },
+              projection: "EPSG:25832"
+            })
+          })
+        ]
+      }),
+      "RISE-Fördergebiete": new TileLayer({
+        source: new TileWMS({
+          url: "https://geodienste.hamburg.de/HH_WMS_RISE_FG",
+          params: {
+            LAYERS: "rise_fg"
+          },
+          projection: "EPSG:25832"
+        })
+      }),
+      "Sozialmonitoring 2020": new VectorLayer({
         source: new VectorSource({
           format: new GeoJSON(),
           url: "data/Sozialmonitoring2020.json"
@@ -155,15 +280,6 @@ export default class MapComponent extends Vue {
             })
           });
         }
-      }),
-      RISE: new TileLayer({
-        source: new TileWMS({
-          url: "https://geodienste.hamburg.de/HH_WMS_RISE_FG",
-          params: {
-            LAYERS: "rise_fg"
-          },
-          projection: "EPSG:25832"
-        })
       }),
       Stadt: new VectorLayer({
         source: this.sources.Stadt,
