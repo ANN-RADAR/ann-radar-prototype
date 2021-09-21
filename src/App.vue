@@ -113,7 +113,7 @@
                           :headers="[
                             { text: 'Stadt', sortable: true, value: 'name' }
                           ]"
-                          :items="areaData.Stadt"
+                          :items="selectedAreas.Stadt"
                           item-key="name"
                           :show-select="true"
                           :height="tableHeight"
@@ -125,7 +125,7 @@
                             { text: 'Bezirk', sortable: true, value: 'bezirk_name' },
                             { text: 'Solarpotenzial', sortable: true, value: 'MWh_a' }
                           ]"
-                          :items="areaData.Bezirk"
+                          :items="selectedAreas.Bezirk"
                           item-key="bezirk"
                           :show-select="true"
                           :height="tableHeight"
@@ -141,7 +141,7 @@
                             { text: 'Stadtteil', sortable: true, value: 'stadtteil_name' },
                             { text: 'Solarpotenzial', sortable: true, value: 'MWh_a' }
                           ]"
-                          :items="areaData.Stadtteil"
+                          :items="selectedAreas.Stadtteil"
                           item-key="stadtteil_nummer"
                           :show-select="true"
                           :height="tableHeight"
