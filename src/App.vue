@@ -117,6 +117,7 @@
                           item-key="name"
                           :show-select="true"
                           :height="tableHeight"
+                          :fixed-header="true"
                         ></v-data-table>
                         <v-data-table
                           v-if="areaUnit === 'Bezirk'"
@@ -129,6 +130,7 @@
                           item-key="bezirk"
                           :show-select="true"
                           :height="tableHeight"
+                          :fixed-header="true"
                         >
                           <template v-slot:item.MWh_a="{ item }">
                             <span v-if="item.MWh_a !== undefined">{{ item.MWh_a }}&nbsp;MWh/a</span>
@@ -145,6 +147,7 @@
                           item-key="stadtteil_nummer"
                           :show-select="true"
                           :height="tableHeight"
+                          :fixed-header="true"
                         >
                           <template v-slot:item.MWh_a="{ item }">
                             <span v-if="item.MWh_a !== undefined">{{ item.MWh_a }}&nbsp;MWh/a</span>
@@ -165,6 +168,7 @@
                           item-key="STATGEB"
                           :show-select="true"
                           :height="tableHeight"
+                          :fixed-header="true"
                         >
                           <template v-slot:item.Shape_Area="{ item }">
                             {{ Math.round(item.Shape_Area / 10000) / 100 }}&nbsp;km²
@@ -193,6 +197,7 @@
                           item-key="BBZ"
                           :show-select="true"
                           :height="tableHeight"
+                          :fixed-header="true"
                         >
                           <template v-slot:item.tatNu_WB_P="{ item }">
                             {{ item.tatNu_WB_P }}&nbsp;%
