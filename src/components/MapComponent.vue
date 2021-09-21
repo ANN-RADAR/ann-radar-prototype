@@ -133,20 +133,18 @@ export default class MapComponent extends Vue {
             LAYERS: "ek_pv"
           },
           projection: "EPSG:25832"
-        })
+        }),
+        zIndex: 5
       }),
-      "Bildung und Wissenschaft": new LayerGroup({
-        layers: [
-          new TileLayer({
-            source: new TileWMS({
-              url: "https://geodienste.hamburg.de/HH_WMS_Schulen",
-              params: {
-                LAYERS: "hh_schulen_dwh"
-              },
-              projection: "EPSG:25832"
-            })
-          })
-        ]
+      "Schulen": new TileLayer({
+        source: new TileWMS({
+          url: "https://geodienste.hamburg.de/HH_WMS_Schulen",
+          params: {
+            LAYERS: "hh_schulen_dwh"
+          },
+          projection: "EPSG:25832"
+        }),
+        zIndex: 9
       }),
       "Kultur, Freizeit, Sport und Tourismus": new LayerGroup({
         layers: [
@@ -157,7 +155,8 @@ export default class MapComponent extends Vue {
                 LAYERS: "sportstaetten"
               },
               projection: "EPSG:25832"
-            })
+            }),
+            zIndex: 9
           }),
           new TileLayer({
             source: new TileWMS({
@@ -166,7 +165,8 @@ export default class MapComponent extends Vue {
                 LAYERS: "oeffentliche_bibs"
               },
               projection: "EPSG:25832"
-            })
+            }),
+            zIndex: 9
           })
         ]
       }),
@@ -179,7 +179,8 @@ export default class MapComponent extends Vue {
                 LAYERS: "mehrgenerationenhaeuser"
               },
               projection: "EPSG:25832"
-            })
+            }),
+            zIndex: 9
           }),
           new TileLayer({
             source: new TileWMS({
@@ -188,7 +189,8 @@ export default class MapComponent extends Vue {
                 LAYERS: "eltern_kind_zentrum,kinder_familienzentrum"
               },
               projection: "EPSG:25832"
-            })
+            }),
+            zIndex: 9
           }),
           new TileLayer({
             source: new TileWMS({
@@ -197,7 +199,8 @@ export default class MapComponent extends Vue {
                 LAYERS: "begleitung_kinder,schulbezogene_angebote"
               },
               projection: "EPSG:25832"
-            })
+            }),
+            zIndex: 9
           }),
           new TileLayer({
             source: new TileWMS({
@@ -206,7 +209,8 @@ export default class MapComponent extends Vue {
                 LAYERS: "jugend_aktiv_plus"
               },
               projection: "EPSG:25832"
-            })
+            }),
+            zIndex: 9
           }),
           new TileLayer({
             source: new TileWMS({
@@ -215,7 +219,8 @@ export default class MapComponent extends Vue {
                 LAYERS: "KitaEinrichtungen"
               },
               projection: "EPSG:25832"
-            })
+            }),
+            zIndex: 9
           }),
           new TileLayer({
             source: new TileWMS({
@@ -224,7 +229,8 @@ export default class MapComponent extends Vue {
                 LAYERS: "uebernachtungsangebote"
               },
               projection: "EPSG:25832"
-            })
+            }),
+            zIndex: 9
           })
         ]
       }),
@@ -237,7 +243,8 @@ export default class MapComponent extends Vue {
                 LAYERS: "projekte"
               },
               projection: "EPSG:25832"
-            })
+            }),
+            zIndex: 9
           }),
           new TileLayer({
             source: new TileWMS({
@@ -246,7 +253,8 @@ export default class MapComponent extends Vue {
                 LAYERS: "hh_wohnbauflaechenpotentiale"
               },
               projection: "EPSG:25832"
-            })
+            }),
+            zIndex: 9
           })
         ]
       }),
@@ -257,7 +265,8 @@ export default class MapComponent extends Vue {
             LAYERS: "rise_fg"
           },
           projection: "EPSG:25832"
-        })
+        }),
+        zIndex: 7
       }),
       "Sozialmonitoring 2020": new VectorLayer({
         source: new VectorSource({
@@ -279,7 +288,8 @@ export default class MapComponent extends Vue {
               } as {[key: string]: string})[feature.get("STATUSINDE")] || "rgba(0, 0, 0, 0)"
             })
           });
-        }
+        },
+        zIndex: 6
       }),
       Stadt: new VectorLayer({
         source: this.sources.Stadt,

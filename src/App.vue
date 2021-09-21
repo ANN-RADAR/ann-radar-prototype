@@ -294,7 +294,7 @@ export default class App extends Vue {
       visible: false,
     },
     {
-      name: "Bildung und Wissenschaft",
+      name: "Schulen",
       visible: false
     },
     {
