@@ -29,7 +29,7 @@
               style="display: flex; flex-direction: column; height: 100%"
             >
               <v-row style="flex-grow: 1">
-                <v-col cols="6">
+                <v-col cols="6" style="display: flex; flex-direction: column">
                   <MapComponent
                     :layerVisibility="basemaps.concat(thematicLayers).reduce((obj, layer) => {
                       obj[layer.name] = layer.visible;
@@ -43,6 +43,21 @@
                     @selectedAdminAreas="onAdminAreasSelected($event)"
                     @legendUrls="onLegendUrlsChange($event)"
                   />
+                  <v-card>
+                    <v-card-text style="max-height: 150px; overflow: auto">
+                      <div
+                        v-for="layer in thematicLayers.filter(l => l.visible)"
+                        :key="layer.name"
+                        style="display: grid; grid-template-columns: auto auto"
+                      >
+                        <img
+                          v-for="url in legendUrls[layer.name]"
+                          :key="url"
+                          :src="url"
+                        />
+                      </div>
+                    </v-card-text>
+                  </v-card>
                 </v-col>
                 <v-col v-resize="onResize">
                   <v-card>
@@ -70,21 +85,6 @@
                           :value="layer.name"
                         ></v-radio>
                       </v-radio-group>
-                    </v-card-text>
-                  </v-card>
-                  <v-card>
-                    <v-card-title>Legende</v-card-title>
-                    <v-card-text style="max-height: 150px;overflow: auto">
-                      <div
-                        v-for="layer in thematicLayers.filter(l => l.visible)"
-                        :key="layer.name"
-                      >
-                        <img
-                          v-for="url in legendUrls[layer.name]"
-                          :key="url"
-                          :src="url"
-                        />
-                      </div>
                     </v-card-text>
                   </v-card>
                   <v-card>
