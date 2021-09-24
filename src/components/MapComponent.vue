@@ -34,7 +34,8 @@ export default class MapComponent extends Vue {
   @Prop() adminLayerVisibility!: {[name: string]: boolean};
   @Prop() selectedAdminAreas!: {[name: string]: AdminLevelUnit[]};
 
-  sources: { [key: string]: VectorSource };
+  tileSources: { [key: string]: TileWMS };
+  vectorSources: { [key: string]: VectorSource };
   layers: { [key: string]: Layer | LayerGroup };
   map!: Map;
 
@@ -75,7 +76,122 @@ export default class MapComponent extends Vue {
   constructor() {
     super();
 
-    this.sources = {
+    this.tileSources = {
+      "HH_WMS_Geobasiskarten": new TileWMS({
+        url: "https://geodienste.hamburg.de/HH_WMS_Geobasiskarten",
+        params: {
+          LAYERS: "Geobasiskarten_farbig"
+        },
+        projection: "EPSG:25832"
+      }),
+      "HH_WMS_Geobasiskarten_GB": new TileWMS({
+        url: "https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_GB",
+        params: {
+          LAYERS: "HH_WMS_Geobasiskarten_GB"
+        },
+        projection: "EPSG:25832"
+      }),
+      "HH_WMS_Geobasiskarten_SG": new TileWMS({
+        url: "https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_SG",
+        params: {
+          LAYERS: "HH_WMS_Geobasiskarten_SG"
+        },
+        projection: "EPSG:25832"
+      }),
+      "HH_WMS_Solaratlas": new TileWMS({
+        url: "https://geodienste.hamburg.de/HH_WMS_Solaratlas",
+        params: {
+          LAYERS: "ek_pv"
+        },
+        projection: "EPSG:25832"
+      }),
+      "HH_WMS_Schulen": new TileWMS({
+        url: "https://geodienste.hamburg.de/HH_WMS_Schulen",
+        params: {
+          LAYERS: "hh_schulen_dwh"
+        },
+        projection: "EPSG:25832"
+      }),
+      "HH_WMS_Sportstaetten": new TileWMS({
+        url: "https://geodienste.hamburg.de/HH_WMS_Sportstaetten",
+        params: {
+          LAYERS: "sportstaetten"
+        },
+        projection: "EPSG:25832"
+      }),
+      "HH_WMS_Oeffentliche_Bibliotheken": new TileWMS({
+        url: "https://geodienste.hamburg.de/HH_WMS_Oeffentliche_Bibliotheken",
+        params: {
+          LAYERS: "oeffentliche_bibs"
+        },
+        projection: "EPSG:25832"
+      }),
+      "HH_WMS_Freiwilliges_Engagement": new TileWMS({
+        url: "https://geodienste.hamburg.de/HH_WMS_Freiwilliges_Engagement",
+        params: {
+          LAYERS: "mehrgenerationenhaeuser"
+        },
+        projection: "EPSG:25832"
+      }),
+      "HH_WMS_Familien_Angebote": new TileWMS({
+        url: "https://geodienste.hamburg.de/HH_WMS_Familien_Angebote",
+        params: {
+          LAYERS: "eltern_kind_zentrum,kinder_familienzentrum"
+        },
+        projection: "EPSG:25832"
+      }),
+      "HH_WMS_Sozialraeumliche_Angebote_der_Jugend-_und_Familienhilfe": new TileWMS({
+        url: "https://geodienste.hamburg.de/HH_WMS_Sozialraeumliche_Angebote_der_Jugend-_und_Familienhilfe",
+        params: {
+          LAYERS: "begleitung_kinder,schulbezogene_angebote"
+        },
+        projection: "EPSG:25832"
+      }),
+      "HH_WMS_Jugend_Aktiv_Plus": new TileWMS({
+        url: "https://geodienste.hamburg.de/HH_WMS_Jugend_Aktiv_Plus",
+        params: {
+          LAYERS: "jugend_aktiv_plus"
+        },
+        projection: "EPSG:25832"
+      }),
+      "HH_WMS_KitaEinrichtung": new TileWMS({
+        url: "https://geodienste.hamburg.de/HH_WMS_KitaEinrichtung",
+        params: {
+          LAYERS: "KitaEinrichtungen"
+        },
+        projection: "EPSG:25832"
+      }),
+      "HH_WMS_Uebernachtungsangebote": new TileWMS({
+        url: "https://geodienste.hamburg.de/HH_WMS_Uebernachtungsangebote",
+        params: {
+          LAYERS: "uebernachtungsangebote"
+        },
+        projection: "EPSG:25832"
+      }),
+      "HH_WMS_Wohnungsbauprojekte": new TileWMS({
+        url: "https://geodienste.hamburg.de/HH_WMS_Wohnungsbauprojekte",
+        params: {
+          LAYERS: "projekte"
+        },
+        projection: "EPSG:25832"
+      }),
+      "HH_WMS_Wohnbauflaechenpotenziale": new TileWMS({
+        url: "https://geodienste.hamburg.de/HH_WMS_Wohnbauflaechenpotenziale",
+        params: {
+          LAYERS: "hh_wohnbauflaechenpotentiale"
+        },
+        projection: "EPSG:25832"
+      }),
+      "HH_WMS_RISE_FG": new TileWMS({
+        url: "https://geodienste.hamburg.de/HH_WMS_RISE_FG",
+        params: {
+          LAYERS: "rise_fg"
+        },
+        projection: "EPSG:25832"
+      }),
+    };
+
+    this.vectorSources = {
       Stadt: new VectorSource({
         format: new GML3(),
         url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=landesgrenze"
@@ -95,77 +211,39 @@ export default class MapComponent extends Vue {
       Baublock: new VectorSource({
         format: new GML3(),
         url: "https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=baubloecke"
+      }),
+      Sozialmonitoring: new VectorSource({
+        format: new GeoJSON(),
+        url: "data/Sozialmonitoring2020.json"
       })
     };
 
     this.layers = {
       "farbig": new TileLayer({
-        source: new TileWMS({
-          url: "https://geodienste.hamburg.de/HH_WMS_Geobasiskarten",
-          params: {
-            LAYERS: "Geobasiskarten_farbig"
-          },
-          projection: "EPSG:25832"
-        })
+        source: this.tileSources.HH_WMS_Geobasiskarten
       }),
       "grau-blau": new TileLayer({
-        source: new TileWMS({
-          url: "https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_GB",
-          params: {
-            LAYERS: "HH_WMS_Geobasiskarten_GB"
-          },
-          projection: "EPSG:25832"
-        })
+        source: this.tileSources.HH_WMS_Geobasiskarten_GB
       }),
       "schwarz-grau": new TileLayer({
-        source: new TileWMS({
-          url: "https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_SG",
-          params: {
-            LAYERS: "HH_WMS_Geobasiskarten_SG"
-          },
-          projection: "EPSG:25832"
-        })
+        source: this.tileSources.HH_WMS_Geobasiskarten_SG
       }),
       "Solaratlas": new TileLayer({
-        source: new TileWMS({
-          url: "https://geodienste.hamburg.de/HH_WMS_Solaratlas",
-          params: {
-            LAYERS: "ek_pv"
-          },
-          projection: "EPSG:25832"
-        }),
+        source: this.tileSources.HH_WMS_Solaratlas,
         zIndex: 5
       }),
       "Schulen": new TileLayer({
-        source: new TileWMS({
-          url: "https://geodienste.hamburg.de/HH_WMS_Schulen",
-          params: {
-            LAYERS: "hh_schulen_dwh"
-          },
-          projection: "EPSG:25832"
-        }),
+        source: this.tileSources.HH_WMS_Schulen,
         zIndex: 9
       }),
       "Kultur, Freizeit, Sport und Tourismus": new LayerGroup({
         layers: [
           new TileLayer({
-            source: new TileWMS({
-              url: "https://geodienste.hamburg.de/HH_WMS_Sportstaetten",
-              params: {
-                LAYERS: "sportstaetten"
-              },
-              projection: "EPSG:25832"
-            }),
+            source: this.tileSources.HH_WMS_Sportstaetten,
             zIndex: 9
           }),
           new TileLayer({
-            source: new TileWMS({
-              url: "https://geodienste.hamburg.de/HH_WMS_Oeffentliche_Bibliotheken",
-              params: {
-                LAYERS: "oeffentliche_bibs"
-              },
-              projection: "EPSG:25832"
-            }),
+            source: this.tileSources.HH_WMS_Oeffentliche_Bibliotheken,
             zIndex: 9
           })
         ]
@@ -173,63 +251,27 @@ export default class MapComponent extends Vue {
       "Soziales": new LayerGroup({
         layers: [
           new TileLayer({
-            source: new TileWMS({
-              url: "https://geodienste.hamburg.de/HH_WMS_Freiwilliges_Engagement",
-              params: {
-                LAYERS: "mehrgenerationenhaeuser"
-              },
-              projection: "EPSG:25832"
-            }),
+            source: this.tileSources.HH_WMS_Freiwilliges_Engagement,
             zIndex: 9
           }),
           new TileLayer({
-            source: new TileWMS({
-              url: "https://geodienste.hamburg.de/HH_WMS_Familien_Angebote",
-              params: {
-                LAYERS: "eltern_kind_zentrum,kinder_familienzentrum"
-              },
-              projection: "EPSG:25832"
-            }),
+            source: this.tileSources.HH_WMS_Familien_Angebote,
             zIndex: 9
           }),
           new TileLayer({
-            source: new TileWMS({
-              url: "https://geodienste.hamburg.de/HH_WMS_Sozialraeumliche_Angebote_der_Jugend-_und_Familienhilfe",
-              params: {
-                LAYERS: "begleitung_kinder,schulbezogene_angebote"
-              },
-              projection: "EPSG:25832"
-            }),
+            source: this.tileSources["HH_WMS_Sozialraeumliche_Angebote_der_Jugend-_und_Familienhilfe"],
             zIndex: 9
           }),
           new TileLayer({
-            source: new TileWMS({
-              url: "https://geodienste.hamburg.de/HH_WMS_Jugend_Aktiv_Plus",
-              params: {
-                LAYERS: "jugend_aktiv_plus"
-              },
-              projection: "EPSG:25832"
-            }),
+            source: this.tileSources.HH_WMS_Jugend_Aktiv_Plus,
             zIndex: 9
           }),
           new TileLayer({
-            source: new TileWMS({
-              url: "https://geodienste.hamburg.de/HH_WMS_KitaEinrichtung",
-              params: {
-                LAYERS: "KitaEinrichtungen"
-              },
-              projection: "EPSG:25832"
-            }),
+            source: this.tileSources.HH_WMS_KitaEinrichtung,
             zIndex: 9
           }),
           new TileLayer({
-            source: new TileWMS({
-              url: "https://geodienste.hamburg.de/HH_WMS_Uebernachtungsangebote",
-              params: {
-                LAYERS: "uebernachtungsangebote"
-              },
-              projection: "EPSG:25832"
-            }),
+            source: this.tileSources.HH_WMS_Uebernachtungsangebote,
             zIndex: 9
           })
         ]
@@ -237,42 +279,21 @@ export default class MapComponent extends Vue {
       "Infrastruktur, Bauen, Wohnen": new LayerGroup({
         layers: [
           new TileLayer({
-            source: new TileWMS({
-              url: "https://geodienste.hamburg.de/HH_WMS_Wohnungsbauprojekte",
-              params: {
-                LAYERS: "projekte"
-              },
-              projection: "EPSG:25832"
-            }),
+            source: this.tileSources.HH_WMS_Wohnungsbauprojekte,
             zIndex: 9
           }),
           new TileLayer({
-            source: new TileWMS({
-              url: "https://geodienste.hamburg.de/HH_WMS_Wohnbauflaechenpotenziale",
-              params: {
-                LAYERS: "hh_wohnbauflaechenpotentiale"
-              },
-              projection: "EPSG:25832"
-            }),
+            source: this.tileSources.HH_WMS_Wohnbauflaechenpotenziale,
             zIndex: 9
           })
         ]
       }),
       "RISE-Fördergebiete": new TileLayer({
-        source: new TileWMS({
-          url: "https://geodienste.hamburg.de/HH_WMS_RISE_FG",
-          params: {
-            LAYERS: "rise_fg"
-          },
-          projection: "EPSG:25832"
-        }),
+        source: this.tileSources.HH_WMS_RISE_FG,
         zIndex: 7
       }),
       "Sozialmonitoring 2020": new VectorLayer({
-        source: new VectorSource({
-          format: new GeoJSON(),
-          url: "data/Sozialmonitoring2020.json"
-        }),
+        source: this.vectorSources.Sozialmonitoring,
         style: feature => {
           return new Style({
             stroke: new Stroke({
@@ -292,23 +313,23 @@ export default class MapComponent extends Vue {
         zIndex: 6
       }),
       Stadt: new VectorLayer({
-        source: this.sources.Stadt,
+        source: this.vectorSources.Stadt,
         style: this.getAdminAreaStyleFn("Stadt", Stadt.featureNameProp)
       }),
       Bezirk: new VectorLayer({
-        source: this.sources.Bezirk,
+        source: this.vectorSources.Bezirk,
         style: this.getAdminAreaStyleFn("Bezirk", Bezirk.featureNameProp)
       }),
       Stadtteil: new VectorLayer({
-        source: this.sources.Stadtteil,
+        source: this.vectorSources.Stadtteil,
         style: this.getAdminAreaStyleFn("Stadtteil", Stadtteil.featureNameProp)
       }),
       StatGebiet: new VectorLayer({
-        source: this.sources.StatGebiet,
+        source: this.vectorSources.StatGebiet,
         style: this.getAdminAreaStyleFn("StatGebiet", StatGebiet.featureNameProp)
       }),
       Baublock: new VectorLayer({
-        source: this.sources.Baublock,
+        source: this.vectorSources.Baublock,
         style: this.getAdminAreaStyleFn("Baublock", Baublock.featureNameProp),
         minZoom: 13
       })
@@ -344,7 +365,7 @@ export default class MapComponent extends Vue {
       throw new Error("No admin level layer is visible");
     }
 
-    for (const feature of this.sources[adminLevel].getFeatures()) {
+    for (const feature of this.vectorSources[adminLevel].getFeatures()) {
       const found = !!list.find(area => area.getFeatureId(feature) === area.getId());
       this.setFeatureSelected(feature, found);
     }
@@ -371,11 +392,25 @@ export default class MapComponent extends Vue {
         throw new Error("No admin level layer is visible");
       }
 
-      for (const feature of this.sources[adminLevel].getFeaturesAtCoordinate(coord)) {
+      for (const feature of this.vectorSources[adminLevel].getFeaturesAtCoordinate(coord)) {
         this.setFeatureSelected(feature, !feature.get("selected"));
       }
 
       this.emitSelected();
+    });
+
+    // Update the legend
+    this.map.on('postcompose', () => {
+      const legendUrls = Object.entries(this.layers).reduce((obj, [key, layer]) => {
+        const sources = layer instanceof LayerGroup
+          ? layer.getLayersArray().map(l => l.getSource())
+          : [layer.getSource()];
+        obj[key] = sources.filter(source => source instanceof TileWMS)
+          .map(source => (source as TileWMS).getLegendUrl() as string);
+        return obj;
+      }, {} as { [key: string]: string[] });
+
+      this.$emit("legendUrls", legendUrls);
     });
   }
 
@@ -393,7 +428,7 @@ export default class MapComponent extends Vue {
 
   emitSelected(): void {
     const event = Object.entries(adminLevelClassMap).reduce((obj, [key, type]) => {
-      obj[key] = this.sources[key]
+      obj[key] = this.vectorSources[key]
         .getFeatures()
         .filter(feature => feature.get("selected"))
         .map(feature => feature.get(type.featureIdProp));

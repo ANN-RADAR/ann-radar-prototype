@@ -41,6 +41,7 @@
                     }, {})"
                     :selectedAdminAreas="selectedAreas[areaUnit]"
                     @selectedAdminAreas="onAdminAreasSelected($event)"
+                    @legendUrls="onLegendUrlsChange($event)"
                   />
                 </v-col>
                 <v-col v-resize="onResize">
@@ -69,6 +70,21 @@
                           :value="layer.name"
                         ></v-radio>
                       </v-radio-group>
+                    </v-card-text>
+                  </v-card>
+                  <v-card>
+                    <v-card-title>Legende</v-card-title>
+                    <v-card-text style="max-height: 150px;overflow: auto">
+                      <div
+                        v-for="layer in thematicLayers.filter(l => l.visible)"
+                        :key="layer.name"
+                      >
+                        <img
+                          v-for="url in legendUrls[layer.name]"
+                          :key="url"
+                          :src="url"
+                        />
+                      </div>
                     </v-card-text>
                   </v-card>
                   <v-card>
@@ -323,6 +339,7 @@ export default class App extends Vue {
       visible: false,
     }
   ];
+  legendUrls: string[] = [];
   dialog = false;
   savedSelections: Selection[] = [];
   tableHeight = 0;
@@ -335,6 +352,10 @@ export default class App extends Vue {
     for (const layer of this.basemaps) {
       layer.visible = layer.name === this.currentBasemap;
     }
+  }
+
+  onLegendUrlsChange(event: string[]): void {
+    this.legendUrls = event;
   }
 
   @Watch("selectedAreas.Bezirk")
