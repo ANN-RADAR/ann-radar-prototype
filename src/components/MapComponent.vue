@@ -112,13 +112,6 @@ export default class MapComponent extends Vue {
         },
         projection: "EPSG:25832"
       }),
-      "HH_WMS_Sportstaetten": new TileWMS({
-        url: "https://geodienste.hamburg.de/HH_WMS_Sportstaetten",
-        params: {
-          LAYERS: "sportstaetten"
-        },
-        projection: "EPSG:25832"
-      }),
       "HH_WMS_Oeffentliche_Bibliotheken": new TileWMS({
         url: "https://geodienste.hamburg.de/HH_WMS_Oeffentliche_Bibliotheken",
         params: {
@@ -158,13 +151,6 @@ export default class MapComponent extends Vue {
         url: "https://geodienste.hamburg.de/HH_WMS_KitaEinrichtung",
         params: {
           LAYERS: "KitaEinrichtungen"
-        },
-        projection: "EPSG:25832"
-      }),
-      "HH_WMS_Uebernachtungsangebote": new TileWMS({
-        url: "https://geodienste.hamburg.de/HH_WMS_Uebernachtungsangebote",
-        params: {
-          LAYERS: "uebernachtungsangebote"
         },
         projection: "EPSG:25832"
       }),
@@ -236,19 +222,15 @@ export default class MapComponent extends Vue {
         source: this.tileSources.HH_WMS_Schulen,
         zIndex: 9
       }),
-      "Kultur, Freizeit, Sport und Tourismus": new LayerGroup({
+      "Stadtteilkultur": new LayerGroup({
         layers: [
-          new TileLayer({
-            source: this.tileSources.HH_WMS_Sportstaetten,
-            zIndex: 9
-          }),
           new TileLayer({
             source: this.tileSources.HH_WMS_Oeffentliche_Bibliotheken,
             zIndex: 9
           })
         ]
       }),
-      "Soziales": new LayerGroup({
+      "Soziale Infrastruktur": new LayerGroup({
         layers: [
           new TileLayer({
             source: this.tileSources.HH_WMS_Freiwilliges_Engagement,
@@ -269,14 +251,10 @@ export default class MapComponent extends Vue {
           new TileLayer({
             source: this.tileSources.HH_WMS_KitaEinrichtung,
             zIndex: 9
-          }),
-          new TileLayer({
-            source: this.tileSources.HH_WMS_Uebernachtungsangebote,
-            zIndex: 9
           })
         ]
       }),
-      "Infrastruktur, Bauen, Wohnen": new LayerGroup({
+      "Bauen und Wohnen": new LayerGroup({
         layers: [
           new TileLayer({
             source: this.tileSources.HH_WMS_Wohnungsbauprojekte,

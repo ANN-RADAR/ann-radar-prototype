@@ -62,14 +62,14 @@
                 <v-col v-resize="onResize">
                   <v-card>
                     <v-card-title>Layer</v-card-title>
-                    <v-card-text>
+                    <v-card-text style="max-height: 250px; overflow: auto">
                       <div style="display: grid; grid-template-columns: auto auto">
                         <v-checkbox
                           v-for="layer in thematicLayers"
                           :key="layer.name"
                           v-model="layer.visible"
                           :label="layer.name"
-                          style="margin-top: 0"
+                          style="margin-top: -4px"
                         ></v-checkbox>
                       </div>
                       <v-radio-group
@@ -319,15 +319,15 @@ export default class App extends Vue {
       visible: false
     },
     {
-      name: "Kultur, Freizeit, Sport und Tourismus",
+      name: "Stadtteilkultur",
       visible: false
     },
     {
-      name: "Soziales",
+      name: "Soziale Infrastruktur",
       visible: false
     },
     {
-      name: "Infrastruktur, Bauen, Wohnen",
+      name: "Bauen und Wohnen",
       visible: false
     },
     {
