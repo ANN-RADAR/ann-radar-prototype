@@ -59,7 +59,7 @@
                     </v-card-text>
                   </v-card>
                 </v-col>
-                <v-col v-resize="onResize">
+                <v-col cols="6" v-resize="onResize">
                   <v-card>
                     <v-card-title>Layer</v-card-title>
                     <v-card-text style="max-height: 250px; overflow: auto">
@@ -85,6 +85,55 @@
                           :value="layer.name"
                         ></v-radio>
                       </v-radio-group>
+                    </v-card-text>
+                  </v-card>
+                  <v-card>
+                    <v-card-title>Cockpit</v-card-title>
+                    <v-card-text>
+                      <div
+                        v-if="areaUnit === 'StatGebiet' && aggregations.StatGebiet"
+                        v-resize="onResize"
+                        style="display: flex; justify-content: space-around"
+                      >
+                        <v-sheet>
+                          Flurstücke
+                          <div class="kpi">{{ aggregations.StatGebiet.AnzFl }}</div>
+                        </v-sheet>
+                        <v-sheet>
+                          mittl. Flurstückgröße
+                          <div class="kpi">{{ Math.round(aggregations.StatGebiet.mittlFl) }}&nbsp;m²</div>
+                        </v-sheet>
+                        <v-sheet>
+                          BGF
+                          <div class="kpi">{{ Math.round(aggregations.StatGebiet.BGF) }}&nbsp;m²</div>
+                        </v-sheet>
+                        <v-sheet>
+                          Wohnbaufläche
+                          <div class="kpi">{{ Math.round(aggregations.StatGebiet.tatNu_WB_P * 100) / 100 }}&nbsp;%</div>
+                        </v-sheet>
+                      </div>
+                      <div
+                        v-if="areaUnit === 'Baublock' && aggregations.Baublock"
+                        v-resize="onResize"
+                        style="display: flex; justify-content: space-around"
+                      >
+                        <v-sheet>
+                          Flurstücke
+                          <div class="kpi">{{ aggregations.Baublock.Anz_Fl }}</div>
+                        </v-sheet>
+                        <v-sheet>
+                          Wohnbaufläche
+                          <div class="kpi">{{ Math.round(aggregations.Baublock.tatNu_WB_P * 100) / 100 }}&nbsp;%</div>
+                        </v-sheet>
+                        <v-sheet>
+                          Bevölkerung
+                          <div class="kpi">{{ aggregations.Baublock.Bev_Ges }}</div>
+                        </v-sheet>
+                        <v-sheet>
+                          Solarpotenzial
+                          <div class="kpi">{{ Math.round(aggregations.Baublock.p_st_mwh_a) }}&nbsp;MWh/a</div>
+                        </v-sheet>
+                      </div>
                     </v-card-text>
                   </v-card>
                   <v-card>
@@ -294,6 +343,7 @@ export default class App extends Vue {
     StatGebiet: [],
     Baublock: []
   };
+  aggregations: {[key: string]: AdminLevelUnit} = {};
   basemaps = [
     {
       name: "farbig",
@@ -376,6 +426,36 @@ export default class App extends Vue {
     }
   }
 
+  @Watch("selectedAreas.StatGebiet")
+  onSelectedStatGebieteChange(selection: StatGebiet[]): void {
+    // berechne aggregierte Werte über die gewählten Flächen
+    const totalTatNu = selection.reduce((aggr, area) => aggr += area.tatNu_gesP, 0);
+    const totalAnzFl = selection.reduce((aggr, area) => aggr += area.AnzFl, 0);
+
+    this.aggregations.StatGebiet = new StatGebiet({
+      STATGEB: "_",
+      AnzFl: totalAnzFl,
+      mittlFl: selection.reduce((aggr, area) => aggr += area.mittlFl * area.AnzFl, 0) / totalAnzFl,
+      BGF: selection.reduce((aggr, area) => aggr += area.BGF, 0),
+      tatNu_WB_P: selection.reduce((aggr, area) => aggr += area.tatNu_WB_P * area.tatNu_gesP, 0) / totalTatNu
+    });
+  }
+
+  @Watch("selectedAreas.Baublock")
+  onSelectedBaublöckeChange(selection: Baublock[]): void {
+    // berechne aggregierte Werte über die gewählten Flächen
+    const totalTatNu = selection.reduce((aggr, area) => aggr += area.tatNu_GesP, 0);
+    const totalAnzFl = selection.reduce((aggr, area) => aggr += area.Anz_Fl, 0);
+
+    this.aggregations.Baublock = new Baublock({
+      BBZ: "_",
+      Anz_Fl: totalAnzFl,
+      Bev_Ges: selection.reduce((aggr, area) => aggr += area.Bev_Ges, 0),
+      tatNu_WB_P: selection.reduce((aggr, area) => aggr += area.tatNu_WB_P * area.tatNu_GesP, 0) / totalTatNu,
+      p_st_mwh_a: selection.reduce((aggr, area) => aggr += area.p_st_mwh_a || 0, 0)
+    });
+  }
+
   onAdminAreasSelected(event: { [key: string]: string[] }): void {
     for (const key of this.adminLevels) {
       this.selectedAreas[key] =
@@ -438,5 +518,10 @@ body {
 
 .v-input__slot {
   margin: 0;
+}
+
+.kpi {
+  font-size: 32px;
+  line-height: 48px;
 }
 </style>
