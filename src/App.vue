@@ -141,34 +141,12 @@
                     <v-card-text>
                       <v-sheet>
                         <v-btn
-                          :color="areaUnit === 'Stadt' ? 'primary' : ''"
-                          @click="areaUnit = areaUnit !== 'Stadt' ? 'Stadt' : ''"
+                          v-for="adminLevel in adminLevels"
+                          :key="adminLevel"
+                          :color="areaUnit === adminLevel ? 'primary' : ''"
+                          @click="areaUnit = areaUnit !== adminLevel ? adminLevel : ''"
                         >
-                          Stadt
-                        </v-btn>
-                        <v-btn
-                          :color="areaUnit === 'Bezirk' ? 'primary' : ''"
-                          @click="areaUnit = areaUnit !== 'Bezirk' ? 'Bezirk' : ''"
-                        >
-                          Bezirke
-                        </v-btn>
-                        <v-btn
-                          :color="areaUnit === 'Stadtteil' ? 'primary' : ''"
-                          @click="areaUnit = areaUnit !== 'Stadtteil' ? 'Stadtteil' : ''"
-                        >
-                          Stadtteile
-                        </v-btn>
-                        <v-btn
-                          :color="areaUnit === 'StatGebiet' ? 'primary' : ''"
-                          @click="areaUnit = areaUnit !== 'StatGebiet' ? 'StatGebiet' : ''"
-                        >
-                          Stat. Gebiete
-                        </v-btn>
-                        <v-btn
-                          :color="areaUnit === 'Baublock' ? 'primary' : ''"
-                          @click="areaUnit = areaUnit !== 'Baublock' ? 'Baublock' : ''"
-                        >
-                          Baublöcke
+                          {{ adminLevelDisplayNames[adminLevel][0] }}
                         </v-btn>
                       </v-sheet>
                       <v-container class="table-container" ref="tableContainer">
@@ -183,6 +161,7 @@
                           :show-select="true"
                           :height="tableHeight"
                           :fixed-header="true"
+                          hide-default-footer
                         ></v-data-table>
                         <v-data-table
                           v-if="areaUnit === 'Bezirk'"
@@ -196,6 +175,7 @@
                           :show-select="true"
                           :height="tableHeight"
                           :fixed-header="true"
+                          hide-default-footer
                         >
                           <template v-slot:item.MWh_a="{ item }">
                             <span v-if="item.MWh_a !== undefined">{{ item.MWh_a }}&nbsp;MWh/a</span>
@@ -213,6 +193,7 @@
                           :show-select="true"
                           :height="tableHeight"
                           :fixed-header="true"
+                          hide-default-footer
                         >
                           <template v-slot:item.MWh_a="{ item }">
                             <span v-if="item.MWh_a !== undefined">{{ item.MWh_a }}&nbsp;MWh/a</span>
@@ -234,6 +215,7 @@
                           :show-select="true"
                           :height="tableHeight"
                           :fixed-header="true"
+                          hide-default-footer
                         >
                           <template v-slot:item.Shape_Area="{ item }">
                             {{ Math.round(item.Shape_Area / 10000) / 100 }}&nbsp;km²
@@ -263,6 +245,7 @@
                           :show-select="true"
                           :height="tableHeight"
                           :fixed-header="true"
+                          hide-default-footer
                         >
                           <template v-slot:item.tatNu_WB_P="{ item }">
                             {{ item.tatNu_WB_P }}&nbsp;%
@@ -272,17 +255,29 @@
                           </template>
                         </v-data-table>
                       </v-container>
-                      <!-- <v-sheet
-                        v-for="adminLevel in adminLevels"
-                        :key="adminLevel"
+                      <v-sheet
+                        style="display: flex; justify-content: space-between; align-items: baseline; height: 54px"
                       >
+                        <div v-if="selectedAreas[areaUnit]">
+                          <span v-if="selectedAreas[areaUnit].length > 0">
+                            {{ selectedAreas[areaUnit].length }}
+                            {{ adminLevelDisplayNames[areaUnit][selectedAreas[areaUnit].length == 1 ? 1 : 0] }} ausgewählt
+                          </span>
+                          <span v-else>Nichts ausgewählt</span>
+                        </div>
                         <SaveDialog
-                          v-if="areaUnit === adminLevel && selectedAreas[adminLevel].length"
-                          :selected-areas="selectedAreas[adminLevel]"
+                          :selected-areas="selectedAreas[areaUnit]"
                           :type="areaUnit"
-                          @saveselection="addSelection($event)"
+                          @saveselection="saveSelection($event)"
                         ></SaveDialog>
-                      </v-sheet> -->
+                        <div>
+                          <v-select
+                            :items="savedSelections.map(selection => ({ text: selection.title, value: selection }))"
+                            label="Auswahl wiederherstellen"
+                            @change="restoreSelection($event)"
+                          ></v-select>
+                        </div>
+                      </v-sheet>
                     </v-card-text>
                   </v-card>
                 </v-col>
@@ -298,7 +293,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 
-import { AdminLevelKey, AdminLevelUnit, Selection } from "@/typings";
+import { AdminLevelUnit, Selection } from "@/typings";
 import MapComponent from "./components/MapComponent.vue";
 import SaveDialog from "./components/SaveDialog.vue";
 import BezirkData from "./data/bezirke.json";
@@ -311,7 +306,7 @@ import { Stadt } from  "./models/Stadt";
 import { Stadtteil } from  "./models/Stadtteil";
 import { StatGebiet } from  "./models/StatGebiet";
 
-export const adminLevelClassMap = {
+export const adminLevelClassMap: Record<string, typeof Stadt | typeof Bezirk | typeof Stadtteil | typeof StatGebiet | typeof Baublock> = {
   "Stadt": Stadt,
   "Bezirk": Bezirk,
   "Stadtteil": Stadtteil,
@@ -329,21 +324,28 @@ export default class App extends Vue {
   tab = 0;
   areaUnit = "";
   adminLevels = Object.keys(adminLevelClassMap);
-  areaData = {
+  adminLevelDisplayNames = {
+    "Stadt": ["Stadt", "Stadt"],
+    "Bezirk": ["Bezirke", "Bezirk"],
+    "Stadtteil": ["Stadtteile", "Stadtteil"],
+    "StatGebiet": ["Stat. Gebiete", "Stat. Gebiet"],
+    "Baublock": ["Baublöcke", "Baublock"]
+  };
+  areaData: Record<string, AdminLevelUnit[]> = {
     Stadt: [new Stadt({name: "FHH"})],
     Bezirk: BezirkData.map(data => new Bezirk(data)),
     Stadtteil: StadtteilData.map(data => new Stadtteil(data)),
     StatGebiet: StatGebietData.map(data => new StatGebiet(data)),
     Baublock: BaublockData.map(data => new Baublock(data))
   };
-  selectedAreas: {[key: string]: AdminLevelUnit[]} = {
+  selectedAreas: Record<string, AdminLevelUnit[]> = {
     Stadt: [],
     Bezirk: [],
     Stadtteil: [],
     StatGebiet: [],
     Baublock: []
   };
-  aggregations: {[key: string]: AdminLevelUnit} = {};
+  aggregations: Record<string, AdminLevelUnit> = {};
   basemaps = [
     {
       name: "farbig",
@@ -396,6 +398,13 @@ export default class App extends Vue {
 
   mounted(): void {
     this.areaUnit = "Stadt";
+
+    // load saved items
+    const storageString = localStorage.getItem("selections");
+
+    if (storageString) {
+      this.savedSelections = JSON.parse(storageString);
+    }
   }
 
   onBasemapChange(): void {
@@ -414,7 +423,7 @@ export default class App extends Vue {
     const removed = before.filter(bez => after.indexOf(bez) < 0);
 
     // wähle alle Stadtteile innerhalb des gewählten Bezirks aus
-    for (const st of this.areaData.Stadtteil) {
+    for (const st of this.areaData.Stadtteil as Stadtteil[]) {
       const sti = this.selectedAreas.Stadtteil.indexOf(st);
 
       if (sti < 0 && added.find(bez => bez.bezirk == st.stadtteil_nummer[0])) {
@@ -459,17 +468,26 @@ export default class App extends Vue {
   onAdminAreasSelected(event: { [key: string]: string[] }): void {
     for (const key of this.adminLevels) {
       this.selectedAreas[key] =
-        (this.areaData[key as AdminLevelKey] as AdminLevelUnit[]).filter(area => event[key].indexOf(area.getId()) > -1);
+        (this.areaData[key] as AdminLevelUnit[]).filter(area => event[key].indexOf(area.getId()) > -1);
     }
   }
 
-  addSelection(selection: Selection): void {
+  saveSelection(selection: Selection): void {
     const storageString = localStorage.getItem("selections");
     if (storageString) {
       this.savedSelections = JSON.parse(storageString);
     }
     this.savedSelections.push(selection);
-    localStorage.setItem('selections', JSON.stringify(this.savedSelections));
+    localStorage.setItem("selections", JSON.stringify(this.savedSelections));
+  }
+
+  restoreSelection(selection: Selection): void {
+    this.areaUnit = selection.type;
+
+    // this.selectedAreas[selection.type] = selection.areas;
+    this.selectedAreas[selection.type] = this.areaData[selection.type].filter(item => {
+      return selection.areas.find(area => item.getId() === new adminLevelClassMap[selection.type](area).getId());
+    });
   }
 
   onResize(): void {
@@ -477,7 +495,7 @@ export default class App extends Vue {
     const container = this.$refs.tableContainer as Element;
     if (container) {
       // subtract margins, paddings and footer height
-      this.tableHeight = window.innerHeight - container.getBoundingClientRect().y - 12 - 16 - 16 - 59;
+      this.tableHeight = window.innerHeight - container.getBoundingClientRect().y - 12 - 16 - 16 - 54;
     }
   }
 }

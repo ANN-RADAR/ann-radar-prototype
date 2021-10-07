@@ -5,9 +5,8 @@ export interface AdminLevelUnit {
   getFeatureName(feature: Feature): string;
 }
 
-type AdminLevelKey = "Stadt" | "Bezirk" | "Stadtteil" | "StatGebiet" | "Baublock";
-
 export interface Selection {
+  title: string;
   type: string;
   areas: AdminLevelUnit[];
   note: string;

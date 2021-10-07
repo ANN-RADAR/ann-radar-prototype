@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     v-model="dialog"
-    v-if="selectedAreas.length"
+    v-if="selectedAreas && selectedAreas.length"
     max-width="600px"
   >
     <template v-slot:activator="{ on, attrs }">
@@ -32,9 +32,10 @@
         </v-row>
         <v-row>
           <v-col cols="12">
+            <v-text-field
+              label="Name"
+              v-model="title"></v-text-field>
             <v-textarea
-              solo
-              name="notes-input"
               label="Notizen"
               v-model="note"
             ></v-textarea>
@@ -72,16 +73,24 @@ export default class SaveDialog extends Vue {
   @Prop() selectedAreas!: AdminLevelUnit[];
   @Prop() type!: string;
   dialog = false;
+  title = "";
   note = "";
 
   save(): void {
     this.dialog = false;
 
     this.$emit("saveselection", {
+      title: this.title,
       type: this.type,
       areas: this.selectedAreas,
       note: this.note
     } as Selection);
+
+    this.reset();
+  }
+
+  reset(): void {
+    this.title = this.note = "";
   }
 }
 </script>

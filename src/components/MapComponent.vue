@@ -340,7 +340,7 @@ export default class MapComponent extends Vue {
   onSelectAreas(list: AdminLevelUnit[]): void {
     const adminLevel = this.getVisibleAdminLevel();
     if (!adminLevel) {
-      throw new Error("No admin level layer is visible");
+      return;
     }
 
     for (const feature of this.vectorSources[adminLevel].getFeatures()) {
