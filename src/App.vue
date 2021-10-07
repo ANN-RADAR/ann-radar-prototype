@@ -91,7 +91,7 @@
                     <v-card-title>Cockpit</v-card-title>
                     <v-card-text>
                       <div
-                        v-if="areaUnit === 'StatGebiet' && aggregations.StatGebiet"
+                        v-if="areaUnit === 'StatGebiet' && aggregations.StatGebiet && aggregations.StatGebiet.AnzFl > 0"
                         v-resize="onResize"
                         style="display: flex; justify-content: space-around"
                       >
@@ -113,7 +113,7 @@
                         </v-sheet>
                       </div>
                       <div
-                        v-if="areaUnit === 'Baublock' && aggregations.Baublock"
+                        v-if="areaUnit === 'Baublock' && aggregations.Baublock && aggregations.Baublock.Anz_Fl > 0"
                         v-resize="onResize"
                         style="display: flex; justify-content: space-around"
                       >
@@ -521,7 +521,7 @@ body {
 }
 
 .kpi {
-  font-size: 32px;
-  line-height: 48px;
+  font-size: 28px;
+  line-height: 44px;
 }
 </style>
