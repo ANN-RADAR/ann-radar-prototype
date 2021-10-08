@@ -438,7 +438,7 @@ export default class App extends Vue {
   @Watch("selectedAreas.StatGebiet")
   onSelectedStatGebieteChange(selection: StatGebiet[]): void {
     // berechne aggregierte Werte über die gewählten Flächen
-    const totalTatNu = selection.reduce((aggr, area) => aggr += area.tatNu_gesP, 0);
+    const totalArea = selection.reduce((aggr, area) => aggr += area.Shape_Area, 0);
     const totalAnzFl = selection.reduce((aggr, area) => aggr += area.AnzFl, 0);
 
     this.aggregations.StatGebiet = new StatGebiet({
@@ -446,21 +446,21 @@ export default class App extends Vue {
       AnzFl: totalAnzFl,
       mittlFl: selection.reduce((aggr, area) => aggr += area.mittlFl * area.AnzFl, 0) / totalAnzFl,
       BGF: selection.reduce((aggr, area) => aggr += area.BGF, 0),
-      tatNu_WB_P: selection.reduce((aggr, area) => aggr += area.tatNu_WB_P * area.tatNu_gesP, 0) / totalTatNu
+      tatNu_WB_P: selection.reduce((aggr, area) => aggr += area.tatNu_WB_P * area.Shape_Area, 0) / totalArea
     });
   }
 
   @Watch("selectedAreas.Baublock")
   onSelectedBaublöckeChange(selection: Baublock[]): void {
     // berechne aggregierte Werte über die gewählten Flächen
-    const totalTatNu = selection.reduce((aggr, area) => aggr += area.tatNu_GesP, 0);
+    const totalArea = selection.reduce((aggr, area) => aggr += area.Shape_Area, 0);
     const totalAnzFl = selection.reduce((aggr, area) => aggr += area.Anz_Fl, 0);
 
     this.aggregations.Baublock = new Baublock({
       BBZ: "_",
       Anz_Fl: totalAnzFl,
       Bev_Ges: selection.reduce((aggr, area) => aggr += area.Bev_Ges, 0),
-      tatNu_WB_P: selection.reduce((aggr, area) => aggr += area.tatNu_WB_P * area.tatNu_GesP, 0) / totalTatNu,
+      tatNu_WB_P: selection.reduce((aggr, area) => aggr += area.tatNu_WB_P * area.Shape_Area, 0) / totalArea,
       p_st_mwh_a: selection.reduce((aggr, area) => aggr += area.p_st_mwh_a || 0, 0)
     });
   }

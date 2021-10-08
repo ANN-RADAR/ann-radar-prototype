@@ -6,6 +6,7 @@ export class StatGebiet implements AdminLevelUnit {
   static featureNameProp = "statgebiet";
 
   STATGEB: string;    // Amtliche Gebietsnummer
+  Shape_Area: number; // Fläche in QM
   AnzFl: number;      // Anzahl der Flurstücke im stat. Gebiet
   mittlFl: number;    // Mittlere Flurstücksgröße im stat. Gebiet
   tatNu_gesP: number; // Prozentualer Gesamtanteil am SG der unten stehendend genannten 4 Kategorien (aus Tatsächliche Nutzung Attribut BEZEICH)
@@ -15,6 +16,7 @@ export class StatGebiet implements AdminLevelUnit {
 
   constructor(data: any) {
     this.STATGEB = data.STATGEB.toString();
+    this.Shape_Area = data.Shape_Area;
     this.AnzFl = data.AnzFl;
     this.mittlFl = data.mittlFl;
     this.tatNu_gesP = data.tatNu_gesP;
