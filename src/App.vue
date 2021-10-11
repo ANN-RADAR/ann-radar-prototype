@@ -91,47 +91,37 @@
                     <v-card-title>Cockpit</v-card-title>
                     <v-card-text>
                       <div
-                        v-if="areaUnit === 'StatGebiet' && aggregations.StatGebiet && aggregations.StatGebiet.AnzFl > 0"
+                        v-if="selectedAreas[areaUnit] && selectedAreas[areaUnit].length > 0"
                         v-resize="onResize"
                         style="display: flex; justify-content: space-around"
                       >
-                        <v-sheet>
+                        <v-sheet v-if="areaUnit === 'StatGebiet'">
                           Flurstücke
-                          <div class="kpi">{{ aggregations.StatGebiet.AnzFl }}</div>
+                          <div class="kpi">{{ formatNumber(aggregation.AnzFl) }}</div>
                         </v-sheet>
-                        <v-sheet>
+                        <v-sheet v-if="areaUnit === 'Baublock'">
+                          Flurstücke
+                          <div class="kpi">{{ formatNumber(aggregation.Anz_Fl) }}</div>
+                        </v-sheet>
+                        <v-sheet v-if="areaUnit === 'StatGebiet'">
                           mittl. Flurstückgröße
-                          <div class="kpi">{{ Math.round(aggregations.StatGebiet.mittlFl) }}&nbsp;m²</div>
+                          <div class="kpi">{{ formatNumber(Math.round(aggregation.mittlFl)) }}&nbsp;m²</div>
                         </v-sheet>
-                        <v-sheet>
+                        <v-sheet v-if="areaUnit === 'StatGebiet'">
                           BGF
-                          <div class="kpi">{{ Math.round(aggregations.StatGebiet.BGF) }}&nbsp;m²</div>
+                          <div class="kpi">{{ formatNumber(Math.round(aggregation.BGF)) }}&nbsp;m²</div>
                         </v-sheet>
-                        <v-sheet>
+                        <v-sheet v-if="areaUnit === 'StatGebiet' || areaUnit === 'Baublock'">
                           Wohnbaufläche
-                          <div class="kpi">{{ Math.round(aggregations.StatGebiet.tatNu_WB_P * 100) / 100 }}&nbsp;%</div>
+                          <div class="kpi">{{ formatNumber(Math.round(aggregation.tatNu_WB_P * 100) / 100) }}&nbsp;%</div>
                         </v-sheet>
-                      </div>
-                      <div
-                        v-if="areaUnit === 'Baublock' && aggregations.Baublock && aggregations.Baublock.Anz_Fl > 0"
-                        v-resize="onResize"
-                        style="display: flex; justify-content: space-around"
-                      >
-                        <v-sheet>
-                          Flurstücke
-                          <div class="kpi">{{ aggregations.Baublock.Anz_Fl }}</div>
-                        </v-sheet>
-                        <v-sheet>
-                          Wohnbaufläche
-                          <div class="kpi">{{ Math.round(aggregations.Baublock.tatNu_WB_P * 100) / 100 }}&nbsp;%</div>
-                        </v-sheet>
-                        <v-sheet>
+                        <v-sheet v-if="areaUnit === 'Baublock'">
                           Bevölkerung
-                          <div class="kpi">{{ aggregations.Baublock.Bev_Ges }}</div>
+                          <div class="kpi">{{ formatNumber(aggregation.Bev_Ges) }}</div>
                         </v-sheet>
-                        <v-sheet>
+                        <v-sheet v-if="areaUnit === 'Baublock'">
                           Solarpotenzial
-                          <div class="kpi">{{ Math.round(aggregations.Baublock.p_st_mwh_a) }}&nbsp;MWh/a</div>
+                          <div class="kpi">{{ formatNumber(Math.round(aggregation.p_st_mwh_a)) }}&nbsp;MWh/a</div>
                         </v-sheet>
                       </div>
                     </v-card-text>
@@ -345,7 +335,7 @@ export default class App extends Vue {
     StatGebiet: [],
     Baublock: []
   };
-  aggregations: Record<string, AdminLevelUnit> = {};
+  aggregation: AdminLevelUnit = {} as AdminLevelUnit;
   basemaps = [
     {
       name: "farbig",
@@ -438,30 +428,44 @@ export default class App extends Vue {
   @Watch("selectedAreas.StatGebiet")
   onSelectedStatGebieteChange(selection: StatGebiet[]): void {
     // berechne aggregierte Werte über die gewählten Flächen
-    const totalArea = selection.reduce((aggr, area) => aggr += area.Shape_Area, 0);
-    const totalAnzFl = selection.reduce((aggr, area) => aggr += area.AnzFl, 0);
+    const aggregation = selection.reduce((aggr, area) => {
+      return {
+        Shape_Area: aggr.Shape_Area + area.Shape_Area,
+        AnzFl: aggr.AnzFl + area.AnzFl,
+        mittlFl: aggr.mittlFl + area.mittlFl * area.AnzFl,
+        BGF: aggr.BGF + area.BGF,
+        tatNu_WB_P: aggr.tatNu_WB_P + area.tatNu_WB_P * area.Shape_Area
+      }
+    }, {Shape_Area: 0, AnzFl: 0, mittlFl: 0, BGF: 0, tatNu_WB_P: 0});
 
-    this.aggregations.StatGebiet = new StatGebiet({
+    this.aggregation = new StatGebiet({
       STATGEB: "_",
-      AnzFl: totalAnzFl,
-      mittlFl: selection.reduce((aggr, area) => aggr += area.mittlFl * area.AnzFl, 0) / totalAnzFl,
-      BGF: selection.reduce((aggr, area) => aggr += area.BGF, 0),
-      tatNu_WB_P: selection.reduce((aggr, area) => aggr += area.tatNu_WB_P * area.Shape_Area, 0) / totalArea
+      AnzFl: aggregation.AnzFl,
+      mittlFl: aggregation.mittlFl / aggregation.AnzFl,
+      BGF: aggregation.BGF,
+      tatNu_WB_P: aggregation.tatNu_WB_P / aggregation.Shape_Area
     });
   }
 
   @Watch("selectedAreas.Baublock")
   onSelectedBaublöckeChange(selection: Baublock[]): void {
     // berechne aggregierte Werte über die gewählten Flächen
-    const totalArea = selection.reduce((aggr, area) => aggr += area.Shape_Area, 0);
-    const totalAnzFl = selection.reduce((aggr, area) => aggr += area.Anz_Fl, 0);
+    const aggregation = selection.reduce((aggr, area) => {
+      return {
+        Shape_Area: aggr.Shape_Area + area.Shape_Area,
+        Anz_Fl: aggr.Anz_Fl + area.Anz_Fl,
+        Bev_Ges: aggr.Bev_Ges + area.Bev_Ges,
+        tatNu_WB_P: aggr.tatNu_WB_P + area.tatNu_WB_P * area.Shape_Area,
+        p_st_mwh_a: aggr.p_st_mwh_a + area.p_st_mwh_a || 0
+      }
+    }, {Shape_Area: 0, Anz_Fl: 0, Bev_Ges: 0, tatNu_WB_P: 0, p_st_mwh_a: 0});
 
-    this.aggregations.Baublock = new Baublock({
+    this.aggregation = new Baublock({
       BBZ: "_",
-      Anz_Fl: totalAnzFl,
-      Bev_Ges: selection.reduce((aggr, area) => aggr += area.Bev_Ges, 0),
-      tatNu_WB_P: selection.reduce((aggr, area) => aggr += area.tatNu_WB_P * area.Shape_Area, 0) / totalArea,
-      p_st_mwh_a: selection.reduce((aggr, area) => aggr += area.p_st_mwh_a || 0, 0)
+      Anz_Fl: aggregation.Anz_Fl,
+      Bev_Ges: aggregation.Bev_Ges,
+      tatNu_WB_P: aggregation.tatNu_WB_P / aggregation.Shape_Area,
+      p_st_mwh_a: aggregation.p_st_mwh_a
     });
   }
 
@@ -497,6 +501,10 @@ export default class App extends Vue {
       // subtract margins, paddings and footer height
       this.tableHeight = window.innerHeight - container.getBoundingClientRect().y - 12 - 16 - 16 - 54;
     }
+  }
+
+  formatNumber(n: number): string {
+    return n.toLocaleString("de-DE");
   }
 }
 </script>
