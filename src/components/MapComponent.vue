@@ -367,7 +367,7 @@ export default class MapComponent extends Vue {
       const coord = this.map.getCoordinateFromPixel(evt.pixel);
       const adminLevel = this.getVisibleAdminLevel();
       if (!adminLevel) {
-        throw new Error("No admin level layer is visible");
+        return;
       }
 
       for (const feature of this.vectorSources[adminLevel].getFeaturesAtCoordinate(coord)) {
@@ -393,11 +393,7 @@ export default class MapComponent extends Vue {
   }
 
   getVisibleAdminLevel(): string | undefined {
-    for (const adminLevel of ["Stadt", "Bezirk", "Stadtteil", "StatGebiet", "Baublock"]) {
-      if (this.adminLayerVisibility[adminLevel]) {
-        return adminLevel;
-      }
-    }
+    return Object.entries(this.adminLayerVisibility).find(entry => entry[1])?.[0];
   }
 
   setFeatureSelected(feature: Feature, selected: boolean): void {

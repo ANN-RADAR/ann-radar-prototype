@@ -412,6 +412,7 @@ export default class App extends Vue {
     for (const st of this.areaData.Stadtteil as Stadtteil[]) {
       const sti = this.selectedAreas.Stadtteil.indexOf(st);
 
+      // die erste Ziffer in der Stadtteilkennung ist die Bezirkskennung!
       if (sti < 0 && added.find(bez => bez.bezirk == st.stadtteil_nummer[0])) {
         this.selectedAreas.Stadtteil.push(st);
       }
