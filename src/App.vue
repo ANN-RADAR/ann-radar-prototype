@@ -95,11 +95,11 @@
                         v-resize="onResize"
                         style="display: flex; justify-content: space-around"
                       >
-                        <v-sheet v-if="areaUnit === 'StatGebiet' || areaUnit === 'Baublock'">
+                        <v-sheet v-if="areaUnit !== 'Stadt'">
                           Flurstücke
                           <div class="kpi">{{ formatNumber(aggregation.AnzFl) }}</div>
                         </v-sheet>
-                        <v-sheet v-if="areaUnit === 'StatGebiet'">
+                        <v-sheet v-if="areaUnit !== 'Stadt'">
                           mittl. Flurstückgröße
                           <div class="kpi">{{ formatNumber(Math.round(aggregation.mittlFl)) }}&nbsp;m²</div>
                         </v-sheet>
@@ -404,9 +404,23 @@ export default class App extends Vue {
   }
 
   @Watch("selectedAreas.Bezirk")
-  onSelectedBezirkeChange(after: Bezirk[], before: Bezirk[]): void {
-    const added = after.filter(bez => before.indexOf(bez) < 0);
-    const removed = before.filter(bez => after.indexOf(bez) < 0);
+  onSelectedBezirkeChange(selection: Bezirk[], before: Bezirk[]): void {
+    // berechne aggregierte Werte über die gewählten Flächen
+    const aggregation = selection.reduce((aggr, area) => {
+      return {
+        Shape_Area: aggr.Shape_Area + area.Shape_Area,
+        AnzFl: aggr.AnzFl + area.AnzFl,
+        mittlFl: aggr.mittlFl + area.mittlFl * area.AnzFl
+      }
+    }, {Shape_Area: 0, AnzFl: 0, mittlFl: 0});
+
+    this.aggregation = new Bezirk({
+      AnzFl: aggregation.AnzFl,
+      mittlFl: aggregation.mittlFl / aggregation.AnzFl
+    } as Bezirk);
+
+    const added = selection.filter(bez => before.indexOf(bez) < 0);
+    const removed = before.filter(bez => selection.indexOf(bez) < 0);
 
     // wähle alle Stadtteile innerhalb des gewählten Bezirks aus
     for (const st of this.areaData.Stadtteil as Stadtteil[]) {
@@ -420,6 +434,23 @@ export default class App extends Vue {
         this.selectedAreas.Stadtteil.splice(sti, 1);
       }
     }
+  }
+
+  @Watch("selectedAreas.Stadtteil")
+  onSelectedStadtteileChange(selection: Stadtteil[]): void {
+    // berechne aggregierte Werte über die gewählten Flächen
+    const aggregation = selection.reduce((aggr, area) => {
+      return {
+        Shape_Area: aggr.Shape_Area + area.Shape_Area,
+        AnzFl: aggr.AnzFl + area.AnzFl,
+        mittlFl: aggr.mittlFl + area.mittlFl * area.AnzFl
+      }
+    }, {Shape_Area: 0, AnzFl: 0, mittlFl: 0});
+
+    this.aggregation = new Stadtteil({
+      AnzFl: aggregation.AnzFl,
+      mittlFl: aggregation.mittlFl / aggregation.AnzFl
+    } as Stadtteil);
   }
 
   @Watch("selectedAreas.StatGebiet")
@@ -436,7 +467,6 @@ export default class App extends Vue {
     }, {Shape_Area: 0, AnzFl: 0, mittlFl: 0, BGF: 0, tatNu_WB_P: 0});
 
     this.aggregation = new StatGebiet({
-      STATGEB: "_",
       AnzFl: aggregation.AnzFl,
       mittlFl: aggregation.mittlFl / aggregation.AnzFl,
       BGF: aggregation.BGF,
@@ -458,7 +488,6 @@ export default class App extends Vue {
     }, {Shape_Area: 0, AnzFl: 0, Bev_311219: 0, tatNu_WB_P: 0, p_st_mwh_a: 0});
 
     this.aggregation = new Baublock({
-      BBZ: "_",
       AnzFl: aggregation.AnzFl,
       Bev_311219: aggregation.Bev_311219,
       tatNu_WB_P: aggregation.tatNu_WB_P / aggregation.Shape_Area,
@@ -543,7 +572,7 @@ body {
 }
 
 .kpi {
-  font-size: 28px;
-  line-height: 44px;
+  font-size: 20px;
+  line-height: 36px;
 }
 </style>

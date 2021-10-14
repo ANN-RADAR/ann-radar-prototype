@@ -14,7 +14,7 @@ export class Stadtteil extends AdminLevelProperties implements AdminLevelUnit {
   constructor(data: Stadtteil) {
     super(data);
 
-    this.stadtteil_nummer = data.stadtteil_nummer.toString();
+    this.stadtteil_nummer = data.stadtteil_nummer?.toString();
     this.stadtteil_name = data.stadtteil_name;
     this.Anz_statGe = data.Anz_statGe;
   }

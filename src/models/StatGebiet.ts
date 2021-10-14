@@ -13,7 +13,7 @@ export class StatGebiet extends AdminLevelProperties implements AdminLevelUnit {
   constructor(data: StatGebiet) {
     super(data);
 
-    this.STATGEB = data.STATGEB.toString();
+    this.STATGEB = data.STATGEB?.toString();
     this.Soz_Status = data.Soz_Status;
   }
 

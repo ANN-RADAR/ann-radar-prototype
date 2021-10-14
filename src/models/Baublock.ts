@@ -14,7 +14,7 @@ export class Baublock extends AdminLevelProperties implements AdminLevelUnit {
   constructor(data: Baublock) {
     super(data);
 
-    this.BBZ = data.BBZ.toString();
+    this.BBZ = data.BBZ?.toString();
     this.BB_Netto_A = data.BB_Netto_A;
     this.p_st_mwh_a = data.p_st_mwh_a;
   }

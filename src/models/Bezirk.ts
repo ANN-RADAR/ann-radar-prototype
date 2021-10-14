@@ -15,7 +15,7 @@ export class Bezirk extends AdminLevelProperties implements AdminLevelUnit {
   constructor(data: Bezirk) {
     super(data);
 
-    this.bezirk = data.bezirk.toString();
+    this.bezirk = data.bezirk?.toString();
     this.bezirk_name = data.bezirk_name;
     this.Anz_Stadtt = data.Anz_Stadtt;
     this.Anz_statGe = data.Anz_statGe;
