@@ -1,27 +1,19 @@
 import { AdminLevelUnit } from "@/typings";
 import { Feature } from "ol";
+import { AdminLevelProperties } from "./AdminLevelProperties";
 
-export class StatGebiet implements AdminLevelUnit {
+export class StatGebiet extends AdminLevelProperties implements AdminLevelUnit {
+  // Attribute für ID/Name in Geodatenquelle
   static featureIdProp = "statgebiet";
   static featureNameProp = "statgebiet";
 
-  STATGEB: string;    // Amtliche Gebietsnummer
-  Shape_Area: number; // Fläche in QM
-  AnzFl: number;      // Anzahl der Flurstücke im stat. Gebiet
-  mittlFl: number;    // Mittlere Flurstücksgröße im stat. Gebiet
-  tatNu_gesP: number; // Prozentualer Gesamtanteil am SG der unten stehendend genannten 4 Kategorien (aus Tatsächliche Nutzung Attribut BEZEICH)
-  tatNu_WB_P: number; // Prozentualer Anteil Wohnbauflächen auf SG
-  BGF: number;        // Summe Bruttogeschoßfläche aller Gebäude auf SG
+  STATGEB: string;    // amtliche Gebietsnummer
   Soz_Status: string; // Wert Statusindex aus Sozialmonitoring 2020
 
-  constructor(data: any) {
+  constructor(data: StatGebiet) {
+    super(data);
+
     this.STATGEB = data.STATGEB.toString();
-    this.Shape_Area = data.Shape_Area;
-    this.AnzFl = data.AnzFl;
-    this.mittlFl = data.mittlFl;
-    this.tatNu_gesP = data.tatNu_gesP;
-    this.tatNu_WB_P = data.tatNu_WB_P;
-    this.BGF = data.BGF;
     this.Soz_Status = data.Soz_Status;
   }
 

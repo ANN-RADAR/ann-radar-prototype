@@ -8,6 +8,6 @@ export interface AdminLevelUnit {
 export interface Selection {
   title: string;
   type: string;
-  areas: AdminLevelUnit[];
+  areas: AdminLevelProperties[];
   note: string;
 }

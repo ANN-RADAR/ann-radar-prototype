@@ -1,13 +1,17 @@
 import { AdminLevelUnit } from "@/typings";
 import { Feature } from "ol";
+import { AdminLevelProperties } from "./AdminLevelProperties";
 
-export class Stadt implements AdminLevelUnit {
+export class Stadt extends AdminLevelProperties implements AdminLevelUnit {
+  // Attribute für ID/Name in Geodatenquelle
   static featureIdProp = "fhh";
   static featureNameProp = "fhh";
 
   name: string;
 
-  constructor(data: any) {
+  constructor(data: Stadt) {
+    super(data);
+
     this.name = data.name;
   }
 

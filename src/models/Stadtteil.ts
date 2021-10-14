@@ -1,18 +1,22 @@
 import { AdminLevelUnit } from "@/typings";
 import { Feature } from "ol";
+import { AdminLevelProperties } from "./AdminLevelProperties";
 
-export class Stadtteil implements AdminLevelUnit {
+export class Stadtteil extends AdminLevelProperties implements AdminLevelUnit {
+  // Attribute für ID/Name in Geodatenquelle
   static featureIdProp = "stadtteil_nummer";
   static featureNameProp = "stadtteil_name";
 
-  stadtteil_name: string;
   stadtteil_nummer: string;
-  MWh_a: number;
+  stadtteil_name: string;
+  Anz_statGe: number;
 
-  constructor(data: any) {
+  constructor(data: Stadtteil) {
+    super(data);
+
+    this.stadtteil_nummer = data.stadtteil_nummer.toString();
     this.stadtteil_name = data.stadtteil_name;
-    this.stadtteil_nummer = data.stadtteil_nummer;
-    this.MWh_a = data.MWh_a;
+    this.Anz_statGe = data.Anz_statGe;
   }
 
   getId(): string {

@@ -95,13 +95,9 @@
                         v-resize="onResize"
                         style="display: flex; justify-content: space-around"
                       >
-                        <v-sheet v-if="areaUnit === 'StatGebiet'">
+                        <v-sheet v-if="areaUnit === 'StatGebiet' || areaUnit === 'Baublock'">
                           Flurstücke
                           <div class="kpi">{{ formatNumber(aggregation.AnzFl) }}</div>
-                        </v-sheet>
-                        <v-sheet v-if="areaUnit === 'Baublock'">
-                          Flurstücke
-                          <div class="kpi">{{ formatNumber(aggregation.Anz_Fl) }}</div>
                         </v-sheet>
                         <v-sheet v-if="areaUnit === 'StatGebiet'">
                           mittl. Flurstückgröße
@@ -117,7 +113,7 @@
                         </v-sheet>
                         <v-sheet v-if="areaUnit === 'Baublock'">
                           Bevölkerung
-                          <div class="kpi">{{ formatNumber(aggregation.Bev_Ges) }}</div>
+                          <div class="kpi">{{ formatNumber(aggregation.Bev_311219) }}</div>
                         </v-sheet>
                         <v-sheet v-if="areaUnit === 'Baublock'">
                           Solarpotenzial
@@ -225,9 +221,9 @@
                           v-model="selectedAreas.Baublock"
                           :headers="[
                             { text: 'Nr.', sortable: true, value: 'BBZ' },
-                            { text: 'Flurstücke', sortable: true, value: 'Anz_Fl' },
+                            { text: 'Flurstücke', sortable: true, value: 'AnzFl' },
                             { text: 'Wohnbaufläche', sortable: true, value: 'tatNu_WB_P' },
-                            { text: 'Bevölkerung', sortable: true, value: 'Bev_Ges' },
+                            { text: 'Bevölkerung', sortable: true, value: 'Bev_311219' },
                             { text: 'Solarpotenzial', sortable: true, value: 'p_st_mwh_a' }
                           ]"
                           :items="selectedAreas.Baublock"
@@ -322,11 +318,11 @@ export default class App extends Vue {
     "Baublock": ["Baublöcke", "Baublock"]
   };
   areaData: Record<string, AdminLevelUnit[]> = {
-    Stadt: [new Stadt({name: "FHH"})],
-    Bezirk: BezirkData.map(data => new Bezirk(data)),
-    Stadtteil: StadtteilData.map(data => new Stadtteil(data)),
-    StatGebiet: StatGebietData.map(data => new StatGebiet(data)),
-    Baublock: BaublockData.map(data => new Baublock(data))
+    Stadt: [new Stadt({name: "FHH"} as Stadt)],
+    Bezirk: BezirkData.map(data => new Bezirk(data as unknown as Bezirk)),
+    Stadtteil: StadtteilData.map(data => new Stadtteil(data as unknown as Stadtteil)),
+    StatGebiet: StatGebietData.map(data => new StatGebiet(data as unknown as StatGebiet)),
+    Baublock: BaublockData.map(data => new Baublock(data as unknown as Baublock))
   };
   selectedAreas: Record<string, AdminLevelUnit[]> = {
     Stadt: [],
@@ -444,7 +440,7 @@ export default class App extends Vue {
       mittlFl: aggregation.mittlFl / aggregation.AnzFl,
       BGF: aggregation.BGF,
       tatNu_WB_P: aggregation.tatNu_WB_P / aggregation.Shape_Area
-    });
+    } as StatGebiet);
   }
 
   @Watch("selectedAreas.Baublock")
@@ -453,20 +449,20 @@ export default class App extends Vue {
     const aggregation = selection.reduce((aggr, area) => {
       return {
         Shape_Area: aggr.Shape_Area + area.Shape_Area,
-        Anz_Fl: aggr.Anz_Fl + area.Anz_Fl,
-        Bev_Ges: aggr.Bev_Ges + area.Bev_Ges,
+        AnzFl: aggr.AnzFl + area.AnzFl,
+        Bev_311219: aggr.Bev_311219 + area.Bev_311219,
         tatNu_WB_P: aggr.tatNu_WB_P + area.tatNu_WB_P * area.Shape_Area,
         p_st_mwh_a: aggr.p_st_mwh_a + area.p_st_mwh_a || 0
       }
-    }, {Shape_Area: 0, Anz_Fl: 0, Bev_Ges: 0, tatNu_WB_P: 0, p_st_mwh_a: 0});
+    }, {Shape_Area: 0, AnzFl: 0, Bev_311219: 0, tatNu_WB_P: 0, p_st_mwh_a: 0});
 
     this.aggregation = new Baublock({
       BBZ: "_",
-      Anz_Fl: aggregation.Anz_Fl,
-      Bev_Ges: aggregation.Bev_Ges,
+      AnzFl: aggregation.AnzFl,
+      Bev_311219: aggregation.Bev_311219,
       tatNu_WB_P: aggregation.tatNu_WB_P / aggregation.Shape_Area,
       p_st_mwh_a: aggregation.p_st_mwh_a
-    });
+    } as Baublock);
   }
 
   onAdminAreasSelected(event: { [key: string]: string[] }): void {
@@ -488,7 +484,6 @@ export default class App extends Vue {
   restoreSelection(selection: Selection): void {
     this.areaUnit = selection.type;
 
-    // this.selectedAreas[selection.type] = selection.areas;
     this.selectedAreas[selection.type] = this.areaData[selection.type].filter(item => {
       return selection.areas.find(area => item.getId() === new adminLevelClassMap[selection.type](area).getId());
     });
