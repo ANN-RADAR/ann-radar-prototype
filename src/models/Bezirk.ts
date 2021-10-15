@@ -7,6 +7,8 @@ export class Bezirk extends AdminLevelProperties implements AdminLevelUnit {
   static featureIdProp = "bezirk";
   static featureNameProp = "bezirk_name";
 
+  static nameProp = "bezirk_name";
+
   bezirk: string;
   bezirk_name: string;
   Anz_Stadtt: number;

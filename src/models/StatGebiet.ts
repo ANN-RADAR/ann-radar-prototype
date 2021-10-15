@@ -7,6 +7,8 @@ export class StatGebiet extends AdminLevelProperties implements AdminLevelUnit {
   static featureIdProp = "statgebiet";
   static featureNameProp = "statgebiet";
 
+  static nameProp = "STATGEB";
+
   STATGEB: string;    // amtliche Gebietsnummer
   Soz_Status: string; // Wert Statusindex aus Sozialmonitoring 2020
 

@@ -91,33 +91,34 @@
                     <v-card-title>Cockpit</v-card-title>
                     <v-card-text>
                       <div
-                        v-if="selectedAreas[areaUnit] && selectedAreas[areaUnit].length > 0"
+                        v-if="areaUnit !== 'Stadt' && selectedAreas[areaUnit] && selectedAreas[areaUnit].length > 0"
                         v-resize="onResize"
                         style="display: flex; justify-content: space-around"
                       >
-                        <v-sheet v-if="areaUnit !== 'Stadt'">
+                        <v-sheet>
                           Flurstücke
                           <div class="kpi">{{ formatNumber(aggregation.AnzFl) }}</div>
                         </v-sheet>
-                        <v-sheet v-if="areaUnit !== 'Stadt'">
+                        <v-sheet>
                           mittl. Flurstückgröße
                           <div class="kpi">{{ formatNumber(Math.round(aggregation.mittlFl)) }}&nbsp;m²</div>
                         </v-sheet>
-                        <v-sheet v-if="areaUnit === 'StatGebiet'">
+                        <v-sheet>
                           BGF
                           <div class="kpi">{{ formatNumber(Math.round(aggregation.BGF)) }}&nbsp;m²</div>
                         </v-sheet>
-                        <v-sheet v-if="areaUnit === 'StatGebiet' || areaUnit === 'Baublock'">
+                        <v-sheet>
                           Wohnbaufläche
                           <div class="kpi">{{ formatNumber(Math.round(aggregation.tatNu_WB_P * 100) / 100) }}&nbsp;%</div>
                         </v-sheet>
-                        <v-sheet v-if="areaUnit === 'Baublock'">
+                        <v-sheet>
                           Bevölkerung
                           <div class="kpi">{{ formatNumber(aggregation.Bev_311219) }}</div>
                         </v-sheet>
-                        <v-sheet v-if="areaUnit === 'Baublock'">
+                        <v-sheet>
                           Solarpotenzial
-                          <div class="kpi">{{ formatNumber(Math.round(aggregation.p_st_mwh_a)) }}&nbsp;MWh/a</div>
+                          <div v-if="isNaN(aggregation.p_st_mwh_a)" class="kpi">?</div>
+                          <div v-else class="kpi">{{ formatNumber(Math.round(aggregation.p_st_mwh_a)) }}&nbsp;MWh/a</div>
                         </v-sheet>
                       </div>
                     </v-card-text>
@@ -137,107 +138,51 @@
                       </v-sheet>
                       <v-container class="table-container" ref="tableContainer">
                         <v-data-table
-                          v-if="areaUnit === 'Stadt'"
-                          v-model="selectedAreas.Stadt"
+                          v-if="areaUnit"
+                          v-model="selectedAreas[areaUnit]"
                           :headers="[
-                            { text: 'Stadt', sortable: true, value: 'name' }
-                          ]"
-                          :items="selectedAreas.Stadt"
-                          item-key="name"
-                          :show-select="true"
-                          :height="tableHeight"
-                          :fixed-header="true"
-                          hide-default-footer
-                        ></v-data-table>
-                        <v-data-table
-                          v-if="areaUnit === 'Bezirk'"
-                          v-model="selectedAreas.Bezirk"
-                          :headers="[
-                            { text: 'Bezirk', sortable: true, value: 'bezirk_name' },
-                            { text: 'Solarpotenzial', sortable: true, value: 'MWh_a' }
-                          ]"
-                          :items="selectedAreas.Bezirk"
-                          item-key="bezirk"
-                          :show-select="true"
-                          :height="tableHeight"
-                          :fixed-header="true"
-                          hide-default-footer
-                        >
-                          <template v-slot:item.MWh_a="{ item }">
-                            <span v-if="item.MWh_a !== undefined">{{ item.MWh_a }}&nbsp;MWh/a</span>
-                          </template>
-                        </v-data-table>
-                        <v-data-table
-                          v-if="areaUnit === 'Stadtteil'"
-                          v-model="selectedAreas.Stadtteil"
-                          :headers="[
-                            { text: 'Stadtteil', sortable: true, value: 'stadtteil_name' },
-                            { text: 'Solarpotenzial', sortable: true, value: 'MWh_a' }
-                          ]"
-                          :items="selectedAreas.Stadtteil"
-                          item-key="stadtteil_nummer"
-                          :show-select="true"
-                          :height="tableHeight"
-                          :fixed-header="true"
-                          hide-default-footer
-                        >
-                          <template v-slot:item.MWh_a="{ item }">
-                            <span v-if="item.MWh_a !== undefined">{{ item.MWh_a }}&nbsp;MWh/a</span>
-                          </template>
-                        </v-data-table>
-                        <v-data-table
-                          v-if="areaUnit === 'StatGebiet'"
-                          v-model="selectedAreas.StatGebiet"
-                          :headers="[
-                            { text: 'Nr.', sortable: true, value: 'STATGEB' },
+                            { text: areaUnit, sortable: true, value: adminLevelClassMap[areaUnit].nameProp },
                             { text: 'Flurstücke', sortable: true, value: 'AnzFl' },
                             { text: 'mittl. Flurstückgröße', sortable: true, value: 'mittlFl' },
                             { text: 'BGF', sortable: true, value: 'BGF' },
                             { text: 'Wohnbaufläche', sortable: true, value: 'tatNu_WB_P' },
-                            { text: 'Soz. Status', sortable: true, value: 'Soz_Status' }
-                          ]"
-                          :items="selectedAreas.StatGebiet"
-                          item-key="STATGEB"
-                          :show-select="true"
-                          :height="tableHeight"
-                          :fixed-header="true"
-                          hide-default-footer
-                        >
-                          <template v-slot:item.Shape_Area="{ item }">
-                            {{ Math.round(item.Shape_Area / 10000) / 100 }}&nbsp;km²
-                          </template>
-                          <template v-slot:item.mittlFl="{ item }">
-                            {{ Math.round(item.mittlFl) }}&nbsp;m²
-                          </template>
-                          <template v-slot:item.BGF="{ item }">
-                            {{ Math.round(item.BGF) }}&nbsp;m²
-                          </template>
-                          <template v-slot:item.tatNu_WB_P="{ item }">
-                            {{ item.tatNu_WB_P }}&nbsp;%
-                          </template>
-                        </v-data-table>
-                        <v-data-table
-                          v-if="areaUnit === 'Baublock'"
-                          v-model="selectedAreas.Baublock"
-                          :headers="[
-                            { text: 'Nr.', sortable: true, value: 'BBZ' },
-                            { text: 'Flurstücke', sortable: true, value: 'AnzFl' },
-                            { text: 'Wohnbaufläche', sortable: true, value: 'tatNu_WB_P' },
                             { text: 'Bevölkerung', sortable: true, value: 'Bev_311219' },
                             { text: 'Solarpotenzial', sortable: true, value: 'p_st_mwh_a' }
-                          ]"
-                          :items="selectedAreas.Baublock"
-                          item-key="BBZ"
+                          ].concat(areaUnit === 'StatGebiet' ? [{ text: 'Soz. Status', sortable: true, value: 'Soz_Status' }] : [])"
+                          :items="selectedAreas[areaUnit]"
+                          :item-key="adminLevelClassMap[areaUnit].nameProp"
                           :show-select="true"
                           :height="tableHeight"
                           :fixed-header="true"
                           hide-default-footer
                         >
+                          <template v-slot:item.AnzFl="{ item }">
+                            <span v-if="item.AnzFl !== undefined">{{ formatNumber(Math.round(item.AnzFl)) }}</span>
+                            <span v-else>k. A.</span>
+                          </template>
+                          <template v-slot:item.mittlFl="{ item }">
+                            <span v-if="item.mittlFl !== undefined">{{ formatNumber(Math.round(item.mittlFl)) }}&nbsp;m²</span>
+                            <span v-else>k. A.</span>
+                          </template>
+                          <template v-slot:item.BGF="{ item }">
+                            <span v-if="item.BGF !== undefined">{{ formatNumber(Math.round(item.BGF)) }}&nbsp;m²</span>
+                            <span v-else>k. A.</span>
+                          </template>
                           <template v-slot:item.tatNu_WB_P="{ item }">
-                            {{ item.tatNu_WB_P }}&nbsp;%
+                            <span v-if="item.tatNu_WB_P !== undefined">{{ formatNumber(item.tatNu_WB_P) }}&nbsp;%</span>
+                            <span v-else>k. A.</span>
+                          </template>
+                          <template v-slot:item.Bev_311219="{ item }">
+                            <span v-if="item.Bev_311219 !== undefined">{{ formatNumber(Math.round(item.Bev_311219)) }}</span>
+                            <span v-else>k. A.</span>
                           </template>
                           <template v-slot:item.p_st_mwh_a="{ item }">
-                            <span v-if="item.p_st_mwh_a !== undefined">{{ item.p_st_mwh_a }}&nbsp;MWh/a</span>
+                            <span v-if="item.p_st_mwh_a !== undefined">{{ formatNumber(item.p_st_mwh_a) }}&nbsp;MWh/a</span>
+                            <span v-else>k. A.</span>
+                          </template>
+                          <template v-slot:item.Soz_Status="{ item }">
+                            <span v-if="item.Soz_Status !== undefined">{{ item.Soz_Status }}</span>
+                            <span v-else>k. A.</span>
                           </template>
                         </v-data-table>
                       </v-container>
@@ -279,18 +224,18 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 
-import { AdminLevelUnit, Selection } from "@/typings";
 import MapComponent from "./components/MapComponent.vue";
 import SaveDialog from "./components/SaveDialog.vue";
+import BaublockData from "./data/baublöcke.json";
 import BezirkData from "./data/bezirke.json";
 import StadtteilData from "./data/stadtteile.json";
 import StatGebietData from "./data/statistische_gebiete.json";
-import BaublockData from "./data/baublöcke.json";
-import { Baublock } from  "./models/Baublock";
-import { Bezirk } from  "./models/Bezirk";
-import { Stadt } from  "./models/Stadt";
-import { Stadtteil } from  "./models/Stadtteil";
-import { StatGebiet } from  "./models/StatGebiet";
+import { Baublock } from "./models/Baublock";
+import { Bezirk } from "./models/Bezirk";
+import { Stadt } from "./models/Stadt";
+import { Stadtteil } from "./models/Stadtteil";
+import { StatGebiet } from "./models/StatGebiet";
+import { AdminLevelUnit, Selection } from "./typings";
 
 export const adminLevelClassMap: Record<string, typeof Stadt | typeof Bezirk | typeof Stadtteil | typeof StatGebiet | typeof Baublock> = {
   "Stadt": Stadt,
@@ -309,6 +254,7 @@ export const adminLevelClassMap: Record<string, typeof Stadt | typeof Bezirk | t
 export default class App extends Vue {
   tab = 0;
   areaUnit = "";
+  adminLevelClassMap = adminLevelClassMap;
   adminLevels = Object.keys(adminLevelClassMap);
   adminLevelDisplayNames = {
     "Stadt": ["Stadt", "Stadt"],
@@ -406,18 +352,7 @@ export default class App extends Vue {
   @Watch("selectedAreas.Bezirk")
   onSelectedBezirkeChange(selection: Bezirk[], before: Bezirk[]): void {
     // berechne aggregierte Werte über die gewählten Flächen
-    const aggregation = selection.reduce((aggr, area) => {
-      return {
-        Shape_Area: aggr.Shape_Area + area.Shape_Area,
-        AnzFl: aggr.AnzFl + area.AnzFl,
-        mittlFl: aggr.mittlFl + area.mittlFl * area.AnzFl
-      }
-    }, {Shape_Area: 0, AnzFl: 0, mittlFl: 0});
-
-    this.aggregation = new Bezirk({
-      AnzFl: aggregation.AnzFl,
-      mittlFl: aggregation.mittlFl / aggregation.AnzFl
-    } as Bezirk);
+    this.aggregation = new Bezirk(this.calculateAggregateValues(selection) as unknown as Bezirk);
 
     const added = selection.filter(bez => before.indexOf(bez) < 0);
     const removed = before.filter(bez => selection.indexOf(bez) < 0);
@@ -439,60 +374,42 @@ export default class App extends Vue {
   @Watch("selectedAreas.Stadtteil")
   onSelectedStadtteileChange(selection: Stadtteil[]): void {
     // berechne aggregierte Werte über die gewählten Flächen
-    const aggregation = selection.reduce((aggr, area) => {
-      return {
-        Shape_Area: aggr.Shape_Area + area.Shape_Area,
-        AnzFl: aggr.AnzFl + area.AnzFl,
-        mittlFl: aggr.mittlFl + area.mittlFl * area.AnzFl
-      }
-    }, {Shape_Area: 0, AnzFl: 0, mittlFl: 0});
-
-    this.aggregation = new Stadtteil({
-      AnzFl: aggregation.AnzFl,
-      mittlFl: aggregation.mittlFl / aggregation.AnzFl
-    } as Stadtteil);
+    this.aggregation = new Stadtteil(this.calculateAggregateValues(selection) as unknown as Stadtteil);
   }
 
   @Watch("selectedAreas.StatGebiet")
   onSelectedStatGebieteChange(selection: StatGebiet[]): void {
     // berechne aggregierte Werte über die gewählten Flächen
-    const aggregation = selection.reduce((aggr, area) => {
-      return {
-        Shape_Area: aggr.Shape_Area + area.Shape_Area,
-        AnzFl: aggr.AnzFl + area.AnzFl,
-        mittlFl: aggr.mittlFl + area.mittlFl * area.AnzFl,
-        BGF: aggr.BGF + area.BGF,
-        tatNu_WB_P: aggr.tatNu_WB_P + area.tatNu_WB_P * area.Shape_Area
-      }
-    }, {Shape_Area: 0, AnzFl: 0, mittlFl: 0, BGF: 0, tatNu_WB_P: 0});
-
-    this.aggregation = new StatGebiet({
-      AnzFl: aggregation.AnzFl,
-      mittlFl: aggregation.mittlFl / aggregation.AnzFl,
-      BGF: aggregation.BGF,
-      tatNu_WB_P: aggregation.tatNu_WB_P / aggregation.Shape_Area
-    } as StatGebiet);
+    this.aggregation = new StatGebiet(this.calculateAggregateValues(selection) as unknown as StatGebiet);
   }
 
   @Watch("selectedAreas.Baublock")
   onSelectedBaublöckeChange(selection: Baublock[]): void {
     // berechne aggregierte Werte über die gewählten Flächen
-    const aggregation = selection.reduce((aggr, area) => {
+    this.aggregation = new Baublock(this.calculateAggregateValues(selection) as unknown as Baublock);
+  }
+
+  calculateAggregateValues(selection: (Stadt | Bezirk | Stadtteil | StatGebiet | Baublock)[]): Record<string, number> {
+    const weightedSums = selection.reduce((aggr, area) => {
       return {
         Shape_Area: aggr.Shape_Area + area.Shape_Area,
         AnzFl: aggr.AnzFl + area.AnzFl,
-        Bev_311219: aggr.Bev_311219 + area.Bev_311219,
+        mittlFl: aggr.mittlFl + area.mittlFl * area.AnzFl,
+        BGF: aggr.BGF + area.BGF,
         tatNu_WB_P: aggr.tatNu_WB_P + area.tatNu_WB_P * area.Shape_Area,
-        p_st_mwh_a: aggr.p_st_mwh_a + area.p_st_mwh_a || 0
+        Bev_311219: aggr.Bev_311219 + area.Bev_311219,
+        p_st_mwh_a: aggr.p_st_mwh_a + (area.p_st_mwh_a || 0)
       }
-    }, {Shape_Area: 0, AnzFl: 0, Bev_311219: 0, tatNu_WB_P: 0, p_st_mwh_a: 0});
+    }, {Shape_Area: 0, AnzFl: 0, mittlFl: 0, BGF: 0, tatNu_WB_P: 0, Bev_311219: 0, p_st_mwh_a: 0});
 
-    this.aggregation = new Baublock({
-      AnzFl: aggregation.AnzFl,
-      Bev_311219: aggregation.Bev_311219,
-      tatNu_WB_P: aggregation.tatNu_WB_P / aggregation.Shape_Area,
-      p_st_mwh_a: aggregation.p_st_mwh_a
-    } as Baublock);
+    return {
+      AnzFl: weightedSums.AnzFl,
+      mittlFl: weightedSums.mittlFl / weightedSums.AnzFl,
+      BGF: weightedSums.BGF,
+      tatNu_WB_P: weightedSums.tatNu_WB_P / weightedSums.Shape_Area,
+      Bev_311219: weightedSums.Bev_311219,
+      p_st_mwh_a: weightedSums.p_st_mwh_a
+    };
   }
 
   onAdminAreasSelected(event: { [key: string]: string[] }): void {
@@ -529,7 +446,7 @@ export default class App extends Vue {
   }
 
   formatNumber(n: number): string {
-    return n.toLocaleString("de-DE");
+    return n?.toLocaleString("de-DE");
   }
 }
 </script>

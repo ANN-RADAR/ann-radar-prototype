@@ -37,6 +37,7 @@ export class AdminLevelProperties {
   Wohnungen: number;  // Gesamtzahl der Wohnungen in Wohn- und Nichtwohngebäuden
   SozialWh: number;   // Zahl der Sozialwohnungen
   SozialWh_P: number; // prozentualer Anteil der Sozialwohnungen an der Gesamtzahl der Wohnungen
+  p_st_mwh_a: number; // gesamte mögliche Solarernte in MWh/a
 
   constructor(data: AdminLevelProperties) {
     this.Shape_Area = data.Shape_Area;
@@ -77,5 +78,6 @@ export class AdminLevelProperties {
     this.Wohnungen = data.Wohnungen;
     this.SozialWh = data.SozialWh;
     this.SozialWh_P = data.SozialWh_P;
+    this.p_st_mwh_a = data.p_st_mwh_a;
   }
 }

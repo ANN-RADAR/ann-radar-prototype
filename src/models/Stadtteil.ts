@@ -7,6 +7,8 @@ export class Stadtteil extends AdminLevelProperties implements AdminLevelUnit {
   static featureIdProp = "stadtteil_nummer";
   static featureNameProp = "stadtteil_name";
 
+  static nameProp = "stadtteil_name";
+
   stadtteil_nummer: string;
   stadtteil_name: string;
   Anz_statGe: number;

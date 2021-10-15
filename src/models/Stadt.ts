@@ -7,6 +7,8 @@ export class Stadt extends AdminLevelProperties implements AdminLevelUnit {
   static featureIdProp = "fhh";
   static featureNameProp = "fhh";
 
+  static nameProp = "name";
+
   name: string;
 
   constructor(data: Stadt) {
