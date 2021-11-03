@@ -5,9 +5,8 @@ export interface AdminLevelUnit {
   getFeatureName(feature: Feature): string;
 }
 
-export interface Selection {
+export interface Session {
   title: string;
-  type: string;
-  areas: AdminLevelProperties[];
-  note: string;
+  selectedAreas: Record<string, AdminLevelProperties[]>;
+  notes: string;
 }

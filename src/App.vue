@@ -60,33 +60,48 @@
                   </v-card>
                 </v-col>
                 <v-col cols="6" v-resize="onResize">
-                  <v-card>
-                    <v-card-title>Layer</v-card-title>
-                    <v-card-text style="max-height: 250px; overflow: auto">
-                      <div style="display: grid; grid-template-columns: auto auto">
-                        <v-checkbox
-                          v-for="layer in thematicLayers"
-                          :key="layer.name"
-                          v-model="layer.visible"
-                          :label="layer.name"
-                          style="margin-top: -4px"
-                        ></v-checkbox>
-                      </div>
-                      <v-radio-group
-                        v-model="currentBasemap"
-                        @change="onBasemapChange()"
-                        row
-                      >
-                        <span style="margin-right: 16px">Hintergrundkarte:</span>
-                        <v-radio
-                          v-for="layer in basemaps"
-                          :key="layer.name"
-                          :label="layer.name"
-                          :value="layer.name"
-                        ></v-radio>
-                      </v-radio-group>
-                    </v-card-text>
-                  </v-card>
+                  <v-row>
+                    <v-col cols="8">
+                      <v-card>
+                        <v-card-title>Layer</v-card-title>
+                        <v-card-text style="max-height: 250px; overflow: auto">
+                          <div style="display: grid; grid-template-columns: auto auto">
+                            <v-checkbox
+                              v-for="layer in thematicLayers"
+                              :key="layer.name"
+                              v-model="layer.visible"
+                              :label="layer.name"
+                              style="margin-top: -4px"
+                            ></v-checkbox>
+                          </div>
+                          <v-radio-group
+                            v-model="currentBasemap"
+                            @change="onBasemapChange()"
+                            row
+                          >
+                            <span style="margin-right: 16px">Hintergrundkarte:</span>
+                            <v-radio
+                              v-for="layer in basemaps"
+                              :key="layer.name"
+                              :label="layer.name"
+                              :value="layer.name"
+                            ></v-radio>
+                          </v-radio-group>
+                        </v-card-text>
+                      </v-card>
+                    </v-col>
+                    <v-col cols="4">
+                      <v-card class="card-notes">
+                        <v-card-title>Notizen</v-card-title>
+                        <v-card-text>
+                          <v-textarea
+                            v-model="notes"
+                            filled
+                          ></v-textarea>
+                        </v-card-text>
+                      </v-card>
+                    </v-col>
+                  </v-row>
                   <v-card>
                     <v-card-title>Cockpit</v-card-title>
                     <v-card-text>
@@ -197,15 +212,15 @@
                           <span v-else>Nichts ausgewählt</span>
                         </div>
                         <SaveDialog
-                          :selected-areas="selectedAreas[areaUnit]"
-                          :type="areaUnit"
-                          @saveselection="saveSelection($event)"
+                          :selected-areas="selectedAreas"
+                          :notes="notes"
+                          @save="saveSession($event)"
                         ></SaveDialog>
                         <div>
                           <v-select
-                            :items="savedSelections.map(selection => ({ text: selection.title, value: selection }))"
+                            :items="savedSessions.map(selection => ({ text: selection.title, value: selection }))"
                             label="Auswahl wiederherstellen"
-                            @change="restoreSelection($event)"
+                            @change="restoreSession($event)"
                           ></v-select>
                         </div>
                       </v-sheet>
@@ -235,7 +250,7 @@ import { Bezirk } from "./models/Bezirk";
 import { Stadt } from "./models/Stadt";
 import { Stadtteil } from "./models/Stadtteil";
 import { StatGebiet } from "./models/StatGebiet";
-import { AdminLevelUnit, Selection } from "./typings";
+import { AdminLevelUnit, Session } from "./typings";
 
 export const adminLevelClassMap: Record<string, typeof Stadt | typeof Bezirk | typeof Stadtteil | typeof StatGebiet | typeof Baublock> = {
   "Stadt": Stadt,
@@ -325,7 +340,8 @@ export default class App extends Vue {
   ];
   legendUrls: string[] = [];
   dialog = false;
-  savedSelections: Selection[] = [];
+  savedSessions: Session[] = [];
+  notes = "";
   tableHeight = 0;
 
   mounted(): void {
@@ -335,7 +351,7 @@ export default class App extends Vue {
     const storageString = localStorage.getItem("selections");
 
     if (storageString) {
-      this.savedSelections = JSON.parse(storageString);
+      this.savedSessions = JSON.parse(storageString);
     }
   }
 
@@ -419,21 +435,29 @@ export default class App extends Vue {
     }
   }
 
-  saveSelection(selection: Selection): void {
+  /**
+   * Speichere die aktuelle Sitzung (ausgewählte Flächen auf allen Ebenen plus Notizen)
+   * im LocalStorage
+   */
+  saveSession(session: Session): void {
     const storageString = localStorage.getItem("selections");
     if (storageString) {
-      this.savedSelections = JSON.parse(storageString);
+      this.savedSessions = JSON.parse(storageString);
     }
-    this.savedSelections.push(selection);
-    localStorage.setItem("selections", JSON.stringify(this.savedSelections));
+    this.savedSessions.push(session);
+    localStorage.setItem("selections", JSON.stringify(this.savedSessions));
   }
 
-  restoreSelection(selection: Selection): void {
-    this.areaUnit = selection.type;
-
-    this.selectedAreas[selection.type] = this.areaData[selection.type].filter(item => {
-      return selection.areas.find(area => item.getId() === new adminLevelClassMap[selection.type](area).getId());
-    });
+  /**
+   * Stelle eine gespeicherte Sitzung wieder her
+   */
+  restoreSession(session: Session): void {
+    for (const type in this.areaData) {
+      this.selectedAreas[type] = this.areaData[type].filter(item => {
+        return session.selectedAreas[type].find(area => item.getId() === new adminLevelClassMap[type](area).getId());
+      });
+    }
+    this.notes = session.notes;
   }
 
   onResize(): void {
@@ -486,6 +510,32 @@ body {
 
 .v-input__slot {
   margin: 0;
+}
+
+.card-notes {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-notes .v-card__text {
+  flex-grow: 1;
+}
+
+.card-notes .v-textarea {
+  height: 100%;
+}
+
+.card-notes .v-textarea .v-input__control {
+  height: 100%;
+}
+
+.card-notes .v-textarea .v-input__control .v-input__slot {
+  flex: 1;
+}
+
+.card-notes .v-textarea .v-input__control .v-text-field__details {
+  flex: unset;
 }
 
 .kpi {
