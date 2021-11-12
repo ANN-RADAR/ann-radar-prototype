@@ -248,10 +248,10 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 
 import MapComponent from "./components/MapComponent.vue";
 import SaveDialog from "./components/SaveDialog.vue";
-import BaublockData from "./data/baublöcke.json";
-import BezirkData from "./data/bezirke.json";
-import StadtteilData from "./data/stadtteile.json";
-import StatGebietData from "./data/statistische_gebiete.json";
+import BaublockData from "../public/data/baublöcke.json";
+import BezirkData from "../public/data/bezirke.json";
+import StadtteilData from "../public/data/stadtteile.json";
+import StatGebietData from "../public/data/statistische_gebiete.json";
 import { Baublock } from "./models/Baublock";
 import { Bezirk } from "./models/Bezirk";
 import { Stadt } from "./models/Stadt";
