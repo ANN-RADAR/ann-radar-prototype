@@ -1,5 +1,6 @@
 import { AdminLevelUnit } from "@/typings";
 import { Feature } from "ol";
+import Geometry from "ol/geom/Geometry";
 import { AdminLevelProperties } from "./AdminLevelProperties";
 
 export class Bezirk extends AdminLevelProperties implements AdminLevelUnit {
@@ -31,11 +32,11 @@ export class Bezirk extends AdminLevelProperties implements AdminLevelUnit {
     return this.bezirk_name;
   }
 
-  getFeatureId(feature: Feature): string {
+  getFeatureId(feature: Feature<Geometry>): string {
     return feature.get(Bezirk.featureIdProp);
   }
 
-  getFeatureName(feature: Feature): string {
+  getFeatureName(feature: Feature<Geometry>): string {
     return feature.get(Bezirk.featureNameProp);
   }
 }

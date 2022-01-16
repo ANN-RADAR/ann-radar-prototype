@@ -6,7 +6,8 @@
 import { Feature, Map, MapBrowserEvent, View } from "ol";
 import { GeoJSON } from "ol/format";
 import GML3 from "ol/format/GML3";
-import { Layer, Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
+import Geometry from "ol/geom/Geometry";
+import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import LayerGroup from "ol/layer/Group";
 import "ol/ol.css";
 import { register } from 'ol/proj/proj4';
@@ -35,8 +36,8 @@ export default class MapComponent extends Vue {
   @Prop() selectedAdminAreas!: {[name: string]: AdminLevelUnit[]};
 
   tileSources: { [key: string]: TileWMS };
-  vectorSources: { [key: string]: VectorSource };
-  layers: { [key: string]: Layer | LayerGroup };
+  vectorSources: { [key: string]: VectorSource<Geometry> };
+  layers: { [key: string]: TileLayer<TileWMS> | VectorLayer<VectorSource<Geometry>> | LayerGroup };
   map!: Map;
 
   getAdminAreaStyleFn(layerName: string, textAttr: string): StyleFunction {
@@ -332,7 +333,7 @@ export default class MapComponent extends Vue {
   onAdminLayerSwitch(map: {[name: string]: boolean}): void {
     for (const layerName of Object.keys(map)) {
       // Trigger redrawing so the style function is reevaluated
-      (this.layers[layerName] as VectorLayer).getSource().changed();
+      (this.layers[layerName] as VectorLayer<VectorSource<Geometry>>).getSource().changed();
     }
   }
 
@@ -363,7 +364,7 @@ export default class MapComponent extends Vue {
     });
 
     // Select map features
-    this.map.on("click", (evt: MapBrowserEvent) => {
+    this.map.on("click", (evt: MapBrowserEvent<UIEvent>) => {
       const coord = this.map.getCoordinateFromPixel(evt.pixel);
       const adminLevel = this.getVisibleAdminLevel();
       if (!adminLevel) {
@@ -396,7 +397,7 @@ export default class MapComponent extends Vue {
     return Object.entries(this.adminLayerVisibility).find(entry => entry[1])?.[0];
   }
 
-  setFeatureSelected(feature: Feature, selected: boolean): void {
+  setFeatureSelected(feature: Feature<Geometry>, selected: boolean): void {
     feature.set("selected", selected);
   }
 

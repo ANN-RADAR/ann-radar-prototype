@@ -1,5 +1,6 @@
 import { AdminLevelUnit } from "@/typings";
 import { Feature } from "ol";
+import Geometry from "ol/geom/Geometry";
 import { AdminLevelProperties } from "./AdminLevelProperties";
 
 export class Baublock extends AdminLevelProperties implements AdminLevelUnit {
@@ -27,11 +28,11 @@ export class Baublock extends AdminLevelProperties implements AdminLevelUnit {
     return this.BBZ;
   }
 
-  getFeatureId(feature: Feature): string {
+  getFeatureId(feature: Feature<Geometry>): string {
     return feature.get(Baublock.featureIdProp);
   }
 
-  getFeatureName(feature: Feature): string {
+  getFeatureName(feature: Feature<Geometry>): string {
     return feature.get(Baublock.featureNameProp);
   }
 }
