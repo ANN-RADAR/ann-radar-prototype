@@ -1,0 +1,37 @@
+<template>
+  <v-container
+    fluid
+    style="display: flex; flex-direction: column; height: 100%; padding: 0"
+  >
+    <v-tabs v-model="tab">
+      <v-tab>Potential</v-tab>
+      <v-tab>Plans</v-tab>
+      <v-tab>Stakeholders</v-tab>
+      <v-tab>Urban Data</v-tab>
+      <v-tab>Governance</v-tab>
+    </v-tabs>
+    <v-tabs-items v-model="tab" style="height: 100%">
+      <v-tab-item style="flex-grow: 1">
+        <Potential />
+      </v-tab-item>
+    </v-tabs-items>
+  </v-container>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
+
+import Potential from '../components/energy-potential.vue';
+
+export default Vue.extend({
+  components: {
+    Potential
+  },
+
+  data() {
+    return {
+      tab: 0
+    };
+  }
+});
+</script>
