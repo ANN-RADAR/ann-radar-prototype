@@ -63,7 +63,7 @@ export default Vue.extend({});
 
 <style scoped>
 .kpi {
-  font-size: 20px;
-  line-height: 36px;
+  font-size: 1.25rem;
+  line-height: 1.8;
 }
 </style>
