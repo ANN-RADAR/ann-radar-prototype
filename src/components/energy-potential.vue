@@ -73,6 +73,7 @@ export default Vue.extend({
   grid-column: 2 / 4;
   grid-row: 2 / 3;
 }
+
 .inspector {
   grid-column: 2 / 4;
   grid-row: 3 / 4;
