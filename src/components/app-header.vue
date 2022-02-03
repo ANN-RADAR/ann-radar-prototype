@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app>
     <div class="d-flex align-center">
-      <v-btn to="/solar" color="primary">Solar</v-btn>
+      <v-btn to="/solar">Solar</v-btn>
       <v-btn to="/energy-efficency">Energieeffizienz</v-btn>
       <v-btn to="/mobility">Mobilität</v-btn>
     </div>
