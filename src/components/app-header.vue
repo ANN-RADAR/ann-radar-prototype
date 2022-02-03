@@ -1,9 +1,9 @@
 <template>
   <v-app-bar app>
     <div class="d-flex align-center">
-      <v-btn to="/" color="primary">Solar</v-btn>
-      <v-btn to="energy-efficency">Energieeffizienz</v-btn>
-      <v-btn to="mobility">Mobilität</v-btn>
+      <v-btn to="/solar" color="primary">Solar</v-btn>
+      <v-btn to="/energy-efficency">Energieeffizienz</v-btn>
+      <v-btn to="/mobility">Mobilität</v-btn>
     </div>
     <v-spacer></v-spacer>
     <div class="d-flex align-center heading">ANN RADAR</div>
