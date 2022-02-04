@@ -1,16 +1,16 @@
-import { AdminLevelUnit } from "@/typings";
-import { Feature } from "ol";
-import Geometry from "ol/geom/Geometry";
-import { AdminLevelProperties } from "./AdminLevelProperties";
+import {AdminLevelUnit} from '@/typings';
+import {Feature} from 'ol';
+import Geometry from 'ol/geom/Geometry';
+import {AdminLevelProperties} from './AdminLevelProperties';
 
 export class StatGebiet extends AdminLevelProperties implements AdminLevelUnit {
   // Attribute für ID/Name in Geodatenquelle
-  static featureIdProp = "statgebiet";
-  static featureNameProp = "statgebiet";
+  static featureIdProp = 'statgebiet';
+  static featureNameProp = 'statgebiet';
 
-  static nameProp = "STATGEB";
+  static nameProp = 'STATGEB';
 
-  STATGEB: string;    // amtliche Gebietsnummer
+  STATGEB: string; // amtliche Gebietsnummer
   Soz_Status: string; // Wert Statusindex aus Sozialmonitoring 2020
 
   constructor(data: StatGebiet) {

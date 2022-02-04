@@ -1,14 +1,14 @@
-import { AdminLevelUnit } from "@/typings";
-import { Feature } from "ol";
-import Geometry from "ol/geom/Geometry";
-import { AdminLevelProperties } from "./AdminLevelProperties";
+import {AdminLevelUnit} from '@/typings';
+import {Feature} from 'ol';
+import Geometry from 'ol/geom/Geometry';
+import {AdminLevelProperties} from './AdminLevelProperties';
 
 export class Stadt extends AdminLevelProperties implements AdminLevelUnit {
   // Attribute für ID/Name in Geodatenquelle
-  static featureIdProp = "fhh";
-  static featureNameProp = "fhh";
+  static featureIdProp = 'fhh';
+  static featureNameProp = 'fhh';
 
-  static nameProp = "name";
+  static nameProp = 'name';
 
   name: string;
 

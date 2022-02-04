@@ -1,14 +1,14 @@
-import { AdminLevelUnit } from "@/typings";
-import { Feature } from "ol";
-import Geometry from "ol/geom/Geometry";
-import { AdminLevelProperties } from "./AdminLevelProperties";
+import {AdminLevelUnit} from '@/typings';
+import {Feature} from 'ol';
+import Geometry from 'ol/geom/Geometry';
+import {AdminLevelProperties} from './AdminLevelProperties';
 
 export class Stadtteil extends AdminLevelProperties implements AdminLevelUnit {
   // Attribute für ID/Name in Geodatenquelle
-  static featureIdProp = "stadtteil_nummer";
-  static featureNameProp = "stadtteil_name";
+  static featureIdProp = 'stadtteil_nummer';
+  static featureNameProp = 'stadtteil_name';
 
-  static nameProp = "stadtteil_name";
+  static nameProp = 'stadtteil_name';
 
   stadtteil_nummer: string;
   stadtteil_name: string;

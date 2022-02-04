@@ -7,12 +7,12 @@ Vue.use(Router);
 
 import routes from './routes';
 
-const router = new Router({ routes });
+const router = new Router({routes});
 
 Vue.config.productionTip = false;
 
 new Vue({
   router,
   vuetify,
-  render: (h) => h(App)
+  render: h => h(App)
 }).$mount('#app');

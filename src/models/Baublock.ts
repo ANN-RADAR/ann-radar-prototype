@@ -1,16 +1,16 @@
-import { AdminLevelUnit } from "@/typings";
-import { Feature } from "ol";
-import Geometry from "ol/geom/Geometry";
-import { AdminLevelProperties } from "./AdminLevelProperties";
+import {AdminLevelUnit} from '@/typings';
+import {Feature} from 'ol';
+import Geometry from 'ol/geom/Geometry';
+import {AdminLevelProperties} from './AdminLevelProperties';
 
 export class Baublock extends AdminLevelProperties implements AdminLevelUnit {
   // Attribute für ID/Name in Geodatenquelle
-  static featureIdProp = "baublockbezeichnung";
-  static featureNameProp = "baublockbezeichnung";
+  static featureIdProp = 'baublockbezeichnung';
+  static featureNameProp = 'baublockbezeichnung';
 
-  static nameProp = "BBZ";
+  static nameProp = 'BBZ';
 
-  BBZ: string;        // Baublocknummer
+  BBZ: string; // Baublocknummer
   BB_Netto_A: number; // Nettobaublockfläche
 
   constructor(data: Baublock) {

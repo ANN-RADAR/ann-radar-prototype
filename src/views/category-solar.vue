@@ -38,7 +38,7 @@
               <v-card>
                 <v-card-text style="max-height: 150px; overflow: auto">
                   <div
-                    v-for="layer in thematicLayers.filter((l) => l.visible)"
+                    v-for="layer in thematicLayers.filter(l => l.visible)"
                     :key="layer.name"
                     style="display: grid; grid-template-columns: auto auto"
                   >
@@ -193,7 +193,7 @@
                             sortable: true,
                             value: 'mittlFl'
                           },
-                          { text: 'BGF', sortable: true, value: 'BGF' },
+                          {text: 'BGF', sortable: true, value: 'BGF'},
                           {
                             text: 'Wohnbaufläche',
                             sortable: true,
@@ -229,14 +229,14 @@
                       hide-default-footer
                     >
                       <!-- eslint-disable-next-line vue/valid-v-slot -->
-                      <template v-slot:item.AnzFl="{ item }">
+                      <template v-slot:item.AnzFl="{item}">
                         <span v-if="item.AnzFl !== undefined">{{
                           formatNumber(Math.round(item.AnzFl))
                         }}</span>
                         <span v-else>k. A.</span>
                       </template>
                       <!-- eslint-disable-next-line vue/valid-v-slot -->
-                      <template v-slot:item.mittlFl="{ item }">
+                      <template v-slot:item.mittlFl="{item}">
                         <span v-if="item.mittlFl !== undefined"
                           >{{
                             formatNumber(Math.round(item.mittlFl))
@@ -245,7 +245,7 @@
                         <span v-else>k. A.</span>
                       </template>
                       <!-- eslint-disable-next-line vue/valid-v-slot -->
-                      <template v-slot:item.BGF="{ item }">
+                      <template v-slot:item.BGF="{item}">
                         <span v-if="item.BGF !== undefined"
                           >{{
                             formatNumber(Math.round(item.BGF))
@@ -254,28 +254,28 @@
                         <span v-else>k. A.</span>
                       </template>
                       <!-- eslint-disable-next-line vue/valid-v-slot -->
-                      <template v-slot:item.tatNu_WB_P="{ item }">
+                      <template v-slot:item.tatNu_WB_P="{item}">
                         <span v-if="item.tatNu_WB_P !== undefined"
                           >{{ formatNumber(item.tatNu_WB_P) }}&nbsp;%</span
                         >
                         <span v-else>k. A.</span>
                       </template>
                       <!-- eslint-disable-next-line vue/valid-v-slot -->
-                      <template v-slot:item.Bev_311219="{ item }">
+                      <template v-slot:item.Bev_311219="{item}">
                         <span v-if="item.Bev_311219 !== undefined">{{
                           formatNumber(Math.round(item.Bev_311219))
                         }}</span>
                         <span v-else>k. A.</span>
                       </template>
                       <!-- eslint-disable-next-line vue/valid-v-slot -->
-                      <template v-slot:item.p_st_mwh_a="{ item }">
+                      <template v-slot:item.p_st_mwh_a="{item}">
                         <span v-if="item.p_st_mwh_a !== undefined"
                           >{{ formatNumber(item.p_st_mwh_a) }}&nbsp;MWh/a</span
                         >
                         <span v-else>k. A.</span>
                       </template>
                       <!-- eslint-disable-next-line vue/valid-v-slot -->
-                      <template v-slot:item.Soz_Status="{ item }">
+                      <template v-slot:item.Soz_Status="{item}">
                         <span v-if="item.Soz_Status !== undefined">{{
                           item.Soz_Status
                         }}</span>
@@ -311,7 +311,7 @@
                     <div>
                       <v-select
                         :items="
-                          savedSessions.map((selection) => ({
+                          savedSessions.map(selection => ({
                             text: selection.title,
                             value: selection
                           }))
@@ -332,7 +332,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import {Component, Vue, Watch} from 'vue-property-decorator';
 
 import MapComponent from '../components/map-component.vue';
 import SaveDialog from '../components/save-dialog.vue';
@@ -340,12 +340,12 @@ import BaublockData from '../../public/data/baublöcke.json';
 import BezirkData from '../../public/data/bezirke.json';
 import StadtteilData from '../../public/data/stadtteile.json';
 import StatGebietData from '../../public/data/statistische_gebiete.json';
-import { Baublock } from '../models/Baublock';
-import { Bezirk } from '../models/Bezirk';
-import { Stadt } from '../models/Stadt';
-import { Stadtteil } from '../models/Stadtteil';
-import { StatGebiet } from '../models/StatGebiet';
-import { AdminLevelUnit, Session } from '../typings';
+import {Baublock} from '../models/Baublock';
+import {Bezirk} from '../models/Bezirk';
+import {Stadt} from '../models/Stadt';
+import {Stadtteil} from '../models/Stadtteil';
+import {StatGebiet} from '../models/StatGebiet';
+import {AdminLevelUnit, Session} from '../typings';
 
 export const adminLevelClassMap: Record<
   string,
@@ -381,16 +381,16 @@ export default class CategorySolar extends Vue {
     Baublock: ['Baublöcke', 'Baublock']
   };
   areaData: Record<string, AdminLevelUnit[]> = {
-    Stadt: [new Stadt({ name: 'FHH' } as Stadt)],
-    Bezirk: BezirkData.map((data) => new Bezirk(data as unknown as Bezirk)),
+    Stadt: [new Stadt({name: 'FHH'} as Stadt)],
+    Bezirk: BezirkData.map(data => new Bezirk(data as unknown as Bezirk)),
     Stadtteil: StadtteilData.map(
-      (data) => new Stadtteil(data as unknown as Stadtteil)
+      data => new Stadtteil(data as unknown as Stadtteil)
     ),
     StatGebiet: StatGebietData.map(
-      (data) => new StatGebiet(data as unknown as StatGebiet)
+      data => new StatGebiet(data as unknown as StatGebiet)
     ),
     Baublock: BaublockData.map(
-      (data) => new Baublock(data as unknown as Baublock)
+      data => new Baublock(data as unknown as Baublock)
     )
   };
   selectedAreas: Record<string, AdminLevelUnit[]> = {
@@ -480,22 +480,19 @@ export default class CategorySolar extends Vue {
       this.calculateAggregateValues(selection) as unknown as Bezirk
     );
 
-    const added = selection.filter((bez) => before.indexOf(bez) < 0);
-    const removed = before.filter((bez) => selection.indexOf(bez) < 0);
+    const added = selection.filter(bez => before.indexOf(bez) < 0);
+    const removed = before.filter(bez => selection.indexOf(bez) < 0);
 
     // wähle alle Stadtteile innerhalb des gewählten Bezirks aus
     for (const st of this.areaData.Stadtteil as Stadtteil[]) {
       const sti = this.selectedAreas.Stadtteil.indexOf(st);
 
       // die erste Ziffer in der Stadtteilkennung ist die Bezirkskennung!
-      if (
-        sti < 0 &&
-        added.find((bez) => bez.bezirk == st.stadtteil_nummer[0])
-      ) {
+      if (sti < 0 && added.find(bez => bez.bezirk == st.stadtteil_nummer[0])) {
         this.selectedAreas.Stadtteil.push(st);
       } else if (
         sti > -1 &&
-        removed.find((bez) => bez.bezirk == st.stadtteil_nummer[0])
+        removed.find(bez => bez.bezirk == st.stadtteil_nummer[0])
       ) {
         this.selectedAreas.Stadtteil.splice(sti, 1);
       }
@@ -562,10 +559,10 @@ export default class CategorySolar extends Vue {
     };
   }
 
-  onAdminAreasSelected(event: { [key: string]: string[] }): void {
+  onAdminAreasSelected(event: {[key: string]: string[]}): void {
     for (const key of this.adminLevels) {
       this.selectedAreas[key] = (this.areaData[key] as AdminLevelUnit[]).filter(
-        (area) => event[key].indexOf(area.getId()) > -1
+        area => event[key].indexOf(area.getId()) > -1
       );
     }
   }
@@ -588,9 +585,9 @@ export default class CategorySolar extends Vue {
    */
   restoreSession(session: Session): void {
     for (const type in this.areaData) {
-      this.selectedAreas[type] = this.areaData[type].filter((item) => {
+      this.selectedAreas[type] = this.areaData[type].filter(item => {
         return session.selectedAreas[type].find(
-          (area) => item.getId() === new adminLevelClassMap[type](area).getId()
+          area => item.getId() === new adminLevelClassMap[type](area).getId()
         );
       });
     }
