@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import {Component, Vue, Watch} from 'vue-property-decorator';
 
 import Header from './components/app-header.vue';
 

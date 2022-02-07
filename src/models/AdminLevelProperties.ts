@@ -1,41 +1,41 @@
 export class AdminLevelProperties {
   Shape_Area: number; // Fläche in m²
-  AnzFl: number;      // Anzahl der Flurstücke
-  mittlFl: number;    // mittlere Flurstücksgröße
+  AnzFl: number; // Anzahl der Flurstücke
+  mittlFl: number; // mittlere Flurstücksgröße
   tatNu_gesP: number; // prozentualer Gesamtanteil der unten stehenden genannten 4 Kategorien (aus tatsächliche Nutzung Attribut BEZEICH)
   tatNu_WB_P: number; // prozentualer Anteil Wohnbauflächen
   tatNu_IG_P: number; // prozentualer Anteil Industrie- und Gewerbeflächen
   tatNu_FP_P: number; // prozentualer Anteil Flächen funkt. Prägung
   tatNu_GM_P: number; // prozentualer Anteil gemischte Flächen
-  Geb_GRF_A: number;  // Gebäudegrundfläche
-  Geb_GRF_P: number;  // prozentualer Anteil Gebäudegrundfläche
-  Geb_Anz: number;    // Anzahl Gebäude/Gebäudeteile
-  BGF: number;        // Summe Bruttogeschoßfläche aller Gebäude
-  BGF_WB: number;     // Summe Bruttogeschoßfläche aller Gebäude mit Wohnen (Attribut BEZGFK), bei gemischter Nutzung anteilig berechnet
-  GFZ: number;        // Geschoßflächenzahl (Bruttogeschoßflächen aller Gebäude, geteilt durch Fläche)
-  LGB_Fl_A: number;   // Landesgrundbesitz, summierte Fläche m² Flurstücke/Flurstücksteile
-  LGB_P: number;      // Landesgrundbesitz, prozentualer Anteil
+  Geb_GRF_A: number; // Gebäudegrundfläche
+  Geb_GRF_P: number; // prozentualer Anteil Gebäudegrundfläche
+  Geb_Anz: number; // Anzahl Gebäude/Gebäudeteile
+  BGF: number; // Summe Bruttogeschoßfläche aller Gebäude
+  BGF_WB: number; // Summe Bruttogeschoßfläche aller Gebäude mit Wohnen (Attribut BEZGFK), bei gemischter Nutzung anteilig berechnet
+  GFZ: number; // Geschoßflächenzahl (Bruttogeschoßflächen aller Gebäude, geteilt durch Fläche)
+  LGB_Fl_A: number; // Landesgrundbesitz, summierte Fläche m² Flurstücke/Flurstücksteile
+  LGB_P: number; // Landesgrundbesitz, prozentualer Anteil
   LGB_Anz_Fl: number; // Landesgrundbesitz, Anzahl der Flurstücke
-  LGB_Geb_A: number;  // Gebäudegrundfläche in m² auf Landesgrundbesitz
-  LGB_Geb_P: number;  // prozentualer Anteil der Gebäudegrundfläche auf Landesgrundbesitz
+  LGB_Geb_A: number; // Gebäudegrundfläche in m² auf Landesgrundbesitz
+  LGB_Geb_P: number; // prozentualer Anteil der Gebäudegrundfläche auf Landesgrundbesitz
   LGB_Anz_Ge: number; // Anzahl der Gebäude/Gebäudeteile auf Landesgrundbesitz
   Bev_311219: number; // Gesamtbevölkerung, Stand 31.12.2019
-  U18: number;        // Personen im Alter bis unter 18 Jahre
-  U18_P: number;      // prozentualer Anteil an der Gesamtbevölkerung
-  Ü65: number;        // Personen im Alter über 65 Jahre
-  Ü65_P: number;      // prozentualer Anteil an der Gesamtbevölkerung
-  Ausl: number;       // Anzahl Ausländer
-  Ausl_P: number;     // prozentualer Anteil an der Gesamtbevölkerung
-  Bev_Mig: number;    // Anzahl Personen mit Migrationshintergrund
-  Bev_Mig_P: number;  // prozentualer Anteil an der Gesamtbevölkerung
-  SGBII_III: number;  // Anzahl Bezieher von SGBII- und SGBIII-Leistungen (Arbeitslose)
+  U18: number; // Personen im Alter bis unter 18 Jahre
+  U18_P: number; // prozentualer Anteil an der Gesamtbevölkerung
+  Ü65: number; // Personen im Alter über 65 Jahre
+  Ü65_P: number; // prozentualer Anteil an der Gesamtbevölkerung
+  Ausl: number; // Anzahl Ausländer
+  Ausl_P: number; // prozentualer Anteil an der Gesamtbevölkerung
+  Bev_Mig: number; // Anzahl Personen mit Migrationshintergrund
+  Bev_Mig_P: number; // prozentualer Anteil an der Gesamtbevölkerung
+  SGBII_III: number; // Anzahl Bezieher von SGBII- und SGBIII-Leistungen (Arbeitslose)
   SGB_1565_P: number; // prozentualer Anteil der Arbeitslosen an der Bevölkerung zwischen 15 und 65 Jahren
-  Haush: number;      // Gesamtzahl der Haushalte
-  Haush_K: number;    // Zahl der Haushalte mit Kindern
-  Haush_K_P: number;  // prozentualer Anteil der Haushalte mit Kindern an der Gesamtzahl der Haushalte
-  Haushgr: number;    // durchschnittliche Haushaltsgröße (Personenzahl)
-  Wohnungen: number;  // Gesamtzahl der Wohnungen in Wohn- und Nichtwohngebäuden
-  SozialWh: number;   // Zahl der Sozialwohnungen
+  Haush: number; // Gesamtzahl der Haushalte
+  Haush_K: number; // Zahl der Haushalte mit Kindern
+  Haush_K_P: number; // prozentualer Anteil der Haushalte mit Kindern an der Gesamtzahl der Haushalte
+  Haushgr: number; // durchschnittliche Haushaltsgröße (Personenzahl)
+  Wohnungen: number; // Gesamtzahl der Wohnungen in Wohn- und Nichtwohngebäuden
+  SozialWh: number; // Zahl der Sozialwohnungen
   SozialWh_P: number; // prozentualer Anteil der Sozialwohnungen an der Gesamtzahl der Wohnungen
   p_st_mwh_a: number; // gesamte mögliche Solarernte in MWh/a
 

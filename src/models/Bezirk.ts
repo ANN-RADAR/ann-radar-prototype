@@ -1,14 +1,14 @@
-import { AdminLevelUnit } from "@/typings";
-import { Feature } from "ol";
-import Geometry from "ol/geom/Geometry";
-import { AdminLevelProperties } from "./AdminLevelProperties";
+import {AdminLevelUnit} from '@/typings';
+import {Feature} from 'ol';
+import Geometry from 'ol/geom/Geometry';
+import {AdminLevelProperties} from './AdminLevelProperties';
 
 export class Bezirk extends AdminLevelProperties implements AdminLevelUnit {
   // Attribute für ID/Name in Geodatenquelle
-  static featureIdProp = "bezirk";
-  static featureNameProp = "bezirk_name";
+  static featureIdProp = 'bezirk';
+  static featureNameProp = 'bezirk_name';
 
-  static nameProp = "bezirk_name";
+  static nameProp = 'bezirk_name';
 
   bezirk: string;
   bezirk_name: string;

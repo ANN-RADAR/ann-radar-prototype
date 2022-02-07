@@ -5,7 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "types": "vue-tsc --noEmit --skipLibCheck",
+    "eslint": "eslint --ext ts,vue src/",
+    "test": "run-s types eslint"
   },
   "dependencies": {
     "ol": "^6.5.0",
@@ -26,12 +28,17 @@
     "@vue/eslint-config-typescript": "^10.0.0",
     "cache-loader": "^4.1.0",
     "eslint": "^8.7.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.3.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.5.1",
     "sass": "^1.48.0",
     "sass-loader": "^10.2.1",
     "typescript": "^4.5.4",
     "vue-cli-plugin-vuetify": "^2.4.5",
     "vue-template-compiler": "^2.6.11",
+    "vue-tsc": "^0.31.1",
     "vuetify-loader": "^1.7.0"
   }
 }

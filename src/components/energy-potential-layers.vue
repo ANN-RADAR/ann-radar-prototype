@@ -50,16 +50,13 @@ export default Vue.extend({
   data() {
     return {
       thematicLayers: [
-        { name: 'Solaratlas', visible: false },
-        { name: 'Schulen', visible: false },
-        { name: 'Stadtteilkultur', visible: false },
-        {
-          name: 'Soziale Infrastruktur',
-          visible: false
-        },
-        { name: 'Bauen und Wohnen', visible: false },
-        { name: 'RISE-Fördergebiete', visible: false },
-        { name: 'Sozialmonitoring 2020', visible: false }
+        {name: 'Solaratlas', visible: false},
+        {name: 'Schulen', visible: false},
+        {name: 'Stadtteilkultur', visible: false},
+        {name: 'Soziale Infrastruktur', visible: false},
+        {name: 'Bauen und Wohnen', visible: false},
+        {name: 'RISE-Fördergebiete', visible: false},
+        {name: 'Sozialmonitoring 2020', visible: false}
       ]
     };
   }
