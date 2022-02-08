@@ -4,10 +4,9 @@
 
 <script lang="ts">
 import {Feature, Map, MapBrowserEvent, View} from 'ol';
-import {GeoJSON} from 'ol/format';
-import GML3 from 'ol/format/GML3';
 import Geometry from 'ol/geom/Geometry';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
+
 import LayerGroup from 'ol/layer/Group';
 import 'ol/ol.css';
 import {register} from 'ol/proj/proj4';
@@ -25,6 +24,8 @@ import {Stadt} from '../models/Stadt';
 import {Stadtteil} from '../models/Stadtteil';
 import {StatGebiet} from '../models/StatGebiet';
 
+import {tileSources, vectorSources} from '../constants/tile-sources';
+
 // projection for UTM zone 32N
 proj4.defs(
   'EPSG:25832',
@@ -38,8 +39,6 @@ export default class MapComponent extends Vue {
   @Prop() adminLayerVisibility!: {[name: string]: boolean};
   @Prop() selectedAdminAreas!: {[name: string]: AdminLevelUnit[]};
 
-  tileSources: {[key: string]: TileWMS};
-  vectorSources: {[key: string]: VectorSource<Geometry>};
   layers: {
     [key: string]:
       | TileLayer<TileWMS>
@@ -86,157 +85,34 @@ export default class MapComponent extends Vue {
   constructor() {
     super();
 
-    this.tileSources = {
-      HH_WMS_Geobasiskarten: new TileWMS({
-        url: 'https://geodienste.hamburg.de/HH_WMS_Geobasiskarten',
-        params: {
-          LAYERS: 'Geobasiskarten_farbig'
-        },
-        projection: 'EPSG:25832'
-      }),
-      HH_WMS_Geobasiskarten_GB: new TileWMS({
-        url: 'https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_GB',
-        params: {
-          LAYERS: 'HH_WMS_Geobasiskarten_GB'
-        },
-        projection: 'EPSG:25832'
-      }),
-      HH_WMS_Geobasiskarten_SG: new TileWMS({
-        url: 'https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_SG',
-        params: {
-          LAYERS: 'HH_WMS_Geobasiskarten_SG'
-        },
-        projection: 'EPSG:25832'
-      }),
-      HH_WMS_Solaratlas: new TileWMS({
-        url: 'https://geodienste.hamburg.de/HH_WMS_Solaratlas',
-        params: {
-          LAYERS: 'ek_pv'
-        },
-        projection: 'EPSG:25832'
-      }),
-      HH_WMS_Schulen: new TileWMS({
-        url: 'https://geodienste.hamburg.de/HH_WMS_Schulen',
-        params: {
-          LAYERS: 'hh_schulen_dwh'
-        },
-        projection: 'EPSG:25832'
-      }),
-      HH_WMS_Oeffentliche_Bibliotheken: new TileWMS({
-        url: 'https://geodienste.hamburg.de/HH_WMS_Oeffentliche_Bibliotheken',
-        params: {
-          LAYERS: 'oeffentliche_bibs'
-        },
-        projection: 'EPSG:25832'
-      }),
-      HH_WMS_Freiwilliges_Engagement: new TileWMS({
-        url: 'https://geodienste.hamburg.de/HH_WMS_Freiwilliges_Engagement',
-        params: {
-          LAYERS: 'mehrgenerationenhaeuser'
-        },
-        projection: 'EPSG:25832'
-      }),
-      HH_WMS_Familien_Angebote: new TileWMS({
-        url: 'https://geodienste.hamburg.de/HH_WMS_Familien_Angebote',
-        params: {
-          LAYERS: 'eltern_kind_zentrum,kinder_familienzentrum'
-        },
-        projection: 'EPSG:25832'
-      }),
-      'HH_WMS_Sozialraeumliche_Angebote_der_Jugend-_und_Familienhilfe':
-        new TileWMS({
-          url: 'https://geodienste.hamburg.de/HH_WMS_Sozialraeumliche_Angebote_der_Jugend-_und_Familienhilfe',
-          params: {
-            LAYERS: 'begleitung_kinder,schulbezogene_angebote'
-          },
-          projection: 'EPSG:25832'
-        }),
-      HH_WMS_Jugend_Aktiv_Plus: new TileWMS({
-        url: 'https://geodienste.hamburg.de/HH_WMS_Jugend_Aktiv_Plus',
-        params: {
-          LAYERS: 'jugend_aktiv_plus'
-        },
-        projection: 'EPSG:25832'
-      }),
-      HH_WMS_KitaEinrichtung: new TileWMS({
-        url: 'https://geodienste.hamburg.de/HH_WMS_KitaEinrichtung',
-        params: {
-          LAYERS: 'KitaEinrichtungen'
-        },
-        projection: 'EPSG:25832'
-      }),
-      HH_WMS_Wohnungsbauprojekte: new TileWMS({
-        url: 'https://geodienste.hamburg.de/HH_WMS_Wohnungsbauprojekte',
-        params: {
-          LAYERS: 'projekte'
-        },
-        projection: 'EPSG:25832'
-      }),
-      HH_WMS_Wohnbauflaechenpotenziale: new TileWMS({
-        url: 'https://geodienste.hamburg.de/HH_WMS_Wohnbauflaechenpotenziale',
-        params: {
-          LAYERS: 'hh_wohnbauflaechenpotentiale'
-        },
-        projection: 'EPSG:25832'
-      }),
-      HH_WMS_RISE_FG: new TileWMS({
-        url: 'https://geodienste.hamburg.de/HH_WMS_RISE_FG',
-        params: {
-          LAYERS: 'rise_fg'
-        },
-        projection: 'EPSG:25832'
-      })
-    };
-
-    this.vectorSources = {
-      Stadt: new VectorSource({
-        format: new GML3(),
-        url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=landesgrenze'
-      }),
-      Bezirk: new VectorSource({
-        format: new GML3(),
-        url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=bezirke'
-      }),
-      Stadtteil: new VectorSource({
-        format: new GML3(),
-        url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=stadtteile'
-      }),
-      StatGebiet: new VectorSource({
-        format: new GML3(),
-        url: 'https://geodienste.hamburg.de/HH_WFS_Statistische_Gebiete?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=statistische_gebiete'
-      }),
-      Baublock: new VectorSource({
-        format: new GML3(),
-        url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=baubloecke'
-      }),
-      Sozialmonitoring: new VectorSource({
-        format: new GeoJSON(),
-        url: 'data/Sozialmonitoring2020.json'
-      })
-    };
-
     this.layers = {
       farbig: new TileLayer({
-        source: this.tileSources.HH_WMS_Geobasiskarten
+        visible: this.layerVisibility['farbig'],
+        source: tileSources.HH_WMS_Geobasiskarten
       }),
       'grau-blau': new TileLayer({
-        source: this.tileSources.HH_WMS_Geobasiskarten_GB
+        visible: this.layerVisibility['grau-blau'],
+        source: tileSources.HH_WMS_Geobasiskarten_GB
       }),
       'schwarz-grau': new TileLayer({
-        source: this.tileSources.HH_WMS_Geobasiskarten_SG
+        visible: this.layerVisibility['schwarz-grau'],
+        source: tileSources.HH_WMS_Geobasiskarten_SG
       }),
       Solaratlas: new TileLayer({
-        source: this.tileSources.HH_WMS_Solaratlas,
+        visible: false,
+        source: tileSources.HH_WMS_Solaratlas,
         zIndex: 5
       }),
       Schulen: new TileLayer({
-        source: this.tileSources.HH_WMS_Schulen,
+        visible: false,
+        source: tileSources.HH_WMS_Schulen,
         zIndex: 9
       }),
       Stadtteilkultur: new LayerGroup({
         layers: [
           new TileLayer({
-            source: this.tileSources.HH_WMS_Oeffentliche_Bibliotheken,
+            visible: false,
+            source: tileSources.HH_WMS_Oeffentliche_Bibliotheken,
             zIndex: 9
           })
         ]
@@ -244,26 +120,31 @@ export default class MapComponent extends Vue {
       'Soziale Infrastruktur': new LayerGroup({
         layers: [
           new TileLayer({
-            source: this.tileSources.HH_WMS_Freiwilliges_Engagement,
+            visible: false,
+            source: tileSources.HH_WMS_Freiwilliges_Engagement,
             zIndex: 9
           }),
           new TileLayer({
-            source: this.tileSources.HH_WMS_Familien_Angebote,
+            visible: false,
+            source: tileSources.HH_WMS_Familien_Angebote,
             zIndex: 9
           }),
           new TileLayer({
+            visible: false,
             source:
-              this.tileSources[
+              tileSources[
                 'HH_WMS_Sozialraeumliche_Angebote_der_Jugend-_und_Familienhilfe'
               ],
             zIndex: 9
           }),
           new TileLayer({
-            source: this.tileSources.HH_WMS_Jugend_Aktiv_Plus,
+            visible: false,
+            source: tileSources.HH_WMS_Jugend_Aktiv_Plus,
             zIndex: 9
           }),
           new TileLayer({
-            source: this.tileSources.HH_WMS_KitaEinrichtung,
+            visible: false,
+            source: tileSources.HH_WMS_KitaEinrichtung,
             zIndex: 9
           })
         ]
@@ -271,21 +152,25 @@ export default class MapComponent extends Vue {
       'Bauen und Wohnen': new LayerGroup({
         layers: [
           new TileLayer({
-            source: this.tileSources.HH_WMS_Wohnungsbauprojekte,
+            visible: false,
+            source: tileSources.HH_WMS_Wohnungsbauprojekte,
             zIndex: 9
           }),
           new TileLayer({
-            source: this.tileSources.HH_WMS_Wohnbauflaechenpotenziale,
+            visible: false,
+            source: tileSources.HH_WMS_Wohnbauflaechenpotenziale,
             zIndex: 9
           })
         ]
       }),
       'RISE-Fördergebiete': new TileLayer({
-        source: this.tileSources.HH_WMS_RISE_FG,
+        visible: false,
+        source: tileSources.HH_WMS_RISE_FG,
         zIndex: 7
       }),
       'Sozialmonitoring 2020': new VectorLayer({
-        source: this.vectorSources.Sozialmonitoring,
+        visible: false,
+        source: vectorSources.Sozialmonitoring,
         style: feature => {
           return new Style({
             stroke: new Stroke({
@@ -308,26 +193,31 @@ export default class MapComponent extends Vue {
         zIndex: 6
       }),
       Stadt: new VectorLayer({
-        source: this.vectorSources.Stadt,
+        visible: false,
+        source: vectorSources.Stadt,
         style: this.getAdminAreaStyleFn('Stadt', Stadt.featureNameProp)
       }),
       Bezirk: new VectorLayer({
-        source: this.vectorSources.Bezirk,
+        visible: false,
+        source: vectorSources.Bezirk,
         style: this.getAdminAreaStyleFn('Bezirk', Bezirk.featureNameProp)
       }),
       Stadtteil: new VectorLayer({
-        source: this.vectorSources.Stadtteil,
+        visible: false,
+        source: vectorSources.Stadtteil,
         style: this.getAdminAreaStyleFn('Stadtteil', Stadtteil.featureNameProp)
       }),
       StatGebiet: new VectorLayer({
-        source: this.vectorSources.StatGebiet,
+        visible: false,
+        source: vectorSources.StatGebiet,
         style: this.getAdminAreaStyleFn(
           'StatGebiet',
           StatGebiet.featureNameProp
         )
       }),
       Baublock: new VectorLayer({
-        source: this.vectorSources.Baublock,
+        visible: false,
+        source: vectorSources.Baublock,
         style: this.getAdminAreaStyleFn('Baublock', Baublock.featureNameProp),
         minZoom: 13
       })
@@ -336,6 +226,8 @@ export default class MapComponent extends Vue {
 
   @Watch('layerVisibility', {deep: true})
   onLayerSwitch(map: {[name: string]: boolean}): void {
+    console.log(map);
+
     for (const [layerName, visible] of Object.entries(map)) {
       this.layers[layerName].setVisible(visible);
     }
@@ -365,7 +257,7 @@ export default class MapComponent extends Vue {
       return;
     }
 
-    for (const feature of this.vectorSources[adminLevel].getFeatures()) {
+    for (const feature of vectorSources[adminLevel].getFeatures()) {
       const found = !!list.find(
         area => area.getFeatureId(feature) === area.getId()
       );
@@ -394,9 +286,9 @@ export default class MapComponent extends Vue {
         return;
       }
 
-      for (const feature of this.vectorSources[
-        adminLevel
-      ].getFeaturesAtCoordinate(coord)) {
+      for (const feature of vectorSources[adminLevel].getFeaturesAtCoordinate(
+        coord
+      )) {
         this.setFeatureSelected(feature, !feature.get('selected'));
       }
 
@@ -436,7 +328,7 @@ export default class MapComponent extends Vue {
   emitSelected(): void {
     const event = Object.entries(adminLevelClassMap).reduce(
       (obj, [key, type]) => {
-        obj[key] = this.vectorSources[key]
+        obj[key] = vectorSources[key]
           .getFeatures()
           .filter(feature => feature.get('selected'))
           .map(feature => feature.get(type.featureIdProp));
