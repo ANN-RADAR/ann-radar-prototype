@@ -226,8 +226,6 @@ export default class MapComponent extends Vue {
 
   @Watch('layerVisibility', {deep: true})
   onLayerSwitch(map: {[name: string]: boolean}): void {
-    console.log(map);
-
     for (const [layerName, visible] of Object.entries(map)) {
       this.layers[layerName].setVisible(visible);
     }

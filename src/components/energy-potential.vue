@@ -1,11 +1,35 @@
 <template>
   <div class="wrapper">
-    <div class="map"><Map /></div>
+    <div class="map">
+      {{ visibleLayers }}
+      <Map
+        :layerVisibility="
+          baseLayers.concat(thematicLayers).reduce((layers, layer) => {
+            layers[layer.name] = layer.name === mapStyle ? true : false;
+            return layers;
+          }, {})
+        "
+        :adminLayerVisibility="
+          adminLevels.reduce((obj, key) => {
+            obj[key] = areaUnit === key;
+            return obj;
+          }, {})
+        "
+        :selectedAdminAreas="selectedAreas[areaUnit]"
+        @selectedAdminAreas="onAdminAreasSelected($event)"
+        @legendUrls="onLegendUrlsChange($event)"
+      />
+    </div>
     <div class="layers">
-      <Layers :basemaps="basemaps" v-model="currentBasemap" />
+      <Layers
+        @mapStyleChanged="mapStyle = $event"
+        @layersChanged="thematicLayers = $event"
+      />
     </div>
     <div class="notes">notes</div>
-    <div class="cockpit"><Cockpit /></div>
+    <div class="cockpit">
+      <Cockpit :areaUnit="areaUnit" :selectedAreas="selectedAreas" />
+    </div>
     <div class="inspector">inspector</div>
   </div>
 </template>
@@ -16,27 +40,20 @@ import Map from './map-component.vue';
 import Layers from './energy-potential-layers.vue';
 import Cockpit from './energy-potential-cockpit.vue';
 
-const basemaps = [
-  {
-    name: 'farbig',
-    visible: true
-  },
-  {
-    name: 'grau-blau',
-    visible: false
-  },
-  {
-    name: 'schwarz-grau',
-    visible: false
-  }
-];
-const currentBasemap = basemaps[0].name;
+import {thematicLayers, baseLayers} from '../constants/layers';
+import {adminLevels} from '../constants/admin-levels';
+
+const mapStyle = baseLayers[0].name;
 
 export default Vue.extend({
   data() {
     return {
-      basemaps,
-      currentBasemap
+      baseLayers,
+      thematicLayers,
+      mapStyle,
+      adminLevels,
+      areaUnit: 'ha',
+      selectedAreas: {}
     };
   },
   components: {
@@ -45,6 +62,15 @@ export default Vue.extend({
     // Notes,
     Cockpit
     // Inspector
+  },
+  methods: {
+    onBasemapChange() {
+      this.$emit('basemap-change', this.mapStyle);
+    },
+    onAdminAreasSelected(selectedAreas: Record<string, any>) {
+      this.selectedAreas = selectedAreas;
+    },
+    onLegendUrlsChange(legendUrls: Record<string, string>) {}
   }
 });
 </script>
