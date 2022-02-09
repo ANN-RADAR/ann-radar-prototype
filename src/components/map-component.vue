@@ -24,7 +24,7 @@ import {Stadt} from '../models/Stadt';
 import {Stadtteil} from '../models/Stadtteil';
 import {StatGebiet} from '../models/StatGebiet';
 
-import {tileSources, vectorSources} from '../constants/tile-sources';
+import {tileSources, vectorSources} from '../constants/sources';
 
 // projection for UTM zone 32N
 proj4.defs(

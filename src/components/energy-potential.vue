@@ -19,8 +19,8 @@
           }, {})
         "
         :selectedAdminAreas="selectedAreas[areaUnit]"
-        @selectedAdminAreas="onAdminAreasSelected($event)"
-        @legendUrls="onLegendUrlsChange($event)"
+        @selectedAdminAreas="onAdminAreasSelected"
+        @legendUrls="onLegendUrlsChange"
       />
     </div>
     <div class="layers">
@@ -56,7 +56,13 @@ export default Vue.extend({
       thematicLayers,
       adminLevels,
       areaUnit: 'ha',
-      selectedAreas: {}
+      selectedAreas: {
+        Stadt: [],
+        Bezirk: [],
+        Stadtteil: [],
+        StatGebiet: [],
+        Baublock: []
+      }
     };
   },
   components: {
@@ -67,16 +73,12 @@ export default Vue.extend({
     // Inspector
   },
   methods: {
-    onBasemapChange() {
-      this.$emit('basemap-change', this.mapStyle);
-    },
     onAdminAreasSelected(selectedAreas: Record<string, any>) {
-      // console.log(selectedAreas);
-
-      this.selectedAreas = selectedAreas;
+      console.log(selectedAreas);
+      // this.selectedAreas = selectedAreas;
     },
     onLegendUrlsChange(legendUrls: Record<string, string>) {
-      // console.log(legendUrls);
+      console.log(legendUrls);
     }
   }
 });
