@@ -9,12 +9,10 @@
           v-model="layer.visible"
           :label="layer.name"
           style="margin-top: -4px"
-          @change="$emit('layersChanged', $event)"
         ></v-checkbox>
       </div>
       <v-radio-group
         v-bind:value="'farbig'"
-        v-on:change="$emit('change', $event)"
         @change="$emit('mapStyleChanged', $event)"
         row
       >

@@ -1,14 +1,17 @@
 <template>
   <div class="wrapper">
     <div class="map">
-      {{ visibleLayers }}
       <Map
-        :layerVisibility="
-          baseLayers.concat(thematicLayers).reduce((layers, layer) => {
+        :layerVisibility="{
+          ...baseLayers.reduce((layers, layer) => {
             layers[layer.name] = layer.name === mapStyle ? true : false;
             return layers;
+          }, {}),
+          ...thematicLayers.reduce((layers, layer) => {
+            layers[layer.name] = layer.visible;
+            return layers;
           }, {})
-        "
+        }"
         :adminLayerVisibility="
           adminLevels.reduce((obj, key) => {
             obj[key] = areaUnit === key;
@@ -49,8 +52,8 @@ export default Vue.extend({
   data() {
     return {
       baseLayers,
-      thematicLayers,
       mapStyle,
+      thematicLayers,
       adminLevels,
       areaUnit: 'ha',
       selectedAreas: {}
@@ -68,9 +71,13 @@ export default Vue.extend({
       this.$emit('basemap-change', this.mapStyle);
     },
     onAdminAreasSelected(selectedAreas: Record<string, any>) {
+      // console.log(selectedAreas);
+
       this.selectedAreas = selectedAreas;
     },
-    onLegendUrlsChange(legendUrls: Record<string, string>) {}
+    onLegendUrlsChange(legendUrls: Record<string, string>) {
+      // console.log(legendUrls);
+    }
   }
 });
 </script>
