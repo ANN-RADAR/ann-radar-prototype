@@ -345,7 +345,8 @@ import {Bezirk} from '../models/Bezirk';
 import {Stadt} from '../models/Stadt';
 import {Stadtteil} from '../models/Stadtteil';
 import {StatGebiet} from '../models/StatGebiet';
-import {AdminLevelUnit, Session} from '../typings';
+import {Session} from '../types/typings';
+import {AdminLevelUnit} from '@/types/admin-levels';
 
 export const adminLevelClassMap: Record<
   string,

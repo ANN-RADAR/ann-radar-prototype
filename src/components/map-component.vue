@@ -16,7 +16,7 @@ import {StyleFunction} from 'ol/style/Style';
 import proj4 from 'proj4';
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
 
-import {AdminLevelUnit} from '@/typings';
+import {AdminLevelUnit} from '@/types/admin-levels';
 import {adminLevelClassMap} from '../views/category-solar.vue';
 import {Baublock} from '../models/Baublock';
 import {Bezirk} from '../models/Bezirk';

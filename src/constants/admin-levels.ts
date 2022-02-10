@@ -4,14 +4,9 @@ import {Stadt} from '../models/Stadt';
 import {Stadtteil} from '../models/Stadtteil';
 import {StatGebiet} from '../models/StatGebiet';
 
-export const adminLevelClassMap: Record<
-  string,
-  | typeof Stadt
-  | typeof Bezirk
-  | typeof Stadtteil
-  | typeof StatGebiet
-  | typeof Baublock
-> = {
+import {AdminLevels} from '@/types/admin-levels';
+
+export const adminLevelClassMap: AdminLevels = {
   Stadt: Stadt,
   Bezirk: Bezirk,
   Stadtteil: Stadtteil,
