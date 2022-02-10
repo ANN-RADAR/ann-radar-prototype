@@ -68,7 +68,7 @@ const adminAreaLayers = [
   {
     source: vectorSources.Stadt,
     visible: false,
-    style: getAdminAreaStyle('Stadt', Stadt.featureNameProp),
+    style: getAdminAreaStyle(Stadt.featureNameProp),
     properties: {
       name: 'Stadt'
     }
@@ -76,7 +76,7 @@ const adminAreaLayers = [
   {
     source: vectorSources.Bezirk,
     visible: false,
-    style: getAdminAreaStyle('Bezirk', Bezirk.featureNameProp),
+    style: getAdminAreaStyle(Bezirk.featureNameProp),
     properties: {
       name: 'Bezirk'
     }
@@ -84,7 +84,7 @@ const adminAreaLayers = [
   {
     source: vectorSources.Stadtteil,
     visible: false,
-    style: getAdminAreaStyle('Stadtteil', Stadtteil.featureNameProp),
+    style: getAdminAreaStyle(Stadtteil.featureNameProp),
     properties: {
       name: 'Stadtteil'
     }
@@ -92,7 +92,7 @@ const adminAreaLayers = [
   {
     source: vectorSources.StatGebiet,
     visible: false,
-    style: getAdminAreaStyle('StatGebiet', StatGebiet.featureNameProp),
+    style: getAdminAreaStyle(StatGebiet.featureNameProp),
     properties: {
       name: 'StatGebiet'
     }
@@ -100,7 +100,7 @@ const adminAreaLayers = [
   {
     source: vectorSources.Baublock,
     visible: false,
-    style: getAdminAreaStyle('Baublock', Baublock.featureNameProp),
+    style: getAdminAreaStyle(Baublock.featureNameProp),
     properties: {
       name: 'Baublock'
     },

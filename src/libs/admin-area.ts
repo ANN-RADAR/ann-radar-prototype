@@ -4,7 +4,7 @@ import Style, {StyleFunction} from 'ol/style/Style';
 import Text from 'ol/style/Text';
 
 export const getAdminAreaStyle =
-  (layerName: string, textAttr: string): StyleFunction =>
+  (textAttr: string): StyleFunction =>
   feature =>
     feature.get('selected')
       ? new Style({
