@@ -18,10 +18,10 @@
       >
         <span style="margin-right: 16px">Hintergrundkarte:</span>
         <v-radio
-          v-for="layer in baseLayers"
-          :key="layer.name"
-          :label="layer.name"
-          :value="layer.name"
+          v-for="layer in mapStyleLayers"
+          :key="layer.properties.name"
+          :label="layer.properties.name"
+          :value="layer.properties.name"
         ></v-radio>
       </v-radio-group>
     </v-card-text>
@@ -30,13 +30,13 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {thematicLayers, baseLayers} from '../constants/layers';
+import {thematicLayers, mapStyleLayers} from '../constants/layers';
 
 export default Vue.extend({
   data() {
     return {
       thematicLayers,
-      baseLayers
+      mapStyleLayers
     };
   }
 });

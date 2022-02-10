@@ -193,22 +193,18 @@ export default class MapComponent extends Vue {
         zIndex: 6
       }),
       Stadt: new VectorLayer({
-        visible: false,
         source: vectorSources.Stadt,
         style: this.getAdminAreaStyleFn('Stadt', Stadt.featureNameProp)
       }),
       Bezirk: new VectorLayer({
-        visible: false,
         source: vectorSources.Bezirk,
         style: this.getAdminAreaStyleFn('Bezirk', Bezirk.featureNameProp)
       }),
       Stadtteil: new VectorLayer({
-        visible: false,
         source: vectorSources.Stadtteil,
         style: this.getAdminAreaStyleFn('Stadtteil', Stadtteil.featureNameProp)
       }),
       StatGebiet: new VectorLayer({
-        visible: false,
         source: vectorSources.StatGebiet,
         style: this.getAdminAreaStyleFn(
           'StatGebiet',
@@ -216,7 +212,6 @@ export default class MapComponent extends Vue {
         )
       }),
       Baublock: new VectorLayer({
-        visible: false,
         source: vectorSources.Baublock,
         style: this.getAdminAreaStyleFn('Baublock', Baublock.featureNameProp),
         minZoom: 13
