@@ -34,7 +34,8 @@
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator';
 
-import {AdminLevelUnit, Session} from '@/typings';
+import {Session} from '@/types/typings';
+import {AdminLevelUnit} from '@/types/admin-levels';
 
 @Component
 export default class SaveDialog extends Vue {

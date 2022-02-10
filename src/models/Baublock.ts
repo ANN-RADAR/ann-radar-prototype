@@ -1,4 +1,4 @@
-import {AdminLevelUnit} from '@/typings';
+import {AdminLevelUnit} from '@/types/typings';
 import {Feature} from 'ol';
 import Geometry from 'ol/geom/Geometry';
 import {AdminLevelProperties} from './AdminLevelProperties';

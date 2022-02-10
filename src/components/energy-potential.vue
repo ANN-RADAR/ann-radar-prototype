@@ -1,11 +1,38 @@
 <template>
   <div class="wrapper">
-    <div class="map"><Map /></div>
+    <div class="map">
+      <Map
+        :layerVisibility="{
+          ...baseLayers.reduce((layers, layer) => {
+            layers[layer.name] = layer.name === mapStyle ? true : false;
+            return layers;
+          }, {}),
+          ...thematicLayers.reduce((layers, layer) => {
+            layers[layer.name] = layer.visible;
+            return layers;
+          }, {})
+        }"
+        :adminLayerVisibility="
+          adminLevels.reduce((obj, key) => {
+            obj[key] = areaUnit === key;
+            return obj;
+          }, {})
+        "
+        :selectedAdminAreas="selectedAreas[areaUnit]"
+        @selectedAdminAreas="onAdminAreasSelected"
+        @legendUrls="onLegendUrlsChange"
+      />
+    </div>
     <div class="layers">
-      <Layers :basemaps="basemaps" v-model="currentBasemap" />
+      <Layers
+        @mapStyleChanged="mapStyle = $event"
+        @layersChanged="thematicLayers = $event"
+      />
     </div>
     <div class="notes">notes</div>
-    <div class="cockpit"><Cockpit /></div>
+    <div class="cockpit">
+      <Cockpit :areaUnit="areaUnit" :selectedAreas="selectedAreas" />
+    </div>
     <div class="inspector">inspector</div>
   </div>
 </template>
@@ -16,27 +43,26 @@ import Map from './map-component.vue';
 import Layers from './energy-potential-layers.vue';
 import Cockpit from './energy-potential-cockpit.vue';
 
-const basemaps = [
-  {
-    name: 'farbig',
-    visible: true
-  },
-  {
-    name: 'grau-blau',
-    visible: false
-  },
-  {
-    name: 'schwarz-grau',
-    visible: false
-  }
-];
-const currentBasemap = basemaps[0].name;
+import {thematicLayers, baseLayers} from '../constants/layers';
+import {adminLevels} from '../constants/admin-levels';
+
+const mapStyle = baseLayers[0].name;
 
 export default Vue.extend({
   data() {
     return {
-      basemaps,
-      currentBasemap
+      baseLayers,
+      mapStyle,
+      thematicLayers,
+      adminLevels,
+      areaUnit: 'ha',
+      selectedAreas: {
+        Stadt: [],
+        Bezirk: [],
+        Stadtteil: [],
+        StatGebiet: [],
+        Baublock: []
+      }
     };
   },
   components: {
@@ -45,6 +71,15 @@ export default Vue.extend({
     // Notes,
     Cockpit
     // Inspector
+  },
+  methods: {
+    onAdminAreasSelected(selectedAreas: Record<string, any>) {
+      console.log(selectedAreas);
+      // this.selectedAreas = selectedAreas;
+    },
+    onLegendUrlsChange(legendUrls: Record<string, string>) {
+      console.log(legendUrls);
+    }
   }
 });
 </script>
@@ -52,7 +87,7 @@ export default Vue.extend({
 <style scoped>
 .wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 50% 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   gap: 0.5rem;
   padding: 0.5rem;

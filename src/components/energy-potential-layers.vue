@@ -11,10 +11,14 @@
           style="margin-top: -4px"
         ></v-checkbox>
       </div>
-      <v-radio-group v-model="currentBasemap" @change="onBasemapChange()" row>
+      <v-radio-group
+        v-bind:value="'farbig'"
+        @change="$emit('mapStyleChanged', $event)"
+        row
+      >
         <span style="margin-right: 16px">Hintergrundkarte:</span>
         <v-radio
-          v-for="layer in basemaps"
+          v-for="layer in baseLayers"
           :key="layer.name"
           :label="layer.name"
           :value="layer.name"
@@ -26,38 +30,13 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import {thematicLayers, baseLayers} from '../constants/layers';
+
 export default Vue.extend({
-  props: {
-    basemaps: {
-      type: Array,
-      required: true
-    },
-    currentBasemap: {
-      type: String,
-      required: true
-    }
-  },
-  computed: {
-    localCurrentBasemap: {
-      get() {
-        return this.currentBasemap;
-      },
-      set(localCurrentBasemap) {
-        this.$emit('input', localCurrentBasemap);
-      }
-    }
-  },
   data() {
     return {
-      thematicLayers: [
-        {name: 'Solaratlas', visible: false},
-        {name: 'Schulen', visible: false},
-        {name: 'Stadtteilkultur', visible: false},
-        {name: 'Soziale Infrastruktur', visible: false},
-        {name: 'Bauen und Wohnen', visible: false},
-        {name: 'RISE-Fördergebiete', visible: false},
-        {name: 'Sozialmonitoring 2020', visible: false}
-      ]
+      thematicLayers,
+      baseLayers
     };
   }
 });
