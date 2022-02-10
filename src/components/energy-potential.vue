@@ -1,26 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="map">
-      <Map
-        :layerVisibility="{
-          ...baseLayers.reduce((layers, layer) => {
-            layers[layer.name] = layer.name === mapStyle ? true : false;
-            return layers;
-          }, {}),
-          ...thematicLayers.reduce((layers, layer) => {
-            layers[layer.name] = layer.visible;
-            return layers;
-          }, {})
-        }"
-        :adminLayerVisibility="
-          adminLevels.reduce((obj, key) => {
-            obj[key] = areaUnit === key;
-            return obj;
-          }, {})
-        "
-        :selectedAdminAreas="selectedAreas[areaUnit]"
-        @selectedAdminAreas="onAdminAreasSelected"
-        @legendUrls="onLegendUrlsChange"
+      <Map :mapStyleLayer="mapStyle" :adminLayer="adminLayer" />
       />
     </div>
     <div class="layers">
@@ -39,20 +20,22 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Map from './map-component.vue';
+import Map from './map-component-2.vue';
 import Layers from './energy-potential-layers.vue';
 import Cockpit from './energy-potential-cockpit.vue';
 
-import {thematicLayers, baseLayers} from '../constants/layers';
+import {thematicLayers, mapStyleLayers} from '../constants/layers';
 import {adminLevels} from '../constants/admin-levels';
 
-const mapStyle = baseLayers[0].name;
+const mapStyle = mapStyleLayers[0].properties.name;
+const adminLayer = null;
 
 export default Vue.extend({
   data() {
     return {
-      baseLayers,
+      mapStyleLayers,
       mapStyle,
+      adminLayer,
       thematicLayers,
       adminLevels,
       areaUnit: 'ha',
