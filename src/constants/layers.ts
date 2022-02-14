@@ -4,69 +4,113 @@ import {Bezirk} from '@/models/Bezirk';
 import {Stadt} from '@/models/Stadt';
 import {Stadtteil} from '@/models/Stadtteil';
 import {StatGebiet} from '@/models/StatGebiet';
+import {Feature} from 'ol';
+import Geometry from 'ol/geom/Geometry';
 import LayerGroup from 'ol/layer/Group';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
-import {tileSources, vectorSources} from './sources';
+import RenderFeature from 'ol/render/Feature';
+import {TileWMS} from 'ol/source';
+import VectorSource from 'ol/source/Vector';
+import Fill from 'ol/style/Fill';
+import Stroke from 'ol/style/Stroke';
+import Style from 'ol/style/Style';
+import {tileSourcesOptions, vectorSourcesOptions} from './sources';
 
-export const thematicLayers = [
+export const solarAtlasLayerOptions = {
+  properties: {name: 'Solaratlas'},
+  visible: false,
+  source: tileSourcesOptions.HH_WMS_Solaratlas,
+  zIndex: 5
+};
+
+export const heatingLayerOptions = {
+  properties: {name: 'Wärmebedarf'},
+  visible: false,
+  source: tileSourcesOptions.HH_WMS_Waermekataster_Waermebedarf,
+  zIndex: 5
+};
+
+export const baseLayersOptions = [
   {
-    name: 'Solaratlas',
-    visible: false
+    properties: {name: 'Schulen'},
+    visible: false,
+    source: tileSourcesOptions.HH_WMS_Schulen
   },
   {
-    name: 'Schulen',
-    visible: false
+    properties: {name: 'Stadtteilkultur'},
+    visible: false,
+    source: tileSourcesOptions.HH_WMS_Oeffentliche_Bibliotheken
   },
   {
-    name: 'Stadtteilkultur',
-    visible: false
+    properties: {name: 'Soziale Infrastruktur'},
+    visible: false,
+    source: tileSourcesOptions.HH_WMS_Geobasiskarten_GB
   },
   {
-    name: 'Soziale Infrastruktur',
-    visible: false
+    properties: {name: 'Bauen und Wohnen'},
+    visible: false,
+    source: tileSourcesOptions.HH_WMS_Geobasiskarten
   },
   {
-    name: 'Bauen und Wohnen',
-    visible: false
+    properties: {name: 'RISE-Fördergebiete'},
+    visible: false,
+    source: tileSourcesOptions.HH_WMS_RISE_FG
   },
   {
-    name: 'RISE-Fördergebiete',
-    visible: false
-  },
-  {
-    name: 'Sozialmonitoring 2020',
-    visible: false
+    properties: {name: 'Sozialmonitoring 2020'},
+    visible: false,
+    source: vectorSourcesOptions.Sozialmonitoring,
+    style: (feature: Feature<Geometry> | RenderFeature) => {
+      return new Style({
+        stroke: new Stroke({
+          color: '#fff',
+          width: 1
+        }),
+        fill: new Fill({
+          color:
+            (
+              {
+                hoch: 'rgba(112, 168, 0, 0.6)',
+                mittel: 'rgba(115, 178, 255, 0.6)',
+                niedrig: 'rgba(255, 170, 1, 0.6)',
+                'sehr niedrig': 'rgba(229, 83, 122, 0.6)'
+              } as {[key: string]: string}
+            )[feature.get('STATUSINDE')] || 'rgba(0, 0, 0, 0)'
+        })
+      });
+    },
+    zIndex: 6
   }
 ];
 
-export const mapStyleLayers = [
+export const mapStyleLayersOptions = [
   {
     properties: {
       name: 'farbig'
     },
     visible: true,
-    source: tileSources.HH_WMS_Geobasiskarten
+    source: tileSourcesOptions.HH_WMS_Geobasiskarten
   },
   {
     properties: {
       name: 'grau-blau'
     },
     visible: false,
-    source: tileSources.HH_WMS_Geobasiskarten_GB
+    source: tileSourcesOptions.HH_WMS_Geobasiskarten_GB
   },
   {
     properties: {
       name: 'schwarz-grau'
     },
     visible: false,
-    source: tileSources.HH_WMS_Geobasiskarten_SG
+    source: tileSourcesOptions.HH_WMS_Geobasiskarten_SG
   }
 ];
 
-const adminAreaLayers = [
+const adminAreaLayersOptions = [
   {
-    source: vectorSources.Stadt,
+    source: vectorSourcesOptions.Stadt,
     visible: false,
     style: getAdminAreaStyle(Stadt.featureNameProp),
     properties: {
@@ -74,7 +118,7 @@ const adminAreaLayers = [
     }
   },
   {
-    source: vectorSources.Bezirk,
+    source: vectorSourcesOptions.Bezirk,
     visible: false,
     style: getAdminAreaStyle(Bezirk.featureNameProp),
     properties: {
@@ -82,7 +126,7 @@ const adminAreaLayers = [
     }
   },
   {
-    source: vectorSources.Stadtteil,
+    source: vectorSourcesOptions.Stadtteil,
     visible: false,
     style: getAdminAreaStyle(Stadtteil.featureNameProp),
     properties: {
@@ -90,7 +134,7 @@ const adminAreaLayers = [
     }
   },
   {
-    source: vectorSources.StatGebiet,
+    source: vectorSourcesOptions.StatGebiet,
     visible: false,
     style: getAdminAreaStyle(StatGebiet.featureNameProp),
     properties: {
@@ -98,7 +142,7 @@ const adminAreaLayers = [
     }
   },
   {
-    source: vectorSources.Baublock,
+    source: vectorSourcesOptions.Baublock,
     visible: false,
     style: getAdminAreaStyle(Baublock.featureNameProp),
     properties: {
@@ -108,17 +152,35 @@ const adminAreaLayers = [
   }
 ];
 
+export const getBaseLayers = (): LayerGroup =>
+  new LayerGroup({
+    layers: [
+      ...baseLayersOptions.map(layer =>
+        layer.style
+          ? new VectorLayer({...layer, source: new VectorSource(layer.source)})
+          : new TileLayer({...layer, source: new TileWMS(layer.source)})
+      ),
+      new TileLayer({
+        ...heatingLayerOptions,
+        source: new TileWMS(heatingLayerOptions.source)
+      })
+    ]
+  });
+
 export const getMapStyleLayers = (): LayerGroup =>
   new LayerGroup({
-    layers: mapStyleLayers.map(layer => new TileLayer(layer))
+    layers: mapStyleLayersOptions.map(
+      layer => new TileLayer({...layer, source: new TileWMS(layer.source)})
+    )
   });
 
 export const getAdminAreaLayers = (): LayerGroup =>
   new LayerGroup({
-    layers: adminAreaLayers.map(
+    layers: adminAreaLayersOptions.map(
       layer =>
         new VectorLayer({
-          ...layer
+          ...layer,
+          source: new VectorSource(layer.source)
         })
     )
   });
