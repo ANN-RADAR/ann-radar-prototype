@@ -4,12 +4,12 @@
     <v-card-text>
       <v-sheet>
         <v-btn
-          v-for="adminAreaName in adminAreaNames"
-          :key="adminAreaName"
-          :color="selectedAdminAreaType === adminAreaName ? 'primary' : ''"
-          @click="onAreaTypeChanged(adminAreaName)"
+          v-for="adminAreaType in adminAreaTypes"
+          :key="adminAreaType"
+          :color="selectedAdminAreaType === adminAreaType ? 'primary' : ''"
+          @click="onAreaTypeChanged(adminAreaType)"
         >
-          {{ adminAreaName }}
+          {{ adminAreaType }}
         </v-btn>
       </v-sheet>
     </v-card-text>
@@ -18,25 +18,25 @@
 
 <script lang="ts">
 type Data = {
-  adminAreaNames: string[];
+  adminAreaTypes: string[];
   selectedAdminAreaType: string | null;
 };
 
 import Vue from 'vue';
-import {adminAreaNames} from '@/constants/admin-levels';
+import {adminAreaTypes} from '@/constants/admin-levels';
 
 export default Vue.extend({
   data(): Data {
     return {
-      adminAreaNames,
+      adminAreaTypes,
       selectedAdminAreaType: null
     };
   },
   methods: {
-    onAreaTypeChanged(adminAreaName: string) {
+    onAreaTypeChanged(adminAreaType: string) {
       this.selectedAdminAreaType =
-        adminAreaName === this.selectedAdminAreaType ? null : adminAreaName;
-      this.$emit('adminAreasSelected', adminAreaName);
+        adminAreaType === this.selectedAdminAreaType ? null : adminAreaType;
+      this.$emit('onAdminAreaTypeSelected', this.selectedAdminAreaType);
     }
   }
 });

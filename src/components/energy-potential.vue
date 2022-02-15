@@ -3,7 +3,7 @@
     <div class="map">
       <Map
         :mapStyleLayer="mapStyle"
-        :adminLayer="adminLayer"
+        :adminLayerType="adminLayerType"
         :activeLayers="activeLayers"
       />
       />
@@ -16,9 +16,11 @@
     </div>
     <div class="notes">notes</div>
     <div class="cockpit">
-      <Cockpit :areaUnit="areaUnit" :selectedAreas="selectedAreas" />
+      <Cockpit />
     </div>
-    <div class="inspector"><Inspector /></div>
+    <div class="inspector">
+      <Inspector @onAdminAreaTypeSelected="adminLayerType = $event" />
+    </div>
   </div>
 </template>
 
@@ -31,7 +33,6 @@ import Inspector from './energy-potential-inspector.vue';
 
 import {mapStyleLayersOptions} from '@/constants/layers';
 import {areaUnit} from '@/constants/units';
-import {adminAreaNames} from '@/constants/admin-levels';
 
 const mapStyle = mapStyleLayersOptions[0].properties.name;
 const adminLayer = null;
@@ -43,15 +44,8 @@ export default Vue.extend({
       mapStyle,
       adminLayer,
       activeLayers: [],
-      adminAreaNames,
       areaUnit,
-      selectedAreas: {
-        Stadt: [],
-        Bezirk: [],
-        Stadtteil: [],
-        StatGebiet: [],
-        Baublock: []
-      }
+      adminLayerType: null
     };
   },
   components: {
@@ -62,10 +56,6 @@ export default Vue.extend({
     Inspector
   },
   methods: {
-    onAdminAreasSelected(selectedAreas: Record<string, any>) {
-      console.log(selectedAreas);
-      // this.selectedAreas = selectedAreas;
-    },
     onLegendUrlsChange(legendUrls: Record<string, string>) {
       console.log(legendUrls);
     }

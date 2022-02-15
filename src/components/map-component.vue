@@ -35,7 +35,7 @@ export default Vue.extend({
       type: String,
       default: 'farbig'
     },
-    adminLayer: {
+    adminLayerType: {
       type: String,
       default: null
     },
@@ -77,9 +77,9 @@ export default Vue.extend({
         }
       }
     },
-    adminLayer(newAdminLayer: string) {
+    adminLayerType(newAdminLayerType: string) {
       for (const layer of this.adminLayers.getLayers().getArray()) {
-        if (layer.get('name') === newAdminLayer) {
+        if (layer.get('name') === newAdminLayerType) {
           layer.setVisible(true);
         } else {
           layer.setVisible(false);
