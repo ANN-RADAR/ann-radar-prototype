@@ -1,0 +1,30 @@
+steps:
+  - id: install
+    name: 'gcr.io/cloud-builders/npm'
+    entrypoint: 'npm'
+    args: ['install']
+
+  - id: build
+    name: 'gcr.io/cloud-builders/npm'
+    waitFor: ['install']
+    entrypoint: 'npm'
+    args: ['run', 'build']
+
+  - id: deploy
+    waitFor: ['build']
+    name: 'gcr.io/cloud-builders/gsutil'
+    entrypoint: 'gsutil'
+    args: ['-m', 'cp', '-r', 'dist/*', 'gs://ann-radar-develop']
+
+  - id: setmeta
+    waitFor: ['deploy']
+    name: 'gcr.io/cloud-builders/gsutil'
+    entrypoint: 'gsutil'
+    args:
+      [
+        '-m',
+        'setmeta',
+        '-h',
+        'Cache-Control: no-cache',
+        'gs://ann-radar-develop/*'
+      ]
