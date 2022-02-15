@@ -99,22 +99,27 @@ export default Vue.extend({
   mounted() {
     this.map = new Map(this.mapOptions);
 
-    //   // Select map features
-    //   this.map.on('click', (evt: MapBrowserEvent<UIEvent>) => {
-    //     const coord = this.map?.getCoordinateFromPixel(evt.pixel);
-    //     const adminLevel = this.getVisibleAdminLevel();
-    //     if (!adminLevel) {
-    //       return;
-    //     }
+    // Select map features
+    this.map.on('click', (evt: MapBrowserEvent<UIEvent>) => {
+      const coord = this.map?.getCoordinateFromPixel(evt.pixel);
+      console.log({evt});
 
-    //     for (const feature of vectorSources[adminLevel].getFeaturesAtCoordinate(
-    //       coord
-    //     )) {
-    //       this.setFeatureSelected(feature, !feature.get('selected'));
-    //     }
+      this.map?.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+        console.log(feature, layer);
+      });
+      if (!this.adminLayerType) {
+        return;
+      }
 
-    //     this.emitSelected();
-    //   });
+      for (const layer of this.adminLayers.getLayers().getArray()) {
+        // console.log(layer);
+        // const features = layer.get.getFeaturesAtCoordinate(coord);
+        // features.forEach(feature => {
+        //   feature.set('selected', !feature.get('selected'));
+        //   console.log(feature.get('name'));
+        // });
+      }
+    });
 
     //   // Update the legend
     //   this.map.on('postcompose', () => {
