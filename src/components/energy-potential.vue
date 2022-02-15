@@ -1,13 +1,17 @@
 <template>
   <div class="wrapper">
     <div class="map">
-      <Map :mapStyleLayer="mapStyle" :adminLayer="adminLayer" />
+      <Map
+        :mapStyleLayer="mapStyle"
+        :adminLayer="adminLayer"
+        :activeLayers="activeLayers"
+      />
       />
     </div>
     <div class="layers">
       <Layers
         @mapStyleChanged="mapStyle = $event"
-        @layersChanged="thematicLayers = $event"
+        @layersChanged="activeLayers = $event"
       />
     </div>
     <div class="notes">notes</div>
@@ -24,19 +28,19 @@ import Map from './map-component-2.vue';
 import Layers from './energy-potential-layers.vue';
 import Cockpit from './energy-potential-cockpit.vue';
 
-import {thematicLayers, mapStyleLayers} from '../constants/layers';
+import {mapStyleLayersOptions} from '../constants/layers';
 import {adminLevels} from '../constants/admin-levels';
 
-const mapStyle = mapStyleLayers[0].properties.name;
+const mapStyle = mapStyleLayersOptions[0].properties.name;
 const adminLayer = null;
 
 export default Vue.extend({
   data() {
     return {
-      mapStyleLayers,
+      mapStyleLayersOptions,
       mapStyle,
       adminLayer,
-      thematicLayers,
+      activeLayers: [],
       adminLevels,
       areaUnit: 'ha',
       selectedAreas: {

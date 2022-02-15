@@ -8,18 +8,25 @@ import Vue from 'vue';
 import {Map, MapBrowserEvent, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
 import LayerGroup from 'ol/layer/Group';
-import {TileWMS} from 'ol/source';
+// import {TileWMS} from 'ol/source';
 
-import {getMapStyleLayers, getAdminAreaLayers} from '@/constants/layers';
-import {vectorSources} from '@/constants/sources';
-import TileLayer from 'ol/layer/Tile';
-import BaseLayer from 'ol/layer/Base';
+import {
+  getMapStyleLayers,
+  getAdminAreaLayers,
+  getBaseLayers
+} from '@/constants/layers';
+// import {vectorSources} from '@/constants/sources';
+// import TileLayer from 'ol/layer/Tile';
+// import BaseLayer from 'ol/layer/Base';
+// import {Options} from 'ol/Collection';
+// import TileSource from 'ol/source/Tile';
 
 type Data = {
   map: null | Map;
   mapOptions: MapOptions;
   mapStyleLayers: LayerGroup;
   adminLayers: LayerGroup;
+  layers: LayerGroup;
 };
 
 export default Vue.extend({
@@ -31,19 +38,25 @@ export default Vue.extend({
     adminLayer: {
       type: String,
       default: null
+    },
+    activeLayers: {
+      type: Array,
+      default: null
     }
   },
   data(): Data {
     const mapStyleLayers = getMapStyleLayers();
     const adminLayers = getAdminAreaLayers();
+    const layers = getBaseLayers();
 
     return {
       map: null,
       mapStyleLayers,
       adminLayers,
+      layers,
       mapOptions: {
         target: 'map',
-        layers: [mapStyleLayers, adminLayers],
+        layers: [mapStyleLayers, adminLayers, layers],
         view: new View({
           projection: 'EPSG:25832',
           zoom: 12,
@@ -67,6 +80,15 @@ export default Vue.extend({
     adminLayer(newAdminLayer: string) {
       for (const layer of this.adminLayers.getLayers().getArray()) {
         if (layer.get('name') === newAdminLayer) {
+          layer.setVisible(true);
+        } else {
+          layer.setVisible(false);
+        }
+      }
+    },
+    activeLayers(newActiveLayers: Array<string>) {
+      for (const layer of this.layers.getLayers().getArray()) {
+        if (newActiveLayers.includes(layer.get('name'))) {
           layer.setVisible(true);
         } else {
           layer.setVisible(false);

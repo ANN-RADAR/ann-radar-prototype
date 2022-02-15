@@ -24,7 +24,7 @@ import {Stadt} from '../models/Stadt';
 import {Stadtteil} from '../models/Stadtteil';
 import {StatGebiet} from '../models/StatGebiet';
 
-import {tileSources, vectorSources} from '../constants/sources';
+import {tileSourcesOptions, vectorSourcesOptions} from '../constants/sources';
 
 // projection for UTM zone 32N
 proj4.defs(
@@ -88,31 +88,33 @@ export default class MapComponent extends Vue {
     this.layers = {
       farbig: new TileLayer({
         visible: this.layerVisibility['farbig'],
-        source: tileSources.HH_WMS_Geobasiskarten
+        source: new TileWMS(tileSourcesOptions.HH_WMS_Geobasiskarten)
       }),
       'grau-blau': new TileLayer({
         visible: this.layerVisibility['grau-blau'],
-        source: tileSources.HH_WMS_Geobasiskarten_GB
+        source: new TileWMS(tileSourcesOptions.HH_WMS_Geobasiskarten_GB)
       }),
       'schwarz-grau': new TileLayer({
         visible: this.layerVisibility['schwarz-grau'],
-        source: tileSources.HH_WMS_Geobasiskarten_SG
+        source: new TileWMS(tileSourcesOptions.HH_WMS_Geobasiskarten_SG)
       }),
       Solaratlas: new TileLayer({
         visible: false,
-        source: tileSources.HH_WMS_Solaratlas,
+        source: new TileWMS(tileSourcesOptions.HH_WMS_Solaratlas),
         zIndex: 5
       }),
       Schulen: new TileLayer({
         visible: false,
-        source: tileSources.HH_WMS_Schulen,
+        source: new TileWMS(tileSourcesOptions.HH_WMS_Schulen),
         zIndex: 9
       }),
       Stadtteilkultur: new LayerGroup({
         layers: [
           new TileLayer({
             visible: false,
-            source: tileSources.HH_WMS_Oeffentliche_Bibliotheken,
+            source: new TileWMS(
+              tileSourcesOptions.HH_WMS_Oeffentliche_Bibliotheken
+            ),
             zIndex: 9
           })
         ]
@@ -121,30 +123,33 @@ export default class MapComponent extends Vue {
         layers: [
           new TileLayer({
             visible: false,
-            source: tileSources.HH_WMS_Freiwilliges_Engagement,
+            source: new TileWMS(
+              tileSourcesOptions.HH_WMS_Freiwilliges_Engagement
+            ),
             zIndex: 9
           }),
           new TileLayer({
             visible: false,
-            source: tileSources.HH_WMS_Familien_Angebote,
+            source: new TileWMS(tileSourcesOptions.HH_WMS_Familien_Angebote),
             zIndex: 9
           }),
           new TileLayer({
             visible: false,
-            source:
-              tileSources[
+            source: new TileWMS(
+              tileSourcesOptions[
                 'HH_WMS_Sozialraeumliche_Angebote_der_Jugend-_und_Familienhilfe'
-              ],
+              ]
+            ),
             zIndex: 9
           }),
           new TileLayer({
             visible: false,
-            source: tileSources.HH_WMS_Jugend_Aktiv_Plus,
+            source: new TileWMS(tileSourcesOptions.HH_WMS_Jugend_Aktiv_Plus),
             zIndex: 9
           }),
           new TileLayer({
             visible: false,
-            source: tileSources.HH_WMS_KitaEinrichtung,
+            source: new TileWMS(tileSourcesOptions.HH_WMS_KitaEinrichtung),
             zIndex: 9
           })
         ]
@@ -153,24 +158,26 @@ export default class MapComponent extends Vue {
         layers: [
           new TileLayer({
             visible: false,
-            source: tileSources.HH_WMS_Wohnungsbauprojekte,
+            source: new TileWMS(tileSourcesOptions.HH_WMS_Wohnungsbauprojekte),
             zIndex: 9
           }),
           new TileLayer({
             visible: false,
-            source: tileSources.HH_WMS_Wohnbauflaechenpotenziale,
+            source: new TileWMS(
+              tileSourcesOptions.HH_WMS_Wohnbauflaechenpotenziale
+            ),
             zIndex: 9
           })
         ]
       }),
       'RISE-Fördergebiete': new TileLayer({
         visible: false,
-        source: tileSources.HH_WMS_RISE_FG,
+        source: new TileWMS(tileSourcesOptions.HH_WMS_RISE_FG),
         zIndex: 7
       }),
       'Sozialmonitoring 2020': new VectorLayer({
         visible: false,
-        source: vectorSources.Sozialmonitoring,
+        source: new VectorSource(vectorSourcesOptions.Sozialmonitoring),
         style: feature => {
           return new Style({
             stroke: new Stroke({
@@ -193,26 +200,26 @@ export default class MapComponent extends Vue {
         zIndex: 6
       }),
       Stadt: new VectorLayer({
-        source: vectorSources.Stadt,
+        source: new VectorSource(vectorSourcesOptions.Stadt),
         style: this.getAdminAreaStyleFn('Stadt', Stadt.featureNameProp)
       }),
       Bezirk: new VectorLayer({
-        source: vectorSources.Bezirk,
+        source: new VectorSource(vectorSourcesOptions.Bezirk),
         style: this.getAdminAreaStyleFn('Bezirk', Bezirk.featureNameProp)
       }),
       Stadtteil: new VectorLayer({
-        source: vectorSources.Stadtteil,
+        source: new VectorSource(vectorSourcesOptions.Stadtteil),
         style: this.getAdminAreaStyleFn('Stadtteil', Stadtteil.featureNameProp)
       }),
       StatGebiet: new VectorLayer({
-        source: vectorSources.StatGebiet,
+        source: new VectorSource(vectorSourcesOptions.StatGebiet),
         style: this.getAdminAreaStyleFn(
           'StatGebiet',
           StatGebiet.featureNameProp
         )
       }),
       Baublock: new VectorLayer({
-        source: vectorSources.Baublock,
+        source: new VectorSource(vectorSourcesOptions.Baublock),
         style: this.getAdminAreaStyleFn('Baublock', Baublock.featureNameProp),
         minZoom: 13
       })
@@ -250,7 +257,7 @@ export default class MapComponent extends Vue {
       return;
     }
 
-    for (const feature of vectorSources[adminLevel].getFeatures()) {
+    for (const feature of vectorSourcesOptions[adminLevel].getFeatures()) {
       const found = !!list.find(
         area => area.getFeatureId(feature) === area.getId()
       );
@@ -279,9 +286,9 @@ export default class MapComponent extends Vue {
         return;
       }
 
-      for (const feature of vectorSources[adminLevel].getFeaturesAtCoordinate(
-        coord
-      )) {
+      for (const feature of vectorSourcesOptions[
+        adminLevel
+      ].getFeaturesAtCoordinate(coord)) {
         this.setFeatureSelected(feature, !feature.get('selected'));
       }
 
@@ -321,7 +328,7 @@ export default class MapComponent extends Vue {
   emitSelected(): void {
     const event = Object.entries(adminLevelClassMap).reduce(
       (obj, [key, type]) => {
-        obj[key] = vectorSources[key]
+        obj[key] = vectorSourcesOptions[key]
           .getFeatures()
           .filter(feature => feature.get('selected'))
           .map(feature => feature.get(type.featureIdProp));
