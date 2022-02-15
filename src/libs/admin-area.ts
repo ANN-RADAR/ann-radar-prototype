@@ -28,6 +28,9 @@ export const getAdminAreaStyle =
             color: 'rgba(0, 120, 255, 1.0)',
             width: 2
           }),
+          fill: new Fill({
+            color: 'rgba(255, 0, 0, 0)'
+          }),
           text: new Text({
             font: '16px Arial',
             text: feature.get(textAttr),

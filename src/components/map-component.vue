@@ -15,11 +15,6 @@ import {
   getAdminAreaLayers,
   getBaseLayers
 } from '@/constants/layers';
-// import {vectorSources} from '@/constants/sources';
-// import TileLayer from 'ol/layer/Tile';
-// import BaseLayer from 'ol/layer/Base';
-// import {Options} from 'ol/Collection';
-// import TileSource from 'ol/source/Tile';
 
 type Data = {
   map: null | Map;
@@ -100,25 +95,13 @@ export default Vue.extend({
     this.map = new Map(this.mapOptions);
 
     // Select map features
-    this.map.on('click', (evt: MapBrowserEvent<UIEvent>) => {
-      const coord = this.map?.getCoordinateFromPixel(evt.pixel);
-      console.log({evt});
+    this.map.on('click', (event: MapBrowserEvent<UIEvent>) => {
+      this.map?.forEachFeatureAtPixel(event.pixel, function (feature, layer) {
+        // TODO: Add selected feature id / name to store
+        console.log(feature.get('stadtteil_nummer'), layer.get('name'));
 
-      this.map?.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-        console.log(feature, layer);
+        feature.set('selected', !feature.get('selected'));
       });
-      if (!this.adminLayerType) {
-        return;
-      }
-
-      for (const layer of this.adminLayers.getLayers().getArray()) {
-        // console.log(layer);
-        // const features = layer.get.getFeaturesAtCoordinate(coord);
-        // features.forEach(feature => {
-        //   feature.set('selected', !feature.get('selected'));
-        //   console.log(feature.get('name'));
-        // });
-      }
     });
 
     //   // Update the legend
