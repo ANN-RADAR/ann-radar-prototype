@@ -3,7 +3,7 @@
     <div class="map">
       <Map
         :mapStyleLayer="mapStyle"
-        :adminLayer="adminLayer"
+        :adminLayerType="adminLayerType"
         :activeLayers="activeLayers"
       />
       />
@@ -16,20 +16,23 @@
     </div>
     <div class="notes">notes</div>
     <div class="cockpit">
-      <Cockpit :areaUnit="areaUnit" :selectedAreas="selectedAreas" />
+      <Cockpit />
     </div>
-    <div class="inspector">inspector</div>
+    <div class="inspector">
+      <Inspector @onAdminAreaTypeSelected="adminLayerType = $event" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import Map from './map-component-2.vue';
+import Map from './map-component.vue';
 import Layers from './energy-potential-layers.vue';
 import Cockpit from './energy-potential-cockpit.vue';
+import Inspector from './energy-potential-inspector.vue';
 
-import {mapStyleLayersOptions} from '../constants/layers';
-import {adminLevels} from '../constants/admin-levels';
+import {mapStyleLayersOptions} from '@/constants/layers';
+import {areaUnit} from '@/constants/units';
 
 const mapStyle = mapStyleLayersOptions[0].properties.name;
 const adminLayer = null;
@@ -41,29 +44,18 @@ export default Vue.extend({
       mapStyle,
       adminLayer,
       activeLayers: [],
-      adminLevels,
-      areaUnit: 'ha',
-      selectedAreas: {
-        Stadt: [],
-        Bezirk: [],
-        Stadtteil: [],
-        StatGebiet: [],
-        Baublock: []
-      }
+      areaUnit,
+      adminLayerType: null
     };
   },
   components: {
     Map,
     Layers,
     // Notes,
-    Cockpit
-    // Inspector
+    Cockpit,
+    Inspector
   },
   methods: {
-    onAdminAreasSelected(selectedAreas: Record<string, any>) {
-      console.log(selectedAreas);
-      // this.selectedAreas = selectedAreas;
-    },
     onLegendUrlsChange(legendUrls: Record<string, string>) {
       console.log(legendUrls);
     }

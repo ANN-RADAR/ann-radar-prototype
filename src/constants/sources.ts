@@ -1,7 +1,5 @@
 import {GeoJSON} from 'ol/format';
-import Geometry from 'ol/geom/Geometry';
 import GML3 from 'ol/format/GML3';
-import {TileWMS, Vector as VectorSource} from 'ol/source';
 
 export const tileSourcesOptions: {[key: string]: any} = {
   HH_WMS_Waermekataster_Waermebedarf: {
