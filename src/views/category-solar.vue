@@ -334,7 +334,7 @@
 <script lang="ts">
 import {Component, Vue, Watch} from 'vue-property-decorator';
 
-import MapComponent from '../components/map-component.vue';
+import MapComponent from '../components/map-component-deprecated.vue';
 import SaveDialog from '../components/save-dialog.vue';
 import BaublockData from '../../public/data/baublöcke.json';
 import BezirkData from '../../public/data/bezirke.json';

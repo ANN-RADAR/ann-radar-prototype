@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Map from './map-component-2.vue';
+import Map from './map-component.vue';
 import Layers from './energy-potential-layers.vue';
 import Cockpit from './energy-potential-cockpit.vue';
 
