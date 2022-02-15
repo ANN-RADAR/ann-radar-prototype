@@ -18,7 +18,7 @@
     <div class="cockpit">
       <Cockpit :areaUnit="areaUnit" :selectedAreas="selectedAreas" />
     </div>
-    <div class="inspector">inspector</div>
+    <div class="inspector"><Inspector /></div>
   </div>
 </template>
 
@@ -27,9 +27,11 @@ import Vue from 'vue';
 import Map from './map-component.vue';
 import Layers from './energy-potential-layers.vue';
 import Cockpit from './energy-potential-cockpit.vue';
+import Inspector from './energy-potential-inspector.vue';
 
-import {mapStyleLayersOptions} from '../constants/layers';
-import {adminLevels} from '../constants/admin-levels';
+import {mapStyleLayersOptions} from '@/constants/layers';
+import {areaUnit} from '@/constants/units';
+import {adminAreaNames} from '@/constants/admin-levels';
 
 const mapStyle = mapStyleLayersOptions[0].properties.name;
 const adminLayer = null;
@@ -41,8 +43,8 @@ export default Vue.extend({
       mapStyle,
       adminLayer,
       activeLayers: [],
-      adminLevels,
-      areaUnit: 'ha',
+      adminAreaNames,
+      areaUnit,
       selectedAreas: {
         Stadt: [],
         Bezirk: [],
@@ -56,8 +58,8 @@ export default Vue.extend({
     Map,
     Layers,
     // Notes,
-    Cockpit
-    // Inspector
+    Cockpit,
+    Inspector
   },
   methods: {
     onAdminAreasSelected(selectedAreas: Record<string, any>) {

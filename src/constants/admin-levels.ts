@@ -14,4 +14,4 @@ export const adminLevelClassMap: AdminLevels = {
   Baublock: Baublock
 };
 
-export const adminLevels = Object.keys(adminLevelClassMap);
+export const adminAreaNames = Object.keys(adminLevelClassMap);
