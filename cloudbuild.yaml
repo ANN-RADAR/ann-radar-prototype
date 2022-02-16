@@ -24,6 +24,7 @@ steps:
       [
         '-m',
         'setmeta',
+        '-r',
         '-h',
         'Cache-Control: no-cache',
         'gs://ann-radar-develop/*'
