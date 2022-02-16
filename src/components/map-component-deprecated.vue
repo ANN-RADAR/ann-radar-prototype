@@ -330,8 +330,8 @@ export default class MapComponent extends Vue {
       (obj, [key, type]) => {
         obj[key] = vectorSourcesOptions[key]
           .getFeatures()
-          .filter(feature => feature.get('selected'))
-          .map(feature => feature.get(type.featureIdProp));
+          .filter((feature: Feature<Geometry>) => feature.get('selected'))
+          .map((feature: Feature<Geometry>) => feature.get(type.featureIdProp));
         return obj;
       },
       {} as {[key: string]: string[]}
