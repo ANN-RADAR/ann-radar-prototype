@@ -5,10 +5,9 @@
 <script lang="ts">
 import Vue from 'vue';
 
-import {Map, MapBrowserEvent, View} from 'ol';
+import {Feature, Map, MapBrowserEvent, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
 import LayerGroup from 'ol/layer/Group';
-import Geometry from 'ol/geom/Geometry';
 
 import {
   getMapStyleLayers,
@@ -100,7 +99,7 @@ export default Vue.extend({
         // TODO: Add selected feature id / name to store
         console.log(feature.get('stadtteil_nummer'), layer.get('name'));
 
-        if (feature instanceof Geometry) {
+        if (feature instanceof Feature) {
           feature.set('selected', !feature.get('selected'));
         }
       });
