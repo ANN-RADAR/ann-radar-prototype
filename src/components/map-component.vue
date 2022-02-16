@@ -8,7 +8,7 @@ import Vue from 'vue';
 import {Map, MapBrowserEvent, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
 import LayerGroup from 'ol/layer/Group';
-// import {TileWMS} from 'ol/source';
+import Geometry from 'ol/geom/Geometry';
 
 import {
   getMapStyleLayers,
@@ -96,11 +96,13 @@ export default Vue.extend({
 
     // Select map features
     this.map.on('click', (event: MapBrowserEvent<UIEvent>) => {
-      this.map?.forEachFeatureAtPixel(event.pixel, function (feature, layer) {
+      this.map?.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
         // TODO: Add selected feature id / name to store
         console.log(feature.get('stadtteil_nummer'), layer.get('name'));
 
-        feature.set('selected', !feature.get('selected'));
+        if (feature instanceof Geometry) {
+          feature.set('selected', !feature.get('selected'));
+        }
       });
     });
 
