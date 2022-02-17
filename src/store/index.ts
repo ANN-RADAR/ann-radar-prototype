@@ -20,6 +20,12 @@ const store = new Vuex.Store({
     },
     setBaseLayerTypes(state, newBaseLayerTypes) {
       state.baseLayerTypes = newBaseLayerTypes;
+    },
+    selectedFeatureDataIds(state, payload) {
+      state.selectedFeatureDataIds = {
+        ...state.selectedFeatureDataIds,
+        [payload.layerType]: payload.ids
+      };
     }
   }
 });

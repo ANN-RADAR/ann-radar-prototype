@@ -18,6 +18,7 @@ import {
   getAdminAreaLayers,
   getBaseLayers
 } from '@/constants/layers';
+import {adminLayers} from '@/constants/admin-layers';
 
 type Data = {
   map: null | Map;
@@ -114,6 +115,7 @@ export default Vue.extend({
         VectorLayer<VectorSource<Geometry>>
       >) {
         if (layer.get('name') === this.adminLayerType) {
+          const {featureId, dataId} = adminLayers[this.adminLayerType];
           const clickedFeatures = layer
             .getSource()
             .getFeaturesAtCoordinate(coord);
@@ -122,13 +124,17 @@ export default Vue.extend({
             feature.set('selected', !feature.get('selected'));
           });
 
-          this.$emit(
-            'onSelectedFeaturesChanged',
-            layer
+          this.$store.commit('selectedFeatureDataIds', {
+            layer: this.adminLayerType,
+            ids: layer
               .getSource()
               .getFeatures()
               .filter(feature => feature.get('selected'))
-          );
+              .map(feature => ({
+                featureId: feature.get(featureId),
+                dataId: feature.get(dataId)
+              }))
+          });
         }
       }
       // TODO: Add selected feature id / name to store
