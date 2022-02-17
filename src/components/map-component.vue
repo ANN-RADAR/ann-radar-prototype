@@ -29,10 +29,6 @@ type Data = {
 
 export default Vue.extend({
   props: {
-    mapStyleLayer: {
-      type: String,
-      default: 'farbig'
-    },
     activeLayers: {
       type: Array as PropType<Array<string>>,
       default: null
@@ -68,10 +64,13 @@ export default Vue.extend({
   computed: {
     adminLayerType(): AdminLayerType {
       return this.$store.state.adminLayerType;
+    },
+    mapStyle() {
+      return this.$store.state.mapStyle;
     }
   },
   watch: {
-    mapStyleLayer(newMapStyleLayer: string) {
+    mapStyle(newMapStyleLayer: string) {
       for (const layer of this.mapStyleLayers.getLayers().getArray()) {
         if (layer.get('name') === newMapStyleLayer) {
           layer.setVisible(true);

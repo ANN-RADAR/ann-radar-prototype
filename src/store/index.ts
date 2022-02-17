@@ -14,6 +14,9 @@ const store = new Vuex.Store({
   mutations: {
     setAdminLayerType(state, newAdminLayerType) {
       state.adminLayerType = newAdminLayerType;
+    },
+    setMapStyle(state, newMapStyle) {
+      state.mapStyle = newMapStyle;
     }
   }
 });
