@@ -127,19 +127,6 @@ export default Vue.extend({
       }
       // TODO: Add selected feature id / name to store
 
-      // this.map?.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
-      //   const coord = this.map.getCoordinateFromPixel(event.pixel);
-      //   // TODO: Add selected feature id / name to store
-      //   console.log(
-      //     feature.get('stadtteil_nummer'),
-      //     layer.get('name'),
-      //     layer.getSource().getFeaturesAtCoordinate(coord)
-      //   );
-
-      //   if (feature instanceof Feature) {
-      //     feature.set('selected', !feature.get('selected'));
-      //   }
-      // });
     });
 
     //   // Update the legend
