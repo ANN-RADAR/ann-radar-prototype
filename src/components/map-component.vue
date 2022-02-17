@@ -24,15 +24,11 @@ type Data = {
   mapOptions: MapOptions;
   mapStyleLayers: LayerGroup;
   adminLayers: LayerGroup;
-  layers: LayerGroup;
+  baseLayers: LayerGroup;
 };
 
 export default Vue.extend({
   props: {
-    activeLayers: {
-      type: Array as PropType<Array<string>>,
-      default: null
-    },
     selectedFeatures: {
       type: Array as PropType<Array<Feature<Geometry>> | undefined>,
       required: false
@@ -41,16 +37,16 @@ export default Vue.extend({
   data(): Data {
     const mapStyleLayers = getMapStyleLayers();
     const adminLayers = getAdminAreaLayers();
-    const layers = getBaseLayers();
+    const baseLayers = getBaseLayers();
 
     return {
       map: null,
       mapStyleLayers,
       adminLayers,
-      layers,
+      baseLayers,
       mapOptions: {
         target: 'map',
-        layers: [mapStyleLayers, adminLayers, layers],
+        layers: [mapStyleLayers, adminLayers, baseLayers],
         view: new View({
           projection: 'EPSG:25832',
           zoom: 12,
@@ -67,6 +63,9 @@ export default Vue.extend({
     },
     mapStyle() {
       return this.$store.state.mapStyle;
+    },
+    baseLayerTypes() {
+      return this.$store.state.baseLayerTypes;
     }
   },
   watch: {
@@ -88,9 +87,11 @@ export default Vue.extend({
         }
       }
     },
-    activeLayers(newActiveLayers: Array<string>) {
-      for (const layer of this.layers.getLayers().getArray()) {
-        if (newActiveLayers.includes(layer.get('name'))) {
+    baseLayerTypes(newBaseLayerTypes: Array<string>) {
+      console.log(newBaseLayerTypes);
+
+      for (const layer of this.baseLayers.getLayers().getArray()) {
+        if (newBaseLayerTypes.includes(layer.get('name'))) {
           layer.setVisible(true);
         } else {
           layer.setVisible(false);

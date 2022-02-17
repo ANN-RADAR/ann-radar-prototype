@@ -58,8 +58,8 @@ export default Vue.extend({
       this.$store.commit('setMapStyle', value);
     },
     onLayerChange() {
-      this.$emit(
-        'layersChanged',
+      this.$store.commit(
+        'setBaseLayerTypes',
         this.layers
           .filter(layer => layer.visible)
           .map(layer => layer.properties.name)

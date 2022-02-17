@@ -7,7 +7,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     mapStyle: 'farbig',
-    baseLayerType: null,
+    baseLayerTypes: [],
     adminLayerType: null,
     selectedFeatureDataIds: {} as Record<AdminLayerType, Array<string>>
   },
@@ -17,6 +17,9 @@ const store = new Vuex.Store({
     },
     setMapStyle(state, newMapStyle) {
       state.mapStyle = newMapStyle;
+    },
+    setBaseLayerTypes(state, newBaseLayerTypes) {
+      state.baseLayerTypes = newBaseLayerTypes;
     }
   }
 });
