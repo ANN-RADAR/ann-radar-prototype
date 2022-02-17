@@ -8,7 +8,7 @@ const store = new Vuex.Store({
   state: {
     mapStyle: 'farbig',
     baseLayerTypes: [],
-    adminLayerType: null,
+    adminLayerType: null as AdminLayerType | null,
     selectedFeatureDataIds: {} as Record<AdminLayerType, Array<string>>
   },
   mutations: {
@@ -21,7 +21,7 @@ const store = new Vuex.Store({
     setBaseLayerTypes(state, newBaseLayerTypes) {
       state.baseLayerTypes = newBaseLayerTypes;
     },
-    selectedFeatureDataIds(state, payload) {
+    setSelectedFeatureDataIds(state, payload) {
       state.selectedFeatureDataIds = {
         ...state.selectedFeatureDataIds,
         [payload.layerType]: payload.ids

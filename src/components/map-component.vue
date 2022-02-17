@@ -124,7 +124,7 @@ export default Vue.extend({
             feature.set('selected', !feature.get('selected'));
           });
 
-          this.$store.commit('selectedFeatureDataIds', {
+          this.$store.commit('setSelectedFeatureDataIds', {
             layer: this.adminLayerType,
             ids: layer
               .getSource()
