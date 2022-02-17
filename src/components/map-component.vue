@@ -95,14 +95,31 @@ export default Vue.extend({
 
     // Select map features
     this.map.on('click', (event: MapBrowserEvent<UIEvent>) => {
-      this.map?.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
-        // TODO: Add selected feature id / name to store
-        console.log(feature.get('stadtteil_nummer'), layer.get('name'));
+      const coord = this.map.getCoordinateFromPixel(event.pixel);
 
-        if (feature instanceof Feature) {
-          feature.set('selected', !feature.get('selected'));
+      for (const layer of this.adminLayers.getLayers().getArray()) {
+        if (layer.get('name') === this.adminLayerType) {
+          features = layer.getSource().getFeaturesAtCoordinate(coord);
+          features.forEach(feature => {
+            feature.set('selected', !feature.get('selected'));
+          });
         }
-      });
+      }
+      // TODO: Add selected feature id / name to store
+
+      // this.map?.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
+      //   const coord = this.map.getCoordinateFromPixel(event.pixel);
+      //   // TODO: Add selected feature id / name to store
+      //   console.log(
+      //     feature.get('stadtteil_nummer'),
+      //     layer.get('name'),
+      //     layer.getSource().getFeaturesAtCoordinate(coord)
+      //   );
+
+      //   if (feature instanceof Feature) {
+      //     feature.set('selected', !feature.get('selected'));
+      //   }
+      // });
     });
 
     //   // Update the legend
