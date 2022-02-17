@@ -14,6 +14,9 @@ import {
   getAdminAreaLayers,
   getBaseLayers
 } from '@/constants/layers';
+import VectorLayer from 'ol/layer/Vector';
+import Geometry from 'ol/geom/Geometry';
+import VectorSource from 'ol/source/Vector';
 
 type Data = {
   map: null | Map;
@@ -95,14 +98,35 @@ export default Vue.extend({
 
     // Select map features
     this.map.on('click', (event: MapBrowserEvent<UIEvent>) => {
-      this.map?.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
-        // TODO: Add selected feature id / name to store
-        console.log(feature.get('stadtteil_nummer'), layer.get('name'));
+      const coord = this.map?.getCoordinateFromPixel(event.pixel);
 
-        if (feature instanceof Feature) {
-          feature.set('selected', !feature.get('selected'));
+      if (!coord) {
+        return;
+      }
+
+      for (const layer of this.adminLayers.getLayers().getArray() as Array<
+        VectorLayer<VectorSource<Geometry>>
+      >) {
+        if (layer.get('name') === this.adminLayerType) {
+          const clickedFeatures = layer
+            .getSource()
+            .getFeaturesAtCoordinate(coord);
+
+          clickedFeatures.forEach(feature => {
+            feature.set('selected', !feature.get('selected'));
+          });
+
+          this.$emit(
+            'onSelectedFeaturesChanged',
+            layer
+              .getSource()
+              .getFeatures()
+              .filter(feature => feature.get('selected'))
+          );
         }
-      });
+      }
+      // TODO: Add selected feature id / name to store
+
     });
 
     //   // Update the legend

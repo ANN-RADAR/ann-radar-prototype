@@ -5,6 +5,7 @@
         :mapStyleLayer="mapStyle"
         :adminLayerType="adminLayerType"
         :activeLayers="activeLayers"
+        @onSelectedFeaturesChanged="selectedFeatures = $event"
       />
       />
     </div>
@@ -16,10 +17,16 @@
     </div>
     <div class="notes">notes</div>
     <div class="cockpit">
-      <Cockpit />
+      <Cockpit
+        :selectedFeatures="selectedFeatures"
+        :adminLayerType="adminLayerType"
+      />
     </div>
     <div class="inspector">
-      <Inspector @onAdminAreaTypeSelected="adminLayerType = $event" />
+      <Inspector
+        @onAdminAreaTypeSelected="adminLayerType = $event"
+        :selectedFeatures="selectedFeatures"
+      />
     </div>
   </div>
 </template>
@@ -45,7 +52,8 @@ export default Vue.extend({
       adminLayer,
       activeLayers: [],
       areaUnit,
-      adminLayerType: null
+      adminLayerType: null,
+      selectedFeatures: []
     };
   },
   components: {

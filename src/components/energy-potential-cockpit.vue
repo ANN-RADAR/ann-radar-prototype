@@ -3,11 +3,7 @@
     <v-card-title>Cockpit</v-card-title>
     <v-card-text>
       <div
-        v-if="
-          areaUnit !== 'Stadt' &&
-          selectedAreas[areaUnit] &&
-          selectedAreas[areaUnit].length > 0
-        "
+        v-if="aggregation"
         v-resize="onResize"
         style="display: flex; justify-content: space-around"
       >
@@ -58,10 +54,27 @@
 <script lang="ts">
 import Vue from 'vue';
 
+import {calculateAggregateValues} from '@/libs/admin-layers';
+
 export default Vue.extend({
   props: {
-    areaUnit: String,
-    selectedAreas: Object
+    adminLayerType: {
+      type: String,
+      required: true
+    },
+    selectedFeatures: {
+      type: Array,
+      required: true
+    }
+  },
+  computed: {
+    aggregation() {
+      return (
+        this.adminLayerType !== 'Stadt' &&
+        this.selectedFeatures.length > 0 &&
+        calculateAggregateValues(this.adminLayerType, this.selectedFeatures)
+      );
+    }
   }
 });
 </script>

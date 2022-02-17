@@ -1,4 +1,4 @@
-import {AdminLevelUnit} from '@/types/admin-levels';
+import {AdminLevelUnit} from '@/types/admin-layers';
 import {Feature} from 'ol';
 import Geometry from 'ol/geom/Geometry';
 import {AdminLevelProperties} from './AdminLevelProperties';
