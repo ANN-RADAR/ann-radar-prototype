@@ -3,20 +3,21 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue, {PropType} from 'vue';
 
-import {Feature, Map, MapBrowserEvent, View} from 'ol';
+import {Map, MapBrowserEvent, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
 import LayerGroup from 'ol/layer/Group';
+import VectorLayer from 'ol/layer/Vector';
+import Geometry from 'ol/geom/Geometry';
+import VectorSource from 'ol/source/Vector';
+import {AdminLayerType} from '@/types/admin-layers';
 
 import {
   getMapStyleLayers,
   getAdminAreaLayers,
   getBaseLayers
 } from '@/constants/layers';
-import VectorLayer from 'ol/layer/Vector';
-import Geometry from 'ol/geom/Geometry';
-import VectorSource from 'ol/source/Vector';
 
 type Data = {
   map: null | Map;
@@ -33,11 +34,11 @@ export default Vue.extend({
       default: 'farbig'
     },
     adminLayerType: {
-      type: String,
+      type: String as PropType<AdminLayerType | null>,
       default: null
     },
     activeLayers: {
-      type: Array,
+      type: Array as PropType<Array<string>>,
       default: null
     }
   },
@@ -126,7 +127,6 @@ export default Vue.extend({
         }
       }
       // TODO: Add selected feature id / name to store
-
     });
 
     //   // Update the legend

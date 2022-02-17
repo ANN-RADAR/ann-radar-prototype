@@ -1,7 +1,9 @@
 import {GeoJSON} from 'ol/format';
 import GML3 from 'ol/format/GML3';
+import {Options as TileSourceOptions} from 'ol/source/TileWMS';
+import {Options as VectorSourceOptions} from 'ol/source/Vector';
 
-export const tileSourcesOptions: {[key: string]: any} = {
+export const tileSourcesOptions: Record<string, TileSourceOptions> = {
   HH_WMS_Waermekataster_Waermebedarf: {
     url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_Waermebedarf',
     params: {
@@ -109,7 +111,7 @@ export const tileSourcesOptions: {[key: string]: any} = {
   }
 };
 
-export const vectorSourcesOptions: {[key: string]: any} = {
+export const vectorSourcesOptions: Record<string, VectorSourceOptions> = {
   Stadt: {
     format: new GML3(),
     url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=landesgrenze'

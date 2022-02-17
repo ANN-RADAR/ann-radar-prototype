@@ -31,14 +31,22 @@
 
 <script lang="ts">
 import Vue from 'vue';
+
+import {LayerOptions} from '@/types/layers';
+import {Options as TileSourceOptions} from 'ol/source/TileWMS';
 import {
   baseLayersOptions,
   heatingLayerOptions,
   mapStyleLayersOptions
 } from '../constants/layers';
 
+interface Data {
+  layers: Array<LayerOptions>;
+  mapStyleLayersOptions: Array<LayerOptions<TileSourceOptions>>;
+}
+
 export default Vue.extend({
-  data() {
+  data(): Data {
     return {
       layers: [heatingLayerOptions, ...baseLayersOptions],
       mapStyleLayersOptions
