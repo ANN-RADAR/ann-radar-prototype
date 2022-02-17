@@ -1,4 +1,4 @@
-import {getAdminAreaStyle} from '@/libs/admin-area';
+import {getAdminLayerStyle} from '@/libs/admin-layers';
 import {Baublock} from '@/models/Baublock';
 import {Bezirk} from '@/models/Bezirk';
 import {Stadt} from '@/models/Stadt';
@@ -112,7 +112,7 @@ const adminAreaLayersOptions = [
   {
     source: vectorSourcesOptions.Stadt,
     visible: false,
-    style: getAdminAreaStyle(Stadt.featureNameProp),
+    style: getAdminLayerStyle(Stadt.featureNameProp),
     properties: {
       name: 'Stadt'
     }
@@ -120,7 +120,7 @@ const adminAreaLayersOptions = [
   {
     source: vectorSourcesOptions.Bezirk,
     visible: false,
-    style: getAdminAreaStyle(Bezirk.featureNameProp),
+    style: getAdminLayerStyle(Bezirk.featureNameProp),
     properties: {
       name: 'Bezirk'
     }
@@ -128,7 +128,7 @@ const adminAreaLayersOptions = [
   {
     source: vectorSourcesOptions.Stadtteil,
     visible: false,
-    style: getAdminAreaStyle(Stadtteil.featureNameProp),
+    style: getAdminLayerStyle(Stadtteil.featureNameProp),
     properties: {
       name: 'Stadtteil'
     }
@@ -136,7 +136,7 @@ const adminAreaLayersOptions = [
   {
     source: vectorSourcesOptions.StatGebiet,
     visible: false,
-    style: getAdminAreaStyle(StatGebiet.featureNameProp),
+    style: getAdminLayerStyle(StatGebiet.featureNameProp),
     properties: {
       name: 'StatGebiet'
     }
@@ -144,7 +144,7 @@ const adminAreaLayersOptions = [
   {
     source: vectorSourcesOptions.Baublock,
     visible: false,
-    style: getAdminAreaStyle(Baublock.featureNameProp),
+    style: getAdminLayerStyle(Baublock.featureNameProp),
     properties: {
       name: 'Baublock'
     },

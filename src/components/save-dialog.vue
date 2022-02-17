@@ -35,7 +35,7 @@
 import {Component, Prop, Vue} from 'vue-property-decorator';
 
 import {Session} from '@/types/typings';
-import {AdminLevelUnit} from '@/types/admin-levels';
+import {AdminLevelUnit} from '@/types/admin-layers';
 
 @Component
 export default class SaveDialog extends Vue {

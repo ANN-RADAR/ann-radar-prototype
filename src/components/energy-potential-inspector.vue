@@ -23,7 +23,7 @@ type Data = {
 };
 
 import Vue from 'vue';
-import {adminAreaTypes} from '@/constants/admin-levels';
+import {adminAreaTypes} from '@/constants/admin-layers';
 
 export default Vue.extend({
   data(): Data {

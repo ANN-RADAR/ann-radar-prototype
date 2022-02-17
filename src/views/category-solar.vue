@@ -346,7 +346,7 @@ import {Stadt} from '../models/Stadt';
 import {Stadtteil} from '../models/Stadtteil';
 import {StatGebiet} from '../models/StatGebiet';
 import {Session} from '../types/typings';
-import {AdminLevelUnit} from '@/types/admin-levels';
+import {AdminLevelUnit} from '@/types/admin-layers';
 
 export const adminLevelClassMap: Record<
   string,

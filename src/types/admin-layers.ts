@@ -7,6 +7,25 @@ import {Stadt} from '../models/Stadt';
 import {Stadtteil} from '../models/Stadtteil';
 import {StatGebiet} from '../models/StatGebiet';
 
+export enum AdminLayerType {
+  Stadt = 'Stadt',
+  Bezirk = 'Bezirk',
+  Stadtteil = 'Stadtteil',
+  StatGebiet = 'StatGebiet',
+  Baublock = 'Baublock'
+}
+
+export interface AdminLayerFeatureData extends Record<string, string | number> {
+  Shape_Area: number;
+  AnzFl: number;
+  mittlFl: number;
+  BGF: number;
+  tatNu_WB_P: number;
+  Bev_311219: number;
+  p_st_mwh_a: number;
+}
+
+// @depricated
 export interface AdminLevelUnit {
   getId(): string;
   getName(): string;
