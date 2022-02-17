@@ -25,7 +25,7 @@ export interface AdminLayerFeatureData extends Record<string, string | number> {
   p_st_mwh_a: number;
 }
 
-// @depricated
+// @deprecated
 export interface AdminLevelUnit {
   getId(): string;
   getName(): string;
