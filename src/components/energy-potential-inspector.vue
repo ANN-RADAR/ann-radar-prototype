@@ -17,23 +17,23 @@
 </template>
 
 <script lang="ts">
-type Data = {
-  adminAreaTypes: string[];
-  selectedAdminAreaType: string | null;
-};
-
 import Vue from 'vue';
-import {adminAreaTypes} from '@/constants/admin-layers';
+import {AdminLayerType} from '@/types/admin-layers';
+
+interface Data {
+  adminAreaTypes: AdminLayerType[];
+  selectedAdminAreaType: AdminLayerType | null;
+}
 
 export default Vue.extend({
   data(): Data {
     return {
-      adminAreaTypes,
+      adminAreaTypes: Object.values(AdminLayerType),
       selectedAdminAreaType: null
     };
   },
   methods: {
-    onAreaTypeChanged(adminAreaType: string) {
+    onAreaTypeChanged(adminAreaType: AdminLayerType) {
       this.selectedAdminAreaType =
         adminAreaType === this.selectedAdminAreaType ? null : adminAreaType;
       this.$emit('onAdminAreaTypeSelected', this.selectedAdminAreaType);

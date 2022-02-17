@@ -33,25 +33,36 @@
 
 <script lang="ts">
 import Vue from 'vue';
+
+import {AdminLayerType} from '@/types/admin-layers';
+import {LayerOptions} from '@/types/layers';
+import {Options as TileSourceOptions} from 'ol/source/TileWMS';
+import {Feature} from 'ol';
+import Geometry from 'ol/geom/Geometry';
+
 import Map from './map-component.vue';
 import Layers from './energy-potential-layers.vue';
 import Cockpit from './energy-potential-cockpit.vue';
 import Inspector from './energy-potential-inspector.vue';
 
 import {mapStyleLayersOptions} from '@/constants/layers';
-import {areaUnit} from '@/constants/units';
 
 const mapStyle = mapStyleLayersOptions[0].properties.name;
-const adminLayer = null;
+
+interface Data {
+  mapStyleLayersOptions: Array<LayerOptions<TileSourceOptions>>;
+  mapStyle: string;
+  activeLayers: Array<string>;
+  adminLayerType: AdminLayerType | null;
+  selectedFeatures: Array<Feature<Geometry>>;
+}
 
 export default Vue.extend({
-  data() {
+  data(): Data {
     return {
       mapStyleLayersOptions,
       mapStyle,
-      adminLayer,
       activeLayers: [],
-      areaUnit,
       adminLayerType: null,
       selectedFeatures: []
     };

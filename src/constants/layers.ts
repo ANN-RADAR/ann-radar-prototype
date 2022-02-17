@@ -4,6 +4,7 @@ import {Bezirk} from '@/models/Bezirk';
 import {Stadt} from '@/models/Stadt';
 import {Stadtteil} from '@/models/Stadtteil';
 import {StatGebiet} from '@/models/StatGebiet';
+import {LayerOptions} from '@/types/layers';
 import {Feature} from 'ol';
 import Geometry from 'ol/geom/Geometry';
 import LayerGroup from 'ol/layer/Group';
@@ -16,22 +17,24 @@ import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import Style from 'ol/style/Style';
 import {tileSourcesOptions, vectorSourcesOptions} from './sources';
+import {Options as TileSourceOptions} from 'ol/source/TileWMS';
+import {Options as VectorSourceOptions} from 'ol/source/Vector';
 
-export const solarAtlasLayerOptions = {
+export const solarAtlasLayerOptions: LayerOptions<TileSourceOptions> = {
   properties: {name: 'Solaratlas'},
   visible: false,
   source: tileSourcesOptions.HH_WMS_Solaratlas,
   zIndex: 5
 };
 
-export const heatingLayerOptions = {
+export const heatingLayerOptions: LayerOptions<TileSourceOptions> = {
   properties: {name: 'Wärmebedarf'},
   visible: false,
   source: tileSourcesOptions.HH_WMS_Waermekataster_Waermebedarf,
   zIndex: 5
 };
 
-export const baseLayersOptions = [
+export const baseLayersOptions: Array<LayerOptions> = [
   {
     properties: {name: 'Schulen'},
     visible: false,
@@ -84,7 +87,7 @@ export const baseLayersOptions = [
   }
 ];
 
-export const mapStyleLayersOptions = [
+export const mapStyleLayersOptions: Array<LayerOptions<TileSourceOptions>> = [
   {
     properties: {
       name: 'farbig'
@@ -108,7 +111,7 @@ export const mapStyleLayersOptions = [
   }
 ];
 
-const adminAreaLayersOptions = [
+const adminAreaLayersOptions: Array<LayerOptions<VectorSourceOptions>> = [
   {
     source: vectorSourcesOptions.Stadt,
     visible: false,
