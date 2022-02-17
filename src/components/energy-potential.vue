@@ -3,9 +3,11 @@
     <div class="map">
       <Map
         :mapStyleLayer="mapStyle"
-        :adminLayerType="adminLayerType"
         :activeLayers="activeLayers"
-        @onSelectedFeaturesChanged="selectedFeatures = $event"
+        :selectedFeatures="selectedFeatures[adminLayerType]"
+        @onSelectedFeaturesChanged="
+          selectedFeatures = {...selectedFeatures, [adminLayerType]: $event}
+        "
       />
     </div>
     <div class="layers">
@@ -16,16 +18,10 @@
     </div>
     <div class="notes">notes</div>
     <div class="cockpit">
-      <Cockpit
-        :selectedFeatures="selectedFeatures"
-        :adminLayerType="adminLayerType"
-      />
+      <Cockpit :selectedFeatures="selectedFeatures[adminLayerType]" />
     </div>
     <div class="inspector">
-      <Inspector
-        @onAdminAreaTypeSelected="adminLayerType = $event"
-        :selectedFeatures="selectedFeatures"
-      />
+      <Inspector @onAdminAreaTypeSelected="adminLayerType = $event" />
     </div>
   </div>
 </template>
@@ -52,8 +48,7 @@ interface Data {
   mapStyleLayersOptions: Array<LayerOptions<TileSourceOptions>>;
   mapStyle: string;
   activeLayers: Array<string>;
-  adminLayerType: AdminLayerType | null;
-  selectedFeatures: Array<Feature<Geometry>>;
+  selectedFeatures: Record<AdminLayerType, Array<Feature<Geometry>>>;
 }
 
 export default Vue.extend({
@@ -62,8 +57,7 @@ export default Vue.extend({
       mapStyleLayersOptions,
       mapStyle,
       activeLayers: [],
-      adminLayerType: null,
-      selectedFeatures: []
+      selectedFeatures: {} as Record<AdminLayerType, Array<Feature<Geometry>>>
     };
   },
   components: {
@@ -72,6 +66,11 @@ export default Vue.extend({
     // Notes,
     Cockpit,
     Inspector
+  },
+  computed: {
+    adminLayerType(): AdminLayerType {
+      return this.$store.state.adminLayerType;
+    }
   },
   methods: {
     onLegendUrlsChange(legendUrls: Record<string, string>) {

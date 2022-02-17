@@ -20,12 +20,13 @@ export const adminLayers: {
     featureId: string;
     featureName: string;
     data?: AdminLayerFeatureData[];
-    dataId?: string;
+    dataId: string;
   };
 } = {
   [AdminLayerType.Stadt]: {
     featureId: 'fhh',
-    featureName: 'fhh'
+    featureName: 'fhh',
+    dataId: 'name'
   },
   [AdminLayerType.Bezirk]: {
     featureId: 'bezirk',

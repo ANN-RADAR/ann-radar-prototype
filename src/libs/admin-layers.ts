@@ -48,40 +48,43 @@ export const calculateAggregateValues = (
   adminLayerType: AdminLayerType,
   features: Array<Feature<Geometry>>
 ): Record<string, number> => {
-  const {featureId, data, dataId} = adminLayers[adminLayerType];
+  const {featureName, data, dataId} = adminLayers[adminLayerType];
 
-  if (!data || !dataId || !featureId) {
+  if (!data || !dataId || !featureName) {
     return {};
   }
 
-  const featureIds = features.map(feature => feature.get(featureId));
+  const featureNames = features.map(feature => feature.get(featureName));
+  const featuresData = data.filter((featureData: AdminLayerFeatureData) =>
+    featureNames.includes(String(featureData[dataId]))
+  );
 
-  const weightedSums = data
-    .filter((featureData: AdminLayerFeatureData) =>
-      featureIds.includes(featureData[dataId])
-    )
-    .reduce(
-      (aggr, area) => {
-        return {
-          Shape_Area: aggr.Shape_Area + area.Shape_Area,
-          AnzFl: aggr.AnzFl + area.AnzFl,
-          mittlFl: aggr.mittlFl + area.mittlFl * area.AnzFl,
-          BGF: aggr.BGF + area.BGF,
-          tatNu_WB_P: aggr.tatNu_WB_P + area.tatNu_WB_P * area.Shape_Area,
-          Bev_311219: aggr.Bev_311219 + area.Bev_311219,
-          p_st_mwh_a: aggr.p_st_mwh_a + (area.p_st_mwh_a || 0)
-        };
-      },
-      {
-        Shape_Area: 0,
-        AnzFl: 0,
-        mittlFl: 0,
-        BGF: 0,
-        tatNu_WB_P: 0,
-        Bev_311219: 0,
-        p_st_mwh_a: 0
-      }
-    );
+  if (!featuresData.length) {
+    return {};
+  }
+
+  const weightedSums = featuresData.reduce(
+    (aggr, area) => {
+      return {
+        Shape_Area: aggr.Shape_Area + area.Shape_Area,
+        AnzFl: aggr.AnzFl + area.AnzFl,
+        mittlFl: aggr.mittlFl + area.mittlFl * area.AnzFl,
+        BGF: aggr.BGF + area.BGF,
+        tatNu_WB_P: aggr.tatNu_WB_P + area.tatNu_WB_P * area.Shape_Area,
+        Bev_311219: aggr.Bev_311219 + area.Bev_311219,
+        p_st_mwh_a: aggr.p_st_mwh_a + (area.p_st_mwh_a || 0)
+      };
+    },
+    {
+      Shape_Area: 0,
+      AnzFl: 0,
+      mittlFl: 0,
+      BGF: 0,
+      tatNu_WB_P: 0,
+      Bev_311219: 0,
+      p_st_mwh_a: 0
+    }
+  );
 
   return {
     AnzFl: weightedSums.AnzFl,
