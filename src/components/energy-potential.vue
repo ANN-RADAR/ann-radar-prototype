@@ -7,7 +7,6 @@
         :activeLayers="activeLayers"
         @onSelectedFeaturesChanged="selectedFeatures = $event"
       />
-      />
     </div>
     <div class="layers">
       <Layers
@@ -85,11 +84,15 @@ export default Vue.extend({
 <style scoped>
 .wrapper {
   display: grid;
-  grid-template-columns: 50% 1fr 1fr;
+  grid-template-columns: 50% 2fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
-  gap: 0.5rem;
+  gap: 0.75rem;
   padding: 0.5rem;
-  height: 100%;
+  height: calc(100vh - 64px - 48px);
+}
+
+.wrapper > * {
+  display: grid;
 }
 
 .map {
