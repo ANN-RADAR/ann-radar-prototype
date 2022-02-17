@@ -54,29 +54,28 @@
 <script lang="ts">
 import Vue, {PropType} from 'vue';
 
-import {calculateAggregateValues} from '@/libs/admin-layers';
 import {AdminLayerType} from '@/types/admin-layers';
 import {Feature} from 'ol';
 import Geometry from 'ol/geom/Geometry';
+import {calculateAggregateValues} from '@/libs/admin-layers';
+import {formatNumber} from '@/libs/format';
 
 export default Vue.extend({
   props: {
-    adminLayerType: {
-      type: String as PropType<AdminLayerType | null>,
-      default: null,
-      required: false
-    },
     selectedFeatures: {
-      type: Array as PropType<Array<Feature<Geometry>>>,
-      required: true
+      type: Array as PropType<Array<Feature<Geometry>> | undefined>,
+      required: false
     }
   },
   computed: {
+    adminLayerType(): AdminLayerType {
+      return this.$store.state.adminLayerType;
+    },
     aggregation(): Record<string, number> | null {
       if (
         !this.adminLayerType ||
         this.adminLayerType === 'Stadt' ||
-        !this.selectedFeatures.length
+        !this.selectedFeatures?.length
       ) {
         return null;
       }
@@ -85,6 +84,16 @@ export default Vue.extend({
         this.adminLayerType,
         this.selectedFeatures
       );
+    }
+  },
+  methods: {
+    onResize(): void {
+      // TODO: reimplement resize
+    },
+    formatNumber(
+      ...args: Parameters<typeof formatNumber>
+    ): ReturnType<typeof formatNumber> {
+      return formatNumber(...args);
     }
   }
 });

@@ -5,7 +5,7 @@
 <script lang="ts">
 import Vue, {PropType} from 'vue';
 
-import {Map, MapBrowserEvent, View} from 'ol';
+import {Feature, Map, MapBrowserEvent, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
 import LayerGroup from 'ol/layer/Group';
 import VectorLayer from 'ol/layer/Vector';
@@ -33,13 +33,13 @@ export default Vue.extend({
       type: String,
       default: 'farbig'
     },
-    adminLayerType: {
-      type: String as PropType<AdminLayerType | null>,
-      default: null
-    },
     activeLayers: {
       type: Array as PropType<Array<string>>,
       default: null
+    },
+    selectedFeatures: {
+      type: Array as PropType<Array<Feature<Geometry>> | undefined>,
+      required: false
     }
   },
   data(): Data {
@@ -64,6 +64,11 @@ export default Vue.extend({
         })
       }
     };
+  },
+  computed: {
+    adminLayerType(): AdminLayerType {
+      return this.$store.state.adminLayerType;
+    }
   },
   watch: {
     mapStyleLayer(newMapStyleLayer: string) {
