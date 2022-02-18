@@ -1,6 +1,5 @@
 <template>
   <v-container class="table-container" ref="tableContainer">
-    {{ selectedFeatureData }}
     <v-data-table
       v-if="adminLayerType"
       :headers="tableHeaders"
@@ -72,7 +71,6 @@ import {DataTableHeader} from 'vuetify';
 
 interface Data {
   adminLayers: typeof adminLayers;
-  tableHeaders: Array<DataTableHeader>;
 }
 
 export default Vue.extend({
@@ -84,8 +82,12 @@ export default Vue.extend({
   },
   data(): Data {
     return {
-      adminLayers,
-      tableHeaders: [
+      adminLayers
+    };
+  },
+  computed: {
+    tableHeaders(): Array<DataTableHeader> {
+      return [
         {
           text: this.$store.state.adminLayerType || '',
           sortable: true,
@@ -130,29 +132,31 @@ export default Vue.extend({
               }
             ]
           : []
-      )
-    };
-  },
-  computed: {
+      );
+    },
     adminLayerType(): AdminLayerType {
       return this.$store.state.adminLayerType;
     },
-    selectedFeatureData(): Array<any> {
+    selectedFeaturesData(): Array<AdminLayerFeatureData> {
       if (!this.$store.state.adminLayerType) {
         return [];
       }
 
       const {data, dataId} =
         adminLayers[this.$store.state.adminLayerType as AdminLayerType];
+
       if (!data || !dataId) {
         return [];
       }
 
       return data.filter((featureData: AdminLayerFeatureData) => {
-        console.log(this.$store.state);
+        const selectedFeatureDataIds =
+          this.$store.state.selectedFeatureDataIds[
+            this.$store.state.adminLayerType
+          ] || [];
 
-        return this.$store.state.selectedFeatureDataIds.includes(
-          featureData[dataId]
+        return selectedFeatureDataIds.some(
+          ids => ids.featureName === String(featureData[dataId])
         );
       });
     }

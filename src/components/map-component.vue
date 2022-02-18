@@ -89,8 +89,6 @@ export default Vue.extend({
       }
     },
     baseLayerTypes(newBaseLayerTypes: Array<string>) {
-      console.log(newBaseLayerTypes);
-
       for (const layer of this.baseLayers.getLayers().getArray()) {
         if (newBaseLayerTypes.includes(layer.get('name'))) {
           layer.setVisible(true);
@@ -115,7 +113,7 @@ export default Vue.extend({
         VectorLayer<VectorSource<Geometry>>
       >) {
         if (layer.get('name') === this.adminLayerType) {
-          const {featureId, dataId} = adminLayers[this.adminLayerType];
+          const {featureId, featureName} = adminLayers[this.adminLayerType];
           const clickedFeatures = layer
             .getSource()
             .getFeaturesAtCoordinate(coord);
@@ -125,14 +123,14 @@ export default Vue.extend({
           });
 
           this.$store.commit('setSelectedFeatureDataIds', {
-            layer: this.adminLayerType,
+            layerType: this.adminLayerType,
             ids: layer
               .getSource()
               .getFeatures()
               .filter(feature => feature.get('selected'))
               .map(feature => ({
                 featureId: feature.get(featureId),
-                dataId: feature.get(dataId)
+                featureName: feature.get(featureName)
               }))
           });
         }
