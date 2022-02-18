@@ -150,13 +150,14 @@ export default Vue.extend({
       }
 
       return data.filter((featureData: AdminLayerFeatureData) => {
-        const selectedFeatureDataIds =
-          this.$store.state.selectedFeatureDataIds[
+        const selectedFeatureDataKeys =
+          this.$store.state.selectedFeatureDataKeys[
             this.$store.state.adminLayerType
           ] || [];
 
-        return selectedFeatureDataIds.some(
-          ids => ids.featureName === String(featureData[dataId])
+        return selectedFeatureDataKeys.some(
+          (keys: {featureId: string; featureName: string}) =>
+            keys.featureName === String(featureData[dataId])
         );
       });
     },
