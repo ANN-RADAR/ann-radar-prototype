@@ -2,6 +2,7 @@
   <v-container class="table-container" ref="tableContainer">
     <v-data-table
       v-if="adminLayerType"
+      :value="selectedFeaturesData"
       :headers="tableHeaders"
       :items="selectedFeaturesData"
       :item-key="adminLayers[adminLayerType].dataId"
