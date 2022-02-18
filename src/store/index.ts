@@ -11,7 +11,7 @@ const store = new Vuex.Store({
     adminLayerType: null as AdminLayerType | null,
     selectedFeatureDataKeys: {} as Record<
       AdminLayerType,
-      {featureId: string; featureName: string}
+      Array<{featureId: string; featureName: string}>
     >
   },
   mutations: {
