@@ -6,7 +6,7 @@
       :items="selectedFeaturesData"
       :item-key="adminLayers[adminLayerType].dataId"
       :show-select="true"
-      :height="100"
+      :height="tableHeight"
       :fixed-header="true"
       hide-default-footer
     >
@@ -159,6 +159,15 @@ export default Vue.extend({
           ids => ids.featureName === String(featureData[dataId])
         );
       });
+    },
+    tableHeight(): number {
+      const container = this.$refs.tableContainer as Element;
+
+      if (!container) {
+        return 0;
+      }
+
+      return window.innerHeight - container.getBoundingClientRect().y;
     }
   },
   methods: {

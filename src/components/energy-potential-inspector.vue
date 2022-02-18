@@ -1,23 +1,21 @@
 <template>
-  <div>
-    <v-card>
-      <v-card-title>Gebiete inspizieren</v-card-title>
-      <v-card-text>
-        <v-sheet>
-          <v-btn
-            v-for="layerType in adminLayerTypes"
-            :key="layerType"
-            :color="layerType === adminLayerType ? 'primary' : ''"
-            @click="onLayerTypeChanged(layerType)"
-          >
-            {{ layerType }}
-          </v-btn>
-        </v-sheet>
-      </v-card-text>
-    </v-card>
+  <v-card>
+    <v-card-title>Gebiete inspizieren</v-card-title>
+    <v-card-text>
+      <v-sheet>
+        <v-btn
+          v-for="layerType in adminLayerTypes"
+          :key="layerType"
+          :color="layerType === adminLayerType ? 'primary' : ''"
+          @click="onLayerTypeChanged(layerType)"
+        >
+          {{ layerType }}
+        </v-btn>
+      </v-sheet>
+    </v-card-text>
 
     <EnergyPotentialInspectorTable />
-  </div>
+  </v-card>
 </template>
 
 <script lang="ts">

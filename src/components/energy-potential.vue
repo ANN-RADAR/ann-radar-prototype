@@ -84,7 +84,7 @@ export default Vue.extend({
 .wrapper {
   display: grid;
   grid-template-columns: 50% 2fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 9rem 1fr;
   gap: 0.75rem;
   padding: 0.5rem;
   height: calc(100vh - 64px - 48px);
