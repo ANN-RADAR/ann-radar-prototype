@@ -1,13 +1,13 @@
 <template>
   <v-container class="table-container" ref="tableContainer">
-    {{ selectedFeatureData }}
     <v-data-table
       v-if="adminLayerType"
+      :value="selectedFeaturesData"
       :headers="tableHeaders"
       :items="selectedFeaturesData"
       :item-key="adminLayers[adminLayerType].dataId"
       :show-select="true"
-      :height="100"
+      :height="tableHeight"
       :fixed-header="true"
       hide-default-footer
     >
@@ -72,7 +72,6 @@ import {DataTableHeader} from 'vuetify';
 
 interface Data {
   adminLayers: typeof adminLayers;
-  tableHeaders: Array<DataTableHeader>;
 }
 
 export default Vue.extend({
@@ -84,8 +83,12 @@ export default Vue.extend({
   },
   data(): Data {
     return {
-      adminLayers,
-      tableHeaders: [
+      adminLayers
+    };
+  },
+  computed: {
+    tableHeaders(): Array<DataTableHeader> {
+      return [
         {
           text: this.$store.state.adminLayerType || '',
           sortable: true,
@@ -130,31 +133,43 @@ export default Vue.extend({
               }
             ]
           : []
-      )
-    };
-  },
-  computed: {
+      );
+    },
     adminLayerType(): AdminLayerType {
       return this.$store.state.adminLayerType;
     },
-    selectedFeatureData(): Array<any> {
+    selectedFeaturesData(): Array<AdminLayerFeatureData> {
       if (!this.$store.state.adminLayerType) {
         return [];
       }
 
       const {data, dataId} =
         adminLayers[this.$store.state.adminLayerType as AdminLayerType];
+
       if (!data || !dataId) {
         return [];
       }
 
       return data.filter((featureData: AdminLayerFeatureData) => {
-        console.log(this.$store.state);
+        const selectedFeatureDataKeys =
+          this.$store.state.selectedFeatureDataKeys[
+            this.$store.state.adminLayerType
+          ] || [];
 
-        return this.$store.state.selectedFeatureDataIds.includes(
-          featureData[dataId]
+        return selectedFeatureDataKeys.some(
+          (keys: {featureId: string; featureName: string}) =>
+            keys.featureName === String(featureData[dataId])
         );
       });
+    },
+    tableHeight(): number {
+      const container = this.$refs.tableContainer as Element;
+
+      if (!container) {
+        return 0;
+      }
+
+      return window.innerHeight - container.getBoundingClientRect().y;
     }
   },
   methods: {

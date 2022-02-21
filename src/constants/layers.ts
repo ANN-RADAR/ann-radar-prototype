@@ -161,7 +161,10 @@ export const getBaseLayers = (): LayerGroup =>
       ...baseLayersOptions.map(layer =>
         layer.style
           ? new VectorLayer({...layer, source: new VectorSource(layer.source)})
-          : new TileLayer({...layer, source: new TileWMS(layer.source)})
+          : new TileLayer({
+              ...layer,
+              source: new TileWMS(layer.source as TileSourceOptions)
+            })
       ),
       new TileLayer({
         ...heatingLayerOptions,

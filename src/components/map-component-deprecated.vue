@@ -251,18 +251,18 @@ export default class MapComponent extends Vue {
   }
 
   @Watch('selectedAdminAreas', {deep: true})
-  onSelectAreas(list: AdminLevelUnit[]): void {
+  onSelectAreas(/* list: AdminLevelUnit[] */): void {
     const adminLevel = this.getVisibleAdminLevel();
     if (!adminLevel) {
       return;
     }
 
-    for (const feature of vectorSourcesOptions[adminLevel].getFeatures()) {
-      const found = !!list.find(
-        area => area.getFeatureId(feature) === area.getId()
-      );
-      this.setFeatureSelected(feature, found);
-    }
+    // for (const feature of vectorSourcesOptions[adminLevel].getFeatures()) {
+    //   const found = !!list.find(
+    //     area => area.getFeatureId(feature) === area.getId()
+    //   );
+    //   this.setFeatureSelected(feature, found);
+    // }
   }
 
   mounted(): void {
@@ -279,18 +279,18 @@ export default class MapComponent extends Vue {
     });
 
     // Select map features
-    this.map.on('click', (evt: MapBrowserEvent<UIEvent>) => {
-      const coord = this.map.getCoordinateFromPixel(evt.pixel);
+    this.map.on('click', (/* evt: MapBrowserEvent<UIEvent> */) => {
+      // const coord = this.map.getCoordinateFromPixel(evt.pixel);
       const adminLevel = this.getVisibleAdminLevel();
       if (!adminLevel) {
         return;
       }
 
-      for (const feature of vectorSourcesOptions[
-        adminLevel
-      ].getFeaturesAtCoordinate(coord)) {
-        this.setFeatureSelected(feature, !feature.get('selected'));
-      }
+      // for (const feature of vectorSourcesOptions[
+      //   adminLevel
+      // ].getFeaturesAtCoordinate(coord)) {
+      //   this.setFeatureSelected(feature, !feature.get('selected'));
+      // }
 
       this.emitSelected();
     });
@@ -326,18 +326,17 @@ export default class MapComponent extends Vue {
   }
 
   emitSelected(): void {
-    const event = Object.entries(adminLevelClassMap).reduce(
-      (obj, [key, type]) => {
-        obj[key] = vectorSourcesOptions[key]
-          .getFeatures()
-          .filter((feature: Feature<Geometry>) => feature.get('selected'))
-          .map((feature: Feature<Geometry>) => feature.get(type.featureIdProp));
-        return obj;
-      },
-      {} as {[key: string]: string[]}
-    );
-
-    this.$emit('selectedAdminAreas', event);
+    // const event = Object.entries(adminLevelClassMap).reduce(
+    //   (obj, [key, type]) => {
+    //     obj[key] = vectorSourcesOptions[key]
+    //       .getFeatures()
+    //       .filter((feature: Feature<Geometry>) => feature.get('selected'))
+    //       .map((feature: Feature<Geometry>) => feature.get(type.featureIdProp));
+    //     return obj;
+    //   },
+    //   {} as {[key: string]: string[]}
+    // );
+    // this.$emit('selectedAdminAreas', event);
   }
 }
 </script>
