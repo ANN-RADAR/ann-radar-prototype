@@ -52,21 +52,14 @@
 </template>
 
 <script lang="ts">
-import Vue, {PropType} from 'vue';
+import Vue from 'vue';
 
-import {AdminLayerType} from '@/types/admin-layers';
-import {Feature} from 'ol';
-import Geometry from 'ol/geom/Geometry';
+import {AdminLayerFeatureData, AdminLayerType} from '@/types/admin-layers';
 import {calculateAggregateValues} from '@/libs/admin-layers';
 import {formatNumber} from '@/libs/format';
+import {adminLayers} from '@/constants/admin-layers';
 
 export default Vue.extend({
-  props: {
-    selectedFeatures: {
-      type: Array as PropType<Array<Feature<Geometry>> | undefined>,
-      required: false
-    }
-  },
   computed: {
     adminLayerType(): AdminLayerType {
       return this.$store.state.adminLayerType;
@@ -75,14 +68,18 @@ export default Vue.extend({
       if (
         !this.adminLayerType ||
         this.adminLayerType === 'Stadt' ||
-        !this.selectedFeatures?.length
+        !this.$store.state.selectedFeatureDataKeys[
+          this.$store.state.adminLayerType
+        ]?.length
       ) {
         return null;
       }
 
       return calculateAggregateValues(
         this.adminLayerType,
-        this.selectedFeatures
+        this.$store.state.selectedFeatureDataKeys[
+          this.$store.state.adminLayerType
+        ]
       );
     }
   },

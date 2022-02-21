@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {AdminLayerType} from '@/types/admin-layers';
+import {AdminLayerType, AreasFeaturesDataKeys} from '@/types/admin-layers';
 
 Vue.use(Vuex);
 
@@ -9,10 +9,7 @@ const store = new Vuex.Store({
     mapStyle: 'farbig',
     baseLayerTypes: [],
     adminLayerType: null as AdminLayerType | null,
-    selectedFeatureDataKeys: {} as Record<
-      AdminLayerType,
-      Array<{featureId: string; featureName: string}>
-    >
+    selectedFeatureDataKeys: {} as AreasFeaturesDataKeys
   },
   mutations: {
     setAdminLayerType(state, newAdminLayerType) {

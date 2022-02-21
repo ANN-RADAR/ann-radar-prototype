@@ -40,3 +40,7 @@ export interface AdminLevels {
   StatGebiet: typeof StatGebiet;
   Baublock: typeof Baublock;
 }
+
+export type FeaturesDataKeys = Array<{featureId: string; featureName: string}>;
+
+export type AreasFeaturesDataKeys = Record<AdminLayerType, FeaturesDataKeys>;

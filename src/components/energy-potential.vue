@@ -18,7 +18,7 @@
     </div>
     <div class="notes">notes</div>
     <div class="cockpit">
-      <Cockpit :selectedFeatures="selectedFeatures[adminLayerType]" />
+      <Cockpit />
     </div>
     <div class="inspector">
       <Inspector @onAdminAreaTypeSelected="adminLayerType = $event" />
