@@ -16,14 +16,12 @@
       </v-card-text>
     </v-card>
 
-    <EnergyPotentialInspectorTable
-      :selectedFeaturesNames="selectedFeaturesNames"
-    />
+    <EnergyPotentialInspectorTable />
   </div>
 </template>
 
 <script lang="ts">
-import Vue, {PropType} from 'vue';
+import Vue from 'vue';
 
 import {AdminLayerType} from '@/types/admin-layers';
 import EnergyPotentialInspectorTable from './energy-potential-inspector-table.vue';
@@ -33,12 +31,6 @@ interface Data {
 }
 
 export default Vue.extend({
-  props: {
-    selectedFeaturesNames: {
-      type: Array as PropType<Array<string> | undefined>,
-      required: false
-    }
-  },
   components: {
     EnergyPotentialInspectorTable
   },

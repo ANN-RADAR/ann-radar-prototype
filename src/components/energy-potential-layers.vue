@@ -12,11 +12,7 @@
           @change="onLayerChange"
         ></v-checkbox>
       </div>
-      <v-radio-group
-        v-bind:value="'farbig'"
-        @change="$emit('mapStyleChanged', $event)"
-        row
-      >
+      <v-radio-group v-bind:value="mapStyle" @change="mapStyleChanged" row>
         <span style="margin-right: 16px">Hintergrundkarte:</span>
         <v-radio
           v-for="layer in mapStyleLayersOptions"
@@ -52,10 +48,18 @@ export default Vue.extend({
       mapStyleLayersOptions
     };
   },
+  computed: {
+    mapStyle() {
+      return this.$store.state.mapStyle;
+    }
+  },
   methods: {
+    mapStyleChanged(value: string) {
+      this.$store.commit('setMapStyle', value);
+    },
     onLayerChange() {
-      this.$emit(
-        'layersChanged',
+      this.$store.commit(
+        'setBaseLayerTypes',
         this.layers
           .filter(layer => layer.visible)
           .map(layer => layer.properties.name)

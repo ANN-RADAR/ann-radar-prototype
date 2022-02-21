@@ -18,25 +18,18 @@ import {
   getAdminAreaLayers,
   getBaseLayers
 } from '@/constants/layers';
+import {adminLayers} from '@/constants/admin-layers';
 
 type Data = {
   map: null | Map;
   mapOptions: MapOptions;
   mapStyleLayers: LayerGroup;
   adminLayers: LayerGroup;
-  layers: LayerGroup;
+  baseLayers: LayerGroup;
 };
 
 export default Vue.extend({
   props: {
-    mapStyleLayer: {
-      type: String,
-      default: 'farbig'
-    },
-    activeLayers: {
-      type: Array as PropType<Array<string>>,
-      default: null
-    },
     selectedFeatures: {
       type: Array as PropType<Array<Feature<Geometry>> | undefined>,
       required: false
@@ -45,16 +38,16 @@ export default Vue.extend({
   data(): Data {
     const mapStyleLayers = getMapStyleLayers();
     const adminLayers = getAdminAreaLayers();
-    const layers = getBaseLayers();
+    const baseLayers = getBaseLayers();
 
     return {
       map: null,
       mapStyleLayers,
       adminLayers,
-      layers,
+      baseLayers,
       mapOptions: {
         target: 'map',
-        layers: [mapStyleLayers, adminLayers, layers],
+        layers: [mapStyleLayers, adminLayers, baseLayers],
         view: new View({
           projection: 'EPSG:25832',
           zoom: 12,
@@ -68,10 +61,16 @@ export default Vue.extend({
   computed: {
     adminLayerType(): AdminLayerType {
       return this.$store.state.adminLayerType;
+    },
+    mapStyle() {
+      return this.$store.state.mapStyle;
+    },
+    baseLayerTypes() {
+      return this.$store.state.baseLayerTypes;
     }
   },
   watch: {
-    mapStyleLayer(newMapStyleLayer: string) {
+    mapStyle(newMapStyleLayer: string) {
       for (const layer of this.mapStyleLayers.getLayers().getArray()) {
         if (layer.get('name') === newMapStyleLayer) {
           layer.setVisible(true);
@@ -89,9 +88,11 @@ export default Vue.extend({
         }
       }
     },
-    activeLayers(newActiveLayers: Array<string>) {
-      for (const layer of this.layers.getLayers().getArray()) {
-        if (newActiveLayers.includes(layer.get('name'))) {
+    baseLayerTypes(newBaseLayerTypes: Array<string>) {
+      console.log(newBaseLayerTypes);
+
+      for (const layer of this.baseLayers.getLayers().getArray()) {
+        if (newBaseLayerTypes.includes(layer.get('name'))) {
           layer.setVisible(true);
         } else {
           layer.setVisible(false);
@@ -114,6 +115,7 @@ export default Vue.extend({
         VectorLayer<VectorSource<Geometry>>
       >) {
         if (layer.get('name') === this.adminLayerType) {
+          const {featureId, dataId} = adminLayers[this.adminLayerType];
           const clickedFeatures = layer
             .getSource()
             .getFeaturesAtCoordinate(coord);
@@ -122,13 +124,17 @@ export default Vue.extend({
             feature.set('selected', !feature.get('selected'));
           });
 
-          this.$emit(
-            'onSelectedFeaturesChanged',
-            layer
+          this.$store.commit('setSelectedFeatureDataIds', {
+            layer: this.adminLayerType,
+            ids: layer
               .getSource()
               .getFeatures()
               .filter(feature => feature.get('selected'))
-          );
+              .map(feature => ({
+                featureId: feature.get(featureId),
+                dataId: feature.get(dataId)
+              }))
+          });
         }
       }
       // TODO: Add selected feature id / name to store

@@ -1,5 +1,6 @@
 <template>
   <v-container class="table-container" ref="tableContainer">
+    {{ selectedFeatureData }}
     <v-data-table
       v-if="adminLayerType"
       :headers="tableHeaders"
@@ -64,7 +65,7 @@
 <script lang="ts">
 import Vue, {PropType} from 'vue';
 
-import {AdminLayerType} from '@/types/admin-layers';
+import {AdminLayerFeatureData, AdminLayerType} from '@/types/admin-layers';
 import {formatNumber} from '@/libs/format';
 import {adminLayers} from '@/constants/admin-layers';
 import {DataTableHeader} from 'vuetify';
@@ -89,7 +90,8 @@ export default Vue.extend({
           text: this.$store.state.adminLayerType || '',
           sortable: true,
           value: this.$store.state.adminLayerType
-            ? adminLayers[this.$store.state.adminLayerType].dataId
+            ? adminLayers[this.$store.state.adminLayerType as AdminLayerType]
+                .dataId
             : ''
         },
         {
@@ -134,6 +136,25 @@ export default Vue.extend({
   computed: {
     adminLayerType(): AdminLayerType {
       return this.$store.state.adminLayerType;
+    },
+    selectedFeatureData(): Array<any> {
+      if (!this.$store.state.adminLayerType) {
+        return [];
+      }
+
+      const {data, dataId} =
+        adminLayers[this.$store.state.adminLayerType as AdminLayerType];
+      if (!data || !dataId) {
+        return [];
+      }
+
+      return data.filter((featureData: AdminLayerFeatureData) => {
+        console.log(this.$store.state);
+
+        return this.$store.state.selectedFeatureDataIds.includes(
+          featureData[dataId]
+        );
+      });
     }
   },
   methods: {
