@@ -3,12 +3,16 @@
 </template>
 
 <script lang="ts">
-import Vue, {PropType} from 'vue';
-import {mapMutations, mapState} from 'vuex';
+import Vue from 'vue';
+import {mapGetters, mapMutations, mapState} from 'vuex';
 
-import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
+import {
+  MapGettersToComputed,
+  MapMutationsToMethods,
+  MapStateToComputed
+} from '@/types/store';
 
-import {Feature, Map, MapBrowserEvent, View} from 'ol';
+import {Map, MapBrowserEvent, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
 import LayerGroup from 'ol/layer/Group';
 import VectorLayer from 'ol/layer/Vector';
@@ -21,6 +25,7 @@ import {
   getBaseLayers
 } from '@/constants/layers';
 import {adminLayers} from '@/constants/admin-layers';
+import {FeaturesDataKeys} from '@/types/admin-layers';
 
 type Data = {
   map: null | Map;
@@ -31,12 +36,6 @@ type Data = {
 };
 
 export default Vue.extend({
-  props: {
-    selectedFeatures: {
-      type: Array as PropType<Array<Feature<Geometry>> | undefined>,
-      required: false
-    }
-  },
   data(): Data {
     const mapStyleLayers = getMapStyleLayers();
     const adminLayers = getAdminAreaLayers();
@@ -65,6 +64,9 @@ export default Vue.extend({
       'adminLayerType',
       'mapStyle',
       'baseLayerTypes'
+    ]),
+    ...(mapGetters as MapGettersToComputed)([
+      'currentLayerSelectedFeatureDataKeys'
     ])
   },
   watch: {
@@ -94,6 +96,25 @@ export default Vue.extend({
           layer.setVisible(false);
         }
       }
+    },
+    currentLayerSelectedFeatureDataKeys(
+      newCurrentLayerSelectedFeatureDataKeys: FeaturesDataKeys
+    ) {
+      for (const layer of this.adminLayers.getLayers().getArray() as Array<
+        VectorLayer<VectorSource<Geometry>>
+      >) {
+        if (this.adminLayerType && layer.get('name') === this.adminLayerType) {
+          const {featureId} = adminLayers[this.adminLayerType];
+          const adminLayerFeatures = layer.getSource().getFeatures();
+
+          adminLayerFeatures.forEach(feature => {
+            const isSelected = newCurrentLayerSelectedFeatureDataKeys.some(
+              keys => keys.featureId === feature.get(featureId)
+            );
+            feature.set('selected', isSelected);
+          });
+        }
+      }
     }
   },
   methods: {
@@ -110,6 +131,10 @@ export default Vue.extend({
         return;
       }
 
+      let selectedFeatureDataKeys = [
+        ...this.currentLayerSelectedFeatureDataKeys
+      ];
+
       for (const layer of this.adminLayers.getLayers().getArray() as Array<
         VectorLayer<VectorSource<Geometry>>
       >) {
@@ -120,19 +145,25 @@ export default Vue.extend({
             .getFeaturesAtCoordinate(coord);
 
           clickedFeatures.forEach(feature => {
-            feature.set('selected', !feature.get('selected'));
+            const id = feature.get(featureId);
+            const name = feature.get(featureName);
+
+            // Toggle the clicked feature's keys
+            if (selectedFeatureDataKeys.some(keys => keys.featureId === id)) {
+              selectedFeatureDataKeys = selectedFeatureDataKeys.filter(
+                keys => keys.featureId !== id
+              );
+            } else {
+              selectedFeatureDataKeys = [
+                ...selectedFeatureDataKeys,
+                {featureId: id, featureName: name}
+              ];
+            }
           });
 
           this.setSelectedFeatureDataKeys({
             layerType: this.adminLayerType,
-            keys: layer
-              .getSource()
-              .getFeatures()
-              .filter(feature => feature.get('selected'))
-              .map(feature => ({
-                featureId: feature.get(featureId),
-                featureName: feature.get(featureName)
-              }))
+            keys: selectedFeatureDataKeys
           });
         }
       }

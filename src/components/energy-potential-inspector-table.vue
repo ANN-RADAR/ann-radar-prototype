@@ -3,6 +3,7 @@
     <v-data-table
       v-if="adminLayerType"
       :value="selectedFeaturesData"
+      @input="onSelectedFeaturesDataChange"
       :headers="tableHeaders"
       :items="selectedFeaturesData"
       :item-key="adminLayers[adminLayerType].dataId"
@@ -64,10 +65,10 @@
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
-import {mapState} from 'vuex';
+import {mapState, mapMutations} from 'vuex';
 
 import {AdminLayerFeatureData, AdminLayerType} from '@/types/admin-layers';
-import {MapStateToComputed} from '@/types/store';
+import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 import {formatNumber} from '@/libs/format';
 import {adminLayers} from '@/constants/admin-layers';
 import {DataTableHeader} from 'vuetify';
@@ -174,10 +175,27 @@ export default Vue.extend({
     }
   },
   methods: {
+    ...(mapMutations as MapMutationsToMethods)(['setSelectedFeatureDataKeys']),
     formatNumber(
       ...args: Parameters<typeof formatNumber>
     ): ReturnType<typeof formatNumber> {
       return formatNumber(...args);
+    },
+    onSelectedFeaturesDataChange(
+      newSelectedFeaturesData: Array<AdminLayerFeatureData>
+    ) {
+      const adminLayerType = this.adminLayerType as AdminLayerType;
+      const {dataId} = adminLayers[adminLayerType];
+
+      this.setSelectedFeatureDataKeys({
+        layerType: adminLayerType,
+        keys: this.selectedFeatureDataKeys[adminLayerType].filter(
+          (featureDataKeys: {featureId: string; featureName: string}) =>
+            newSelectedFeaturesData
+              .map(data => data[dataId])
+              .includes(featureDataKeys.featureName)
+        )
+      });
     }
   }
 });

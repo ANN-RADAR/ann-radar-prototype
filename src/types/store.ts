@@ -1,6 +1,7 @@
 import {Accessors} from 'vue/types/options';
 import {MapStyle} from './map-styles';
 import {AdminLayerType, AreasFeaturesDataKeys} from './admin-layers';
+import getters from '../store/getters';
 import mutations from '../store/mutations';
 
 export interface StoreState {
@@ -13,6 +14,12 @@ export interface StoreState {
 export interface MapStateToComputed {
   <Key extends keyof StoreState>(map: Key[]): Accessors<{
     [K in Key]: StoreState[K];
+  }>;
+}
+
+export interface MapGettersToComputed {
+  <Key extends keyof typeof getters>(map: Key[]): Accessors<{
+    [K in Key]: ReturnType<typeof getters[K]>;
   }>;
 }
 

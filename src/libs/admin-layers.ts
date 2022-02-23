@@ -51,7 +51,6 @@ export const calculateAggregateValues = (
   features: FeaturesDataKeys
 ): Record<string, number> => {
   const {featureName, data, dataId} = adminLayers[adminLayerType];
-  console.log({featureName, data, dataId, features});
 
   if (!data || !dataId || !featureName) {
     return {};
