@@ -35,11 +35,10 @@
 import {Component, Prop, Vue} from 'vue-property-decorator';
 
 import {Session} from '@/types/typings';
-import {AdminLevelUnit} from '@/types/admin-layers';
 
 @Component
 export default class SaveDialog extends Vue {
-  @Prop() selectedAreas!: Record<string, AdminLevelUnit[]>;
+  @Prop() selectedAreas!: Record<string, any[]>;
   @Prop() notes!: string;
   dialog = false;
   title = '';
