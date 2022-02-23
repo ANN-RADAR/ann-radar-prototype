@@ -10,6 +10,8 @@
     "test": "run-s types eslint"
   },
   "dependencies": {
+    "@types/firebase": "^3.2.1",
+    "firebase": "^9.6.7",
     "ol": "^6.5.0",
     "proj4": "^2.7.5",
     "vue": "^2.6.11",

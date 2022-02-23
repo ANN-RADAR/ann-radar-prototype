@@ -9,6 +9,10 @@ export interface StoreState {
   baseLayerTypes: Array<string>;
   adminLayerType: AdminLayerType | null;
   selectedFeatureDataKeys: AreasFeaturesDataKeys;
+  user: {
+    loggedIn: false;
+    data: null;
+  };
 }
 
 export interface MapStateToComputed {

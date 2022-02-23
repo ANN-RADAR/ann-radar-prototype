@@ -28,6 +28,12 @@ const mutations = {
       ...state.selectedFeatureDataKeys,
       [payload.layerType]: payload.keys
     };
+  },
+  SET_LOGGED_IN(state: StoreState, value: StoreState['user']['loggedIn']) {
+    state.user.loggedIn = value;
+  },
+  SET_USER(state: StoreState, data: StoreState['user']['data']) {
+    state.user.data = data;
   }
 };
 
