@@ -14,7 +14,7 @@
       </v-sheet>
     </v-card-text>
 
-    <EnergyPotentialInspectorTable />
+    <slot></slot>
   </v-card>
 </template>
 
@@ -24,16 +24,12 @@ import {mapMutations, mapState} from 'vuex';
 
 import {AdminLayerType} from '@/types/admin-layers';
 import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
-import EnergyPotentialInspectorTable from './energy-potential-inspector-table.vue';
 
 interface Data {
   adminLayerTypes: AdminLayerType[];
 }
 
 export default Vue.extend({
-  components: {
-    EnergyPotentialInspectorTable
-  },
   data(): Data {
     return {
       adminLayerTypes: Object.values(AdminLayerType)

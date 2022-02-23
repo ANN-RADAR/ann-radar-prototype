@@ -168,6 +168,10 @@ export const getBaseLayers = (): LayerGroup =>
             })
       ),
       new TileLayer({
+        ...solarAtlasLayerOptions,
+        source: new TileWMS(solarAtlasLayerOptions.source)
+      }),
+      new TileLayer({
         ...heatingLayerOptions,
         source: new TileWMS(heatingLayerOptions.source)
       })

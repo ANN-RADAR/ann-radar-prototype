@@ -18,6 +18,8 @@ import LayerGroup from 'ol/layer/Group';
 import VectorLayer from 'ol/layer/Vector';
 import Geometry from 'ol/geom/Geometry';
 import VectorSource from 'ol/source/Vector';
+import {register} from 'ol/proj/proj4';
+import proj4 from 'proj4';
 
 import {
   getMapStyleLayers,
@@ -26,6 +28,13 @@ import {
 } from '@/constants/layers';
 import {adminLayers} from '@/constants/admin-layers';
 import {FeaturesDataKeys} from '@/types/admin-layers';
+
+// projection for UTM zone 32N
+proj4.defs(
+  'EPSG:25832',
+  '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
+);
+register(proj4);
 
 type Data = {
   map: null | Map;
