@@ -48,10 +48,9 @@ export const getAdminLayerStyle =
 
 export const calculateAggregateValues = (
   adminLayerType: AdminLayerType,
-  features: FeaturesDataKeys
+  features: Array<FeaturesDataKeys>
 ): Record<string, number> => {
   const {featureName, data, dataId} = adminLayers[adminLayerType];
-  console.log({featureName, data, dataId, features});
 
   if (!data || !dataId || !featureName) {
     return {};

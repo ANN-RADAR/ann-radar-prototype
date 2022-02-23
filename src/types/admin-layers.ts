@@ -41,6 +41,12 @@ export interface AdminLevels {
   Baublock: typeof Baublock;
 }
 
-export type FeaturesDataKeys = Array<{featureId: string; featureName: string}>;
+export interface FeaturesDataKeys {
+  featureId: string;
+  featureName: string;
+}
 
-export type AreasFeaturesDataKeys = Record<AdminLayerType, FeaturesDataKeys>;
+export type AreasFeaturesDataKeys = Record<
+  AdminLayerType,
+  Array<FeaturesDataKeys>
+>;

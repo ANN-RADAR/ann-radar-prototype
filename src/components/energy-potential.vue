@@ -1,86 +1,36 @@
 <template>
   <div class="wrapper">
     <div class="map">
-      <Map
-        :mapStyleLayer="mapStyle"
-        :activeLayers="activeLayers"
-        :selectedFeatures="
-          (adminLayerType && selectedFeatures[adminLayerType]) || []
-        "
-        @onSelectedFeaturesChanged="
-          selectedFeatures = adminLayerType
-            ? {...selectedFeatures, [adminLayerType]: $event}
-            : selectedFeatures
-        "
-      />
+      <Map />
     </div>
     <div class="layers">
-      <Layers
-        @mapStyleChanged="mapStyle = $event"
-        @layersChanged="activeLayers = $event"
-      />
+      <Layers />
     </div>
     <div class="notes">notes</div>
     <div class="cockpit">
       <Cockpit />
     </div>
     <div class="inspector">
-      <Inspector @onAdminAreaTypeSelected="adminLayerType = $event" />
+      <Inspector />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import {mapState} from 'vuex';
-
-import {AdminLayerType} from '@/types/admin-layers';
-import {LayerOptions} from '@/types/layers';
-import {MapStateToComputed} from '@/types/store';
-
-import {Options as TileSourceOptions} from 'ol/source/TileWMS';
-import {Feature} from 'ol';
-import Geometry from 'ol/geom/Geometry';
 
 import Map from './map-component.vue';
 import Layers from './energy-potential-layers.vue';
 import Cockpit from './energy-potential-cockpit.vue';
 import Inspector from './energy-potential-inspector.vue';
 
-import {mapStyleLayersOptions} from '@/constants/layers';
-
-const mapStyle = mapStyleLayersOptions[0].properties.name;
-
-interface Data {
-  mapStyleLayersOptions: Array<LayerOptions<TileSourceOptions>>;
-  mapStyle: string;
-  activeLayers: Array<string>;
-  selectedFeatures: Record<AdminLayerType, Array<Feature<Geometry>>>;
-}
-
 export default Vue.extend({
-  data(): Data {
-    return {
-      mapStyleLayersOptions,
-      mapStyle,
-      activeLayers: [],
-      selectedFeatures: {} as Record<AdminLayerType, Array<Feature<Geometry>>>
-    };
-  },
   components: {
     Map,
     Layers,
     // Notes,
     Cockpit,
     Inspector
-  },
-  computed: {
-    ...(mapState as MapStateToComputed)(['adminLayerType'])
-  },
-  methods: {
-    onLegendUrlsChange(legendUrls: Record<string, string>) {
-      console.log(legendUrls);
-    }
   }
 });
 </script>

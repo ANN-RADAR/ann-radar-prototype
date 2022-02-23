@@ -3,6 +3,7 @@
     <v-data-table
       v-if="adminLayerType"
       :value="selectedFeaturesData"
+      @input="onSelectedFeaturesDataChange"
       :headers="tableHeaders"
       :items="selectedFeaturesData"
       :item-key="adminLayers[adminLayerType].dataId"
@@ -64,10 +65,10 @@
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
-import {mapState} from 'vuex';
+import {mapState, mapMutations} from 'vuex';
 
-import {AdminLayerFeatureData, AdminLayerType} from '@/types/admin-layers';
-import {MapStateToComputed} from '@/types/store';
+import {AdminLayerFeatureData, FeaturesDataKeys} from '@/types/admin-layers';
+import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 import {formatNumber} from '@/libs/format';
 import {adminLayers} from '@/constants/admin-layers';
 import {DataTableHeader} from 'vuetify';
@@ -99,7 +100,7 @@ export default Vue.extend({
           text: this.adminLayerType || '',
           sortable: true,
           value: this.adminLayerType
-            ? adminLayers[this.adminLayerType as AdminLayerType].dataId
+            ? adminLayers[this.adminLayerType].dataId
             : ''
         },
         {
@@ -145,7 +146,7 @@ export default Vue.extend({
         return [];
       }
 
-      const {data, dataId} = adminLayers[this.adminLayerType as AdminLayerType];
+      const {data, dataId} = adminLayers[this.adminLayerType];
 
       if (!data || !dataId) {
         return [];
@@ -174,10 +175,30 @@ export default Vue.extend({
     }
   },
   methods: {
+    ...(mapMutations as MapMutationsToMethods)(['setSelectedFeatureDataKeys']),
     formatNumber(
       ...args: Parameters<typeof formatNumber>
     ): ReturnType<typeof formatNumber> {
       return formatNumber(...args);
+    },
+    onSelectedFeaturesDataChange(
+      newSelectedFeaturesData: Array<AdminLayerFeatureData>
+    ) {
+      if (!this.adminLayerType) {
+        return;
+      }
+
+      const {dataId} = adminLayers[this.adminLayerType];
+      const keys = this.selectedFeatureDataKeys[this.adminLayerType] || [];
+
+      this.setSelectedFeatureDataKeys({
+        layerType: this.adminLayerType,
+        keys: keys.filter((featureDataKeys: FeaturesDataKeys) =>
+          newSelectedFeaturesData
+            .map(data => String(data[dataId]))
+            .includes(featureDataKeys.featureName)
+        )
+      });
     }
   }
 });
