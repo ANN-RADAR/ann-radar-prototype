@@ -1,33 +1,14 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {AdminLayerType, AreasFeaturesDataKeys} from '@/types/admin-layers';
+
+import state from './state';
+import mutations from './mutations';
 
 Vue.use(Vuex);
 
-const store = new Vuex.Store({
-  state: {
-    mapStyle: 'farbig',
-    baseLayerTypes: [],
-    adminLayerType: null as AdminLayerType | null,
-    selectedFeatureDataKeys: {} as AreasFeaturesDataKeys
-  },
-  mutations: {
-    setAdminLayerType(state, newAdminLayerType) {
-      state.adminLayerType = newAdminLayerType;
-    },
-    setMapStyle(state, newMapStyle) {
-      state.mapStyle = newMapStyle;
-    },
-    setBaseLayerTypes(state, newBaseLayerTypes) {
-      state.baseLayerTypes = newBaseLayerTypes;
-    },
-    setSelectedFeatureDataKeys(state, payload) {
-      state.selectedFeatureDataKeys = {
-        ...state.selectedFeatureDataKeys,
-        [payload.layerType]: payload.keys
-      };
-    }
-  }
+const store = new Vuex.Store<typeof state>({
+  state,
+  mutations
 });
 
 export default store;

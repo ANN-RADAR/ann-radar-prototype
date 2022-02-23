@@ -25,6 +25,7 @@ import {Stadtteil} from '../models/Stadtteil';
 import {StatGebiet} from '../models/StatGebiet';
 
 import {tileSourcesOptions, vectorSourcesOptions} from '../constants/sources';
+import {MapStyle} from '@/types/map-styles';
 
 // projection for UTM zone 32N
 proj4.defs(
@@ -86,16 +87,16 @@ export default class MapComponent extends Vue {
     super();
 
     this.layers = {
-      farbig: new TileLayer({
-        visible: this.layerVisibility['farbig'],
+      [MapStyle.COLORED]: new TileLayer({
+        visible: this.layerVisibility[MapStyle.COLORED],
         source: new TileWMS(tileSourcesOptions.HH_WMS_Geobasiskarten)
       }),
-      'grau-blau': new TileLayer({
-        visible: this.layerVisibility['grau-blau'],
+      [MapStyle.GRAY_BLUE]: new TileLayer({
+        visible: this.layerVisibility[MapStyle.GRAY_BLUE],
         source: new TileWMS(tileSourcesOptions.HH_WMS_Geobasiskarten_GB)
       }),
-      'schwarz-grau': new TileLayer({
-        visible: this.layerVisibility['schwarz-grau'],
+      [MapStyle.BLACK_GRAY]: new TileLayer({
+        visible: this.layerVisibility[MapStyle.BLACK_GRAY],
         source: new TileWMS(tileSourcesOptions.HH_WMS_Geobasiskarten_SG)
       }),
       Solaratlas: new TileLayer({

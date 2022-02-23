@@ -19,6 +19,7 @@ import Style from 'ol/style/Style';
 import {tileSourcesOptions, vectorSourcesOptions} from './sources';
 import {Options as TileSourceOptions} from 'ol/source/TileWMS';
 import {Options as VectorSourceOptions} from 'ol/source/Vector';
+import {MapStyle} from '@/types/map-styles';
 
 export const solarAtlasLayerOptions: LayerOptions<TileSourceOptions> = {
   properties: {name: 'Solaratlas'},
@@ -90,21 +91,21 @@ export const baseLayersOptions: Array<LayerOptions> = [
 export const mapStyleLayersOptions: Array<LayerOptions<TileSourceOptions>> = [
   {
     properties: {
-      name: 'farbig'
+      name: MapStyle.COLORED
     },
     visible: true,
     source: tileSourcesOptions.HH_WMS_Geobasiskarten
   },
   {
     properties: {
-      name: 'grau-blau'
+      name: MapStyle.GRAY_BLUE
     },
     visible: false,
     source: tileSourcesOptions.HH_WMS_Geobasiskarten_GB
   },
   {
     properties: {
-      name: 'schwarz-grau'
+      name: MapStyle.BLACK_GRAY
     },
     visible: false,
     source: tileSourcesOptions.HH_WMS_Geobasiskarten_SG
