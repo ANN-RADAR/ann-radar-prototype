@@ -18,19 +18,25 @@ import {MapStyle} from '@/types/map-styles';
 import {adminLayers} from './admin-layers';
 import {AdminLayerType} from '@/types/admin-layers';
 
-export const solarAtlasLayerOptions: LayerOptions<TileSourceOptions> = {
-  properties: {name: 'Solaratlas'},
-  visible: false,
-  source: tileSourcesOptions.HH_WMS_Solaratlas,
-  zIndex: 5
-};
+export const solarPotentialLayersOptions: Array<LayerOptions> = [
+  {
+    properties: {name: 'Solaratlas'},
+    visible: false,
+    source: tileSourcesOptions.HH_WMS_Solaratlas,
+    zIndex: 5
+  }
+];
 
-export const heatingLayerOptions: LayerOptions<TileSourceOptions> = {
-  properties: {name: 'Wärmebedarf'},
-  visible: false,
-  source: tileSourcesOptions.HH_WMS_Waermekataster_Waermebedarf,
-  zIndex: 5
-};
+export const energyPotentialLayersOptions: Array<
+  LayerOptions<TileSourceOptions>
+> = [
+  {
+    properties: {name: 'Wärmebedarf'},
+    visible: false,
+    source: tileSourcesOptions.HH_WMS_Waermekataster_Waermebedarf,
+    zIndex: 5
+  }
+];
 
 export const baseLayersOptions: Array<LayerOptions> = [
   {
@@ -160,22 +166,21 @@ const adminAreaLayersOptions: Array<LayerOptions<VectorSourceOptions>> = [
 export const getBaseLayers = (): LayerGroup =>
   new LayerGroup({
     layers: [
-      ...baseLayersOptions.map(layer =>
+      ...[
+        ...baseLayersOptions,
+        ...solarPotentialLayersOptions,
+        ...energyPotentialLayersOptions
+      ].map(layer =>
         layer.style
-          ? new VectorLayer({...layer, source: new VectorSource(layer.source)})
+          ? new VectorLayer({
+              ...layer,
+              source: new VectorSource(layer.source)
+            })
           : new TileLayer({
               ...layer,
               source: new TileWMS(layer.source as TileSourceOptions)
             })
-      ),
-      new TileLayer({
-        ...solarAtlasLayerOptions,
-        source: new TileWMS(solarAtlasLayerOptions.source)
-      }),
-      new TileLayer({
-        ...heatingLayerOptions,
-        source: new TileWMS(heatingLayerOptions.source)
-      })
+      )
     ]
   });
 

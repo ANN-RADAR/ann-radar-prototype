@@ -34,7 +34,7 @@ import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 import {Options as TileSourceOptions} from 'ol/source/TileWMS';
 import {
   baseLayersOptions,
-  heatingLayerOptions,
+  energyPotentialLayersOptions,
   mapStyleLayersOptions
 } from '../constants/layers';
 
@@ -46,7 +46,7 @@ interface Data {
 export default Vue.extend({
   data(): Data {
     return {
-      layers: [heatingLayerOptions, ...baseLayersOptions],
+      layers: [...energyPotentialLayersOptions, ...baseLayersOptions],
       mapStyleLayersOptions
     };
   },
