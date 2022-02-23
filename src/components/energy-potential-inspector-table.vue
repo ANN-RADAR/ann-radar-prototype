@@ -64,8 +64,10 @@
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
+import {mapState} from 'vuex';
 
 import {AdminLayerFeatureData, AdminLayerType} from '@/types/admin-layers';
+import {MapStateToComputed} from '@/types/store';
 import {formatNumber} from '@/libs/format';
 import {adminLayers} from '@/constants/admin-layers';
 import {DataTableHeader} from 'vuetify';
@@ -87,14 +89,17 @@ export default Vue.extend({
     };
   },
   computed: {
+    ...(mapState as MapStateToComputed)([
+      'adminLayerType',
+      'selectedFeatureDataKeys'
+    ]),
     tableHeaders(): Array<DataTableHeader> {
       return [
         {
-          text: this.$store.state.adminLayerType || '',
+          text: this.adminLayerType || '',
           sortable: true,
-          value: this.$store.state.adminLayerType
-            ? adminLayers[this.$store.state.adminLayerType as AdminLayerType]
-                .dataId
+          value: this.adminLayerType
+            ? adminLayers[this.adminLayerType as AdminLayerType].dataId
             : ''
         },
         {
@@ -124,7 +129,7 @@ export default Vue.extend({
           value: 'p_st_mwh_a'
         }
       ].concat(
-        this.$store.state.adminLayerType === 'StatGebiet'
+        this.adminLayerType === 'StatGebiet'
           ? [
               {
                 text: 'Soz. Status',
@@ -135,16 +140,12 @@ export default Vue.extend({
           : []
       );
     },
-    adminLayerType(): AdminLayerType {
-      return this.$store.state.adminLayerType;
-    },
     selectedFeaturesData(): Array<AdminLayerFeatureData> {
-      if (!this.$store.state.adminLayerType) {
+      if (!this.adminLayerType) {
         return [];
       }
 
-      const {data, dataId} =
-        adminLayers[this.$store.state.adminLayerType as AdminLayerType];
+      const {data, dataId} = adminLayers[this.adminLayerType as AdminLayerType];
 
       if (!data || !dataId) {
         return [];
@@ -152,9 +153,9 @@ export default Vue.extend({
 
       return data.filter((featureData: AdminLayerFeatureData) => {
         const selectedFeatureDataKeys =
-          this.$store.state.selectedFeatureDataKeys[
-            this.$store.state.adminLayerType
-          ] || [];
+          (this.adminLayerType &&
+            this.selectedFeatureDataKeys[this.adminLayerType]) ||
+          [];
 
         return selectedFeatureDataKeys.some(
           (keys: {featureId: string; featureName: string}) =>

@@ -4,9 +4,13 @@
       <Map
         :mapStyleLayer="mapStyle"
         :activeLayers="activeLayers"
-        :selectedFeatures="selectedFeatures[adminLayerType]"
+        :selectedFeatures="
+          (adminLayerType && selectedFeatures[adminLayerType]) || []
+        "
         @onSelectedFeaturesChanged="
-          selectedFeatures = {...selectedFeatures, [adminLayerType]: $event}
+          selectedFeatures = adminLayerType
+            ? {...selectedFeatures, [adminLayerType]: $event}
+            : selectedFeatures
         "
       />
     </div>
@@ -28,9 +32,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import {mapState} from 'vuex';
 
 import {AdminLayerType} from '@/types/admin-layers';
 import {LayerOptions} from '@/types/layers';
+import {MapStateToComputed} from '@/types/store';
+
 import {Options as TileSourceOptions} from 'ol/source/TileWMS';
 import {Feature} from 'ol';
 import Geometry from 'ol/geom/Geometry';
@@ -68,9 +75,7 @@ export default Vue.extend({
     Inspector
   },
   computed: {
-    adminLayerType(): AdminLayerType {
-      return this.$store.state.adminLayerType;
-    }
+    ...(mapState as MapStateToComputed)(['adminLayerType'])
   },
   methods: {
     onLegendUrlsChange(legendUrls: Record<string, string>) {

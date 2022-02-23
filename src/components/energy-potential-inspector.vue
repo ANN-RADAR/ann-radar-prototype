@@ -20,8 +20,10 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import {mapMutations, mapState} from 'vuex';
 
 import {AdminLayerType} from '@/types/admin-layers';
+import {MapStateToComputed} from '@/types/store';
 import EnergyPotentialInspectorTable from './energy-potential-inspector-table.vue';
 
 interface Data {
@@ -38,17 +40,14 @@ export default Vue.extend({
     };
   },
   computed: {
-    adminLayerType(): AdminLayerType {
-      return this.$store.state.adminLayerType;
-    }
+    ...(mapState as MapStateToComputed)(['adminLayerType'])
   },
   methods: {
+    ...mapMutations(['setAdminLayerType']),
     onLayerTypeChanged(adminLayerType: AdminLayerType) {
       const selectedAdminLayerType =
-        adminLayerType === this.$store.state.adminLayerType
-          ? null
-          : adminLayerType;
-      this.$store.commit('setAdminLayerType', selectedAdminLayerType);
+        adminLayerType === this.adminLayerType ? null : adminLayerType;
+      this.setAdminLayerType(selectedAdminLayerType);
     }
   }
 });

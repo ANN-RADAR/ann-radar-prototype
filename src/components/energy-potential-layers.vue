@@ -12,7 +12,7 @@
           @change="onLayerChange"
         ></v-checkbox>
       </div>
-      <v-radio-group v-bind:value="mapStyle" @change="mapStyleChanged" row>
+      <v-radio-group v-bind:value="mapStyle" @change="setMapStyle" row>
         <span style="margin-right: 16px">Hintergrundkarte:</span>
         <v-radio
           v-for="layer in mapStyleLayersOptions"
@@ -27,8 +27,10 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import {mapMutations, mapState} from 'vuex';
 
 import {LayerOptions} from '@/types/layers';
+import {MapStateToComputed} from '@/types/store';
 import {Options as TileSourceOptions} from 'ol/source/TileWMS';
 import {
   baseLayersOptions,
@@ -49,17 +51,12 @@ export default Vue.extend({
     };
   },
   computed: {
-    mapStyle() {
-      return this.$store.state.mapStyle;
-    }
+    ...(mapState as MapStateToComputed)(['mapStyle'])
   },
   methods: {
-    mapStyleChanged(value: string) {
-      this.$store.commit('setMapStyle', value);
-    },
+    ...mapMutations(['setMapStyle', 'setBaseLayerTypes']),
     onLayerChange() {
-      this.$store.commit(
-        'setBaseLayerTypes',
+      this.setBaseLayerTypes(
         this.layers
           .filter(layer => layer.visible)
           .map(layer => layer.properties.name)
