@@ -4,6 +4,9 @@
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
+import {mapMutations, mapState} from 'vuex';
+
+import {MapStateToComputed, StoreState} from '@/types/store';
 
 import {Feature, Map, MapBrowserEvent, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
@@ -11,7 +14,6 @@ import LayerGroup from 'ol/layer/Group';
 import VectorLayer from 'ol/layer/Vector';
 import Geometry from 'ol/geom/Geometry';
 import VectorSource from 'ol/source/Vector';
-import {AdminLayerType} from '@/types/admin-layers';
 
 import {
   getMapStyleLayers,
@@ -59,15 +61,11 @@ export default Vue.extend({
     };
   },
   computed: {
-    adminLayerType(): AdminLayerType {
-      return this.$store.state.adminLayerType;
-    },
-    mapStyle() {
-      return this.$store.state.mapStyle;
-    },
-    baseLayerTypes() {
-      return this.$store.state.baseLayerTypes;
-    }
+    ...(mapState as MapStateToComputed)([
+      'adminLayerType',
+      'mapStyle',
+      'baseLayerTypes'
+    ])
   },
   watch: {
     mapStyle(newMapStyleLayer: string) {
@@ -98,6 +96,9 @@ export default Vue.extend({
       }
     }
   },
+  methods: {
+    ...mapMutations(['setSelectedFeatureDataKeys'])
+  },
   mounted() {
     this.map = new Map(this.mapOptions);
 
@@ -112,7 +113,7 @@ export default Vue.extend({
       for (const layer of this.adminLayers.getLayers().getArray() as Array<
         VectorLayer<VectorSource<Geometry>>
       >) {
-        if (layer.get('name') === this.adminLayerType) {
+        if (this.adminLayerType && layer.get('name') === this.adminLayerType) {
           const {featureId, featureName} = adminLayers[this.adminLayerType];
           const clickedFeatures = layer
             .getSource()
@@ -122,7 +123,7 @@ export default Vue.extend({
             feature.set('selected', !feature.get('selected'));
           });
 
-          this.$store.commit('setSelectedFeatureDataKeys', {
+          this.setSelectedFeatureDataKeys({
             layerType: this.adminLayerType,
             keys: layer
               .getSource()

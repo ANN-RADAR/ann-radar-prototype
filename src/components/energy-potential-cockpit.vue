@@ -53,33 +53,30 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import {mapState} from 'vuex';
 
-import {AdminLayerFeatureData, AdminLayerType} from '@/types/admin-layers';
+import {MapStateToComputed} from '@/types/store';
 import {calculateAggregateValues} from '@/libs/admin-layers';
 import {formatNumber} from '@/libs/format';
-import {adminLayers} from '@/constants/admin-layers';
 
 export default Vue.extend({
   computed: {
-    adminLayerType(): AdminLayerType {
-      return this.$store.state.adminLayerType;
-    },
+    ...(mapState as MapStateToComputed)([
+      'adminLayerType',
+      'selectedFeatureDataKeys'
+    ]),
     aggregation(): Record<string, number> | null {
       if (
         !this.adminLayerType ||
         this.adminLayerType === 'Stadt' ||
-        !this.$store.state.selectedFeatureDataKeys[
-          this.$store.state.adminLayerType
-        ]?.length
+        !this.selectedFeatureDataKeys[this.adminLayerType]?.length
       ) {
         return null;
       }
 
       return calculateAggregateValues(
         this.adminLayerType,
-        this.$store.state.selectedFeatureDataKeys[
-          this.$store.state.adminLayerType
-        ]
+        this.selectedFeatureDataKeys[this.adminLayerType]
       );
     }
   },
