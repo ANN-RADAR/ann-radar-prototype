@@ -1,9 +1,4 @@
 import {getAdminLayerStyle} from '@/libs/admin-layers';
-import {Baublock} from '@/models/Baublock';
-import {Bezirk} from '@/models/Bezirk';
-import {Stadt} from '@/models/Stadt';
-import {Stadtteil} from '@/models/Stadtteil';
-import {StatGebiet} from '@/models/StatGebiet';
 import {LayerOptions} from '@/types/layers';
 import {Feature} from 'ol';
 import Geometry from 'ol/geom/Geometry';
@@ -20,6 +15,8 @@ import {tileSourcesOptions, vectorSourcesOptions} from './sources';
 import {Options as TileSourceOptions} from 'ol/source/TileWMS';
 import {Options as VectorSourceOptions} from 'ol/source/Vector';
 import {MapStyle} from '@/types/map-styles';
+import {adminLayers} from './admin-layers';
+import {AdminLayerType} from '@/types/admin-layers';
 
 export const solarAtlasLayerOptions: LayerOptions<TileSourceOptions> = {
   properties: {name: 'Solaratlas'},
@@ -116,7 +113,7 @@ const adminAreaLayersOptions: Array<LayerOptions<VectorSourceOptions>> = [
   {
     source: vectorSourcesOptions.Stadt,
     visible: false,
-    style: getAdminLayerStyle(Stadt.featureNameProp),
+    style: getAdminLayerStyle(adminLayers[AdminLayerType.Stadt].featureName),
     properties: {
       name: 'Stadt'
     }
@@ -124,7 +121,7 @@ const adminAreaLayersOptions: Array<LayerOptions<VectorSourceOptions>> = [
   {
     source: vectorSourcesOptions.Bezirk,
     visible: false,
-    style: getAdminLayerStyle(Bezirk.featureNameProp),
+    style: getAdminLayerStyle(adminLayers[AdminLayerType.Bezirk].featureName),
     properties: {
       name: 'Bezirk'
     }
@@ -132,7 +129,9 @@ const adminAreaLayersOptions: Array<LayerOptions<VectorSourceOptions>> = [
   {
     source: vectorSourcesOptions.Stadtteil,
     visible: false,
-    style: getAdminLayerStyle(Stadtteil.featureNameProp),
+    style: getAdminLayerStyle(
+      adminLayers[AdminLayerType.Stadtteil].featureName
+    ),
     properties: {
       name: 'Stadtteil'
     }
@@ -140,7 +139,9 @@ const adminAreaLayersOptions: Array<LayerOptions<VectorSourceOptions>> = [
   {
     source: vectorSourcesOptions.StatGebiet,
     visible: false,
-    style: getAdminLayerStyle(StatGebiet.featureNameProp),
+    style: getAdminLayerStyle(
+      adminLayers[AdminLayerType.StatGebiet].featureName
+    ),
     properties: {
       name: 'StatGebiet'
     }
@@ -148,7 +149,7 @@ const adminAreaLayersOptions: Array<LayerOptions<VectorSourceOptions>> = [
   {
     source: vectorSourcesOptions.Baublock,
     visible: false,
-    style: getAdminLayerStyle(Baublock.featureNameProp),
+    style: getAdminLayerStyle(adminLayers[AdminLayerType.Baublock].featureName),
     properties: {
       name: 'Baublock'
     },
@@ -167,6 +168,10 @@ export const getBaseLayers = (): LayerGroup =>
               source: new TileWMS(layer.source as TileSourceOptions)
             })
       ),
+      new TileLayer({
+        ...solarAtlasLayerOptions,
+        source: new TileWMS(solarAtlasLayerOptions.source)
+      }),
       new TileLayer({
         ...heatingLayerOptions,
         source: new TileWMS(heatingLayerOptions.source)

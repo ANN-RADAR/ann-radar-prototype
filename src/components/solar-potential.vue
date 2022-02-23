@@ -12,7 +12,7 @@
     </div>
     <div class="inspector">
       <Inspector>
-        <EnergyPotentialInspectorTable />
+        <SolarPotentialInspectorTable />
       </Inspector>
     </div>
   </div>
@@ -22,10 +22,10 @@
 import Vue from 'vue';
 
 import Map from './map-component.vue';
-import Layers from './energy-potential-layers.vue';
-import Cockpit from './energy-potential-cockpit.vue';
+import Layers from './solar-potential-layers.vue';
+import Cockpit from './solar-potential-cockpit.vue';
 import Inspector from './admin-areas-inspector.vue';
-import EnergyPotentialInspectorTable from './energy-potential-inspector-table.vue';
+import SolarPotentialInspectorTable from './solar-potential-inspector-table.vue';
 
 export default Vue.extend({
   components: {
@@ -34,7 +34,7 @@ export default Vue.extend({
     // Notes,
     Cockpit,
     Inspector,
-    EnergyPotentialInspectorTable
+    SolarPotentialInspectorTable
   }
 });
 </script>

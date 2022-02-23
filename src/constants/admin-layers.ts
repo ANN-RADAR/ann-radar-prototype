@@ -1,14 +1,4 @@
-import {Baublock} from '../models/Baublock';
-import {Bezirk} from '../models/Bezirk';
-import {Stadt} from '../models/Stadt';
-import {Stadtteil} from '../models/Stadtteil';
-import {StatGebiet} from '../models/StatGebiet';
-
-import {
-  AdminLayerType,
-  AdminLevels,
-  AdminLayerFeatureData
-} from '@/types/admin-layers';
+import {AdminLayerType, AdminLayerFeatureData} from '@/types/admin-layers';
 
 import baublockData from '../../public/data/baublöcke.json';
 import bezirkData from '../../public/data/bezirke.json';
@@ -53,15 +43,3 @@ export const adminLayers: {
     dataId: 'BBZ'
   }
 };
-
-// @deprecated
-
-export const adminLevelClassMap: AdminLevels = {
-  Stadt: Stadt,
-  Bezirk: Bezirk,
-  Stadtteil: Stadtteil,
-  StatGebiet: StatGebiet,
-  Baublock: Baublock
-};
-
-export const adminAreaTypes = Object.keys(adminLevelClassMap);
