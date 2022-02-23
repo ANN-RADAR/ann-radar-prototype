@@ -98,7 +98,7 @@ export default Vue.extend({
       }
     },
     currentLayerSelectedFeatureDataKeys(
-      newCurrentLayerSelectedFeatureDataKeys: FeaturesDataKeys
+      newCurrentLayerSelectedFeatureDataKeys: Array<FeaturesDataKeys>
     ) {
       for (const layer of this.adminLayers.getLayers().getArray() as Array<
         VectorLayer<VectorSource<Geometry>>
@@ -118,13 +118,8 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...(mapMutations as MapMutationsToMethods)(['setSelectedFeatureDataKeys'])
-  },
-  mounted() {
-    this.map = new Map(this.mapOptions);
-
-    // Select map features
-    this.map.on('click', (event: MapBrowserEvent<UIEvent>) => {
+    ...(mapMutations as MapMutationsToMethods)(['setSelectedFeatureDataKeys']),
+    handleClickOnMap(event: MapBrowserEvent<UIEvent>) {
       const coord = this.map?.getCoordinateFromPixel(event.pixel);
 
       if (!coord) {
@@ -149,9 +144,13 @@ export default Vue.extend({
             const name = feature.get(featureName);
 
             // Toggle the clicked feature's keys
-            if (selectedFeatureDataKeys.some(keys => keys.featureId === id)) {
+            if (
+              selectedFeatureDataKeys.some(
+                keys => String(keys.featureId) === id
+              )
+            ) {
               selectedFeatureDataKeys = selectedFeatureDataKeys.filter(
-                keys => keys.featureId !== id
+                keys => String(keys.featureId) !== id
               );
             } else {
               selectedFeatureDataKeys = [
@@ -168,7 +167,13 @@ export default Vue.extend({
         }
       }
       // TODO: Add selected feature id / name to store
-    });
+    }
+  },
+  mounted() {
+    this.map = new Map(this.mapOptions);
+
+    // Select map features
+    this.map.on('click', this.handleClickOnMap);
 
     //   // Update the legend
     //   this.map.on('postcompose', () => {

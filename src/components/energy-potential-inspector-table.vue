@@ -67,7 +67,7 @@
 import Vue, {PropType} from 'vue';
 import {mapState, mapMutations} from 'vuex';
 
-import {AdminLayerFeatureData, AdminLayerType} from '@/types/admin-layers';
+import {AdminLayerFeatureData, FeaturesDataKeys} from '@/types/admin-layers';
 import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 import {formatNumber} from '@/libs/format';
 import {adminLayers} from '@/constants/admin-layers';
@@ -100,7 +100,7 @@ export default Vue.extend({
           text: this.adminLayerType || '',
           sortable: true,
           value: this.adminLayerType
-            ? adminLayers[this.adminLayerType as AdminLayerType].dataId
+            ? adminLayers[this.adminLayerType].dataId
             : ''
         },
         {
@@ -146,7 +146,7 @@ export default Vue.extend({
         return [];
       }
 
-      const {data, dataId} = adminLayers[this.adminLayerType as AdminLayerType];
+      const {data, dataId} = adminLayers[this.adminLayerType];
 
       if (!data || !dataId) {
         return [];
@@ -184,16 +184,19 @@ export default Vue.extend({
     onSelectedFeaturesDataChange(
       newSelectedFeaturesData: Array<AdminLayerFeatureData>
     ) {
-      const adminLayerType = this.adminLayerType as AdminLayerType;
-      const {dataId} = adminLayers[adminLayerType];
+      if (!this.adminLayerType) {
+        return;
+      }
+
+      const {dataId} = adminLayers[this.adminLayerType];
+      const keys = this.selectedFeatureDataKeys[this.adminLayerType] || [];
 
       this.setSelectedFeatureDataKeys({
-        layerType: adminLayerType,
-        keys: this.selectedFeatureDataKeys[adminLayerType].filter(
-          (featureDataKeys: {featureId: string; featureName: string}) =>
-            newSelectedFeaturesData
-              .map(data => data[dataId])
-              .includes(featureDataKeys.featureName)
+        layerType: this.adminLayerType,
+        keys: keys.filter((featureDataKeys: FeaturesDataKeys) =>
+          newSelectedFeaturesData
+            .map(data => String(data[dataId]))
+            .includes(featureDataKeys.featureName)
         )
       });
     }
