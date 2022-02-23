@@ -30,7 +30,7 @@ import Vue from 'vue';
 import {mapMutations, mapState} from 'vuex';
 
 import {LayerOptions} from '@/types/layers';
-import {MapStateToComputed} from '@/types/store';
+import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 import {Options as TileSourceOptions} from 'ol/source/TileWMS';
 import {
   baseLayersOptions,
@@ -54,7 +54,10 @@ export default Vue.extend({
     ...(mapState as MapStateToComputed)(['mapStyle'])
   },
   methods: {
-    ...mapMutations(['setMapStyle', 'setBaseLayerTypes']),
+    ...(mapMutations as MapMutationsToMethods)([
+      'setMapStyle',
+      'setBaseLayerTypes'
+    ]),
     onLayerChange() {
       this.setBaseLayerTypes(
         this.layers

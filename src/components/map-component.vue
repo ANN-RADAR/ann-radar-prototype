@@ -6,7 +6,7 @@
 import Vue, {PropType} from 'vue';
 import {mapMutations, mapState} from 'vuex';
 
-import {MapStateToComputed, StoreState} from '@/types/store';
+import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 
 import {Feature, Map, MapBrowserEvent, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
@@ -97,7 +97,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...mapMutations(['setSelectedFeatureDataKeys'])
+    ...(mapMutations as MapMutationsToMethods)(['setSelectedFeatureDataKeys'])
   },
   mounted() {
     this.map = new Map(this.mapOptions);
