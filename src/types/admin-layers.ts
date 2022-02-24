@@ -1,9 +1,9 @@
 export enum AdminLayerType {
-  Stadt = 'Stadt',
-  Bezirk = 'Bezirk',
-  Stadtteil = 'Stadtteil',
-  StatGebiet = 'StatGebiet',
-  Baublock = 'Baublock'
+  CITY = 'city',
+  BOROUGH = 'borough',
+  QUARTER = 'quarter',
+  STATISTICAL_AREA = 'statisticalArea',
+  BUILDING_BLOCK = 'buildingBlock'
 }
 
 export interface AdminLayerFeatureData extends Record<string, string | number> {

@@ -21,13 +21,13 @@ import {socialMonitoringColors, solarCoverageRateColors} from './colors';
 
 export const solarPotentialLayersOptions: Array<LayerOptions> = [
   {
-    properties: {name: 'Solaratlas'},
+    properties: {name: 'solarMap'},
     visible: false,
     source: tileSourcesOptions.HH_WMS_Solaratlas,
     zIndex: 5
   },
   {
-    properties: {name: 'Solarer Deckungsgrad'},
+    properties: {name: 'solarCoverageRate'},
     visible: false,
     source: vectorSourcesOptions.SolarCoverageRate,
     style: (feature: Feature<Geometry> | RenderFeature) => {
@@ -47,7 +47,7 @@ export const energyPotentialLayersOptions: Array<
   LayerOptions<TileSourceOptions>
 > = [
   {
-    properties: {name: 'Wärmebedarf'},
+    properties: {name: 'heatDemand'},
     visible: false,
     source: tileSourcesOptions.HH_WMS_Waermekataster_Waermebedarf,
     zIndex: 5
@@ -56,32 +56,32 @@ export const energyPotentialLayersOptions: Array<
 
 export const baseLayersOptions: Array<LayerOptions> = [
   {
-    properties: {name: 'Schulen'},
+    properties: {name: 'schools'},
     visible: false,
     source: tileSourcesOptions.HH_WMS_Schulen
   },
   {
-    properties: {name: 'Stadtteilkultur'},
+    properties: {name: 'quarterCulture'},
     visible: false,
     source: tileSourcesOptions.HH_WMS_Oeffentliche_Bibliotheken
   },
   {
-    properties: {name: 'Soziale Infrastruktur'},
+    properties: {name: 'socialInfrastructure'},
     visible: false,
     source: tileSourcesOptions.HH_WMS_Geobasiskarten_GB
   },
   {
-    properties: {name: 'Bauen und Wohnen'},
+    properties: {name: 'buildingAndLiving'},
     visible: false,
     source: tileSourcesOptions.HH_WMS_Geobasiskarten
   },
   {
-    properties: {name: 'RISE-Fördergebiete'},
+    properties: {name: 'riseFundingAreas'},
     visible: false,
     source: tileSourcesOptions.HH_WMS_RISE_FG
   },
   {
-    properties: {name: 'Sozialmonitoring 2020'},
+    properties: {name: 'socialMonitoring2020'},
     visible: false,
     source: vectorSourcesOptions.Sozialmonitoring,
     style: (feature: Feature<Geometry> | RenderFeature) => {
@@ -127,47 +127,47 @@ export const mapStyleLayersOptions: Array<LayerOptions<TileSourceOptions>> = [
 
 const adminAreaLayersOptions: Array<LayerOptions<VectorSourceOptions>> = [
   {
-    source: vectorSourcesOptions.Stadt,
+    source: vectorSourcesOptions.CITY,
     visible: false,
-    style: getAdminLayerStyle(adminLayers[AdminLayerType.Stadt].featureName),
+    style: getAdminLayerStyle(adminLayers[AdminLayerType.CITY].featureName),
     properties: {
-      name: 'Stadt'
+      name: AdminLayerType.CITY
     }
   },
   {
-    source: vectorSourcesOptions.Bezirk,
+    source: vectorSourcesOptions.BOROUGH,
     visible: false,
-    style: getAdminLayerStyle(adminLayers[AdminLayerType.Bezirk].featureName),
+    style: getAdminLayerStyle(adminLayers[AdminLayerType.BOROUGH].featureName),
     properties: {
-      name: 'Bezirk'
+      name: AdminLayerType.BOROUGH
     }
   },
   {
-    source: vectorSourcesOptions.Stadtteil,
+    source: vectorSourcesOptions.QUARTER,
+    visible: false,
+    style: getAdminLayerStyle(adminLayers[AdminLayerType.QUARTER].featureName),
+    properties: {
+      name: AdminLayerType.QUARTER
+    }
+  },
+  {
+    source: vectorSourcesOptions.STATISTICAL_AREA,
     visible: false,
     style: getAdminLayerStyle(
-      adminLayers[AdminLayerType.Stadtteil].featureName
+      adminLayers[AdminLayerType.STATISTICAL_AREA].featureName
     ),
     properties: {
-      name: 'Stadtteil'
+      name: AdminLayerType.STATISTICAL_AREA
     }
   },
   {
-    source: vectorSourcesOptions.StatGebiet,
+    source: vectorSourcesOptions.BUILDING_BLOCK,
     visible: false,
     style: getAdminLayerStyle(
-      adminLayers[AdminLayerType.StatGebiet].featureName
+      adminLayers[AdminLayerType.BUILDING_BLOCK].featureName
     ),
     properties: {
-      name: 'StatGebiet'
-    }
-  },
-  {
-    source: vectorSourcesOptions.Baublock,
-    visible: false,
-    style: getAdminLayerStyle(adminLayers[AdminLayerType.Baublock].featureName),
-    properties: {
-      name: 'Baublock'
+      name: AdminLayerType.BUILDING_BLOCK
     },
     minZoom: 13
   }

@@ -1,9 +1,9 @@
 import {AdminLayerType, AdminLayerFeatureData} from '@/types/admin-layers';
 
-import baublockData from '../../public/data/baublöcke.json';
-import bezirkData from '../../public/data/bezirke.json';
-import statData from '../../public/data/statistische_gebiete.json';
-import stadtTeilData from '../../public/data/stadtteile.json';
+import buildingBlockData from '../../public/data/baublöcke.json';
+import boroughData from '../../public/data/bezirke.json';
+import statisticalAreaData from '../../public/data/statistische_gebiete.json';
+import quarterData from '../../public/data/stadtteile.json';
 
 export const adminLayers: {
   [key in AdminLayerType]: {
@@ -13,33 +13,33 @@ export const adminLayers: {
     dataId: string;
   };
 } = {
-  [AdminLayerType.Stadt]: {
+  [AdminLayerType.CITY]: {
     featureId: 'fhh',
     featureName: 'fhh',
     dataId: 'name'
   },
-  [AdminLayerType.Bezirk]: {
+  [AdminLayerType.BOROUGH]: {
     featureId: 'bezirk',
     featureName: 'bezirk_name',
-    data: bezirkData as unknown as AdminLayerFeatureData[],
+    data: boroughData as unknown as AdminLayerFeatureData[],
     dataId: 'bezirk_name'
   },
-  [AdminLayerType.Stadtteil]: {
+  [AdminLayerType.QUARTER]: {
     featureId: 'stadtteil_nummer',
     featureName: 'stadtteil_name',
-    data: stadtTeilData as unknown as AdminLayerFeatureData[],
+    data: quarterData as unknown as AdminLayerFeatureData[],
     dataId: 'stadtteil_name'
   },
-  [AdminLayerType.StatGebiet]: {
+  [AdminLayerType.STATISTICAL_AREA]: {
     featureId: 'statgebiet',
     featureName: 'statgebiet',
-    data: statData as unknown as AdminLayerFeatureData[],
+    data: statisticalAreaData as unknown as AdminLayerFeatureData[],
     dataId: 'STATGEB'
   },
-  [AdminLayerType.Baublock]: {
+  [AdminLayerType.BUILDING_BLOCK]: {
     featureId: 'baublockbezeichnung',
     featureName: 'baublockbezeichnung',
-    data: baublockData as unknown as AdminLayerFeatureData[],
+    data: buildingBlockData as unknown as AdminLayerFeatureData[],
     dataId: 'BBZ'
   }
 };

@@ -112,23 +112,23 @@ export const tileSourcesOptions: Record<string, TileSourceOptions> = {
 };
 
 export const vectorSourcesOptions: Record<string, VectorSourceOptions> = {
-  Stadt: {
+  CITY: {
     format: new GML3(),
     url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=landesgrenze'
   },
-  Bezirk: {
+  BOROUGH: {
     format: new GML3(),
     url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=bezirke'
   },
-  Stadtteil: {
+  QUARTER: {
     format: new GML3(),
     url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=stadtteile'
   },
-  StatGebiet: {
+  STATISTICAL_AREA: {
     format: new GML3(),
     url: 'https://geodienste.hamburg.de/HH_WFS_Statistische_Gebiete?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=statistische_gebiete'
   },
-  Baublock: {
+  BUILDING_BLOCK: {
     format: new GML3(),
     url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=baubloecke'
   },

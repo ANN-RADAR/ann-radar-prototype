@@ -20,27 +20,27 @@
   "save": "Save",
   "notAvailable": "n/a",
   "adminLayer": {
-    "Stadt": "City",
-    "Bezirk": "Borough",
-    "Stadtteil": "Quarter",
-    "StatGebiet": "Statistical Area",
-    "Baublock": "Building Block"
+    "city": "City",
+    "borough": "Borough",
+    "quarter": "Quarter",
+    "statisticalArea": "Statistical Area",
+    "buildingBlock": "Building Block"
   },
   "layer": {
-    "Solaratlas": "Solar Map",
-    "Solarer Deckungsgrad": "Solar Coverage Rate",
-    "Wärmebedarf": "Heat Demand",
-    "Schulen": "Schools",
-    "Stadtteilkultur": "Suburban Culture",
-    "Soziale Infrastruktur": "Social Infrastructure",
-    "Bauen und Wohnen": "Building and Living",
-    "RISE-Fördergebiete": "RISE Funding Areas",
-    "Sozialmonitoring 2020": "Social Monitoring 2020"
+    "solarMap": "Solar Map",
+    "solarCoverageRate": "Solar Coverage Rate",
+    "heatDemand": "Heat Demand",
+    "schools": "Schools",
+    "quarterCulture": "Suburban Culture",
+    "socialInfrastructure": "Social Infrastructure",
+    "buildingAndLiving": "Building and Living",
+    "riseFundingAreas": "RISE Funding Areas",
+    "socialMonitoring2020": "Social Monitoring 2020"
   },
   "mapStyle": {
-    "farbig": "colored",
-    "grau-blau": "gray-blue",
-    "schwarz-grau": "black-gray"
+    "colored": "colored",
+    "grayBlue": "gray-blue",
+    "blackGray": "black-gray"
   },
   "parcels": "Parcels",
   "meanParcelSize": "Mean Parcel Size",
