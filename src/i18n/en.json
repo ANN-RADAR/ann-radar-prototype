@@ -1,0 +1,53 @@
+{
+  "annRadar": "ANN Radar",
+  "logout": "Logout",
+  "navigation": {
+    "solar": "Solar",
+    "energyEfficiency": "Energy Efficiency",
+    "mobility": "Mobility",
+    "potential": "Potential",
+    "plans": "Plans",
+    "stakeholders": "Stakeholders",
+    "urbanData": "Urban Data",
+    "governance": "Governance"
+  },
+  "layers": "Layers",
+  "mapStyles": "Map Style",
+  "cockpit": "Cockpit",
+  "inspectAreas": "Inspect Areas",
+  "saveSelection": "Save Selection",
+  "cancel": "Cancel",
+  "save": "Save",
+  "notAvailable": "n/a",
+  "adminLayer": {
+    "Stadt": "City",
+    "Bezirk": "Borough",
+    "Stadtteil": "Quarter",
+    "StatGebiet": "Statistical Area",
+    "Baublock": "Building Block"
+  },
+  "layer": {
+    "Solaratlas": "Solar Map",
+    "Solarer Deckungsgrad": "Solar Coverage Rate",
+    "Wärmebedarf": "Heat Demand",
+    "Schulen": "Schools",
+    "Stadtteilkultur": "Suburban Culture",
+    "Soziale Infrastruktur": "Social Infrastructure",
+    "Bauen und Wohnen": "Building and Living",
+    "RISE-Fördergebiete": "RISE Funding Areas",
+    "Sozialmonitoring 2020": "Social Monitoring 2020"
+  },
+  "mapStyle": {
+    "farbig": "colored",
+    "grau-blau": "gray-blue",
+    "schwarz-grau": "black-gray"
+  },
+  "parcels": "Parcels",
+  "meanParcelSize": "Mean Parcel Size",
+  "grossFloorArea": "Gross Floor Area",
+  "residentialBuildingArea": "Residential Building Area",
+  "population": "Population",
+  "solarPotential": "Solar Potential",
+  "statisticalArea": "Statistical Area",
+  "socialStatus": "Social Status"
+}

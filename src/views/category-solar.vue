@@ -6,11 +6,11 @@
       style="display: flex; flex-direction: column; height: 100%; padding: 0"
     >
       <v-tabs v-model="tab">
-        <v-tab>Potential</v-tab>
-        <v-tab>Plans</v-tab>
-        <v-tab>Stakeholders</v-tab>
-        <v-tab>Urban Data</v-tab>
-        <v-tab>Governance</v-tab>
+        <v-tab>{{ $t('navigation.potential') }}</v-tab>
+        <v-tab>{{ $t('navigation.plans') }}</v-tab>
+        <v-tab>{{ $t('navigation.stakeholders') }}</v-tab>
+        <v-tab>{{ $t('navigation.urbanData') }}</v-tab>
+        <v-tab>{{ $t('navigation.governance') }}</v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab" style="height: 100%">
         <v-tab-item style="flex-grow: 1">
