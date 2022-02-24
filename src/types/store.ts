@@ -10,8 +10,7 @@ export interface RootState {
 }
 
 export interface UserState {
-  loggedIn: boolean;
-  data: {name: string; email: string} | null;
+  data: {email: string} | null;
 }
 
 export interface StoreState {

@@ -1,6 +1,5 @@
-const state = {
-  loggedIn: false,
-  data: null
-};
+import {UserState} from '@/types/store';
+
+const state: UserState = {data: null};
 
 export default state;

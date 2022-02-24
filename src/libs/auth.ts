@@ -23,7 +23,7 @@ export const auth = getAuth();
 
 export const initializeAuth = (store: Store<StoreState>) =>
   onAuthStateChanged(auth, user => {
-    store.dispatch('fetchUser', user);
+    store.dispatch('user/changed', user);
   });
 
 export const logIn = (email: string, password: string) =>

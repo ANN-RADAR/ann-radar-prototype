@@ -18,7 +18,7 @@ Vue.use(Router);
 const router = new Router({routes});
 
 router.beforeEach((to, from, next) => {
-  if (!store.state.user.loggedIn && to.name !== 'Login') {
+  if (!store.state.user.data && to.name !== 'Login') {
     next({name: 'Login'});
   }
   next();

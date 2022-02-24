@@ -1,16 +1,11 @@
 import router from '@/router';
-import {RootState, StoreState, UserState} from '@/types/store';
+import {StoreState, UserState} from '@/types/store';
 import {ActionTree} from 'vuex';
 
 const actions: ActionTree<UserState, StoreState> = {
-  fetchUser({commit}, user) {
-    commit('SET_LOGGED_IN', user !== null);
-
+  changed({commit}, user) {
     if (user) {
-      commit('SET_USER', {
-        displayName: user.displayName,
-        email: user.email
-      });
+      commit('SET_USER', user);
       router.push('/');
     } else {
       commit('SET_USER', null);
