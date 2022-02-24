@@ -61,7 +61,7 @@ import {formatNumber} from '@/libs/format';
 
 export default Vue.extend({
   computed: {
-    ...(mapState as MapStateToComputed)([
+    ...(mapState as MapStateToComputed)('root', [
       'adminLayerType',
       'selectedFeatureDataKeys'
     ]),

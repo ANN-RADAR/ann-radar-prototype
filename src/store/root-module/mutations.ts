@@ -1,24 +1,24 @@
 import {AreasFeaturesDataKeys} from '@/types/admin-layers';
-import {StoreState} from '@/types/store';
+import {RootState} from '@/types/store';
 
 const mutations = {
   setAdminLayerType(
-    state: StoreState,
-    newAdminLayerType: StoreState['adminLayerType']
+    state: RootState,
+    newAdminLayerType: RootState['adminLayerType']
   ) {
     state.adminLayerType = newAdminLayerType;
   },
-  setMapStyle(state: StoreState, newMapStyle: StoreState['mapStyle']) {
+  setMapStyle(state: RootState, newMapStyle: RootState['mapStyle']) {
     state.mapStyle = newMapStyle;
   },
   setBaseLayerTypes(
-    state: StoreState,
-    newBaseLayerTypes: StoreState['baseLayerTypes']
+    state: RootState,
+    newBaseLayerTypes: RootState['baseLayerTypes']
   ) {
     state.baseLayerTypes = newBaseLayerTypes;
   },
   setSelectedFeatureDataKeys(
-    state: StoreState,
+    state: RootState,
     payload: {
       layerType: keyof AreasFeaturesDataKeys;
       keys: AreasFeaturesDataKeys[keyof AreasFeaturesDataKeys];
@@ -28,12 +28,6 @@ const mutations = {
       ...state.selectedFeatureDataKeys,
       [payload.layerType]: payload.keys
     };
-  },
-  SET_LOGGED_IN(state: StoreState, value: StoreState['user']['loggedIn']) {
-    state.user.loggedIn = value;
-  },
-  SET_USER(state: StoreState, data: StoreState['user']['data']) {
-    state.user.data = data;
   }
 };
 

@@ -1,9 +1,9 @@
-import {StoreState} from '@/types/store';
+import {RootState} from '@/types/store';
 import {FeaturesDataKeys} from '@/types/admin-layers';
 
 const getters = {
   currentLayerSelectedFeatureDataKeys: (
-    state: StoreState
+    state: RootState
   ): Array<FeaturesDataKeys> =>
     (state.adminLayerType &&
       state.selectedFeatureDataKeys[state.adminLayerType]) ||

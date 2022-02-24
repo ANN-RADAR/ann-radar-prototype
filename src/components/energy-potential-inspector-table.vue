@@ -90,7 +90,7 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...(mapState as MapStateToComputed)([
+    ...(mapState as MapStateToComputed)('root', [
       'adminLayerType',
       'selectedFeatureDataKeys'
     ]),
@@ -175,7 +175,9 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...(mapMutations as MapMutationsToMethods)(['setSelectedFeatureDataKeys']),
+    ...(mapMutations as MapMutationsToMethods)('root', [
+      'setSelectedFeatureDataKeys'
+    ]),
     formatNumber(
       ...args: Parameters<typeof formatNumber>
     ): ReturnType<typeof formatNumber> {

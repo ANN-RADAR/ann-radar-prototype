@@ -1,8 +1,8 @@
 import router from '@/router';
-import {StoreState} from '@/types/store';
+import {RootState, StoreState, UserState} from '@/types/store';
 import {ActionTree} from 'vuex';
 
-const actions: ActionTree<StoreState, StoreState> = {
+const actions: ActionTree<UserState, StoreState> = {
   fetchUser({commit}, user) {
     commit('SET_LOGGED_IN', user !== null);
 

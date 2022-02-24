@@ -69,12 +69,12 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...(mapState as MapStateToComputed)([
+    ...(mapState as MapStateToComputed)('root', [
       'adminLayerType',
       'mapStyle',
       'baseLayerTypes'
     ]),
-    ...(mapGetters as MapGettersToComputed)([
+    ...(mapGetters as MapGettersToComputed)('root', [
       'currentLayerSelectedFeatureDataKeys'
     ])
   },
@@ -127,7 +127,9 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...(mapMutations as MapMutationsToMethods)(['setSelectedFeatureDataKeys']),
+    ...(mapMutations as MapMutationsToMethods)('root', [
+      'setSelectedFeatureDataKeys'
+    ]),
     handleClickOnMap(event: MapBrowserEvent<UIEvent>) {
       const coord = this.map?.getCoordinateFromPixel(event.pixel);
 
