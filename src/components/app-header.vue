@@ -7,8 +7,22 @@
     </div>
     <v-spacer></v-spacer>
     <div class="d-flex align-center heading">ANN RADAR</div>
+    <v-btn @click="logOut">Logout</v-btn>
   </v-app-bar>
 </template>
+
+<script lang="ts">
+import Vue from 'vue';
+import {logOut} from '@/libs/auth';
+
+export default Vue.extend({
+  methods: {
+    logOut() {
+      logOut();
+    }
+  }
+});
+</script>
 
 <style scoped>
 .heading {

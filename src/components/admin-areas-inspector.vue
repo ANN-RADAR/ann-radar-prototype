@@ -36,10 +36,10 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...(mapState as MapStateToComputed)(['adminLayerType'])
+    ...(mapState as MapStateToComputed)('root', ['adminLayerType'])
   },
   methods: {
-    ...(mapMutations as MapMutationsToMethods)(['setAdminLayerType']),
+    ...(mapMutations as MapMutationsToMethods)('root', ['setAdminLayerType']),
     onLayerTypeChanged(adminLayerType: AdminLayerType) {
       const selectedAdminLayerType =
         adminLayerType === this.adminLayerType ? null : adminLayerType;

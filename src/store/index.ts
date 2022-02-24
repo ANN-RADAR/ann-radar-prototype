@@ -1,16 +1,18 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import state from './state';
-import getters from './getters';
-import mutations from './mutations';
-
+import user from './user-module/index';
+import root from './root-module/index';
+import {StoreState} from '@/types/store';
 Vue.use(Vuex);
 
-const store = new Vuex.Store<typeof state>({
-  state,
-  getters,
-  mutations
+export const modules = {
+  user,
+  root
+};
+
+const store = new Vuex.Store<StoreState>({
+  modules
 });
 
 export default store;

@@ -1,16 +1,12 @@
 import Vue from 'vue';
-import Router from 'vue-router';
 import App from './app.vue';
+
 import vuetify from './plugins/vuetify';
 import store from './store/index';
+import router from './router';
+import {initializeAuth} from './libs/auth';
 
-Vue.use(Router);
-
-import routes from './routes';
-
-const router = new Router({routes});
-
-Vue.config.productionTip = false;
+initializeAuth(store);
 
 new Vue({
   store,

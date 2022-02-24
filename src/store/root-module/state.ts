@@ -1,8 +1,8 @@
-import {StoreState} from '@/types/store';
+import {RootState} from '@/types/store';
 import {MapStyle} from '@/types/map-styles';
 import {AreasFeaturesDataKeys} from '@/types/admin-layers';
 
-const state: StoreState = {
+const state: RootState = {
   mapStyle: MapStyle.COLORED,
   baseLayerTypes: [],
   adminLayerType: null,

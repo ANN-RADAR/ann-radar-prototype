@@ -51,10 +51,10 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...(mapState as MapStateToComputed)(['mapStyle'])
+    ...(mapState as MapStateToComputed)('root', ['mapStyle'])
   },
   methods: {
-    ...(mapMutations as MapMutationsToMethods)([
+    ...(mapMutations as MapMutationsToMethods)('root', [
       'setMapStyle',
       'setBaseLayerTypes'
     ]),
