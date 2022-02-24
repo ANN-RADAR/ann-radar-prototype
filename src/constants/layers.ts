@@ -17,6 +17,7 @@ import {Options as VectorSourceOptions} from 'ol/source/Vector';
 import {MapStyle} from '@/types/map-styles';
 import {adminLayers} from './admin-layers';
 import {AdminLayerType} from '@/types/admin-layers';
+import {socialMonitoringColors, solarCoverageRateColors} from './colors';
 
 export const solarPotentialLayersOptions: Array<LayerOptions> = [
   {
@@ -24,6 +25,21 @@ export const solarPotentialLayersOptions: Array<LayerOptions> = [
     visible: false,
     source: tileSourcesOptions.HH_WMS_Solaratlas,
     zIndex: 5
+  },
+  {
+    properties: {name: 'Solarer Deckungsgrad'},
+    visible: false,
+    source: vectorSourcesOptions.SolarCoverageRate,
+    style: (feature: Feature<Geometry> | RenderFeature) => {
+      return new Style({
+        fill: new Fill({
+          color:
+            solarCoverageRateColors[feature.get('PVersQt10')] ||
+            'rgba(0, 0, 0, 0)'
+        })
+      });
+    },
+    zIndex: 4
   }
 ];
 
@@ -76,14 +92,8 @@ export const baseLayersOptions: Array<LayerOptions> = [
         }),
         fill: new Fill({
           color:
-            (
-              {
-                hoch: 'rgba(112, 168, 0, 0.6)',
-                mittel: 'rgba(115, 178, 255, 0.6)',
-                niedrig: 'rgba(255, 170, 1, 0.6)',
-                'sehr niedrig': 'rgba(229, 83, 122, 0.6)'
-              } as {[key: string]: string}
-            )[feature.get('STATUSINDE')] || 'rgba(0, 0, 0, 0)'
+            socialMonitoringColors[feature.get('STATUSINDE')] ||
+            'rgba(0, 0, 0, 0)'
         })
       });
     },
