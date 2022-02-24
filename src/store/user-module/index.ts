@@ -8,10 +8,7 @@ const user = {
   state,
   mutations,
   getters: {},
-  actions,
-  beforeCreate() {
-    store.commit('initialiseStore');
-  }
+  actions
 };
 
 export default user;

@@ -8,7 +8,7 @@ import Energy from './views/category-energy.vue';
 import Login from './views/app-login.vue';
 
 const routes = [
-  {path: '/', redirect: '/solar'},
+  {path: '/', redirect: '/solar', name: 'Root'},
   {path: '/solar', component: Solar, name: 'Solar'},
   {path: '/energy-efficency', component: Energy, name: 'Energy'},
   {path: '/login', component: Login, name: 'Login'}
@@ -17,10 +17,17 @@ const routes = [
 Vue.use(Router);
 const router = new Router({routes});
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
+  if (from === Router.START_LOCATION) {
+    await store.dispatch('user/initializeStore');
+  }
+
   if (!store.state.user.data && to.name !== 'Login') {
     next({name: 'Login'});
+  } else if (store.state.user.data && to.name === 'Login') {
+    next({name: 'Root'});
   }
+
   next();
 });
 

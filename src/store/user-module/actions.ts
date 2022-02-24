@@ -6,10 +6,17 @@ const actions: ActionTree<UserState, StoreState> = {
   changed({commit}, user) {
     if (user) {
       commit('SET_USER', user);
+
       router.push('/');
     } else {
       commit('SET_USER', null);
-      router.push('/');
+      router.push('/login');
+    }
+  },
+  async initializeStore({commit}) {
+    const user = localStorage.getItem('user');
+    if (user) {
+      commit('SET_USER', JSON.parse(user));
     }
   }
 };

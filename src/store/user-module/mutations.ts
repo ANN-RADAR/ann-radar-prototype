@@ -8,13 +8,6 @@ const mutations = {
     } else {
       localStorage.removeItem('user');
     }
-  },
-
-  initializeStore(state: UserState) {
-    const user = localStorage.getItem('user');
-    if (user) {
-      state.data = JSON.parse(user);
-    }
   }
 };
 
