@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>Cockpit</v-card-title>
+    <v-card-title>{{ $t('cockpit') }}</v-card-title>
     <v-card-text>
       <div
         v-if="aggregation"
@@ -8,25 +8,25 @@
         style="display: flex; justify-content: space-around"
       >
         <v-sheet>
-          Flurstücke
+          {{ $t('parcels') }}
           <div class="kpi">
             {{ formatNumber(aggregation.AnzFl) }}
           </div>
         </v-sheet>
         <v-sheet>
-          mittl. Flurstückgröße
+          {{ $t('meanParcelSize') }}
           <div class="kpi">
             {{ formatNumber(Math.round(aggregation.mittlFl)) }}&nbsp;m²
           </div>
         </v-sheet>
         <v-sheet>
-          BGF
+          {{ $t('grossFloorArea') }}
           <div class="kpi">
             {{ formatNumber(Math.round(aggregation.BGF)) }}&nbsp;m²
           </div>
         </v-sheet>
         <v-sheet>
-          Wohnbaufläche
+          {{ $t('residentialBuildingArea') }}
           <div class="kpi">
             {{
               formatNumber(Math.round(aggregation.tatNu_WB_P * 100) / 100)
@@ -34,13 +34,13 @@
           </div>
         </v-sheet>
         <v-sheet>
-          Bevölkerung
+          {{ $t('population') }}
           <div class="kpi">
             {{ formatNumber(aggregation.Bev_311219) }}
           </div>
         </v-sheet>
         <v-sheet>
-          Solarpotenzial
+          {{ $t('solarPotential') }}
           <div v-if="isNaN(aggregation.p_st_mwh_a)" class="kpi">?</div>
           <div v-else class="kpi">
             {{ formatNumber(Math.round(aggregation.p_st_mwh_a)) }}&nbsp;MWh/a

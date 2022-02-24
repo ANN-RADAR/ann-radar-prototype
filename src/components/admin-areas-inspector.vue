@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>Gebiete inspizieren</v-card-title>
+    <v-card-title>{{ $t('inspectAreas') }}</v-card-title>
     <v-card-text>
       <v-sheet>
         <v-btn
@@ -9,7 +9,7 @@
           :color="layerType === adminLayerType ? 'primary' : ''"
           @click="onLayerTypeChanged(layerType)"
         >
-          {{ layerType }}
+          {{ $t(`adminLayer.${layerType}`) }}
         </v-btn>
       </v-sheet>
     </v-card-text>

@@ -8,11 +8,11 @@
         v-bind="attrs"
         v-on="on"
       >
-        Auswahl speichern
+        {{ $t('saveSelection') }}
       </v-btn>
     </template>
     <v-card>
-      <v-card-title> Auswahl speichern </v-card-title>
+      <v-card-title>{{ $t('saveSelection') }}</v-card-title>
       <v-card-text>
         <v-row>
           <v-col cols="12">
@@ -23,9 +23,11 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" text @click="dialog = false">
-          Abbrechen
+          {{ $t('cancel') }}
         </v-btn>
-        <v-btn color="blue darken-1" text @click="save()"> Speichern </v-btn>
+        <v-btn color="blue darken-1" text @click="save()">
+          {{ $t('save') }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

@@ -10,7 +10,7 @@ import Login from './views/app-login.vue';
 const routes = [
   {path: '/', redirect: '/solar', name: 'Root'},
   {path: '/solar', component: Solar, name: 'Solar'},
-  {path: '/energy-efficency', component: Energy, name: 'Energy'},
+  {path: '/energy-efficiency', component: Energy, name: 'Energy'},
   {path: '/login', component: Login, name: 'Login'}
 ];
 

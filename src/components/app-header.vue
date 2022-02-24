@@ -1,13 +1,15 @@
 <template>
   <v-app-bar app>
     <div class="d-flex align-center">
-      <v-btn to="/solar">Solar</v-btn>
-      <v-btn to="/energy-efficency">Energieeffizienz</v-btn>
-      <v-btn to="/mobility">Mobilität</v-btn>
+      <v-btn to="/solar">{{ $t('navigation.solar') }}</v-btn>
+      <v-btn to="/energy-efficiency">
+        {{ $t('navigation.energyEfficiency') }}
+      </v-btn>
+      <v-btn to="/mobility">{{ $t('navigation.mobility') }}</v-btn>
     </div>
     <v-spacer></v-spacer>
-    <div class="d-flex align-center heading">ANN RADAR</div>
-    <v-btn @click="logOut">Logout</v-btn>
+    <div class="d-flex align-center heading">{{ $t('annRadar') }}</div>
+    <v-btn @click="logOut">{{ $t('logout') }}</v-btn>
   </v-app-bar>
 </template>
 
