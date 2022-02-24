@@ -5,18 +5,18 @@ import {ActionTree} from 'vuex';
 const actions: ActionTree<UserState, StoreState> = {
   changed({commit}, user) {
     if (user) {
-      commit('SET_USER', user);
+      commit('setUser', user);
 
       router.push('/');
     } else {
-      commit('SET_USER', null);
+      commit('setUser', null);
       router.push('/login');
     }
   },
   async initializeStore({commit}) {
     const user = localStorage.getItem('user');
     if (user) {
-      commit('SET_USER', JSON.parse(user));
+      commit('setUser', JSON.parse(user));
     }
   }
 };
