@@ -56,6 +56,7 @@ import Vue from 'vue';
 import {mapState} from 'vuex';
 
 import {MapStateToComputed} from '@/types/store';
+import {AdminLayerType} from '@/types/admin-layers';
 import {calculateAggregateValues} from '@/libs/admin-layers';
 import {formatNumber} from '@/libs/format';
 
@@ -68,7 +69,7 @@ export default Vue.extend({
     aggregation(): Record<string, number> | null {
       if (
         !this.adminLayerType ||
-        this.adminLayerType === 'Stadt' ||
+        this.adminLayerType === AdminLayerType.CITY ||
         !this.selectedFeatureDataKeys[this.adminLayerType]?.length
       ) {
         return null;

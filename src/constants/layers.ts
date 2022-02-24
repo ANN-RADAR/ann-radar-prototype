@@ -127,47 +127,47 @@ export const mapStyleLayersOptions: Array<LayerOptions<TileSourceOptions>> = [
 
 const adminAreaLayersOptions: Array<LayerOptions<VectorSourceOptions>> = [
   {
-    source: vectorSourcesOptions.Stadt,
+    source: vectorSourcesOptions.CITY,
     visible: false,
-    style: getAdminLayerStyle(adminLayers[AdminLayerType.Stadt].featureName),
+    style: getAdminLayerStyle(adminLayers[AdminLayerType.CITY].featureName),
     properties: {
-      name: 'Stadt'
+      name: AdminLayerType.CITY
     }
   },
   {
-    source: vectorSourcesOptions.Bezirk,
+    source: vectorSourcesOptions.BOROUGH,
     visible: false,
-    style: getAdminLayerStyle(adminLayers[AdminLayerType.Bezirk].featureName),
+    style: getAdminLayerStyle(adminLayers[AdminLayerType.BOROUGH].featureName),
     properties: {
-      name: 'Bezirk'
+      name: AdminLayerType.BOROUGH
     }
   },
   {
-    source: vectorSourcesOptions.Stadtteil,
+    source: vectorSourcesOptions.QUARTER,
+    visible: false,
+    style: getAdminLayerStyle(adminLayers[AdminLayerType.QUARTER].featureName),
+    properties: {
+      name: AdminLayerType.QUARTER
+    }
+  },
+  {
+    source: vectorSourcesOptions.STATISTICAL_AREA,
     visible: false,
     style: getAdminLayerStyle(
-      adminLayers[AdminLayerType.Stadtteil].featureName
+      adminLayers[AdminLayerType.STATISTICAL_AREA].featureName
     ),
     properties: {
-      name: 'Stadtteil'
+      name: AdminLayerType.STATISTICAL_AREA
     }
   },
   {
-    source: vectorSourcesOptions.StatGebiet,
+    source: vectorSourcesOptions.BUILDING_BLOCK,
     visible: false,
     style: getAdminLayerStyle(
-      adminLayers[AdminLayerType.StatGebiet].featureName
+      adminLayers[AdminLayerType.BUILDING_BLOCK].featureName
     ),
     properties: {
-      name: 'StatGebiet'
-    }
-  },
-  {
-    source: vectorSourcesOptions.Baublock,
-    visible: false,
-    style: getAdminLayerStyle(adminLayers[AdminLayerType.Baublock].featureName),
-    properties: {
-      name: 'Baublock'
+      name: AdminLayerType.BUILDING_BLOCK
     },
     minZoom: 13
   }

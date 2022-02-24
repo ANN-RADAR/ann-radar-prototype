@@ -20,11 +20,11 @@
   "save": "Save",
   "notAvailable": "n/a",
   "adminLayer": {
-    "Stadt": "City",
-    "Bezirk": "Borough",
-    "Stadtteil": "Quarter",
-    "StatGebiet": "Statistical Area",
-    "Baublock": "Building Block"
+    "city": "City",
+    "borough": "Borough",
+    "quarter": "Quarter",
+    "statisticalArea": "Statistical Area",
+    "buildingBlock": "Building Block"
   },
   "layer": {
     "Solaratlas": "Solar Map",

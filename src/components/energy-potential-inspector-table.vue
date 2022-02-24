@@ -67,7 +67,11 @@
 import Vue, {PropType} from 'vue';
 import {mapState, mapMutations} from 'vuex';
 
-import {AdminLayerFeatureData, FeaturesDataKeys} from '@/types/admin-layers';
+import {
+  AdminLayerFeatureData,
+  AdminLayerType,
+  FeaturesDataKeys
+} from '@/types/admin-layers';
 import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 import {formatNumber} from '@/libs/format';
 import {adminLayers} from '@/constants/admin-layers';
@@ -132,7 +136,7 @@ export default Vue.extend({
           value: 'p_st_mwh_a'
         }
       ].concat(
-        this.adminLayerType === 'StatGebiet'
+        this.adminLayerType === AdminLayerType.STATISTICAL_AREA
           ? [
               {
                 text: this.$t('socialStatus'),
