@@ -38,9 +38,9 @@
     "socialMonitoring2020": "Social Monitoring 2020"
   },
   "mapStyle": {
-    "farbig": "colored",
-    "grau-blau": "gray-blue",
-    "schwarz-grau": "black-gray"
+    "colored": "colored",
+    "grayBlue": "gray-blue",
+    "blackGray": "black-gray"
   },
   "parcels": "Parcels",
   "meanParcelSize": "Mean Parcel Size",
