@@ -12,6 +12,7 @@ import {
   MapStateToComputed
 } from '@/types/store';
 
+import 'ol/ol.css';
 import {Map, MapBrowserEvent, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
 import LayerGroup from 'ol/layer/Group';

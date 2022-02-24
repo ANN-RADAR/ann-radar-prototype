@@ -17,20 +17,42 @@ import {Options as VectorSourceOptions} from 'ol/source/Vector';
 import {MapStyle} from '@/types/map-styles';
 import {adminLayers} from './admin-layers';
 import {AdminLayerType} from '@/types/admin-layers';
+import {socialMonitoringColors, solarCoverageRateColors} from './colors';
 
-export const solarAtlasLayerOptions: LayerOptions<TileSourceOptions> = {
-  properties: {name: 'Solaratlas'},
-  visible: false,
-  source: tileSourcesOptions.HH_WMS_Solaratlas,
-  zIndex: 5
-};
+export const solarPotentialLayersOptions: Array<LayerOptions> = [
+  {
+    properties: {name: 'Solaratlas'},
+    visible: false,
+    source: tileSourcesOptions.HH_WMS_Solaratlas,
+    zIndex: 5
+  },
+  {
+    properties: {name: 'Solarer Deckungsgrad'},
+    visible: false,
+    source: vectorSourcesOptions.SolarCoverageRate,
+    style: (feature: Feature<Geometry> | RenderFeature) => {
+      return new Style({
+        fill: new Fill({
+          color:
+            solarCoverageRateColors[feature.get('PVersQt10')] ||
+            'rgba(0, 0, 0, 0)'
+        })
+      });
+    },
+    zIndex: 4
+  }
+];
 
-export const heatingLayerOptions: LayerOptions<TileSourceOptions> = {
-  properties: {name: 'Wärmebedarf'},
-  visible: false,
-  source: tileSourcesOptions.HH_WMS_Waermekataster_Waermebedarf,
-  zIndex: 5
-};
+export const energyPotentialLayersOptions: Array<
+  LayerOptions<TileSourceOptions>
+> = [
+  {
+    properties: {name: 'Wärmebedarf'},
+    visible: false,
+    source: tileSourcesOptions.HH_WMS_Waermekataster_Waermebedarf,
+    zIndex: 5
+  }
+];
 
 export const baseLayersOptions: Array<LayerOptions> = [
   {
@@ -70,14 +92,8 @@ export const baseLayersOptions: Array<LayerOptions> = [
         }),
         fill: new Fill({
           color:
-            (
-              {
-                hoch: 'rgba(112, 168, 0, 0.6)',
-                mittel: 'rgba(115, 178, 255, 0.6)',
-                niedrig: 'rgba(255, 170, 1, 0.6)',
-                'sehr niedrig': 'rgba(229, 83, 122, 0.6)'
-              } as {[key: string]: string}
-            )[feature.get('STATUSINDE')] || 'rgba(0, 0, 0, 0)'
+            socialMonitoringColors[feature.get('STATUSINDE')] ||
+            'rgba(0, 0, 0, 0)'
         })
       });
     },
@@ -160,22 +176,21 @@ const adminAreaLayersOptions: Array<LayerOptions<VectorSourceOptions>> = [
 export const getBaseLayers = (): LayerGroup =>
   new LayerGroup({
     layers: [
-      ...baseLayersOptions.map(layer =>
+      ...[
+        ...baseLayersOptions,
+        ...solarPotentialLayersOptions,
+        ...energyPotentialLayersOptions
+      ].map(layer =>
         layer.style
-          ? new VectorLayer({...layer, source: new VectorSource(layer.source)})
+          ? new VectorLayer({
+              ...layer,
+              source: new VectorSource(layer.source)
+            })
           : new TileLayer({
               ...layer,
               source: new TileWMS(layer.source as TileSourceOptions)
             })
-      ),
-      new TileLayer({
-        ...solarAtlasLayerOptions,
-        source: new TileWMS(solarAtlasLayerOptions.source)
-      }),
-      new TileLayer({
-        ...heatingLayerOptions,
-        source: new TileWMS(heatingLayerOptions.source)
-      })
+      )
     ]
   });
 

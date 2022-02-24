@@ -134,6 +134,10 @@ export const vectorSourcesOptions: Record<string, VectorSourceOptions> = {
   },
   Sozialmonitoring: {
     format: new GeoJSON(),
-    url: 'data/Sozialmonitoring2020.json'
+    url: 'https://storage.googleapis.com/ann-radar-data/social_monitoring.json'
+  },
+  SolarCoverageRate: {
+    format: new GeoJSON(),
+    url: 'https://storage.googleapis.com/ann-radar-data/solar_coverage_rate.json'
   }
 };

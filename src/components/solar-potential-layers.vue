@@ -34,7 +34,7 @@ import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 import {Options as TileSourceOptions} from 'ol/source/TileWMS';
 import {
   baseLayersOptions,
-  solarAtlasLayerOptions,
+  solarPotentialLayersOptions,
   mapStyleLayersOptions
 } from '../constants/layers';
 
@@ -46,7 +46,7 @@ interface Data {
 export default Vue.extend({
   data(): Data {
     return {
-      layers: [solarAtlasLayerOptions, ...baseLayersOptions],
+      layers: [...solarPotentialLayersOptions, ...baseLayersOptions],
       mapStyleLayersOptions
     };
   },
