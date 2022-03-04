@@ -15,6 +15,7 @@ import {
 import 'ol/ol.css';
 import {Map, MapBrowserEvent, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
+import {ScaleLine, defaults as defaultControls} from 'ol/control';
 import LayerGroup from 'ol/layer/Group';
 import VectorLayer from 'ol/layer/Vector';
 import Geometry from 'ol/geom/Geometry';
@@ -58,6 +59,7 @@ export default Vue.extend({
       baseLayers,
       mapOptions: {
         target: 'map',
+        controls: defaultControls().extend([new ScaleLine({units: 'metric'})]),
         layers: [mapStyleLayers, adminLayers, baseLayers],
         view: new View({
           projection: 'EPSG:25832',
