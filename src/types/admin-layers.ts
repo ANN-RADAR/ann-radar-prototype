@@ -21,7 +21,7 @@ export interface FeaturesDataKeys {
   featureName: string;
 }
 
-export type AreasFeaturesDataKeys = Record<
-  AdminLayerType,
-  Array<FeaturesDataKeys>
->;
+export interface AdminLayerData {
+  selectedFeatureDataKeys: Array<FeaturesDataKeys>;
+  note: string;
+}

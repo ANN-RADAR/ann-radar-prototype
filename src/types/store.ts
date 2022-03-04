@@ -1,12 +1,13 @@
 import {Accessors} from 'vue/types/options';
 import {MapStyle} from './map-styles';
-import {AdminLayerType, AreasFeaturesDataKeys} from './admin-layers';
+import {AdminLayerType, AdminLayerData} from './admin-layers';
 import {modules} from '../store/index';
+
 export interface RootState {
   mapStyle: MapStyle;
   baseLayerTypes: Array<string>;
   adminLayerType: AdminLayerType | null;
-  selectedFeatureDataKeys: AreasFeaturesDataKeys;
+  adminLayerData: Record<AdminLayerType, AdminLayerData>;
 }
 
 export interface UserState {
