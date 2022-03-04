@@ -31,6 +31,21 @@ const mutations = {
         selectedFeatureDataKeys: payload.keys
       }
     };
+  },
+  setNote(
+    state: RootState,
+    payload: {
+      adminLayerType: AdminLayerType;
+      note: string;
+    }
+  ) {
+    state.adminLayerData = {
+      ...state.adminLayerData,
+      [payload.adminLayerType]: {
+        ...state.adminLayerData[payload.adminLayerType],
+        note: payload.note
+      }
+    };
   }
 };
 

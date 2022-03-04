@@ -6,7 +6,9 @@
     <div class="layers">
       <Layers />
     </div>
-    <div class="notes">notes</div>
+    <div class="notes">
+      <Notes />
+    </div>
     <div class="cockpit">
       <Cockpit />
     </div>
@@ -23,6 +25,7 @@ import Vue from 'vue';
 
 import Map from './map-component.vue';
 import Layers from './solar-potential-layers.vue';
+import Notes from './notes-section.vue';
 import Cockpit from './solar-potential-cockpit.vue';
 import Inspector from './admin-areas-inspector.vue';
 import SolarPotentialInspectorTable from './solar-potential-inspector-table.vue';
@@ -31,7 +34,7 @@ export default Vue.extend({
   components: {
     Map,
     Layers,
-    // Notes,
+    Notes,
     Cockpit,
     Inspector,
     SolarPotentialInspectorTable
