@@ -6,7 +6,7 @@ const getters = {
     state: RootState
   ): Array<FeaturesDataKeys> =>
     (state.adminLayerType &&
-      state.selectedFeatureDataKeys[state.adminLayerType]) ||
+      state.adminLayerData[state.adminLayerType]?.selectedFeatureDataKeys) ||
     []
 };
 

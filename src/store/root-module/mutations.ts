@@ -1,4 +1,4 @@
-import {AreasFeaturesDataKeys} from '@/types/admin-layers';
+import {AdminLayerType, FeaturesDataKeys} from '@/types/admin-layers';
 import {RootState} from '@/types/store';
 
 const mutations = {
@@ -20,13 +20,16 @@ const mutations = {
   setSelectedFeatureDataKeys(
     state: RootState,
     payload: {
-      layerType: keyof AreasFeaturesDataKeys;
-      keys: AreasFeaturesDataKeys[keyof AreasFeaturesDataKeys];
+      adminLayerType: AdminLayerType;
+      keys: Array<FeaturesDataKeys>;
     }
   ) {
-    state.selectedFeatureDataKeys = {
-      ...state.selectedFeatureDataKeys,
-      [payload.layerType]: payload.keys
+    state.adminLayerData = {
+      ...state.adminLayerData,
+      [payload.adminLayerType]: {
+        ...state.adminLayerData[payload.adminLayerType],
+        selectedFeatureDataKeys: payload.keys
+      }
     };
   }
 };

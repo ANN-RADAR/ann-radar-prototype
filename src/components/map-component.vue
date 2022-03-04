@@ -173,7 +173,7 @@ export default Vue.extend({
           });
 
           this.setSelectedFeatureDataKeys({
-            layerType: this.adminLayerType,
+            adminLayerType: this.adminLayerType,
             keys: selectedFeatureDataKeys
           });
         }

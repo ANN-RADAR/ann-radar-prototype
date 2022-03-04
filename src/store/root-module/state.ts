@@ -1,12 +1,12 @@
 import {RootState} from '@/types/store';
 import {MapStyle} from '@/types/map-styles';
-import {AreasFeaturesDataKeys} from '@/types/admin-layers';
+import {AdminLayerType, AdminLayerData} from '@/types/admin-layers';
 
 const state: RootState = {
   mapStyle: MapStyle.COLORED,
   baseLayerTypes: [],
   adminLayerType: null,
-  selectedFeatureDataKeys: {} as AreasFeaturesDataKeys
+  adminLayerData: {} as Record<AdminLayerType, AdminLayerData>
 };
 
 export default state;
