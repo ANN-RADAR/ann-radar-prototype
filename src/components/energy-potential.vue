@@ -7,6 +7,7 @@
           :thematicLayers="energyPotentialLayers"
           :thematicLayersTitle="$t('layerOptions.energyLayers')"
         />
+        <MapStyleSwitcher />
       </div>
     </div>
     <v-card class="data">
@@ -23,6 +24,7 @@ import Vue from 'vue';
 
 import Map from './map-component.vue';
 import MapLayerSwitcher from './map-layer-switcher.vue';
+import MapStyleSwitcher from './map-style-switcher.vue';
 import Notes from './notes-section.vue';
 import AdminAreasInspector from './admin-areas-inspector.vue';
 import EnergyPotentialInspectorTable from './energy-potential-inspector-table.vue';
@@ -38,6 +40,7 @@ export default Vue.extend({
   components: {
     Map,
     MapLayerSwitcher,
+    MapStyleSwitcher,
     Notes,
     AdminAreasInspector,
     EnergyPotentialInspectorTable
@@ -71,6 +74,7 @@ export default Vue.extend({
   right: 0;
   display: flex;
   flex-direction: column;
+  grid-gap: 8px;
   padding: 8px;
 }
 
