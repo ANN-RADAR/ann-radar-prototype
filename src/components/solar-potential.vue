@@ -3,20 +3,12 @@
     <div class="map">
       <Map />
     </div>
-    <div class="layers">
-      <Layers />
-    </div>
-    <div class="notes">
-      <Notes />
-    </div>
-    <div class="cockpit">
-      <Cockpit />
-    </div>
-    <div class="inspector">
-      <Inspector>
+    <v-card class="data">
+      <AdminAreasInspector>
         <SolarPotentialInspectorTable />
-      </Inspector>
-    </div>
+      </AdminAreasInspector>
+      <Notes />
+    </v-card>
   </div>
 </template>
 
@@ -24,20 +16,28 @@
 import Vue from 'vue';
 
 import Map from './map-component.vue';
-import Layers from './solar-potential-layers.vue';
 import Notes from './notes-section.vue';
-import Cockpit from './solar-potential-cockpit.vue';
-import Inspector from './admin-areas-inspector.vue';
+import AdminAreasInspector from './admin-areas-inspector.vue';
 import SolarPotentialInspectorTable from './solar-potential-inspector-table.vue';
+
+import {LayerOptions} from '@/types/layers';
+import {solarPotentialLayersOptions} from '../constants/layers';
+
+interface Data {
+  solarPotentialLayers: Array<LayerOptions>;
+}
 
 export default Vue.extend({
   components: {
     Map,
-    Layers,
     Notes,
-    Cockpit,
-    Inspector,
+    AdminAreasInspector,
     SolarPotentialInspectorTable
+  },
+  data(): Data {
+    return {
+      solarPotentialLayers: solarPotentialLayersOptions
+    };
   }
 });
 </script>
@@ -45,34 +45,20 @@ export default Vue.extend({
 <style scoped>
 .wrapper {
   display: grid;
-  grid-template-columns: 50% 2fr 1fr;
-  grid-template-rows: 1fr 9rem 1fr;
-  gap: 0.75rem;
-  padding: 0.5rem;
+  grid-template-columns: calc(50% - 0.5rem) calc(50% - 0.5rem);
+  grid-template-rows: 100%;
+  gap: 1rem;
+  padding: 1rem;
   height: calc(100vh - 64px - 48px);
 }
 
 .wrapper > * {
+  position: relative;
   display: grid;
 }
 
-.map {
-  grid-column: 1 / 2;
-  grid-row: 1 / 4;
-}
-
-.layer {
-  grid-column: 2 / 3;
-  grid-row: 1 / 4;
-}
-
-.cockpit {
-  grid-column: 2 / 4;
-  grid-row: 2 / 3;
-}
-
-.inspector {
-  grid-column: 2 / 4;
-  grid-row: 3 / 4;
+.data {
+  display: grid;
+  grid-template-rows: minmax(18rem, 1fr) minmax(10rem, 14rem);
 }
 </style>
