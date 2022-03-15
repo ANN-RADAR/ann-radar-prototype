@@ -176,22 +176,20 @@ const adminAreaLayersOptions: Array<LayerOptions<VectorSourceOptions>> = [
 export const getBaseLayers = (): LayerGroup =>
   new LayerGroup({
     layers: [
-      ...[
-        ...baseLayersOptions,
-        ...solarPotentialLayersOptions,
-        ...energyPotentialLayersOptions
-      ].map(layer =>
-        layer.style
-          ? new VectorLayer({
-              ...layer,
-              source: new VectorSource(layer.source)
-            })
-          : new TileLayer({
-              ...layer,
-              source: new TileWMS(layer.source as TileSourceOptions)
-            })
-      )
-    ]
+      ...baseLayersOptions,
+      ...solarPotentialLayersOptions,
+      ...energyPotentialLayersOptions
+    ].map(layer =>
+      layer.style
+        ? new VectorLayer({
+            ...layer,
+            source: new VectorSource(layer.source)
+          })
+        : new TileLayer({
+            ...layer,
+            source: new TileWMS(layer.source as TileSourceOptions)
+          })
+    )
   });
 
 export const getMapStyleLayers = (): LayerGroup =>

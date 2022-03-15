@@ -2,6 +2,12 @@
   <div class="wrapper">
     <div class="map">
       <Map />
+      <div class="map-overlays">
+        <MapLayerSwitcher
+          :thematicLayers="solarPotentialLayers"
+          :thematicLayersTitle="$t('layerOptions.solarLayers')"
+        />
+      </div>
     </div>
     <v-card class="data">
       <AdminAreasInspector>
@@ -16,6 +22,7 @@
 import Vue from 'vue';
 
 import Map from './map-component.vue';
+import MapLayerSwitcher from './map-layer-switcher.vue';
 import Notes from './notes-section.vue';
 import AdminAreasInspector from './admin-areas-inspector.vue';
 import SolarPotentialInspectorTable from './solar-potential-inspector-table.vue';
@@ -30,6 +37,7 @@ interface Data {
 export default Vue.extend({
   components: {
     Map,
+    MapLayerSwitcher,
     Notes,
     AdminAreasInspector,
     SolarPotentialInspectorTable
@@ -55,6 +63,15 @@ export default Vue.extend({
 .wrapper > * {
   position: relative;
   display: grid;
+}
+
+.map-overlays {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
 }
 
 .data {
