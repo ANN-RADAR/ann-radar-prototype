@@ -122,6 +122,13 @@ export const mapStyleLayersOptions: Array<LayerOptions<TileSourceOptions>> = [
     },
     visible: false,
     source: tileSourcesOptions.HH_WMS_Geobasiskarten_SG
+  },
+  {
+    properties: {
+      name: MapStyle.SATELLITE
+    },
+    visible: false,
+    source: tileSourcesOptions.HH_WMS_DOP
   }
 ];
 

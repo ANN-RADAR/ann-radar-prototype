@@ -46,7 +46,8 @@
   "mapStyle": {
     "colored": "colored",
     "grayBlue": "gray-blue",
-    "blackGray": "black-gray"
+    "blackGray": "black-gray",
+    "satellite": "satellite"
   },
   "parcels": "Parcels",
   "meanParcelSize": "Mean Parcel Size",

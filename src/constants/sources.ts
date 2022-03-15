@@ -32,6 +32,13 @@ export const tileSourcesOptions: Record<string, TileSourceOptions> = {
     },
     projection: 'EPSG:25832'
   },
+  HH_WMS_DOP: {
+    url: 'https://geodienste.hamburg.de/HH_WMS_DOP',
+    params: {
+      LAYERS: 'DOP'
+    },
+    projection: 'EPSG:25832'
+  },
   HH_WMS_Solaratlas: {
     url: 'https://geodienste.hamburg.de/HH_WMS_Solaratlas',
     params: {
