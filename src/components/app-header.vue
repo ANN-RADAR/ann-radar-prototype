@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app class="header">
+  <v-app-bar app elevation="2" class="header">
     <nav class="navigation">
       <v-btn active-class="primary" to="/solar">
         {{ $t('navigation.solar') }}
