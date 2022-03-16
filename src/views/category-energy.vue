@@ -16,6 +16,7 @@
 
         <div class="energy-header-scenario-actions">
           <ScenarioSaveDialog scope="energy-potential" />
+          <ScenarioLoadDialog scope="energy-potential" />
         </div>
       </div>
 
@@ -34,12 +35,14 @@ import Vue from 'vue';
 import Potential from '../components/energy-potential.vue';
 import Header from '../components/app-header.vue';
 import ScenarioSaveDialog from '../components/scenario-save-dialog.vue';
+import ScenarioLoadDialog from '../components/scenario-load-dialog.vue';
 
 export default Vue.extend({
   components: {
     Potential,
     Header,
-    ScenarioSaveDialog
+    ScenarioSaveDialog,
+    ScenarioLoadDialog
   },
   data() {
     return {

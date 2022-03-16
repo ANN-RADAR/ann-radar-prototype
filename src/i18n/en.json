@@ -23,6 +23,7 @@
   "inspectAreas": "Inspect Areas",
   "cancel": "Cancel",
   "saving": "Saving...",
+  "loading": "Loading...",
   "notAvailable": "n/a",
   "adminLayer": {
     "city": "City",
@@ -58,7 +59,9 @@
   "socialStatus": "Social Status",
   "scenarios": {
     "saveScenario": "Save Scenario",
+    "loadScenario": "Load Scenario",
     "scenarioTitle": "Scenario Title",
+    "noSavedScenarios": "Couldn't find any saved scenarios.",
     "adminAreasConfigured": "No admin areas configured | 1 admin area configured | {count} admin areas configured",
     "scenarioLayers": "No map layers selected | 1 map layer selected | {count} map layers selected",
     "error": {
