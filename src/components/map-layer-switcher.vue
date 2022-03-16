@@ -108,6 +108,5 @@ export default Vue.extend({
   flex-direction: column;
   grid-gap: 16px;
   padding: 4px 12px 12px 12px;
-  text-align: left;
 }
 </style>

@@ -86,6 +86,5 @@ export default Vue.extend({
   background: #fff;
   box-shadow: 0 -1px 0 rgb(0, 0, 0, 0.12);
   font-weight: 500;
-  text-align: left;
 }
 </style>
