@@ -1,55 +1,117 @@
 <template>
   <v-container fluid fill-height>
     <v-layout align-center justify-center>
-      <v-flex xs12 sm8 md4>
-        <v-card class="elevation-12">
-          <v-toolbar dark color="primary">
-            <v-toolbar-title>Login form</v-toolbar-title>
-          </v-toolbar>
+      <v-flex class="wrapper">
+        <v-card class="elevation-0">
+          <v-card-title v-if="view === 'login'">
+            {{ $t('auth.loginTitle') }}
+          </v-card-title>
+          <v-card-title v-if="view === 'reset'">
+            {{ $t('auth.forgotPasswordTitle') }}
+          </v-card-title>
+
           <v-card-text>
+            <p v-if="view === 'reset'">
+              {{ $t('auth.forgotPasswordDescription') }}
+            </p>
+
             <v-form>
               <v-text-field
-                name="E-Mail"
-                label="E-Mail"
+                name="email"
+                :label="$t('auth.email')"
                 type="text"
                 v-model="email"
               ></v-text-field>
               <v-text-field
-                id="password"
+                v-if="view === 'login'"
                 name="password"
-                label="Password"
+                :label="$t('auth.password')"
                 type="password"
                 v-model="password"
               ></v-text-field>
             </v-form>
+
+            <p v-if="error" class="error--text">{{ error }}</p>
+
+            <div class="actions">
+              <template v-if="view === 'login'">
+                <v-btn block color="primary" @click="logIn">
+                  {{ $t('auth.login') }}
+                </v-btn>
+                <a @click="view = 'reset'">
+                  {{ $t('auth.forgotPassword') }}
+                </a>
+              </template>
+
+              <template v-if="view === 'reset'">
+                <v-btn block color="primary" @click="resetPassword">
+                  {{ $t('auth.resetPassword') }}
+                </v-btn>
+                <a @click="view = 'login'">
+                  {{ $t('auth.returnToLogin') }}
+                </a>
+              </template>
+            </div>
           </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" @click="submit">Login</v-btn>
-          </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
-<script>
-import {logIn} from '../libs/auth';
+<script lang="ts">
+import Vue from 'vue';
 
-export default {
-  data() {
+import {logIn, resetPassword} from '../libs/auth';
+
+interface Data {
+  view: 'login' | 'reset';
+  email: string;
+  password: string;
+  error: string | null;
+}
+
+export default Vue.extend({
+  data(): Data {
     return {
+      view: 'login',
       email: '',
       password: '',
       error: null
     };
   },
   methods: {
-    submit() {
+    logIn() {
+      this.error = null;
       logIn(this.email, this.password).catch(error => {
+        this.error = error;
+      });
+    },
+    resetPassword() {
+      this.error = null;
+      resetPassword(this.email).catch(error => {
         this.error = error;
       });
     }
   }
-};
+});
 </script>
+
+<style scoped>
+.wrapper {
+  max-width: 26rem;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 16px;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.actions >>> a {
+  font-size: 0.875rem;
+  line-height: 1.3;
+}
+</style>

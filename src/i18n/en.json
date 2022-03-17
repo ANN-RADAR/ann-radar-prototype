@@ -1,6 +1,17 @@
 {
   "annRadar": "ANN Radar",
-  "logout": "Logout",
+  "auth": {
+    "loginTitle": "Log in to ANN Radar",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "forgotPassword": "Logging in for the first time or forgot your password?",
+    "forgotPasswordTitle": "Don't know your password?",
+    "forgotPasswordDescription": "Don't worry! Just fill in your email address and we'll send you a link to reset your password.",
+    "resetPassword": "Reset password",
+    "returnToLogin": "Return to Login",
+    "logout": "Logout"
+  },
   "navigation": {
     "solar": "Solar",
     "energyEfficiency": "Energy Efficiency",

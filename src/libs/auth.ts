@@ -3,7 +3,8 @@ import {
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  sendPasswordResetEmail
 } from 'firebase/auth';
 
 import {Store} from 'vuex';
@@ -30,3 +31,6 @@ export const logIn = (email: string, password: string) =>
   signInWithEmailAndPassword(auth, email, password);
 
 export const logOut = () => signOut(auth);
+
+export const resetPassword = (email: string) =>
+  sendPasswordResetEmail(auth, email);

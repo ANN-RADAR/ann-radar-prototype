@@ -14,7 +14,7 @@
 
     <h1 class="headline">{{ $t('annRadar') }}</h1>
 
-    <v-btn @click="logOut">{{ $t('logout') }}</v-btn>
+    <v-btn @click="logOut">{{ $t('auth.logout') }}</v-btn>
   </v-app-bar>
 </template>
 
