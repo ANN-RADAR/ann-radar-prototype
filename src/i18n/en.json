@@ -21,9 +21,9 @@
   "notes": "Notes",
   "cockpit": "Cockpit",
   "inspectAreas": "Inspect Areas",
-  "saveSelection": "Save Selection",
   "cancel": "Cancel",
-  "save": "Save",
+  "saving": "Saving...",
+  "loading": "Loading...",
   "notAvailable": "n/a",
   "adminLayer": {
     "city": "City",
@@ -56,5 +56,16 @@
   "population": "Population",
   "solarPotential": "Solar Potential",
   "statisticalArea": "Statistical Area",
-  "socialStatus": "Social Status"
+  "socialStatus": "Social Status",
+  "scenarios": {
+    "saveScenario": "Save Scenario",
+    "loadScenario": "Load Scenario",
+    "scenarioTitle": "Scenario Title",
+    "noSavedScenarios": "Couldn't find any saved scenarios.",
+    "adminAreasConfigured": "No admin areas configured | 1 admin area configured | {count} admin areas configured",
+    "scenarioLayers": "No map layers selected | 1 map layer selected | {count} map layers selected",
+    "error": {
+      "scenarioTitleAlreadyExists": "This scenario title already exists. Please try another one."
+    }
+  }
 }

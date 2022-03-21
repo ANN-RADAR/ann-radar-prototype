@@ -17,6 +17,12 @@ const mutations = {
   ) {
     state.baseLayerTypes = newBaseLayerTypes;
   },
+  setAdminLayerData(
+    state: RootState,
+    newAdminLayerData: RootState['adminLayerData']
+  ) {
+    state.adminLayerData = newAdminLayerData;
+  },
   setSelectedFeatureDataKeys(
     state: RootState,
     payload: {

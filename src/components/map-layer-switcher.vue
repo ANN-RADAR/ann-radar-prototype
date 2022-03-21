@@ -29,7 +29,7 @@
           <v-checkbox
             v-for="layer in thematicLayers"
             :key="layer.properties.name"
-            v-model="layer.visible"
+            :value="baseLayerTypes.includes(layer.properties.name)"
             :label="$t(`layer.${layer.properties.name}`)"
             style="margin-top: -4px"
             @change="onLayerChange"
@@ -43,7 +43,7 @@
           <v-checkbox
             v-for="layer in baseLayers"
             :key="layer.properties.name"
-            v-model="layer.visible"
+            :value="baseLayerTypes.includes(layer.properties.name)"
             :label="$t(`layer.${layer.properties.name}`)"
             style="margin-top: -4px"
             @change="onLayerChange"
@@ -58,10 +58,10 @@
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
-import {mapMutations} from 'vuex';
+import {mapMutations, mapState} from 'vuex';
 
 import {LayerOptions} from '@/types/layers';
-import {MapMutationsToMethods} from '@/types/store';
+import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 import {baseLayersOptions} from '../constants/layers';
 
 interface Data {
@@ -84,6 +84,9 @@ export default Vue.extend({
       baseLayers: baseLayersOptions
     };
   },
+  computed: {
+    ...(mapState as MapStateToComputed)('root', ['baseLayerTypes'])
+  },
   methods: {
     ...(mapMutations as MapMutationsToMethods)('root', ['setBaseLayerTypes']),
     onLayerChange() {
@@ -105,6 +108,5 @@ export default Vue.extend({
   flex-direction: column;
   grid-gap: 16px;
   padding: 4px 12px 12px 12px;
-  text-align: left;
 }
 </style>
