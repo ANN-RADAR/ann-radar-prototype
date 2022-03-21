@@ -1,8 +1,8 @@
 <template>
-  <v-card>
+  <div class="inspector">
     <v-card-title>{{ $t('inspectAreas') }}</v-card-title>
-    <v-card-text>
-      <v-sheet>
+    <v-card-text class="inspector-content">
+      <nav class="inspector-navigation">
         <v-btn
           v-for="layerType in adminLayerTypes"
           :key="layerType"
@@ -11,11 +11,11 @@
         >
           {{ $t(`adminLayer.${layerType}`) }}
         </v-btn>
-      </v-sheet>
-    </v-card-text>
+      </nav>
 
-    <slot></slot>
-  </v-card>
+      <slot></slot>
+    </v-card-text>
+  </div>
 </template>
 
 <script lang="ts">
@@ -48,3 +48,46 @@ export default Vue.extend({
   }
 });
 </script>
+
+<style scoped>
+.inspector-content {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: calc(100% - 2rem - 32px);
+}
+
+.inspector-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  grid-gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.inspector >>> table th:nth-child(1),
+.inspector >>> table td:nth-child(1),
+.inspector >>> table th:nth-child(2),
+.inspector >>> table td:nth-child(2) {
+  position: sticky;
+  z-index: 3;
+  background-color: #fff;
+}
+
+.inspector >>> table th:nth-child(1),
+.inspector >>> table td:nth-child(1) {
+  left: 0;
+  padding-right: 0;
+}
+
+.inspector >>> table th:nth-child(2),
+.inspector >>> table td:nth-child(2) {
+  left: 48px;
+  border-right: thin solid rgba(0, 0, 0, 0.12);
+}
+
+.inspector >>> table tr:not(:last-child) td:nth-child(1),
+.inspector >>> table tr:not(:last-child) td:nth-child(2) {
+  z-index: 2;
+  background-color: #f5f5f5;
+}
+</style>

@@ -1,15 +1,17 @@
 <template>
-  <v-card class="card-notes">
+  <div class="notes">
     <v-card-title>{{ $t('notes') }}</v-card-title>
-    <v-card-text>
+    <v-card-text class="notes-content">
       <v-textarea
+        class="notes-textarea"
         :value="note"
         @input="onNoteChange"
         :disabled="!adminLayerType"
         filled
+        no-resize
       ></v-textarea>
     </v-card-text>
-  </v-card>
+  </div>
 </template>
 
 <script lang="ts">
@@ -43,3 +45,14 @@ export default Vue.extend({
   }
 });
 </script>
+
+<style scoped>
+.notes-content {
+  height: calc(100% - 2rem - 32px);
+}
+
+.notes-textarea,
+.notes-textarea >>> * {
+  height: 100%;
+}
+</style>

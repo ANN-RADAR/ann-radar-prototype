@@ -1,14 +1,19 @@
 <template>
-  <v-app-bar app>
-    <div class="d-flex align-center">
-      <v-btn to="/solar">{{ $t('navigation.solar') }}</v-btn>
-      <v-btn to="/energy-efficiency">
+  <v-app-bar app class="header">
+    <nav class="navigation">
+      <v-btn active-class="primary" to="/solar">
+        {{ $t('navigation.solar') }}
+      </v-btn>
+      <v-btn active-class="primary" to="/energy-efficiency">
         {{ $t('navigation.energyEfficiency') }}
       </v-btn>
-      <v-btn to="/mobility">{{ $t('navigation.mobility') }}</v-btn>
-    </div>
-    <v-spacer></v-spacer>
-    <div class="d-flex align-center heading">{{ $t('annRadar') }}</div>
+      <v-btn active-class="primary" to="/mobility">
+        {{ $t('navigation.mobility') }}
+      </v-btn>
+    </nav>
+
+    <h1 class="headline">{{ $t('annRadar') }}</h1>
+
     <v-btn @click="logOut">{{ $t('logout') }}</v-btn>
   </v-app-bar>
 </template>
@@ -27,7 +32,15 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.heading {
-  font-size: 1.5rem;
+.header >>> div {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  grid-gap: 16px;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  grid-gap: 8px;
 }
 </style>
