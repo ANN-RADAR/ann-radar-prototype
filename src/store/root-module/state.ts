@@ -4,6 +4,7 @@ import {AdminLayerType, AdminLayerData} from '@/types/admin-layers';
 
 const state: RootState = {
   layersConfig: {},
+  layerClassificationSelection: {},
   mapStyle: MapStyle.COLORED,
   baseLayerTypes: [],
   adminLayerType: null,
