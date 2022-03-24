@@ -4,9 +4,10 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {mapGetters, mapMutations, mapState} from 'vuex';
+import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
 
 import {
+  MapActionsToMethods,
   MapGettersToComputed,
   MapMutationsToMethods,
   MapStateToComputed
@@ -130,6 +131,7 @@ export default Vue.extend({
     }
   },
   methods: {
+    ...(mapActions as MapActionsToMethods)('root', ['fetchLayersConfig']),
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setSelectedFeatureDataKeys'
     ]),
@@ -182,6 +184,9 @@ export default Vue.extend({
       }
       // TODO: Add selected feature id / name to store
     }
+  },
+  created() {
+    this.fetchLayersConfig();
   },
   mounted() {
     this.map = new Map(this.mapOptions);

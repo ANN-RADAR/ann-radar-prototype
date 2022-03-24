@@ -2,8 +2,10 @@ import {Accessors} from 'vue/types/options';
 import {MapStyle} from './map-styles';
 import {AdminLayerType, AdminLayerData} from './admin-layers';
 import {modules} from '../store/index';
+import {LayerConfig} from './layers';
 
 export interface RootState {
+  layersConfig: Record<string /* layer type */, LayerConfig>;
   mapStyle: MapStyle;
   baseLayerTypes: Array<string>;
   adminLayerType: AdminLayerType | null;
@@ -62,5 +64,27 @@ export interface MapMutationsToMethods {
         typeof modules[Module]['mutations'][Mutation]
       >
     ) => void;
+  };
+}
+
+export interface MapActionsToMethods {
+  <
+    Module extends keyof typeof modules,
+    Actions extends keyof typeof modules[Module]['actions']
+  >(
+    module: Module,
+    map: Actions[]
+  ): {
+    [Action in Actions]: PayloadParameter<
+      typeof modules[Module]['state'],
+      typeof modules[Module]['actions'][Action]
+    > extends unknown
+      ? () => void
+      : (
+          payload: PayloadParameter<
+            typeof modules[Module]['state'],
+            typeof modules[Module]['actions'][Action]
+          >
+        ) => void;
   };
 }

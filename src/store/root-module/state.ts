@@ -3,6 +3,7 @@ import {MapStyle} from '@/types/map-styles';
 import {AdminLayerType, AdminLayerData} from '@/types/admin-layers';
 
 const state: RootState = {
+  layersConfig: {},
   mapStyle: MapStyle.COLORED,
   baseLayerTypes: [],
   adminLayerType: null,

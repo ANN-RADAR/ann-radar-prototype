@@ -15,3 +15,16 @@ export interface LayerOptions<T = TileSourceOptions | VectorSourceOptions>
   source: T;
   style?: StyleFunction;
 }
+
+export interface LayerConfig {
+  attributeName: string;
+  classification: Array<
+    LayerCategoryConfig & {classification?: Array<LayerCategoryConfig>}
+  >;
+}
+
+export interface LayerCategoryConfig {
+  from: number;
+  to: number;
+  color: string;
+}
