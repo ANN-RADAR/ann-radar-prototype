@@ -30,6 +30,7 @@ export interface MapStateToComputed {
   }>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type CustomReturnType<T> = T extends (...args: any) => infer R ? R : any;
 export interface MapGettersToComputed {
   <
@@ -48,6 +49,7 @@ export interface MapGettersToComputed {
 type PayloadParameter<
   ModuleState extends StoreState[keyof StoreState],
   T
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 > = T extends (state: ModuleState, payload: infer P) => any ? P : never;
 
 export interface MapMutationsToMethods {

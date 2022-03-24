@@ -139,12 +139,13 @@ export const vectorSourcesOptions: Record<string, VectorSourceOptions> = {
     format: new GML3(),
     url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=baubloecke'
   },
+  BUILDING_BLOCK_NETTO: {
+    format: new GML3(),
+    // TODO: get GeoJSON without properties to replace this one
+    url: 'https://storage.googleapis.com/ann-radar-data/solar_coverage_rate.json'
+  },
   Sozialmonitoring: {
     format: new GeoJSON(),
     url: 'https://storage.googleapis.com/ann-radar-data/social_monitoring.json'
-  },
-  SolarCoverageRate: {
-    format: new GeoJSON(),
-    url: 'https://storage.googleapis.com/ann-radar-data/solar_coverage_rate.json'
   }
 };

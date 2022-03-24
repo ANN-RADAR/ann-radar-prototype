@@ -29,8 +29,11 @@ import {
   getAdminAreaLayers,
   getBaseLayers
 } from '@/constants/layers';
+import {dataLayers} from '@/constants/data-layers';
 import {adminLayers} from '@/constants/admin-layers';
-import {FeaturesDataKeys} from '@/types/admin-layers';
+import {AdminLayerFeatureData, FeaturesDataKeys} from '@/types/admin-layers';
+import BaseLayer from 'ol/layer/Base';
+import {DataLayerOptions} from '@/types/layers';
 
 // projection for UTM zone 32N
 proj4.defs(
@@ -76,7 +79,8 @@ export default Vue.extend({
     ...(mapState as MapStateToComputed)('root', [
       'adminLayerType',
       'mapStyle',
-      'baseLayerTypes'
+      'baseLayerTypes',
+      'layersConfig'
     ]),
     ...(mapGetters as MapGettersToComputed)('root', [
       'currentLayerSelectedFeatureDataKeys'
@@ -100,11 +104,27 @@ export default Vue.extend({
           layer.setVisible(false);
         }
       }
+
+      // Update source and style of data layers
+      for (const layer of this.baseLayers.getLayers().getArray()) {
+        if (layer.getVisible()) {
+          const dataLayerOptions = dataLayers[layer.get('name')];
+          if (dataLayerOptions) {
+            this.updateDataLayer(layer, dataLayerOptions);
+          }
+        }
+      }
     },
     baseLayerTypes(newBaseLayerTypes: Array<string>) {
       for (const layer of this.baseLayers.getLayers().getArray()) {
         if (newBaseLayerTypes.includes(layer.get('name'))) {
           layer.setVisible(true);
+
+          const dataLayerOptions = dataLayers[layer.get('name')];
+          // Update source and style of data layers
+          if (dataLayerOptions) {
+            this.updateDataLayer(layer, dataLayerOptions);
+          }
         } else {
           layer.setVisible(false);
         }
@@ -183,6 +203,51 @@ export default Vue.extend({
         }
       }
       // TODO: Add selected feature id / name to store
+    },
+    updateDataLayer(layer: BaseLayer, dataLayerOptions: DataLayerOptions) {
+      if (dataLayerOptions.sources) {
+        this.updateDataLayerSource(layer, dataLayerOptions.sources);
+      }
+      if (dataLayerOptions.style) {
+        this.updateDataLayerStyle(layer, dataLayerOptions.style);
+      }
+    },
+    updateDataLayerSource(
+      layer: BaseLayer,
+      dataLayerSources: Exclude<DataLayerOptions['sources'], undefined>
+    ) {
+      // Update the source depending on the current admin layer type
+      if (this.adminLayerType) {
+        const sourceOptions = dataLayerSources[this.adminLayerType];
+        (layer as VectorLayer<VectorSource<Geometry>>).setSource(
+          new VectorSource(sourceOptions)
+        );
+      }
+    },
+    updateDataLayerStyle(
+      layer: BaseLayer,
+      dataLayerStyle: Exclude<DataLayerOptions['style'], undefined>
+    ) {
+      const layerConfig = this.layersConfig[layer.get('name')];
+
+      // Update the style depending on the layer config and data
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (this.adminLayerType && layerConfig && (layer as any).setStyle) {
+        const {data = [], dataId} = adminLayers[this.adminLayerType];
+        const adminLayerDataById: Record<string, AdminLayerFeatureData> =
+          data.reduce(
+            (byId, data) => ({...byId, [String(data[dataId])]: data}),
+            {}
+          );
+
+        (layer as VectorLayer<VectorSource<Geometry>>).setStyle(
+          dataLayerStyle({
+            layerConfig,
+            adminLayerDataById,
+            dataId
+          })
+        );
+      }
     }
   },
   created() {
@@ -193,25 +258,6 @@ export default Vue.extend({
 
     // Select map features
     this.map.on('click', this.handleClickOnMap);
-
-    //   // Update the legend
-    //   this.map.on('postcompose', () => {
-    //     const legendUrls = Object.entries(this.layers).reduce(
-    //       (obj, [key, layer]) => {
-    //         const sources =
-    //           layer instanceof LayerGroup
-    //             ? layer.getLayersArray().map(l => l.getSource())
-    //             : [layer.getSource()];
-    //         obj[key] = sources
-    //           .filter(source => source instanceof TileWMS)
-    //           .map(source => (source as TileWMS).getLegendUrl() as string);
-    //         return obj;
-    //       },
-    //       {} as {[key: string]: string[]}
-    //     );
-
-    //     this.$emit('legendUrls', legendUrls);
-    //   });
   }
 });
 </script>
