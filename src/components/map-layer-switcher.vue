@@ -32,7 +32,7 @@
             :value="baseLayerTypes.includes(layer.properties.name)"
             :label="$t(`layer.${layer.properties.name}`)"
             style="margin-top: -4px"
-            @change="onLayerChange"
+            @change="onLayerChange(layer, $event)"
             dense
             hide-details
           ></v-checkbox>
@@ -46,7 +46,7 @@
             :value="baseLayerTypes.includes(layer.properties.name)"
             :label="$t(`layer.${layer.properties.name}`)"
             style="margin-top: -4px"
-            @change="onLayerChange"
+            @change="onLayerChange(layer, $event)"
             dense
             hide-details
           ></v-checkbox>
@@ -89,9 +89,10 @@ export default Vue.extend({
   },
   methods: {
     ...(mapMutations as MapMutationsToMethods)('root', ['setBaseLayerTypes']),
-    onLayerChange() {
-      const layers = [...this.baseLayers, ...this.thematicLayers];
+    onLayerChange(layer: LayerOptions, visible: boolean) {
+      layer.visible = visible;
 
+      const layers = [...this.baseLayers, ...this.thematicLayers];
       this.setBaseLayerTypes(
         layers
           .filter(layer => layer.visible)
