@@ -32,6 +32,7 @@ export interface DataLayerOptions {
   sources?: Record<AdminLayerType, VectorSourceOptions>;
   style?: (payload: {
     layerConfig: LayerConfig;
+    selectedClassificationIndex: number | undefined;
     adminLayerDataById: Record<string, AdminLayerFeatureData>;
     dataId: string;
   }) => StyleFunction;
