@@ -32,9 +32,11 @@ export const dataLayers: Record<string, DataLayerOptions> = {
             ? layerConfig.classification[selectedClassificationIndex]
                 ?.classification
             : layerConfig.classification;
-        const color = classification?.find(
-          category => category.from <= value && category.to >= value
-        )?.color;
+        const color =
+          value != null &&
+          classification?.find(
+            category => category.from <= value && category.to >= value
+          )?.color;
 
         return new Style({
           fill: new Fill({

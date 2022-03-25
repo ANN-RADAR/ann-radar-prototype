@@ -17,15 +17,15 @@
       :fixed-header="true"
       hide-default-footer
     >
-      <template v-slot:[`item.AnzFl`]="{item}">
-        <span v-if="item.AnzFl !== undefined">
-          {{ formatNumber(Math.round(item.AnzFl)) }}
+      <template v-slot:[`item.AnzFlur`]="{item}">
+        <span v-if="item.AnzFlur !== undefined">
+          {{ formatNumber(Math.round(item.AnzFlur)) }}
         </span>
         <span v-else>{{ $t('notAvailable') }}</span>
       </template>
-      <template v-slot:[`item.mittlFl`]="{item}">
-        <span v-if="item.mittlFl !== undefined">
-          {{ formatNumber(Math.round(item.mittlFl)) }}&nbsp;m²
+      <template v-slot:[`item.mittlFlur`]="{item}">
+        <span v-if="item.mittlFlur !== undefined">
+          {{ formatNumber(Math.round(item.mittlFlur)) }}&nbsp;m²
         </span>
         <span v-else>{{ $t('notAvailable') }}</span>
       </template>
@@ -41,15 +41,15 @@
         </span>
         <span v-else>{{ $t('notAvailable') }}</span>
       </template>
-      <template v-slot:[`item.Bev_311219`]="{item}">
-        <span v-if="item.Bev_311219 !== undefined">
-          {{ formatNumber(Math.round(item.Bev_311219)) }}
+      <template v-slot:[`item.Bev_311220`]="{item}">
+        <span v-if="item.Bev_311220 !== undefined">
+          {{ formatNumber(Math.round(item.Bev_311220)) }}
         </span>
         <span v-else>{{ $t('notAvailable') }}</span>
       </template>
-      <template v-slot:[`item.p_st_mwh_a`]="{item}">
-        <span v-if="item.p_st_mwh_a !== undefined">
-          {{ formatNumber(item.p_st_mwh_a) }}&nbsp;MWh/a
+      <template v-slot:[`item.SP_GebWB15`]="{item}">
+        <span v-if="item.SP_GebWB15 !== undefined">
+          {{ formatNumber(item.SP_GebWB15) }}&nbsp;MWh/a
         </span>
         <span v-else>{{ $t('notAvailable') }}</span>
       </template>
@@ -115,12 +115,12 @@ export default Vue.extend({
         {
           text: this.$t('parcels'),
           sortable: true,
-          value: 'AnzFl'
+          value: 'AnzFlur'
         },
         {
           text: this.$t('meanParcelSize'),
           sortable: true,
-          value: 'mittlFl'
+          value: 'mittlFlur'
         },
         {text: this.$t('grossFloorArea'), sortable: true, value: 'BGF'},
         {
@@ -131,12 +131,12 @@ export default Vue.extend({
         {
           text: this.$t('population'),
           sortable: true,
-          value: 'Bev_311219'
+          value: 'Bev_311220'
         },
         {
           text: this.$t('solarPotential'),
           sortable: true,
-          value: 'p_st_mwh_a'
+          value: 'SP_GebWB15'
         }
       ].concat(
         this.adminLayerType === AdminLayerType.STATISTICAL_AREA

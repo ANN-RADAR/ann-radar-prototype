@@ -69,31 +69,31 @@ export const calculateAggregateValues = (
     (aggr, area) => {
       return {
         Shape_Area: aggr.Shape_Area + area.Shape_Area,
-        AnzFl: aggr.AnzFl + area.AnzFl,
-        mittlFl: aggr.mittlFl + area.mittlFl * area.AnzFl,
+        AnzFlur: aggr.AnzFlur + area.AnzFlur,
+        mittlFlur: aggr.mittlFlur + area.mittlFlur * area.AnzFlur,
         BGF: aggr.BGF + area.BGF,
         tatNu_WB_P: aggr.tatNu_WB_P + area.tatNu_WB_P * area.Shape_Area,
-        Bev_311219: aggr.Bev_311219 + area.Bev_311219,
-        p_st_mwh_a: aggr.p_st_mwh_a + (area.p_st_mwh_a || 0)
+        Bev_311220: aggr.Bev_311220 + area.Bev_311220,
+        SP_GebWB15: aggr.SP_GebWB15 + (area.SP_GebWB15 || 0)
       };
     },
     {
       Shape_Area: 0,
-      AnzFl: 0,
-      mittlFl: 0,
+      AnzFlur: 0,
+      mittlFlur: 0,
       BGF: 0,
       tatNu_WB_P: 0,
-      Bev_311219: 0,
-      p_st_mwh_a: 0
+      Bev_311220: 0,
+      SP_GebWB15: 0
     }
   );
 
   return {
-    AnzFl: weightedSums.AnzFl,
-    mittlFl: weightedSums.mittlFl / weightedSums.AnzFl,
+    AnzFlur: weightedSums.AnzFlur,
+    mittlFlur: weightedSums.mittlFlur / weightedSums.AnzFlur,
     BGF: weightedSums.BGF,
     tatNu_WB_P: weightedSums.tatNu_WB_P / weightedSums.Shape_Area,
-    Bev_311219: weightedSums.Bev_311219,
-    p_st_mwh_a: weightedSums.p_st_mwh_a
+    Bev_311220: weightedSums.Bev_311220,
+    SP_GebWB15: weightedSums.SP_GebWB15
   };
 };
