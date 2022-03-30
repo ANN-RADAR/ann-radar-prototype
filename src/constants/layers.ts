@@ -1,5 +1,10 @@
 import {getAdminLayerStyle} from '@/libs/admin-layers';
-import {LayerOptions} from '@/types/layers';
+import {
+  LayerOptions,
+  TileLayerOptions,
+  VectorLayerOptions
+} from '@/types/layers';
+import {Options as TileSourceOptions} from 'ol/source/TileWMS';
 import {Feature} from 'ol';
 import Geometry from 'ol/geom/Geometry';
 import LayerGroup from 'ol/layer/Group';
@@ -12,41 +17,30 @@ import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import Style from 'ol/style/Style';
 import {tileSourcesOptions, vectorSourcesOptions} from './sources';
-import {Options as TileSourceOptions} from 'ol/source/TileWMS';
-import {Options as VectorSourceOptions} from 'ol/source/Vector';
 import {MapStyle} from '@/types/map-styles';
 import {adminLayers} from './admin-layers';
 import {AdminLayerType} from '@/types/admin-layers';
-import {socialMonitoringColors, solarCoverageRateColors} from './colors';
+import {socialMonitoringColors} from './colors';
 
 export const solarPotentialLayersOptions: Array<LayerOptions> = [
   {
+    type: 'tile',
     properties: {name: 'solarMap'},
     visible: false,
     source: tileSourcesOptions.HH_WMS_Solaratlas,
     zIndex: 5
   },
   {
+    type: 'vector',
     properties: {name: 'solarCoverageRate'},
     visible: false,
-    source: vectorSourcesOptions.SolarCoverageRate,
-    style: (feature: Feature<Geometry> | RenderFeature) => {
-      return new Style({
-        fill: new Fill({
-          color:
-            solarCoverageRateColors[feature.get('PVersQt10')] ||
-            'rgba(0, 0, 0, 0)'
-        })
-      });
-    },
     zIndex: 4
   }
 ];
 
-export const energyPotentialLayersOptions: Array<
-  LayerOptions<TileSourceOptions>
-> = [
+export const energyPotentialLayersOptions: Array<TileLayerOptions> = [
   {
+    type: 'tile',
     properties: {name: 'heatDemand'},
     visible: false,
     source: tileSourcesOptions.HH_WMS_Waermekataster_Waermebedarf,
@@ -56,31 +50,37 @@ export const energyPotentialLayersOptions: Array<
 
 export const baseLayersOptions: Array<LayerOptions> = [
   {
+    type: 'tile',
     properties: {name: 'schools'},
     visible: false,
     source: tileSourcesOptions.HH_WMS_Schulen
   },
   {
+    type: 'tile',
     properties: {name: 'quarterCulture'},
     visible: false,
     source: tileSourcesOptions.HH_WMS_Oeffentliche_Bibliotheken
   },
   {
+    type: 'tile',
     properties: {name: 'socialInfrastructure'},
     visible: false,
     source: tileSourcesOptions.HH_WMS_Geobasiskarten_GB
   },
   {
+    type: 'tile',
     properties: {name: 'buildingAndLiving'},
     visible: false,
     source: tileSourcesOptions.HH_WMS_Geobasiskarten
   },
   {
+    type: 'tile',
     properties: {name: 'riseFundingAreas'},
     visible: false,
     source: tileSourcesOptions.HH_WMS_RISE_FG
   },
   {
+    type: 'vector',
     properties: {name: 'socialMonitoring2020'},
     visible: false,
     source: vectorSourcesOptions.Sozialmonitoring,
@@ -101,8 +101,9 @@ export const baseLayersOptions: Array<LayerOptions> = [
   }
 ];
 
-export const mapStyleLayersOptions: Array<LayerOptions<TileSourceOptions>> = [
+export const mapStyleLayersOptions: Array<TileLayerOptions> = [
   {
+    type: 'tile',
     properties: {
       name: MapStyle.COLORED
     },
@@ -110,6 +111,7 @@ export const mapStyleLayersOptions: Array<LayerOptions<TileSourceOptions>> = [
     source: tileSourcesOptions.HH_WMS_Geobasiskarten
   },
   {
+    type: 'tile',
     properties: {
       name: MapStyle.GRAY_BLUE
     },
@@ -117,6 +119,7 @@ export const mapStyleLayersOptions: Array<LayerOptions<TileSourceOptions>> = [
     source: tileSourcesOptions.HH_WMS_Geobasiskarten_GB
   },
   {
+    type: 'tile',
     properties: {
       name: MapStyle.BLACK_GRAY
     },
@@ -124,6 +127,7 @@ export const mapStyleLayersOptions: Array<LayerOptions<TileSourceOptions>> = [
     source: tileSourcesOptions.HH_WMS_Geobasiskarten_SG
   },
   {
+    type: 'tile',
     properties: {
       name: MapStyle.SATELLITE
     },
@@ -132,32 +136,39 @@ export const mapStyleLayersOptions: Array<LayerOptions<TileSourceOptions>> = [
   }
 ];
 
-const adminAreaLayersOptions: Array<LayerOptions<VectorSourceOptions>> = [
+const adminAreaLayersOptions: Array<VectorLayerOptions> = [
   {
+    type: 'vector',
     source: vectorSourcesOptions.CITY,
     visible: false,
     style: getAdminLayerStyle(adminLayers[AdminLayerType.CITY].featureName),
     properties: {
       name: AdminLayerType.CITY
-    }
+    },
+    zIndex: 6
   },
   {
+    type: 'vector',
     source: vectorSourcesOptions.BOROUGH,
     visible: false,
     style: getAdminLayerStyle(adminLayers[AdminLayerType.BOROUGH].featureName),
     properties: {
       name: AdminLayerType.BOROUGH
-    }
+    },
+    zIndex: 6
   },
   {
+    type: 'vector',
     source: vectorSourcesOptions.QUARTER,
     visible: false,
     style: getAdminLayerStyle(adminLayers[AdminLayerType.QUARTER].featureName),
     properties: {
       name: AdminLayerType.QUARTER
-    }
+    },
+    zIndex: 6
   },
   {
+    type: 'vector',
     source: vectorSourcesOptions.STATISTICAL_AREA,
     visible: false,
     style: getAdminLayerStyle(
@@ -165,9 +176,11 @@ const adminAreaLayersOptions: Array<LayerOptions<VectorSourceOptions>> = [
     ),
     properties: {
       name: AdminLayerType.STATISTICAL_AREA
-    }
+    },
+    zIndex: 6
   },
   {
+    type: 'vector',
     source: vectorSourcesOptions.BUILDING_BLOCK,
     visible: false,
     style: getAdminLayerStyle(
@@ -176,6 +189,7 @@ const adminAreaLayersOptions: Array<LayerOptions<VectorSourceOptions>> = [
     properties: {
       name: AdminLayerType.BUILDING_BLOCK
     },
+    zIndex: 6,
     minZoom: 13
   }
 ];
@@ -186,15 +200,15 @@ export const getBaseLayers = (): LayerGroup =>
       ...baseLayersOptions,
       ...solarPotentialLayersOptions,
       ...energyPotentialLayersOptions
-    ].map(layer =>
-      layer.style
+    ].map(({type, source, ...layerOptions}) =>
+      type === 'vector'
         ? new VectorLayer({
-            ...layer,
-            source: new VectorSource(layer.source)
+            ...layerOptions,
+            source: new VectorSource(source)
           })
         : new TileLayer({
-            ...layer,
-            source: new TileWMS(layer.source as TileSourceOptions)
+            ...layerOptions,
+            source: new TileWMS(source as TileSourceOptions)
           })
     )
   });
@@ -202,17 +216,20 @@ export const getBaseLayers = (): LayerGroup =>
 export const getMapStyleLayers = (): LayerGroup =>
   new LayerGroup({
     layers: mapStyleLayersOptions.map(
-      layer => new TileLayer({...layer, source: new TileWMS(layer.source)})
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      ({type, source, ...layerOptions}) =>
+        new TileLayer({...layerOptions, source: new TileWMS(source)})
     )
   });
 
 export const getAdminAreaLayers = (): LayerGroup =>
   new LayerGroup({
     layers: adminAreaLayersOptions.map(
-      layer =>
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      ({type, source, ...layerOptions}) =>
         new VectorLayer({
-          ...layer,
-          source: new VectorSource(layer.source)
+          ...layerOptions,
+          source: new VectorSource(source)
         })
     )
   });

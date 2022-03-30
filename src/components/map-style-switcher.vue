@@ -46,13 +46,12 @@
 import Vue from 'vue';
 import {mapMutations, mapState} from 'vuex';
 
-import {LayerOptions} from '@/types/layers';
+import {TileLayerOptions} from '@/types/layers';
 import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
-import {Options as TileSourceOptions} from 'ol/source/TileWMS';
 import {mapStyleLayersOptions} from '../constants/layers';
 
 interface Data {
-  mapStyleLayersOptions: Array<LayerOptions<TileSourceOptions>>;
+  mapStyleLayersOptions: Array<TileLayerOptions>;
 }
 
 export default Vue.extend({

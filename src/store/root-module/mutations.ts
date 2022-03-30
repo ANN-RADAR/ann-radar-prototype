@@ -2,6 +2,12 @@ import {AdminLayerType, FeaturesDataKeys} from '@/types/admin-layers';
 import {RootState} from '@/types/store';
 
 const mutations = {
+  setLayersConfig(
+    state: RootState,
+    newLayersConfig: RootState['layersConfig']
+  ) {
+    state.layersConfig = newLayersConfig;
+  },
   setAdminLayerType(
     state: RootState,
     newAdminLayerType: RootState['adminLayerType']
