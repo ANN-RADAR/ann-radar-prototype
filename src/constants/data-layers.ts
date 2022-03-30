@@ -17,12 +17,22 @@ export const dataLayers: Record<string, DataLayerOptions> = {
       [AdminLayerType.BUILDING_BLOCK]: vectorSourcesOptions.BUILDING_BLOCK_NETTO
     },
     style:
-      ({layerConfig, adminLayerDataById, dataId}) =>
+      ({
+        layerConfig,
+        selectedClassificationIndex,
+        adminLayerDataById,
+        dataId
+      }) =>
       (feature: Feature<Geometry> | RenderFeature) => {
         const adminLayerData = adminLayerDataById[String(feature.get(dataId))];
         const value =
           adminLayerData && adminLayerData[layerConfig.attributeName];
-        const color = layerConfig.classification.find(
+        const classification =
+          selectedClassificationIndex != null
+            ? layerConfig.classification[selectedClassificationIndex]
+                ?.classification
+            : layerConfig.classification;
+        const color = classification?.find(
           category => category.from <= value && category.to >= value
         )?.color;
 

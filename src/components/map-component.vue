@@ -80,7 +80,8 @@ export default Vue.extend({
       'adminLayerType',
       'mapStyle',
       'baseLayerTypes',
-      'layersConfig'
+      'layersConfig',
+      'layerClassificationSelection'
     ]),
     ...(mapGetters as MapGettersToComputed)('root', [
       'currentLayerSelectedFeatureDataKeys'
@@ -127,6 +128,17 @@ export default Vue.extend({
           }
         } else {
           layer.setVisible(false);
+        }
+      }
+    },
+    layerClassificationSelection() {
+      // Update style of data layers
+      for (const layer of this.baseLayers.getLayers().getArray()) {
+        if (layer.getVisible()) {
+          const dataLayerOptions = dataLayers[layer.get('name')];
+          if (dataLayerOptions && dataLayerOptions.style) {
+            this.updateDataLayerStyle(layer, dataLayerOptions.style);
+          }
         }
       }
     },
@@ -229,6 +241,8 @@ export default Vue.extend({
       dataLayerStyle: Exclude<DataLayerOptions['style'], undefined>
     ) {
       const layerConfig = this.layersConfig[layer.get('name')];
+      const selectedClassificationIndex =
+        this.layerClassificationSelection[layer.get('name')];
 
       // Update the style depending on the layer config and data
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -243,6 +257,7 @@ export default Vue.extend({
         (layer as VectorLayer<VectorSource<Geometry>>).setStyle(
           dataLayerStyle({
             layerConfig,
+            selectedClassificationIndex,
             adminLayerDataById,
             dataId
           })

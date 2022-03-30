@@ -6,6 +6,10 @@ import {LayerConfig} from './layers';
 
 export interface RootState {
   layersConfig: Record<string /* layer type */, LayerConfig>;
+  layerClassificationSelection: Record<
+    string /* layer type */,
+    number /* selected classification index */
+  >;
   mapStyle: MapStyle;
   baseLayerTypes: Array<string>;
   adminLayerType: AdminLayerType | null;

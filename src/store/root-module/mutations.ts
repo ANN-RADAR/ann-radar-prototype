@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import {AdminLayerType, FeaturesDataKeys} from '@/types/admin-layers';
 import {RootState} from '@/types/store';
 
@@ -7,6 +8,19 @@ const mutations = {
     newLayersConfig: RootState['layersConfig']
   ) {
     state.layersConfig = newLayersConfig;
+  },
+  setLayerClassificationSelection(
+    state: RootState,
+    payload: {layerType: string; selectedClassificationIndex: number | null}
+  ) {
+    if (!payload.selectedClassificationIndex) {
+      Vue.delete(state.layerClassificationSelection, payload.layerType);
+    } else {
+      state.layerClassificationSelection = {
+        ...state.layerClassificationSelection,
+        [payload.layerType]: payload.selectedClassificationIndex
+      };
+    }
   },
   setAdminLayerType(
     state: RootState,
