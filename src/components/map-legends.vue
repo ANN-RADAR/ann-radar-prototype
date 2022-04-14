@@ -104,12 +104,6 @@ export default Vue.extend({
       'layerClassificationSelection'
     ]),
     legends(): Record<string, LayerConfig> {
-      console.log(
-        this.baseLayerTypes.reduce((config, layer) => {
-          const layerConfig = this.layersConfig[layer];
-          return {...config, ...(layerConfig && {[layer]: layerConfig})};
-        }, {})
-      );
       return this.baseLayerTypes.reduce((config, layer) => {
         const layerConfig = this.layersConfig[layer];
         return {...config, ...(layerConfig && {[layer]: layerConfig})};
