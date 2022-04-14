@@ -1,5 +1,4 @@
 import {GeoJSON} from 'ol/format';
-import GML3 from 'ol/format/GML3';
 import {Options as TileSourceOptions} from 'ol/source/TileWMS';
 import {Options as VectorSourceOptions} from 'ol/source/Vector';
 
@@ -120,29 +119,28 @@ export const tileSourcesOptions: Record<string, TileSourceOptions> = {
 
 export const vectorSourcesOptions: Record<string, VectorSourceOptions> = {
   CITY: {
-    format: new GML3(),
-    url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=landesgrenze'
+    format: new GeoJSON(),
+    url: 'https://storage.googleapis.com/ann-radar-data/HH_Stadt.geojson'
   },
   BOROUGH: {
-    format: new GML3(),
-    url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=bezirke'
+    format: new GeoJSON(),
+    url: 'https://storage.googleapis.com/ann-radar-data/HH_Bezirke.geojson'
   },
   QUARTER: {
-    format: new GML3(),
-    url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=stadtteile'
+    format: new GeoJSON(),
+    url: 'https://storage.googleapis.com/ann-radar-data/HH_Stadtteile.geojson'
   },
   STATISTICAL_AREA: {
-    format: new GML3(),
-    url: 'https://geodienste.hamburg.de/HH_WFS_Statistische_Gebiete?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=statistische_gebiete'
+    format: new GeoJSON(),
+    url: 'https://storage.googleapis.com/ann-radar-data/HH_Statistische_Gebiete.geojson'
   },
   BUILDING_BLOCK: {
-    format: new GML3(),
-    url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=baubloecke'
+    format: new GeoJSON(),
+    url: 'https://storage.googleapis.com/ann-radar-data/HH_Baubloecke_Brutto.geojson'
   },
   BUILDING_BLOCK_NETTO: {
-    format: new GML3(),
-    // TODO: get GeoJSON without properties to replace this one
-    url: 'https://storage.googleapis.com/ann-radar-data/solar_coverage_rate.json'
+    format: new GeoJSON(),
+    url: 'https://storage.googleapis.com/ann-radar-data/HH_Baubloecke_Netto.geojson'
   },
   Sozialmonitoring: {
     format: new GeoJSON(),
