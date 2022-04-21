@@ -51,6 +51,13 @@ type Data = {
 };
 
 export default Vue.extend({
+  props: {
+    hasMultipleFeatureSelection: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
   data(): Data {
     const mapStyleLayers = getMapStyleLayers();
     const adminLayers = getAdminAreaLayers();
@@ -201,10 +208,13 @@ export default Vue.extend({
                 keys => String(keys.featureId) !== id
               );
             } else {
-              selectedFeatureDataKeys = [
-                ...selectedFeatureDataKeys,
-                {featureId: id, featureName: name}
-              ];
+              const featureDataKeys = {featureId: id, featureName: name};
+
+              if (this.hasMultipleFeatureSelection) {
+                selectedFeatureDataKeys.push(featureDataKeys);
+              } else {
+                selectedFeatureDataKeys = [featureDataKeys];
+              }
             }
           });
 
