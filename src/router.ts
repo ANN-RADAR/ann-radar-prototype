@@ -7,6 +7,7 @@ import Potential from './views/category-potential.vue';
 import SolarPotential from './components/solar-potential.vue';
 import EnergyPotential from './components/energy-potential.vue';
 import Plans from './views/category-plans.vue';
+import PlansRate from './components/plans-rate.vue';
 import Login from './views/app-login.vue';
 
 const routes = [
@@ -28,7 +29,7 @@ const routes = [
     component: Plans,
     name: 'Plans',
     children: [
-      {path: 'rate', component: null, name: 'Rate'},
+      {path: 'rate', component: PlansRate, name: 'Rate'},
       {path: 'compare', component: null, name: 'Compare'}
     ]
   },
