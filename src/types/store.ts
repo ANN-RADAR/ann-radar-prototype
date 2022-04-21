@@ -3,6 +3,7 @@ import {MapStyle} from './map-styles';
 import {AdminLayerType, AdminLayerData} from './admin-layers';
 import {modules} from '../store/index';
 import {LayerConfig} from './layers';
+import {Scorecard, ScorecardType} from './scorecards';
 
 export interface RootState {
   layersConfig: Record<string /* layer type */, LayerConfig>;
@@ -14,6 +15,7 @@ export interface RootState {
   baseLayerTypes: Array<string>;
   adminLayerType: AdminLayerType | null;
   adminLayerData: Record<AdminLayerType, AdminLayerData>;
+  scorecards: Record<ScorecardType, Scorecard>;
 }
 
 export interface UserState {

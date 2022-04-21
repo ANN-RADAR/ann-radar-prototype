@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import {AdminLayerType, FeaturesDataKeys} from '@/types/admin-layers';
 import {RootState} from '@/types/store';
+import {Scorecard, ScorecardType} from '@/types/scorecards';
 
 const mutations = {
   setLayersConfig(
@@ -8,6 +9,12 @@ const mutations = {
     newLayersConfig: RootState['layersConfig']
   ) {
     state.layersConfig = newLayersConfig;
+  },
+  setScorecard(
+    state: RootState,
+    payload: {type: ScorecardType; scorecard: Scorecard}
+  ) {
+    state.scorecards = {...state.scorecards, [payload.type]: payload.scorecard};
   },
   setLayerClassificationSelection(
     state: RootState,
