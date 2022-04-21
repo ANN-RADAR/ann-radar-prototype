@@ -78,5 +78,6 @@
     "error": {
       "scenarioTitleAlreadyExists": "This scenario title already exists. Please try another one."
     }
-  }
+  },
+  "total": "Total"
 }
