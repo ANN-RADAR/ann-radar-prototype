@@ -13,11 +13,13 @@
     "logout": "Logout"
   },
   "navigation": {
+    "potential": "Potential",
     "solar": "Solar",
     "energyEfficiency": "Energy Efficiency",
     "mobility": "Mobility",
-    "potential": "Potential",
     "plans": "Plans",
+    "rate": "Rate",
+    "compare": "Compare",
     "stakeholders": "Stakeholders",
     "urbanData": "Urban Data",
     "governance": "Governance"
