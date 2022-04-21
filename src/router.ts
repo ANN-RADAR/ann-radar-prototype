@@ -6,6 +6,8 @@ import store from './store';
 import Potential from './views/category-potential.vue';
 import SolarPotential from './components/solar-potential.vue';
 import EnergyPotential from './components/energy-potential.vue';
+import Plans from './views/category-plans.vue';
+import PlansRate from './components/plans-rate.vue';
 import Login from './views/app-login.vue';
 
 const routes = [
@@ -21,7 +23,16 @@ const routes = [
       {path: 'mobility', component: null, name: 'Mobility'}
     ]
   },
-  {path: '/plans', component: null, name: 'Plans'},
+  {
+    path: '/plans',
+    redirect: '/plans/rate',
+    component: Plans,
+    name: 'Plans',
+    children: [
+      {path: 'rate', component: PlansRate, name: 'Rate'},
+      {path: 'compare', component: null, name: 'Compare'}
+    ]
+  },
   {path: '/stakeholders', component: null, name: 'Stakeholders'},
   {path: '/urban-data', component: null, name: 'Urban Data'},
   {path: '/governance', component: null, name: 'Governance'},
