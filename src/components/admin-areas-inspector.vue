@@ -88,6 +88,19 @@ export default Vue.extend({
 .inspector >>> table tr:not(:last-child) td:nth-child(1),
 .inspector >>> table tr:not(:last-child) td:nth-child(2) {
   z-index: 2;
+}
+
+.inspector >>> table tr:last-child {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  box-shadow: 0 -1px 0 rgb(0, 0, 0, 0.12);
+  font-weight: 600;
+}
+
+.inspector >>> table tr:last-child,
+.inspector >>> table tr:last-child td:nth-child(1),
+.inspector >>> table tr:last-child td:nth-child(2) {
   background-color: #f5f5f5;
 }
 </style>
