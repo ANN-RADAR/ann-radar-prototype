@@ -83,9 +83,13 @@ export default Vue.extend({
   methods: {
     logIn() {
       this.error = null;
-      logIn(this.email, this.password).catch(error => {
-        this.error = error;
-      });
+      logIn(this.email, this.password)
+        .then(() => {
+          this.$router.push('/');
+        })
+        .catch(error => {
+          this.error = error;
+        });
     },
     resetPassword() {
       this.error = null;

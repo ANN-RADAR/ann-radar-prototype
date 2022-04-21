@@ -26,7 +26,9 @@ export default Vue.extend({
   },
   methods: {
     logOut() {
-      logOut();
+      logOut().then(() => {
+        this.$router.push('/login');
+      });
     }
   }
 });

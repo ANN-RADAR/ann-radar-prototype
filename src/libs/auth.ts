@@ -24,7 +24,7 @@ export const auth = getAuth();
 
 export const initializeAuth = (store: Store<StoreState>) =>
   onAuthStateChanged(auth, user => {
-    store.dispatch('user/changed', user);
+    store.commit('user/setUser', user || null);
   });
 
 export const logIn = (email: string, password: string) =>
