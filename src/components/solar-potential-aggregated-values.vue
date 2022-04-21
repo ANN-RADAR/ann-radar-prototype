@@ -1,5 +1,5 @@
 <template>
-  <tr v-if="aggregation" class="aggregation">
+  <tr v-if="aggregation">
     <td />
     <template v-for="(header, index) in tableHeaders">
       <td v-if="index === 0" :key="header.value">{{ $t('total') }}</td>
@@ -78,14 +78,3 @@ export default Vue.extend({
   }
 });
 </script>
-
-<style scoped>
-.aggregation {
-  position: sticky;
-  bottom: 0;
-  z-index: 2;
-  background: #fff;
-  box-shadow: 0 -1px 0 rgb(0, 0, 0, 0.12);
-  font-weight: 500;
-}
-</style>
