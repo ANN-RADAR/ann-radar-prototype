@@ -21,6 +21,10 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import {mapMutations} from 'vuex';
+
+import {MapMutationsToMethods} from '@/types/store';
+import {AdminLayerData, AdminLayerType} from '@/types/admin-layers';
 
 import ScenarioSaveDialog from '../components/scenario-save-dialog.vue';
 import ScenarioLoadDialog from '../components/scenario-load-dialog.vue';
@@ -42,6 +46,17 @@ export default Vue.extend({
         (to.path.includes('mobility') && 'potential-mobility') ||
         'potential-solar';
     }
+  },
+  methods: {
+    ...(mapMutations as MapMutationsToMethods)('root', [
+      'setAdminLayerType',
+      'setAdminLayerData'
+    ])
+  },
+  destroyed() {
+    // Reset selections on destroy
+    this.setAdminLayerType(null);
+    this.setAdminLayerData({} as Record<AdminLayerType, AdminLayerData>);
   }
 });
 </script>

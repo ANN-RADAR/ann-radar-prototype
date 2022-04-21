@@ -14,7 +14,7 @@ import {
 } from '@/types/store';
 
 import 'ol/ol.css';
-import {Map, MapBrowserEvent, View} from 'ol';
+import {Feature, Map, MapBrowserEvent, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
 import {ScaleLine, defaults as defaultControls} from 'ol/control';
 import LayerGroup from 'ol/layer/Group';
@@ -31,7 +31,7 @@ import {
 } from '@/constants/layers';
 import {dataLayers} from '@/constants/data-layers';
 import {adminLayers} from '@/constants/admin-layers';
-import {AdminLayerFeatureData, FeaturesDataKeys} from '@/types/admin-layers';
+import {AdminLayerFeatureData} from '@/types/admin-layers';
 import BaseLayer from 'ol/layer/Base';
 import {DataLayerOptions} from '@/types/layers';
 
@@ -95,23 +95,11 @@ export default Vue.extend({
     ])
   },
   watch: {
-    mapStyle(newMapStyleLayer: string) {
-      for (const layer of this.mapStyleLayers.getLayers().getArray()) {
-        if (layer.get('name') === newMapStyleLayer) {
-          layer.setVisible(true);
-        } else {
-          layer.setVisible(false);
-        }
-      }
+    mapStyle() {
+      this.toggleMapStyleLayers();
     },
-    adminLayerType(newAdminLayerType: string) {
-      for (const layer of this.adminLayers.getLayers().getArray()) {
-        if (layer.get('name') === newAdminLayerType) {
-          layer.setVisible(true);
-        } else {
-          layer.setVisible(false);
-        }
-      }
+    adminLayerType() {
+      this.toggleAdminLayers();
 
       // Update source and style of data layers
       for (const layer of this.baseLayers.getLayers().getArray()) {
@@ -123,20 +111,8 @@ export default Vue.extend({
         }
       }
     },
-    baseLayerTypes(newBaseLayerTypes: Array<string>) {
-      for (const layer of this.baseLayers.getLayers().getArray()) {
-        if (newBaseLayerTypes.includes(layer.get('name'))) {
-          layer.setVisible(true);
-
-          const dataLayerOptions = dataLayers[layer.get('name')];
-          // Update source and style of data layers
-          if (dataLayerOptions) {
-            this.updateDataLayer(layer, dataLayerOptions);
-          }
-        } else {
-          layer.setVisible(false);
-        }
-      }
+    baseLayerTypes() {
+      this.toggleBaseLayers();
     },
     layerClassificationSelection() {
       // Update style of data layers
@@ -149,24 +125,8 @@ export default Vue.extend({
         }
       }
     },
-    currentLayerSelectedFeatureDataKeys(
-      newCurrentLayerSelectedFeatureDataKeys: Array<FeaturesDataKeys>
-    ) {
-      for (const layer of this.adminLayers.getLayers().getArray() as Array<
-        VectorLayer<VectorSource<Geometry>>
-      >) {
-        if (this.adminLayerType && layer.get('name') === this.adminLayerType) {
-          const {featureId} = adminLayers[this.adminLayerType];
-          const adminLayerFeatures = layer.getSource().getFeatures();
-
-          adminLayerFeatures.forEach(feature => {
-            const isSelected = newCurrentLayerSelectedFeatureDataKeys.some(
-              keys => keys.featureId === feature.get(featureId)
-            );
-            feature.set('selected', isSelected);
-          });
-        }
-      }
+    currentLayerSelectedFeatureDataKeys() {
+      this.handleAdminAreaSelection();
     }
   },
   methods: {
@@ -226,6 +186,72 @@ export default Vue.extend({
       }
       // TODO: Add selected feature id / name to store
     },
+    toggleMapStyleLayers() {
+      for (const layer of this.mapStyleLayers.getLayers().getArray()) {
+        if (layer.get('name') === this.mapStyle) {
+          layer.setVisible(true);
+        } else {
+          layer.setVisible(false);
+        }
+      }
+    },
+    toggleAdminLayers() {
+      for (const layer of this.adminLayers.getLayers().getArray()) {
+        if (layer.get('name') === this.adminLayerType) {
+          layer.setVisible(true);
+        } else {
+          layer.setVisible(false);
+        }
+      }
+    },
+    toggleBaseLayers() {
+      for (const layer of this.baseLayers.getLayers().getArray()) {
+        if (this.baseLayerTypes.includes(layer.get('name'))) {
+          layer.setVisible(true);
+
+          const dataLayerOptions = dataLayers[layer.get('name')];
+          // Update source and style of data layers
+          if (dataLayerOptions) {
+            this.updateDataLayer(layer, dataLayerOptions);
+          }
+        } else {
+          layer.setVisible(false);
+        }
+      }
+    },
+    handleAdminAreaSelection() {
+      for (const layer of this.adminLayers.getLayers().getArray() as Array<
+        VectorLayer<VectorSource<Geometry>>
+      >) {
+        if (this.adminLayerType && layer.get('name') === this.adminLayerType) {
+          const {featureId} = adminLayers[this.adminLayerType];
+
+          const handleSelection = (features: Array<Feature<Geometry>>) => {
+            features.forEach(feature => {
+              const isSelected = this.currentLayerSelectedFeatureDataKeys.some(
+                keys => keys.featureId === feature.get(featureId)
+              );
+              feature.set('selected', isSelected);
+            });
+          };
+
+          const adminLayerSource = layer.getSource();
+          const adminLayerFeatures = adminLayerSource.getFeatures();
+
+          if (adminLayerFeatures.length) {
+            handleSelection(adminLayerFeatures);
+          } else {
+            // Wait for source to be loaded
+            adminLayerSource.on('change', event => {
+              const source = event.target as VectorSource<Geometry>;
+              if (source.getState() === 'ready') {
+                handleSelection(source.getFeatures());
+              }
+            });
+          }
+        }
+      }
+    },
     updateDataLayer(layer: BaseLayer, dataLayerOptions: DataLayerOptions) {
       if (dataLayerOptions.sources) {
         this.updateDataLayerSource(layer, dataLayerOptions.sources);
@@ -280,6 +306,12 @@ export default Vue.extend({
   },
   mounted() {
     this.map = new Map(this.mapOptions);
+
+    // Update layers according to store data
+    this.toggleMapStyleLayers();
+    this.toggleAdminLayers();
+    this.toggleBaseLayers();
+    this.handleAdminAreaSelection();
 
     // Select map features
     this.map.on('click', this.handleClickOnMap);
