@@ -1,16 +1,12 @@
 <template>
-  <v-app-bar app elevation="2" class="header">
-    <nav class="navigation">
-      <v-btn active-class="primary" to="/solar">
-        {{ $t('navigation.solar') }}
-      </v-btn>
-      <v-btn active-class="primary" to="/energy-efficiency">
-        {{ $t('navigation.energyEfficiency') }}
-      </v-btn>
-      <v-btn active-class="primary" to="/mobility">
-        {{ $t('navigation.mobility') }}
-      </v-btn>
-    </nav>
+  <v-app-bar app elevation="2" dense class="header">
+    <v-tabs v-model="tab">
+      <v-tab to="/potential">{{ $t('navigation.potential') }}</v-tab>
+      <v-tab to="/plans">{{ $t('navigation.plans') }}</v-tab>
+      <v-tab to="/stakeholders">{{ $t('navigation.stakeholders') }}</v-tab>
+      <v-tab to="/urban-data">{{ $t('navigation.urbanData') }}</v-tab>
+      <v-tab to="/governance">{{ $t('navigation.governance') }}</v-tab>
+    </v-tabs>
 
     <h1 class="headline">{{ $t('annRadar') }}</h1>
 
@@ -23,6 +19,11 @@ import Vue from 'vue';
 import {logOut} from '@/libs/auth';
 
 export default Vue.extend({
+  data() {
+    return {
+      tab: 0
+    };
+  },
   methods: {
     logOut() {
       logOut();
@@ -32,15 +33,9 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.header >>> div {
+.header::v-deep > div {
   display: grid;
   grid-template-columns: 1fr auto auto;
   grid-gap: 16px;
-}
-
-.navigation {
-  display: flex;
-  align-items: center;
-  grid-gap: 8px;
 }
 </style>

@@ -1,6 +1,14 @@
 <template>
   <v-app>
-    <router-view />
+    <v-main>
+      <Header />
+      <v-container
+        fluid
+        style="display: flex; flex-direction: column; height: 100%; padding: 0"
+      >
+        <router-view />
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 

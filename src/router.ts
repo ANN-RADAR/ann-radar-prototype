@@ -3,14 +3,28 @@ import Router from 'vue-router';
 
 import store from './store';
 
-import Solar from './views/category-solar.vue';
-import Energy from './views/category-energy.vue';
+import Potential from './views/category-potential.vue';
+import SolarPotential from './components/solar-potential.vue';
+import EnergyPotential from './components/energy-potential.vue';
 import Login from './views/app-login.vue';
 
 const routes = [
-  {path: '/', redirect: '/solar', name: 'Root'},
-  {path: '/solar', component: Solar, name: 'Solar'},
-  {path: '/energy-efficiency', component: Energy, name: 'Energy'},
+  {path: '/', redirect: '/potential/solar', name: 'Root'},
+  {
+    path: '/potential',
+    redirect: '/potential/solar',
+    component: Potential,
+    name: 'Potential',
+    children: [
+      {path: 'solar', component: SolarPotential, name: 'Solar'},
+      {path: 'energy-efficiency', component: EnergyPotential, name: 'Energy'},
+      {path: 'mobility', component: null, name: 'Mobility'}
+    ]
+  },
+  {path: '/plans', component: null, name: 'Plans'},
+  {path: '/stakeholders', component: null, name: 'Stakeholders'},
+  {path: '/urban-data', component: null, name: 'Urban Data'},
+  {path: '/governance', component: null, name: 'Governance'},
   {path: '/login', component: Login, name: 'Login'}
 ];
 
