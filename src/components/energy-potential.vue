@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="map">
-      <Map />
+      <Map hasMultipleFeatureSelection />
       <div class="map-overlays top-right">
         <MapLayerSwitcher
           :thematicLayers="energyPotentialLayers"
