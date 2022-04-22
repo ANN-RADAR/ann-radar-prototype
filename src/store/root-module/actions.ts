@@ -1,10 +1,10 @@
 import {AdminLayerType} from '@/types/admin-layers';
-import {ScorecardType} from '@/types/scorecards';
+import {ScorecardMeasureId, ScorecardType} from '@/types/scorecards';
 import {RootState, StoreState} from '@/types/store';
-import {ActionTree} from 'vuex';
+import {ActionContext} from 'vuex';
 
-const actions: ActionTree<RootState, StoreState> = {
-  fetchLayersConfig({commit}) {
+const actions = {
+  fetchLayersConfig({commit}: ActionContext<RootState, StoreState>) {
     return fetch(
       'https://storage.googleapis.com/ann-radar-data/layers_config.json'
     )
@@ -14,7 +14,7 @@ const actions: ActionTree<RootState, StoreState> = {
       })
       .catch(error => console.error(error));
   },
-  fetchPlansScorecard({commit}) {
+  fetchPlansScorecard({commit}: ActionContext<RootState, StoreState>) {
     return fetch(
       'https://storage.googleapis.com/ann-radar-data/plans_scorecard.json'
     )
@@ -24,7 +24,7 @@ const actions: ActionTree<RootState, StoreState> = {
       })
       .catch(error => console.error(error));
   },
-  fetchPlansScorecardRatings({commit}) {
+  fetchPlansScorecardRatings({commit}: ActionContext<RootState, StoreState>) {
     // TODO: get data from API
     commit('setScorecardRatings', {
       type: ScorecardType.PLANS,
@@ -35,6 +35,37 @@ const actions: ActionTree<RootState, StoreState> = {
           'Hamburg-Mitte': {A1: true, C1: false}
         }
       }
+    });
+  },
+  savePlansScorecardRatings(
+    {commit, state}: ActionContext<RootState, StoreState>,
+    payload: {
+      adminLayerType: AdminLayerType;
+      featureName: string;
+      measureId: ScorecardMeasureId;
+    }
+  ) {
+    const ratings = state.scorecardRatings[ScorecardType.PLANS];
+    ratings[payload.adminLayerType] = ratings[payload.adminLayerType] || {};
+    ratings[payload.adminLayerType][payload.featureName] =
+      ratings[payload.adminLayerType][payload.featureName] || {};
+
+    const previousValue =
+      ratings[payload.adminLayerType][payload.featureName][payload.measureId];
+    const nextValue =
+      previousValue === true
+        ? false
+        : previousValue === false
+        ? undefined
+        : true;
+
+    ratings[payload.adminLayerType][payload.featureName][payload.measureId] =
+      nextValue;
+
+    // TODO: save in database
+    commit('setScorecardRatings', {
+      type: ScorecardType.PLANS,
+      ratings
     });
   }
 };

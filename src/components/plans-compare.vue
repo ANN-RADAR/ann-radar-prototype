@@ -42,14 +42,10 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {mapActions, mapMutations, mapState} from 'vuex';
+import {mapMutations, mapState} from 'vuex';
 
 import {AdminLayerType} from '@/types/admin-layers';
-import {
-  MapActionsToMethods,
-  MapMutationsToMethods,
-  MapStateToComputed
-} from '@/types/store';
+import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 import {ScorecardMeasureId, ScorecardType} from '@/types/scorecards';
 
 interface Data {
@@ -76,7 +72,7 @@ export default Vue.extend({
       'adminLayerType',
       'scorecardRatings'
     ]),
-    ratings(): Record<string, Record<ScorecardMeasureId, boolean>> {
+    ratings(): Record<string, Record<ScorecardMeasureId, boolean | undefined>> {
       if (
         !this.adminLayerType ||
         !this.scorecardRatings[ScorecardType.PLANS] ||
@@ -92,9 +88,6 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...(mapActions as MapActionsToMethods)('root', [
-      'fetchPlansScorecardRatings'
-    ]),
     ...(mapMutations as MapMutationsToMethods)('root', ['setAdminLayerType']),
     onLayerTypeChanged(adminLayerType: AdminLayerType) {
       const selectedAdminLayerType =
@@ -104,9 +97,6 @@ export default Vue.extend({
       // Reset list selection if admin area selection changed
       this.selectedAreaIndices = [];
     }
-  },
-  created() {
-    this.fetchPlansScorecardRatings();
   }
 });
 </script>

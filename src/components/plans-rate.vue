@@ -40,7 +40,16 @@
                   {{ measure.description }}
                 </label>
 
-                <v-checkbox hide-details />
+                <v-checkbox
+                  hide-details
+                  class="scorecard-measure-checkbox"
+                  :input-value="featureRatings[measure.id]"
+                  :indeterminate="featureRatings[measure.id] === undefined"
+                  on-icon="mdi-checkbox-marked"
+                  off-icon="mdi-close-box"
+                  indeterminate-icon="mdi-checkbox-blank-outline"
+                  @change="onChangeRating(measure.id)"
+                />
                 <v-textarea solo flat dense hide-details rows="1" />
               </div>
             </article>
@@ -64,7 +73,7 @@ import {
 
 import Map from './map-component.vue';
 import MapStyleSwitcher from './map-style-switcher.vue';
-import {Scorecard, ScorecardType} from '@/types/scorecards';
+import {Scorecard, ScorecardMeasureId, ScorecardType} from '@/types/scorecards';
 
 interface Data {
   adminLayerTypes: AdminLayerType[];
@@ -88,7 +97,8 @@ export default Vue.extend({
     ...(mapState as MapStateToComputed)('root', [
       'adminLayerType',
       'adminLayerData',
-      'scorecards'
+      'scorecards',
+      'scorecardRatings'
     ]),
     selectedFeatureName(): string | null {
       if (
@@ -112,15 +122,44 @@ export default Vue.extend({
     },
     scorecard(): Scorecard {
       return this.scorecards[ScorecardType.PLANS];
+    },
+    featureRatings(): Record<ScorecardMeasureId, boolean | undefined> {
+      if (
+        !this.selectedFeatureName ||
+        !this.adminLayerType ||
+        !this.scorecardRatings[ScorecardType.PLANS] ||
+        !this.scorecardRatings[ScorecardType.PLANS][this.adminLayerType] ||
+        !this.scorecardRatings[ScorecardType.PLANS][this.adminLayerType][
+          this.selectedFeatureName
+        ]
+      ) {
+        return {};
+      }
+
+      return this.scorecardRatings[ScorecardType.PLANS][this.adminLayerType][
+        this.selectedFeatureName
+      ];
     }
   },
   methods: {
-    ...(mapActions as MapActionsToMethods)('root', ['fetchPlansScorecard']),
+    ...(mapActions as MapActionsToMethods)('root', [
+      'fetchPlansScorecard',
+      'savePlansScorecardRatings'
+    ]),
     ...(mapMutations as MapMutationsToMethods)('root', ['setAdminLayerType']),
     onLayerTypeChanged(adminLayerType: AdminLayerType) {
       const selectedAdminLayerType =
         adminLayerType === this.adminLayerType ? null : adminLayerType;
       this.setAdminLayerType(selectedAdminLayerType);
+    },
+    onChangeRating(measureId: ScorecardMeasureId) {
+      if (this.adminLayerType && this.selectedFeatureName) {
+        this.savePlansScorecardRatings({
+          adminLayerType: this.adminLayerType,
+          featureName: this.selectedFeatureName,
+          measureId
+        });
+      }
     }
   },
   created() {
@@ -222,5 +261,18 @@ export default Vue.extend({
 .scorecard-measure > label {
   padding: 0.4375rem 0;
   line-height: 1.2em;
+}
+
+.scorecard-measure-checkbox
+  >>> .v-input--selection-controls__input
+  .v-icon:not(.mdi-checkbox-blank-outline)
+  ~ .v-input--selection-controls__ripple,
+.scorecard-measure-checkbox
+  >>> .v-input--selection-controls__input
+  .mdi-close-box,
+.scorecard-measure-checkbox
+  >>> .v-input--selection-controls__input
+  .mdi-checkbox-marked {
+  color: #1976d2;
 }
 </style>

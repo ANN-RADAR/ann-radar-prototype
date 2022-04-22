@@ -13,5 +13,5 @@ export type Scorecard = Array<{
 
 export type ScorecardRatings = Record<
   AdminLayerType,
-  Record<string, Record<ScorecardMeasureId, boolean>>
+  Record<string, Record<ScorecardMeasureId, boolean | undefined>>
 >;

@@ -4,6 +4,7 @@ import {AdminLayerType, AdminLayerData} from './admin-layers';
 import {modules} from '../store/index';
 import {LayerConfig} from './layers';
 import {Scorecard, ScorecardRatings, ScorecardType} from './scorecards';
+import {ActionContext} from 'vuex';
 
 export interface RootState {
   layersConfig: Record<string /* layer type */, LayerConfig>;
@@ -53,7 +54,7 @@ export interface MapGettersToComputed {
   }>;
 }
 
-type PayloadParameter<
+type MutationsPayloadParameter<
   ModuleState extends StoreState[keyof StoreState],
   T
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -68,13 +69,29 @@ export interface MapMutationsToMethods {
     map: Mutations[]
   ): {
     [Mutation in Mutations]: (
-      payload: PayloadParameter<
+      payload: MutationsPayloadParameter<
         typeof modules[Module]['state'],
         typeof modules[Module]['mutations'][Mutation]
       >
     ) => void;
   };
 }
+
+type ActionsPayloadParameter<
+  ModuleState extends StoreState[keyof StoreState],
+  T
+> = T extends (
+  context: ActionContext<ModuleState, StoreState>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+) => any
+  ? never
+  : T extends (
+      context: ActionContext<ModuleState, StoreState>,
+      payload: infer P
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ) => any
+  ? P
+  : never;
 
 export interface MapActionsToMethods {
   <
@@ -84,13 +101,13 @@ export interface MapActionsToMethods {
     module: Module,
     map: Actions[]
   ): {
-    [Action in Actions]: PayloadParameter<
+    [Action in Actions]: ActionsPayloadParameter<
       typeof modules[Module]['state'],
       typeof modules[Module]['actions'][Action]
-    > extends unknown
+    > extends never
       ? () => void
       : (
-          payload: PayloadParameter<
+          payload: ActionsPayloadParameter<
             typeof modules[Module]['state'],
             typeof modules[Module]['actions'][Action]
           >
