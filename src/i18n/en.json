@@ -35,6 +35,8 @@
   "cockpit": "Cockpit",
   "inspectAreas": "Inspect Areas",
   "rateAreas": "Rate Areas",
+  "compareAreaRatings": "Compare Area Ratings",
+  "adminArea": "Admin Area",
   "cancel": "Cancel",
   "saving": "Saving...",
   "loading": "Loading...",

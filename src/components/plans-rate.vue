@@ -33,11 +33,11 @@
 
               <div
                 v-for="measure in measures"
-                :key="measure"
+                :key="measure.id"
                 class="scorecard-measure"
               >
                 <label>
-                  {{ measure }}
+                  {{ measure.description }}
                 </label>
 
                 <v-checkbox hide-details />
