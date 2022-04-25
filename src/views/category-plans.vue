@@ -11,17 +11,23 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {mapMutations} from 'vuex';
+import {mapActions, mapMutations} from 'vuex';
 
-import {MapMutationsToMethods} from '@/types/store';
+import {MapActionsToMethods, MapMutationsToMethods} from '@/types/store';
 import {AdminLayerData, AdminLayerType} from '@/types/admin-layers';
 
 export default Vue.extend({
   methods: {
+    ...(mapActions as MapActionsToMethods)('root', [
+      'fetchPlansScorecardRatings'
+    ]),
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setAdminLayerType',
       'setAdminLayerData'
     ])
+  },
+  created() {
+    this.fetchPlansScorecardRatings();
   },
   destroyed() {
     // Reset selections on destroy
