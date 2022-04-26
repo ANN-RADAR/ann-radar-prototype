@@ -1,4 +1,5 @@
 import {GeoJSON} from 'ol/format';
+import GML3 from 'ol/format/GML3';
 import {Options as TileSourceOptions} from 'ol/source/TileWMS';
 import {Options as VectorSourceOptions} from 'ol/source/Vector';
 
@@ -119,24 +120,24 @@ export const tileSourcesOptions: Record<string, TileSourceOptions> = {
 
 export const vectorSourcesOptions: Record<string, VectorSourceOptions> = {
   CITY: {
-    format: new GeoJSON(),
-    url: 'https://storage.googleapis.com/ann-radar-data/HH_Stadt.geojson'
+    format: new GML3(),
+    url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=landesgrenze'
   },
   BOROUGH: {
-    format: new GeoJSON(),
-    url: 'https://storage.googleapis.com/ann-radar-data/HH_Bezirke.geojson'
+    format: new GML3(),
+    url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=bezirke'
   },
   QUARTER: {
-    format: new GeoJSON(),
-    url: 'https://storage.googleapis.com/ann-radar-data/HH_Stadtteile.geojson'
+    format: new GML3(),
+    url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=stadtteile'
   },
   STATISTICAL_AREA: {
-    format: new GeoJSON(),
-    url: 'https://storage.googleapis.com/ann-radar-data/HH_Statistische_Gebiete.geojson'
+    format: new GML3(),
+    url: 'https://geodienste.hamburg.de/HH_WFS_Statistische_Gebiete?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=statistische_gebiete'
   },
   BUILDING_BLOCK: {
-    format: new GeoJSON(),
-    url: 'https://storage.googleapis.com/ann-radar-data/HH_Baubloecke_Brutto.geojson'
+    format: new GML3(),
+    url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=baubloecke'
   },
   BUILDING_BLOCK_NETTO: {
     format: new GeoJSON(),

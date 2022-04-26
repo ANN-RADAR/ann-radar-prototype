@@ -19,26 +19,26 @@ export const adminLayers: {
     dataId: 'name'
   },
   [AdminLayerType.BOROUGH]: {
-    featureId: 'Bezirk',
-    featureName: 'Bezirk',
+    featureId: 'bezirk',
+    featureName: 'bezirk_name',
     data: boroughData as unknown as AdminLayerFeatureData[],
     dataId: 'Bezirk'
   },
   [AdminLayerType.QUARTER]: {
-    featureId: 'Stadtteil',
-    featureName: 'Stadtteil',
+    featureId: 'stadtteil_nummer',
+    featureName: 'stadtteil_name',
     data: quarterData as unknown as AdminLayerFeatureData[],
     dataId: 'Stadtteil'
   },
   [AdminLayerType.STATISTICAL_AREA]: {
-    featureId: 'StatGeb',
-    featureName: 'StatGeb',
+    featureId: 'statgebiet',
+    featureName: 'statgebiet',
     data: statisticalAreaData as unknown as AdminLayerFeatureData[],
     dataId: 'StatGeb'
   },
   [AdminLayerType.BUILDING_BLOCK]: {
-    featureId: 'BBZ',
-    featureName: 'BBZ',
+    featureId: 'baublockbezeichnung',
+    featureName: 'baublockbezeichnung',
     data: buildingBlockData as unknown as AdminLayerFeatureData[],
     dataId: 'BBZ'
   }
