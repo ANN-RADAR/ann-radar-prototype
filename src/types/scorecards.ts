@@ -11,7 +11,12 @@ export type Scorecard = Array<{
   measures: Array<{id: ScorecardMeasureId; description: string}>;
 }>;
 
+export interface ScorecardRating {
+  value?: boolean | undefined;
+  comment?: string;
+}
+
 export type ScorecardRatings = Record<
   AdminLayerType,
-  Record<string, Record<ScorecardMeasureId, boolean | undefined>>
+  Record<string, Record<ScorecardMeasureId, ScorecardRating>>
 >;

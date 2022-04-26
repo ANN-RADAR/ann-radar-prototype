@@ -1,5 +1,9 @@
 import {AdminLayerType} from '@/types/admin-layers';
-import {ScorecardMeasureId, ScorecardType} from '@/types/scorecards';
+import {
+  ScorecardMeasureId,
+  ScorecardRating,
+  ScorecardType
+} from '@/types/scorecards';
 import {RootState, StoreState} from '@/types/store';
 import {ActionContext} from 'vuex';
 
@@ -30,9 +34,32 @@ const actions = {
       type: ScorecardType.PLANS,
       ratings: {
         [AdminLayerType.BOROUGH]: {
-          Altona: {A1: false, A2: true, C1: true},
-          Eimsbüttel: {A1: true, B1: true, C1: true, C2: false},
-          'Hamburg-Mitte': {A1: true, C1: false}
+          Altona: {
+            A1: {value: false, comment: 'A1 comment'},
+            A2: {value: true},
+            C1: {value: true},
+            C2: {comment: 'C2 comment'}
+          },
+          Eimsbüttel: {
+            A1: {value: true},
+            B1: {value: true, comment: 'B1 comment'},
+            C1: {value: true},
+            C2: {value: false, comment: 'C2 comment'}
+          },
+          'Hamburg-Mitte': {
+            A1: {value: true},
+            C1: {value: false, comment: 'C1 comment'}
+          },
+          'Hamburg-Nord': {
+            A1: {value: true, comment: 'A1 comment'},
+            A2: {value: false, comment: 'A2 comment'},
+            C1: {value: false}
+          },
+          Wandsbek: {
+            A1: {value: true, comment: 'A1 comment'},
+            C1: {value: false},
+            C2: {value: true, comment: 'C2 comment'}
+          }
         }
       }
     });
@@ -43,24 +70,15 @@ const actions = {
       adminLayerType: AdminLayerType;
       featureName: string;
       measureId: ScorecardMeasureId;
+      rating: ScorecardRating;
     }
   ) {
     const ratings = state.scorecardRatings[ScorecardType.PLANS];
     ratings[payload.adminLayerType] = ratings[payload.adminLayerType] || {};
     ratings[payload.adminLayerType][payload.featureName] =
       ratings[payload.adminLayerType][payload.featureName] || {};
-
-    const previousValue =
-      ratings[payload.adminLayerType][payload.featureName][payload.measureId];
-    const nextValue =
-      previousValue === true
-        ? false
-        : previousValue === false
-        ? undefined
-        : true;
-
     ratings[payload.adminLayerType][payload.featureName][payload.measureId] =
-      nextValue;
+      payload.rating;
 
     // TODO: save in database
     commit('setScorecardRatings', {
