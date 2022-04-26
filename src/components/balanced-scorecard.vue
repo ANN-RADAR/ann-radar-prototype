@@ -156,9 +156,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...(mapActions as MapActionsToMethods)('root', [
-      'savePlansScorecardRatings'
-    ]),
+    ...(mapActions as MapActionsToMethods)('root', ['saveScorecardRatings']),
     onChangeRatingValue(measureId: ScorecardMeasureId) {
       if (this.adminLayerType && this.selectedFeatureId) {
         const comment = this.getFeatureMeasureComment(
@@ -176,7 +174,8 @@ export default Vue.extend({
             ? undefined
             : true;
 
-        this.savePlansScorecardRatings({
+        this.saveScorecardRatings({
+          scorecardType: this.scorecardType,
           adminLayerType: this.adminLayerType,
           featureId: this.selectedFeatureId,
           measureId,
@@ -190,7 +189,8 @@ export default Vue.extend({
           this.selectedFeatureId,
           measureId
         );
-        this.savePlansScorecardRatings({
+        this.saveScorecardRatings({
+          scorecardType: this.scorecardType,
           adminLayerType: this.adminLayerType,
           featureId: this.selectedFeatureId,
           measureId,
