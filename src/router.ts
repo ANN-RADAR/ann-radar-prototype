@@ -9,6 +9,9 @@ import EnergyPotential from './components/energy-potential.vue';
 import Plans from './views/category-plans.vue';
 import PlansRate from './components/plans-rate.vue';
 import PlansCompare from './components/plans-compare.vue';
+import Stakeholders from './views/category-stakeholders.vue';
+import StakeholdersRate from './components/stakeholders-rate.vue';
+import StakeholdersCompare from './components/stakeholders-compare.vue';
 import Login from './views/app-login.vue';
 
 const routes = [
@@ -34,7 +37,16 @@ const routes = [
       {path: 'compare', component: PlansCompare, name: 'Compare'}
     ]
   },
-  {path: '/stakeholders', component: null, name: 'Stakeholders'},
+  {
+    path: '/stakeholders',
+    redirect: '/stakeholders/rate',
+    component: Stakeholders,
+    name: 'Stakeholders',
+    children: [
+      {path: 'rate', component: StakeholdersRate, name: 'Rate'},
+      {path: 'compare', component: StakeholdersCompare, name: 'Compare'}
+    ]
+  },
   {path: '/urban-data', component: null, name: 'Urban Data'},
   {path: '/governance', component: null, name: 'Governance'},
   {path: '/login', component: Login, name: 'Login'}
