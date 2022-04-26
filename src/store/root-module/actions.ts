@@ -7,6 +7,11 @@ import {
 import {RootState, StoreState} from '@/types/store';
 import {ActionContext} from 'vuex';
 
+const scorecardURLs = {
+  [ScorecardType.PLANS]:
+    'https://storage.googleapis.com/ann-radar-data/plans_scorecard.json'
+};
+
 const actions = {
   fetchLayersConfig({commit}: ActionContext<RootState, StoreState>) {
     return fetch(
@@ -18,20 +23,24 @@ const actions = {
       })
       .catch(error => console.error(error));
   },
-  fetchPlansScorecard({commit}: ActionContext<RootState, StoreState>) {
-    return fetch(
-      'https://storage.googleapis.com/ann-radar-data/plans_scorecard.json'
-    )
+  fetchScorecard(
+    {commit}: ActionContext<RootState, StoreState>,
+    type: ScorecardType
+  ) {
+    return fetch(scorecardURLs[type])
       .then(response => response.json())
       .then(scorecard => {
-        commit('setScorecard', {type: ScorecardType.PLANS, scorecard});
+        commit('setScorecard', {type, scorecard});
       })
       .catch(error => console.error(error));
   },
-  fetchPlansScorecardRatings({commit}: ActionContext<RootState, StoreState>) {
+  fetchScorecardRatings(
+    {commit}: ActionContext<RootState, StoreState>,
+    type: ScorecardType
+  ) {
     // TODO: get data from API
     commit('setScorecardRatings', {
-      type: ScorecardType.PLANS,
+      type,
       ratings: {
         [AdminLayerType.BOROUGH]: {
           Altona: {
@@ -64,9 +73,10 @@ const actions = {
       }
     });
   },
-  savePlansScorecardRatings(
+  saveScorecardRatings(
     {commit, state}: ActionContext<RootState, StoreState>,
     payload: {
+      scorecardType: ScorecardType;
       adminLayerType: AdminLayerType;
       featureId: string;
       measureId: ScorecardMeasureId;
@@ -82,7 +92,7 @@ const actions = {
 
     // TODO: save in database
     commit('setScorecardRatings', {
-      type: ScorecardType.PLANS,
+      type: payload.scorecardType,
       ratings
     });
   }

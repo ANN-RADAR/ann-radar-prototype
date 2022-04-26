@@ -15,12 +15,13 @@ import {mapActions, mapMutations} from 'vuex';
 
 import {MapActionsToMethods, MapMutationsToMethods} from '@/types/store';
 import {AdminLayerData, AdminLayerType} from '@/types/admin-layers';
+import {ScorecardType} from '@/types/scorecards';
 
 export default Vue.extend({
   methods: {
     ...(mapActions as MapActionsToMethods)('root', [
-      'fetchPlansScorecard',
-      'fetchPlansScorecardRatings'
+      'fetchScorecard',
+      'fetchScorecardRatings'
     ]),
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setAdminLayerType',
@@ -28,8 +29,8 @@ export default Vue.extend({
     ])
   },
   created() {
-    this.fetchPlansScorecard();
-    this.fetchPlansScorecardRatings();
+    this.fetchScorecard(ScorecardType.PLANS);
+    this.fetchScorecardRatings(ScorecardType.PLANS);
   },
   destroyed() {
     // Reset selections on destroy
