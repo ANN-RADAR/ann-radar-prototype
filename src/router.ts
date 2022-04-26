@@ -12,6 +12,9 @@ import PlansCompare from './components/plans-compare.vue';
 import Stakeholders from './views/category-stakeholders.vue';
 import StakeholdersRate from './components/stakeholders-rate.vue';
 import StakeholdersCompare from './components/stakeholders-compare.vue';
+import UrbanData from './views/category-urban-data.vue';
+import UrbanDataRate from './components/urban-data-rate.vue';
+import UrbanDataCompare from './components/urban-data-compare.vue';
 import Login from './views/app-login.vue';
 
 const routes = [
@@ -47,7 +50,16 @@ const routes = [
       {path: 'compare', component: StakeholdersCompare, name: 'Compare'}
     ]
   },
-  {path: '/urban-data', component: null, name: 'Urban Data'},
+  {
+    path: '/urban-data',
+    redirect: '/urban-data/rate',
+    component: UrbanData,
+    name: 'Urban Data',
+    children: [
+      {path: 'rate', component: UrbanDataRate, name: 'Rate'},
+      {path: 'compare', component: UrbanDataCompare, name: 'Compare'}
+    ]
+  },
   {path: '/governance', component: null, name: 'Governance'},
   {path: '/login', component: Login, name: 'Login'}
 ];

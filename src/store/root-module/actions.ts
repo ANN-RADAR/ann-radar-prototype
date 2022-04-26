@@ -11,7 +11,9 @@ const scorecardURLs = {
   [ScorecardType.PLANS]:
     'https://storage.googleapis.com/ann-radar-data/plans_scorecard.json',
   [ScorecardType.STAKEHOLDERS]:
-    'https://storage.googleapis.com/ann-radar-data/stakeholders_scorecard.json'
+    'https://storage.googleapis.com/ann-radar-data/stakeholders_scorecard.json',
+  [ScorecardType.URBAN_DATA]:
+    'https://storage.googleapis.com/ann-radar-data/urban_data_scorecard.json'
 };
 
 const actions = {
