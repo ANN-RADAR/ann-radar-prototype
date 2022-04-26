@@ -1,7 +1,8 @@
 import {AdminLayerType} from './admin-layers';
 
 export enum ScorecardType {
-  PLANS = 'plans'
+  PLANS = 'plans',
+  STAKEHOLDERS = 'stakeholders'
 }
 
 export type ScorecardMeasureId = string;
