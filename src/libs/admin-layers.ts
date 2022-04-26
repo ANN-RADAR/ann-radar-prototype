@@ -50,15 +50,15 @@ export const calculateAggregateValues = (
   adminLayerType: AdminLayerType,
   features: Array<FeaturesDataKeys>
 ): Record<string, number> => {
-  const {featureName, data, dataId} = adminLayers[adminLayerType];
+  const {featureId, data, dataId} = adminLayers[adminLayerType];
 
-  if (!data || !dataId || !featureName) {
+  if (!data || !dataId || !featureId) {
     return {};
   }
 
-  const featureNames = features.map(({featureName}) => featureName);
+  const featureIds = features.map(({featureId}) => featureId);
   const featuresData = data.filter((featureData: AdminLayerFeatureData) =>
-    featureNames.includes(String(featureData[dataId]))
+    featureIds.includes(String(featureData[dataId]))
   );
 
   if (!featuresData.length) {

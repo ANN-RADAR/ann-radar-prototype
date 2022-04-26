@@ -20,7 +20,6 @@ export interface AdminLayerFeatureData
 
 export interface FeaturesDataKeys {
   featureId: string;
-  featureName: string;
 }
 
 export interface AdminLayerData {

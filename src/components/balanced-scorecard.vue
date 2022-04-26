@@ -22,14 +22,14 @@
         <td :class="`scorecard-measure ${objective && 'indented'}`">
           {{ measure.description }}
         </td>
-        <td v-for="featureName in selectedFeatures" :key="featureName">
+        <td v-for="featureId in selectedFeatures" :key="featureId">
           <div class="scorecard-measure-value" v-if="isEditable">
             <v-checkbox
               hide-details
               class="scorecard-measure-checkbox"
-              :input-value="getFeatureMeasureValue(featureName, measure.id)"
+              :input-value="getFeatureMeasureValue(featureId, measure.id)"
               :indeterminate="
-                getFeatureMeasureValue(featureName, measure.id) === undefined
+                getFeatureMeasureValue(featureId, measure.id) === undefined
               "
               on-icon="mdi-checkbox-marked"
               off-icon="mdi-close-box"
@@ -42,27 +42,26 @@
               dense
               hide-details
               rows="1"
-              :value="getFeatureMeasureComment(featureName, measure.id)"
+              :value="getFeatureMeasureComment(featureId, measure.id)"
               @change="onChangeRatingComment(measure.id, $event)"
             />
           </div>
           <template v-else>
             <v-tooltip
               bottom
-              :disabled="!getFeatureMeasureComment(featureName, measure.id)"
+              :disabled="!getFeatureMeasureComment(featureId, measure.id)"
             >
               <template v-slot:activator="{on, attrs}">
                 <v-icon
                   v-if="
-                    getFeatureMeasureValue(featureName, measure.id) !==
-                    undefined
+                    getFeatureMeasureValue(featureId, measure.id) !== undefined
                   "
                   color="primary"
                   v-bind="attrs"
                   v-on="on"
                 >
                   {{
-                    getFeatureMeasureValue(featureName, measure.id)
+                    getFeatureMeasureValue(featureId, measure.id)
                       ? 'mdi-check'
                       : 'mdi-close'
                   }}
@@ -72,7 +71,7 @@
                 </span>
               </template>
               <span>
-                {{ getFeatureMeasureComment(featureName, measure.id) }}
+                {{ getFeatureMeasureComment(featureId, measure.id) }}
               </span>
             </v-tooltip>
           </template>
@@ -118,7 +117,7 @@ export default Vue.extend({
       'scorecards',
       'scorecardRatings'
     ]),
-    selectedFeatureName(): string | null {
+    selectedFeatureId(): string | null {
       if (
         !this.adminLayerType ||
         !this.adminLayerData[this.adminLayerType] ||
@@ -128,7 +127,7 @@ export default Vue.extend({
       }
 
       return this.adminLayerData[this.adminLayerType].selectedFeatureDataKeys[0]
-        .featureName;
+        .featureId;
     },
     scorecard(): Scorecard {
       return this.scorecards[this.scorecardType];
@@ -149,9 +148,9 @@ export default Vue.extend({
       Record<ScorecardMeasureId, ScorecardRating>
     > {
       return this.selectedFeatures.reduce(
-        (ratings, selectedFeatureName) => ({
+        (ratings, selectedFeatureId) => ({
           ...ratings,
-          [selectedFeatureName]: this.ratings[selectedFeatureName]
+          [selectedFeatureId]: this.ratings[selectedFeatureId]
         }),
         {}
       );
@@ -162,13 +161,13 @@ export default Vue.extend({
       'savePlansScorecardRatings'
     ]),
     onChangeRatingValue(measureId: ScorecardMeasureId) {
-      if (this.adminLayerType && this.selectedFeatureName) {
+      if (this.adminLayerType && this.selectedFeatureId) {
         const comment = this.getFeatureMeasureComment(
-          this.selectedFeatureName,
+          this.selectedFeatureId,
           measureId
         );
         const previousValue = this.getFeatureMeasureValue(
-          this.selectedFeatureName,
+          this.selectedFeatureId,
           measureId
         );
         const newValue =
@@ -180,41 +179,39 @@ export default Vue.extend({
 
         this.savePlansScorecardRatings({
           adminLayerType: this.adminLayerType,
-          featureName: this.selectedFeatureName,
+          featureId: this.selectedFeatureId,
           measureId,
           rating: {value: newValue, comment}
         });
       }
     },
     onChangeRatingComment(measureId: ScorecardMeasureId, newComment: string) {
-      if (this.adminLayerType && this.selectedFeatureName) {
+      if (this.adminLayerType && this.selectedFeatureId) {
         const value = this.getFeatureMeasureValue(
-          this.selectedFeatureName,
+          this.selectedFeatureId,
           measureId
         );
         this.savePlansScorecardRatings({
           adminLayerType: this.adminLayerType,
-          featureName: this.selectedFeatureName,
+          featureId: this.selectedFeatureId,
           measureId,
           rating: {value, comment: newComment}
         });
       }
     },
     getFeatureMeasureValue(
-      featureName: string,
+      featureId: string,
       measureId: ScorecardMeasureId
     ): ScorecardRating['value'] {
-      return (
-        (this.selectedFeaturesRatings[featureName] || {})[measureId] || {}
-      ).value;
+      return ((this.selectedFeaturesRatings[featureId] || {})[measureId] || {})
+        .value;
     },
     getFeatureMeasureComment(
-      featureName: string,
+      featureId: string,
       measureId: ScorecardMeasureId
     ): ScorecardRating['comment'] {
-      return (
-        (this.selectedFeaturesRatings[featureName] || {})[measureId] || {}
-      ).comment;
+      return ((this.selectedFeaturesRatings[featureId] || {})[measureId] || {})
+        .comment;
     }
   }
 });

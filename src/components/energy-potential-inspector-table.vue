@@ -169,8 +169,8 @@ export default Vue.extend({
           [];
 
         return selectedFeatureDataKeys.some(
-          (keys: {featureId: string; featureName: string}) =>
-            keys.featureName === String(featureData[dataId])
+          (keys: {featureId: string}) =>
+            keys.featureId === String(featureData[dataId])
         );
       });
     }
@@ -204,7 +204,7 @@ export default Vue.extend({
         keys: keys.filter((featureDataKeys: FeaturesDataKeys) =>
           newSelectedFeaturesData
             .map(data => String(data[dataId]))
-            .includes(featureDataKeys.featureName)
+            .includes(featureDataKeys.featureId)
         )
       });
     }

@@ -7,38 +7,32 @@ import quarterData from '../../public/data/stadtteile.json';
 
 export const adminLayers: {
   [key in AdminLayerType]: {
-    featureId: string;
-    featureName: string; // the name used as label for the geometry on the map
+    featureId: string; // the name of the property used as label for the geometry on the map and to match geometry and data
     data?: AdminLayerFeatureData[];
-    dataId: string; // to match geometry and data
+    dataId: string; // the name of the id property in the data json to match geometry and data
   };
 } = {
   [AdminLayerType.CITY]: {
     featureId: 'fhh',
-    featureName: 'fhh',
     dataId: 'name'
   },
   [AdminLayerType.BOROUGH]: {
-    featureId: 'bezirk',
-    featureName: 'bezirk_name',
+    featureId: 'bezirk_name',
     data: boroughData as unknown as AdminLayerFeatureData[],
     dataId: 'Bezirk'
   },
   [AdminLayerType.QUARTER]: {
-    featureId: 'stadtteil_nummer',
-    featureName: 'stadtteil_name',
+    featureId: 'stadtteil_name',
     data: quarterData as unknown as AdminLayerFeatureData[],
     dataId: 'Stadtteil'
   },
   [AdminLayerType.STATISTICAL_AREA]: {
     featureId: 'statgebiet',
-    featureName: 'statgebiet',
     data: statisticalAreaData as unknown as AdminLayerFeatureData[],
     dataId: 'StatGeb'
   },
   [AdminLayerType.BUILDING_BLOCK]: {
     featureId: 'baublockbezeichnung',
-    featureName: 'baublockbezeichnung',
     data: buildingBlockData as unknown as AdminLayerFeatureData[],
     dataId: 'BBZ'
   }

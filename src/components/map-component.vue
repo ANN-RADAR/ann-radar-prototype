@@ -150,14 +150,13 @@ export default Vue.extend({
         VectorLayer<VectorSource<Geometry>>
       >) {
         if (this.adminLayerType && layer.get('name') === this.adminLayerType) {
-          const {featureId, featureName} = adminLayers[this.adminLayerType];
+          const {featureId} = adminLayers[this.adminLayerType];
           const clickedFeatures = layer
             .getSource()
             .getFeaturesAtCoordinate(coord);
 
           clickedFeatures.forEach(feature => {
             const id = feature.get(featureId);
-            const name = feature.get(featureName);
 
             // Toggle the clicked feature's keys
             if (
@@ -169,7 +168,7 @@ export default Vue.extend({
                 keys => String(keys.featureId) !== id
               );
             } else {
-              const featureDataKeys = {featureId: id, featureName: name};
+              const featureDataKeys = {featureId: id};
 
               if (this.hasMultipleFeatureSelection) {
                 selectedFeatureDataKeys.push(featureDataKeys);
