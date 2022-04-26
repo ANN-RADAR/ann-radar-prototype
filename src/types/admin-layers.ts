@@ -18,11 +18,7 @@ export interface AdminLayerFeatureData
   Soz_Status?: string; // only for statistical areas – Wert Statusindex aus Sozialmonitoring 2020
 }
 
-export interface FeaturesDataKeys {
-  featureId: string;
-}
-
 export interface AdminLayerData {
-  selectedFeatureDataKeys: Array<FeaturesDataKeys>;
+  selectedFeatureIds: Array<string>;
   note: string;
 }

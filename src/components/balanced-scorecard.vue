@@ -121,13 +121,12 @@ export default Vue.extend({
       if (
         !this.adminLayerType ||
         !this.adminLayerData[this.adminLayerType] ||
-        !this.adminLayerData[this.adminLayerType].selectedFeatureDataKeys.length
+        !this.adminLayerData[this.adminLayerType].selectedFeatureIds.length
       ) {
         return null;
       }
 
-      return this.adminLayerData[this.adminLayerType].selectedFeatureDataKeys[0]
-        .featureId;
+      return this.adminLayerData[this.adminLayerType].selectedFeatureIds[0];
     },
     scorecard(): Scorecard {
       return this.scorecards[this.scorecardType];

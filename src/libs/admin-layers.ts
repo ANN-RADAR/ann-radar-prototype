@@ -4,11 +4,7 @@ import Style, {StyleFunction} from 'ol/style/Style';
 import Text from 'ol/style/Text';
 
 import {adminLayers} from '@/constants/admin-layers';
-import {
-  AdminLayerFeatureData,
-  AdminLayerType,
-  FeaturesDataKeys
-} from '@/types/admin-layers';
+import {AdminLayerFeatureData, AdminLayerType} from '@/types/admin-layers';
 
 export const getAdminLayerStyle =
   (textAttr: string): StyleFunction =>
@@ -48,7 +44,7 @@ export const getAdminLayerStyle =
 
 export const calculateAggregateValues = (
   adminLayerType: AdminLayerType,
-  features: Array<FeaturesDataKeys>
+  featureIds: Array<string>
 ): Record<string, number> => {
   const {featureId, data, dataId} = adminLayers[adminLayerType];
 
@@ -56,7 +52,6 @@ export const calculateAggregateValues = (
     return {};
   }
 
-  const featureIds = features.map(({featureId}) => featureId);
   const featuresData = data.filter((featureData: AdminLayerFeatureData) =>
     featureIds.includes(String(featureData[dataId]))
   );

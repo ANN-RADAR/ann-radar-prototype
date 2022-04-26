@@ -57,15 +57,14 @@ export default Vue.extend({
       if (
         !this.adminLayerType ||
         this.adminLayerType === AdminLayerType.CITY ||
-        !this.adminLayerData[this.adminLayerType]?.selectedFeatureDataKeys
-          ?.length
+        !this.adminLayerData[this.adminLayerType]?.selectedFeatureIds?.length
       ) {
         return null;
       }
 
       return calculateAggregateValues(
         this.adminLayerType,
-        this.adminLayerData[this.adminLayerType]?.selectedFeatureDataKeys
+        this.adminLayerData[this.adminLayerType]?.selectedFeatureIds
       );
     }
   },
