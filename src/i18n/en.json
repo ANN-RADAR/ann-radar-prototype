@@ -84,5 +84,13 @@
       "scenarioTitleAlreadyExists": "This scenario title already exists. Please try another one."
     }
   },
-  "total": "Total"
+  "total": "Total",
+  "plans": {
+    "compare": {
+      "emptyList": "Select an admin area to see ratings",
+      "noRatings": "No ratings found for this admin area",
+      "emptyCompare": "Select areas to compare"
+    }
+  },
+  "notAvailable": "n/a"
 }
