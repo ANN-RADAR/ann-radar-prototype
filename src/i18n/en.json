@@ -34,8 +34,6 @@
   "notes": "Notes",
   "cockpit": "Cockpit",
   "inspectAreas": "Inspect Areas",
-  "rateAreas": "Rate Areas",
-  "compareAreaRatings": "Compare Area Ratings",
   "adminArea": "Admin Area",
   "cancel": "Cancel",
   "saving": "Saving...",
@@ -85,8 +83,12 @@
     }
   },
   "total": "Total",
-  "plans": {
+  "balancedScorecards": {
+    "rate": {
+      "rateAreas": "Rate Areas"
+    },
     "compare": {
+      "compareAreaRatings": "Compare Area Ratings",
       "emptyList": "Select an admin area to see ratings",
       "noRatings": "No ratings found for this admin area",
       "emptyCompare": "Select areas to compare"
