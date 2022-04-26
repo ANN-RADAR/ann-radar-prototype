@@ -65,7 +65,11 @@ import {mapMutations, mapState} from 'vuex';
 
 import {AdminLayerType} from '@/types/admin-layers';
 import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
-import {ScorecardMeasureId, ScorecardType} from '@/types/scorecards';
+import {
+  ScorecardMeasureId,
+  ScorecardRating,
+  ScorecardType
+} from '@/types/scorecards';
 
 import BalancedScorecard from './balanced-scorecard.vue';
 
@@ -98,7 +102,7 @@ export default Vue.extend({
       'adminLayerType',
       'scorecardRatings'
     ]),
-    ratings(): Record<string, Record<ScorecardMeasureId, boolean | undefined>> {
+    ratings(): Record<string, Record<ScorecardMeasureId, ScorecardRating>> {
       if (
         !this.adminLayerType ||
         !this.scorecardRatings[ScorecardType.PLANS] ||

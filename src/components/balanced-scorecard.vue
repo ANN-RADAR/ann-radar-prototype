@@ -27,35 +27,54 @@
             <v-checkbox
               hide-details
               class="scorecard-measure-checkbox"
-              :input-value="
-                (selectedFeaturesRatings[featureName] || {})[measure.id]
-              "
+              :input-value="getFeatureMeasureValue(featureName, measure.id)"
               :indeterminate="
-                (selectedFeaturesRatings[featureName] || {})[measure.id] ===
-                undefined
+                getFeatureMeasureValue(featureName, measure.id) === undefined
               "
               on-icon="mdi-checkbox-marked"
               off-icon="mdi-close-box"
               indeterminate-icon="mdi-checkbox-blank-outline"
-              @change="onChangeRating(measure.id)"
+              @change="onChangeRatingValue(measure.id)"
             />
-            <v-textarea solo flat dense hide-details rows="1" />
+            <v-textarea
+              solo
+              flat
+              dense
+              hide-details
+              rows="1"
+              :value="getFeatureMeasureComment(featureName, measure.id)"
+              @change="onChangeRatingComment(measure.id, $event)"
+            />
           </div>
           <template v-else>
-            <v-icon
-              v-if="
-                (selectedFeaturesRatings[featureName] || {})[measure.id] !==
-                undefined
-              "
-              color="primary"
+            <v-tooltip
+              bottom
+              :disabled="!getFeatureMeasureComment(featureName, measure.id)"
             >
-              {{
-                (selectedFeaturesRatings[featureName] || {})[measure.id]
-                  ? 'mdi-check'
-                  : 'mdi-close'
-              }}
-            </v-icon>
-            <span v-else>{{ $t('notAvailable') }}</span>
+              <template v-slot:activator="{on, attrs}">
+                <v-icon
+                  v-if="
+                    getFeatureMeasureValue(featureName, measure.id) !==
+                    undefined
+                  "
+                  color="primary"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  {{
+                    getFeatureMeasureValue(featureName, measure.id)
+                      ? 'mdi-check'
+                      : 'mdi-close'
+                  }}
+                </v-icon>
+                <span v-else v-bind="attrs" v-on="on">
+                  {{ $t('notAvailable') }}
+                </span>
+              </template>
+              <span>
+                {{ getFeatureMeasureComment(featureName, measure.id) }}
+              </span>
+            </v-tooltip>
           </template>
         </td>
       </tr>
@@ -69,7 +88,12 @@ import {mapActions, mapState} from 'vuex';
 
 import {MapActionsToMethods, MapStateToComputed} from '@/types/store';
 
-import {Scorecard, ScorecardMeasureId, ScorecardType} from '@/types/scorecards';
+import {
+  Scorecard,
+  ScorecardMeasureId,
+  ScorecardRating,
+  ScorecardType
+} from '@/types/scorecards';
 
 export default Vue.extend({
   props: {
@@ -109,7 +133,7 @@ export default Vue.extend({
     scorecard(): Scorecard {
       return this.scorecards[this.scorecardType];
     },
-    ratings(): Record<string, Record<ScorecardMeasureId, boolean | undefined>> {
+    ratings(): Record<string, Record<ScorecardMeasureId, ScorecardRating>> {
       if (
         !this.adminLayerType ||
         !this.scorecardRatings[this.scorecardType] ||
@@ -122,7 +146,7 @@ export default Vue.extend({
     },
     selectedFeaturesRatings(): Record<
       string,
-      Record<ScorecardMeasureId, boolean | undefined>
+      Record<ScorecardMeasureId, ScorecardRating>
     > {
       return this.selectedFeatures.reduce(
         (ratings, selectedFeatureName) => ({
@@ -137,14 +161,60 @@ export default Vue.extend({
     ...(mapActions as MapActionsToMethods)('root', [
       'savePlansScorecardRatings'
     ]),
-    onChangeRating(measureId: ScorecardMeasureId) {
+    onChangeRatingValue(measureId: ScorecardMeasureId) {
       if (this.adminLayerType && this.selectedFeatureName) {
+        const comment = this.getFeatureMeasureComment(
+          this.selectedFeatureName,
+          measureId
+        );
+        const previousValue = this.getFeatureMeasureValue(
+          this.selectedFeatureName,
+          measureId
+        );
+        const newValue =
+          previousValue === true
+            ? false
+            : previousValue === false
+            ? undefined
+            : true;
+
         this.savePlansScorecardRatings({
           adminLayerType: this.adminLayerType,
           featureName: this.selectedFeatureName,
-          measureId
+          measureId,
+          rating: {value: newValue, comment}
         });
       }
+    },
+    onChangeRatingComment(measureId: ScorecardMeasureId, newComment: string) {
+      if (this.adminLayerType && this.selectedFeatureName) {
+        const value = this.getFeatureMeasureValue(
+          this.selectedFeatureName,
+          measureId
+        );
+        this.savePlansScorecardRatings({
+          adminLayerType: this.adminLayerType,
+          featureName: this.selectedFeatureName,
+          measureId,
+          rating: {value, comment: newComment}
+        });
+      }
+    },
+    getFeatureMeasureValue(
+      featureName: string,
+      measureId: ScorecardMeasureId
+    ): ScorecardRating['value'] {
+      return (
+        (this.selectedFeaturesRatings[featureName] || {})[measureId] || {}
+      ).value;
+    },
+    getFeatureMeasureComment(
+      featureName: string,
+      measureId: ScorecardMeasureId
+    ): ScorecardRating['comment'] {
+      return (
+        (this.selectedFeaturesRatings[featureName] || {})[measureId] || {}
+      ).comment;
     }
   }
 });
@@ -193,6 +263,10 @@ export default Vue.extend({
 
 .scorecard tbody tr:last-child td {
   padding-bottom: 0.5rem;
+}
+
+.scorecard tbody tr:last-child:not(:first-child) td:first-child {
+  padding-bottom: 0.9375rem;
 }
 
 .scorecard tbody tr td {
