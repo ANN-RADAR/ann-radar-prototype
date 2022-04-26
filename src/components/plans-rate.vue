@@ -21,7 +21,7 @@
         </nav>
 
         <BalancedScorecard
-          :selectedFeatures="selectedFeatureName ? [selectedFeatureName] : []"
+          :selectedFeatures="selectedFeatureId ? [selectedFeatureId] : []"
           :scorecardType="scorecardType"
           isEditable
         />
@@ -68,17 +68,16 @@ export default Vue.extend({
       'adminLayerType',
       'adminLayerData'
     ]),
-    selectedFeatureName(): string | null {
+    selectedFeatureId(): string | null {
       if (
         !this.adminLayerType ||
         !this.adminLayerData[this.adminLayerType] ||
-        !this.adminLayerData[this.adminLayerType].selectedFeatureDataKeys.length
+        !this.adminLayerData[this.adminLayerType].selectedFeatureIds.length
       ) {
         return null;
       }
 
-      return this.adminLayerData[this.adminLayerType].selectedFeatureDataKeys[0]
-        .featureName;
+      return this.adminLayerData[this.adminLayerType].selectedFeatureIds[0];
     }
   },
   methods: {

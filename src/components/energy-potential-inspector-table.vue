@@ -69,11 +69,7 @@
 import Vue from 'vue';
 import {mapState, mapMutations} from 'vuex';
 
-import {
-  AdminLayerFeatureData,
-  AdminLayerType,
-  FeaturesDataKeys
-} from '@/types/admin-layers';
+import {AdminLayerFeatureData, AdminLayerType} from '@/types/admin-layers';
 import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 import {formatNumber} from '@/libs/format';
 import {adminLayers} from '@/constants/admin-layers';
@@ -162,22 +158,20 @@ export default Vue.extend({
       }
 
       return data.filter((featureData: AdminLayerFeatureData) => {
-        const selectedFeatureDataKeys =
+        const selectedFeatureIds =
           (this.adminLayerType &&
-            this.adminLayerData[this.adminLayerType]
-              ?.selectedFeatureDataKeys) ||
+            this.adminLayerData[this.adminLayerType]?.selectedFeatureIds) ||
           [];
 
-        return selectedFeatureDataKeys.some(
-          (keys: {featureId: string; featureName: string}) =>
-            keys.featureName === String(featureData[dataId])
+        return selectedFeatureIds.some(
+          (featureId: string) => featureId === String(featureData[dataId])
         );
       });
     }
   },
   methods: {
     ...(mapMutations as MapMutationsToMethods)('root', [
-      'setSelectedFeatureDataKeys'
+      'setSelectedFeatureIds'
     ]),
     formatNumber(
       ...args: Parameters<typeof formatNumber>
@@ -196,15 +190,15 @@ export default Vue.extend({
       }
 
       const {dataId} = adminLayers[this.adminLayerType];
-      const keys =
-        this.adminLayerData[this.adminLayerType]?.selectedFeatureDataKeys || [];
+      const featureIds =
+        this.adminLayerData[this.adminLayerType]?.selectedFeatureIds || [];
 
-      this.setSelectedFeatureDataKeys({
+      this.setSelectedFeatureIds({
         adminLayerType: this.adminLayerType,
-        keys: keys.filter((featureDataKeys: FeaturesDataKeys) =>
+        featureIds: featureIds.filter((featureId: string) =>
           newSelectedFeaturesData
             .map(data => String(data[dataId]))
-            .includes(featureDataKeys.featureName)
+            .includes(featureId)
         )
       });
     }

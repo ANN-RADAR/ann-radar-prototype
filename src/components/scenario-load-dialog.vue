@@ -26,8 +26,8 @@
                       $tc(
                         'scenarios.adminAreasConfigured',
                         Object.values(scenario.adminLayerData).filter(
-                          ({selectedFeatureDataKeys, note}) =>
-                            selectedFeatureDataKeys.length || note
+                          ({selectedFeatureIds, note}) =>
+                            selectedFeatureIds.length || note
                         ).length
                       )
                     "

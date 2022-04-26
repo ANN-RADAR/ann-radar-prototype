@@ -92,7 +92,7 @@ export default Vue.extend({
       'layerClassificationSelection'
     ]),
     ...(mapGetters as MapGettersToComputed)('root', [
-      'currentLayerSelectedFeatureDataKeys'
+      'currentLayerSelectedFeatureIds'
     ])
   },
   watch: {
@@ -126,14 +126,14 @@ export default Vue.extend({
         }
       }
     },
-    currentLayerSelectedFeatureDataKeys() {
+    currentLayerSelectedFeatureIds() {
       this.handleAdminAreaSelection();
     }
   },
   methods: {
     ...(mapActions as MapActionsToMethods)('root', ['fetchLayersConfig']),
     ...(mapMutations as MapMutationsToMethods)('root', [
-      'setSelectedFeatureDataKeys'
+      'setSelectedFeatureIds'
     ]),
     handleClickOnMap(event: MapBrowserEvent<UIEvent>) {
       const coord = this.map?.getCoordinateFromPixel(event.pixel);
@@ -142,46 +142,39 @@ export default Vue.extend({
         return;
       }
 
-      let selectedFeatureDataKeys = [
-        ...this.currentLayerSelectedFeatureDataKeys
-      ];
+      let selectedFeatureIds = [...this.currentLayerSelectedFeatureIds];
 
       for (const layer of this.adminLayers.getLayers().getArray() as Array<
         VectorLayer<VectorSource<Geometry>>
       >) {
         if (this.adminLayerType && layer.get('name') === this.adminLayerType) {
-          const {featureId, featureName} = adminLayers[this.adminLayerType];
+          const {featureId} = adminLayers[this.adminLayerType];
           const clickedFeatures = layer
             .getSource()
             .getFeaturesAtCoordinate(coord);
 
           clickedFeatures.forEach(feature => {
             const id = feature.get(featureId);
-            const name = feature.get(featureName);
 
             // Toggle the clicked feature's keys
             if (
-              selectedFeatureDataKeys.some(
-                keys => String(keys.featureId) === id
-              )
+              selectedFeatureIds.some(featureId => String(featureId) === id)
             ) {
-              selectedFeatureDataKeys = selectedFeatureDataKeys.filter(
-                keys => String(keys.featureId) !== id
+              selectedFeatureIds = selectedFeatureIds.filter(
+                featureId => String(featureId) !== id
               );
             } else {
-              const featureDataKeys = {featureId: id, featureName: name};
-
               if (this.hasMultipleFeatureSelection) {
-                selectedFeatureDataKeys.push(featureDataKeys);
+                selectedFeatureIds.push(id);
               } else {
-                selectedFeatureDataKeys = [featureDataKeys];
+                selectedFeatureIds = [id];
               }
             }
           });
 
-          this.setSelectedFeatureDataKeys({
+          this.setSelectedFeatureIds({
             adminLayerType: this.adminLayerType,
-            keys: selectedFeatureDataKeys
+            featureIds: selectedFeatureIds
           });
         }
       }
@@ -238,8 +231,8 @@ export default Vue.extend({
             adminLayerSource.un('change', sourceLoadingHandler);
 
             features.forEach(feature => {
-              const isSelected = this.currentLayerSelectedFeatureDataKeys.some(
-                keys => keys.featureId === feature.get(featureId)
+              const isSelected = this.currentLayerSelectedFeatureIds.some(
+                id => id === feature.get(featureId)
               );
               feature.set('selected', isSelected);
             });

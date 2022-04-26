@@ -68,16 +68,16 @@ const actions = {
     {commit, state}: ActionContext<RootState, StoreState>,
     payload: {
       adminLayerType: AdminLayerType;
-      featureName: string;
+      featureId: string;
       measureId: ScorecardMeasureId;
       rating: ScorecardRating;
     }
   ) {
     const ratings = state.scorecardRatings[ScorecardType.PLANS];
     ratings[payload.adminLayerType] = ratings[payload.adminLayerType] || {};
-    ratings[payload.adminLayerType][payload.featureName] =
-      ratings[payload.adminLayerType][payload.featureName] || {};
-    ratings[payload.adminLayerType][payload.featureName][payload.measureId] =
+    ratings[payload.adminLayerType][payload.featureId] =
+      ratings[payload.adminLayerType][payload.featureId] || {};
+    ratings[payload.adminLayerType][payload.featureId][payload.measureId] =
       payload.rating;
 
     // TODO: save in database

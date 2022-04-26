@@ -141,7 +141,7 @@ const adminAreaLayersOptions: Array<VectorLayerOptions> = [
     type: 'vector',
     source: vectorSourcesOptions.CITY,
     visible: false,
-    style: getAdminLayerStyle(adminLayers[AdminLayerType.CITY].featureName),
+    style: getAdminLayerStyle(adminLayers[AdminLayerType.CITY].featureId),
     properties: {
       name: AdminLayerType.CITY
     },
@@ -151,7 +151,7 @@ const adminAreaLayersOptions: Array<VectorLayerOptions> = [
     type: 'vector',
     source: vectorSourcesOptions.BOROUGH,
     visible: false,
-    style: getAdminLayerStyle(adminLayers[AdminLayerType.BOROUGH].featureName),
+    style: getAdminLayerStyle(adminLayers[AdminLayerType.BOROUGH].featureId),
     properties: {
       name: AdminLayerType.BOROUGH
     },
@@ -161,7 +161,7 @@ const adminAreaLayersOptions: Array<VectorLayerOptions> = [
     type: 'vector',
     source: vectorSourcesOptions.QUARTER,
     visible: false,
-    style: getAdminLayerStyle(adminLayers[AdminLayerType.QUARTER].featureName),
+    style: getAdminLayerStyle(adminLayers[AdminLayerType.QUARTER].featureId),
     properties: {
       name: AdminLayerType.QUARTER
     },
@@ -172,7 +172,7 @@ const adminAreaLayersOptions: Array<VectorLayerOptions> = [
     source: vectorSourcesOptions.STATISTICAL_AREA,
     visible: false,
     style: getAdminLayerStyle(
-      adminLayers[AdminLayerType.STATISTICAL_AREA].featureName
+      adminLayers[AdminLayerType.STATISTICAL_AREA].featureId
     ),
     properties: {
       name: AdminLayerType.STATISTICAL_AREA
@@ -184,7 +184,7 @@ const adminAreaLayersOptions: Array<VectorLayerOptions> = [
     source: vectorSourcesOptions.BUILDING_BLOCK,
     visible: false,
     style: getAdminLayerStyle(
-      adminLayers[AdminLayerType.BUILDING_BLOCK].featureName
+      adminLayers[AdminLayerType.BUILDING_BLOCK].featureId
     ),
     properties: {
       name: AdminLayerType.BUILDING_BLOCK

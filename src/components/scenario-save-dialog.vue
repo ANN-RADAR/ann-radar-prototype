@@ -6,8 +6,7 @@
         v-on="on"
         :disabled="
           !Object.values(adminLayerData).some(
-            ({selectedFeatureDataKeys, note}) =>
-              selectedFeatureDataKeys.length || note
+            ({selectedFeatureIds, note}) => selectedFeatureIds.length || note
           ) && !baseLayerTypes.length
         "
       >
@@ -31,8 +30,8 @@
               $tc(
                 'scenarios.adminAreasConfigured',
                 Object.values(adminLayerData).filter(
-                  ({selectedFeatureDataKeys, note}) =>
-                    selectedFeatureDataKeys.length || note
+                  ({selectedFeatureIds, note}) =>
+                    selectedFeatureIds.length || note
                 ).length
               )
             }}
