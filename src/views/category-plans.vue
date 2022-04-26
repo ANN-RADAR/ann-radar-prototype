@@ -19,6 +19,7 @@ import {AdminLayerData, AdminLayerType} from '@/types/admin-layers';
 export default Vue.extend({
   methods: {
     ...(mapActions as MapActionsToMethods)('root', [
+      'fetchPlansScorecard',
       'fetchPlansScorecardRatings'
     ]),
     ...(mapMutations as MapMutationsToMethods)('root', [
@@ -27,6 +28,7 @@ export default Vue.extend({
     ])
   },
   created() {
+    this.fetchPlansScorecard();
     this.fetchPlansScorecardRatings();
   },
   destroyed() {
