@@ -34,6 +34,7 @@ import {adminLayers} from '@/constants/admin-layers';
 import {AdminLayerFeatureData} from '@/types/admin-layers';
 import BaseLayer from 'ol/layer/Base';
 import {DataLayerOptions} from '@/types/layers';
+import BaseEvent from 'ol/events/Event';
 
 // projection for UTM zone 32N
 proj4.defs(
@@ -226,7 +227,16 @@ export default Vue.extend({
         if (this.adminLayerType && layer.get('name') === this.adminLayerType) {
           const {featureId} = adminLayers[this.adminLayerType];
 
+          const sourceLoadingHandler = (event: BaseEvent) => {
+            const source = event.target as VectorSource<Geometry>;
+            if (source.getState() === 'ready') {
+              handleSelection(source.getFeatures());
+            }
+          };
+
           const handleSelection = (features: Array<Feature<Geometry>>) => {
+            adminLayerSource.un('change', sourceLoadingHandler);
+
             features.forEach(feature => {
               const isSelected = this.currentLayerSelectedFeatureDataKeys.some(
                 keys => keys.featureId === feature.get(featureId)
@@ -242,12 +252,7 @@ export default Vue.extend({
             handleSelection(adminLayerFeatures);
           } else {
             // Wait for source to be loaded
-            adminLayerSource.on('change', event => {
-              const source = event.target as VectorSource<Geometry>;
-              if (source.getState() === 'ready') {
-                handleSelection(source.getFeatures());
-              }
-            });
+            adminLayerSource.on('change', sourceLoadingHandler);
           }
         }
       }
