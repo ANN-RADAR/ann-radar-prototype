@@ -12,7 +12,7 @@
           @change="onLayerTypeChanged"
         />
 
-        <v-list class="list">
+        <v-list class="list" v-if="adminAreasWithRating.length">
           <v-list-item-group
             multiple
             v-model="selectedAreaIndices"
@@ -28,13 +28,32 @@
             </v-list-item>
           </v-list-item-group>
         </v-list>
+
+        <div v-else class="list">
+          <p class="emptyMessage">
+            {{
+              !adminLayerType
+                ? $t('plans.compare.emptyList')
+                : $t('plans.compare.noRatings')
+            }}
+          </p>
+        </div>
       </v-card-text>
     </v-card>
 
     <v-card class="compare">
       <v-card-title>{{ $t('compareAreaRatings') }}</v-card-title>
       <v-card-text class="compare-content">
-        {{ selectedAreaIndices.map(index => adminAreasWithRating[index]) }}
+        <div v-if="selectedAreaIndices.length">
+          <BalancedScorecard
+            :selectedFeatures="
+              selectedAreaIndices.map(index => adminAreasWithRating[index])
+            "
+            :scorecardType="scorecardType"
+          />
+        </div>
+
+        <p v-else>{{ $t('plans.compare.emptyCompare') }}</p>
       </v-card-text>
     </v-card>
   </div>
@@ -48,12 +67,18 @@ import {AdminLayerType} from '@/types/admin-layers';
 import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 import {ScorecardMeasureId, ScorecardType} from '@/types/scorecards';
 
+import BalancedScorecard from './balanced-scorecard.vue';
+
 interface Data {
   adminAreaOptions: Array<{text: string; value: string}>;
   selectedAreaIndices: Array<number>;
+  scorecardType: ScorecardType;
 }
 
 export default Vue.extend({
+  components: {
+    BalancedScorecard
+  },
   data(): Data {
     return {
       adminAreaOptions: [
@@ -64,7 +89,8 @@ export default Vue.extend({
         text: this.$t(`adminLayer.${adminArea}`),
         value: adminArea
       })),
-      selectedAreaIndices: []
+      selectedAreaIndices: [],
+      scorecardType: ScorecardType.PLANS
     };
   },
   computed: {
@@ -124,5 +150,22 @@ export default Vue.extend({
   padding: 0;
   overflow: auto;
   border-top: 1px solid #ddd;
+}
+
+.emptyMessage {
+  padding: 16px;
+}
+
+.compare {
+  overflow: auto;
+}
+
+.compare-content {
+  height: calc(100% - 2rem - 32px);
+}
+
+.compare-content > div {
+  height: 100%;
+  overflow: auto;
 }
 </style>

@@ -23,6 +23,7 @@
         <BalancedScorecard
           :selectedFeatures="selectedFeatureName ? [selectedFeatureName] : []"
           :scorecardType="scorecardType"
+          isEditable
         />
       </v-card-text>
     </v-card>

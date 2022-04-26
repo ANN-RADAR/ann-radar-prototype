@@ -23,7 +23,7 @@
           {{ measure.description }}
         </td>
         <td v-for="featureName in selectedFeatures" :key="featureName">
-          <div class="scorecard-measure-value">
+          <div class="scorecard-measure-value" v-if="isEditable">
             <v-checkbox
               hide-details
               class="scorecard-measure-checkbox"
@@ -41,6 +41,22 @@
             />
             <v-textarea solo flat dense hide-details rows="1" />
           </div>
+          <template v-else>
+            <v-icon
+              v-if="
+                (selectedFeaturesRatings[featureName] || {})[measure.id] !==
+                undefined
+              "
+              color="primary"
+            >
+              {{
+                (selectedFeaturesRatings[featureName] || {})[measure.id]
+                  ? 'mdi-check'
+                  : 'mdi-close'
+              }}
+            </v-icon>
+            <span v-else>{{ $t('notAvailable') }}</span>
+          </template>
         </td>
       </tr>
     </tbody>
@@ -64,6 +80,11 @@ export default Vue.extend({
     scorecardType: {
       type: String as PropType<ScorecardType>,
       required: true
+    },
+    isEditable: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   computed: {
