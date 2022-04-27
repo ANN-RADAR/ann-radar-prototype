@@ -1,0 +1,11 @@
+steps:
+  - id: install
+    name: 'gcr.io/cloud-builders/npm'
+    entrypoint: 'npm'
+    args: ['install']
+
+  - id: test
+    name: 'gcr.io/cloud-builders/npm'
+    waitFor: ['install']
+    entrypoint: 'npm'
+    args: ['run', 'test']
