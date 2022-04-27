@@ -39,19 +39,11 @@ steps:
   - id: slack_notification
     waitFor: ['setmeta']
     name: gcr.io/cloud-builders/curl
-    entrypoint: 'curl'
+    entrypoint: 'bash'
     args:
-      [
-        '-X',
-        'POST',
-        '-H',
-        '"Content-type: application/json; charset=utf-8"',
-        '-H',
-        '"Authorization: Bearer $$SLACK_BOT_TOKEN"',
-        '--data',
-        '"{\"channel\":\"C02V2LH6LRM\",\"username\":\"Deployment\",\"icon_emoji\":\":robot_face:\",\"text\":\"New version deployed: https://storage.googleapis.com/ann-radar-develop/index.html\",\"unfurl_links\":false}"',
-        'https://slack.com/api/chat.postMessage'
-      ]
+      - -c
+      - |
+        curl -X POST -H "Content-type: application/json; charset=utf-8" -H "Authorization: Bearer $$SLACK_BOT_TOKEN" --data "{\"channel\":\"C02V2LH6LRM\",\"username\":\"Deployment\",\"icon_emoji\":\":robot_face:\",\"text\":\"New version deployed: https://storage.googleapis.com/ann-radar-develop/index.html\",\"unfurl_links\":false}" https://slack.com/api/chat.postMessage
     secretEnv: ['SLACK_BOT_TOKEN']
 
 availableSecrets:
