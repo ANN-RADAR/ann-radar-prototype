@@ -4,9 +4,15 @@ steps:
     entrypoint: 'npm'
     args: ['install']
 
-  - id: build
+  - id: test
     name: 'gcr.io/cloud-builders/npm'
     waitFor: ['install']
+    entrypoint: 'npm'
+    args: ['run', 'test']
+
+  - id: build
+    name: 'gcr.io/cloud-builders/npm'
+    waitFor: ['test']
     entrypoint: 'npm'
     args: ['run', 'build']
 
