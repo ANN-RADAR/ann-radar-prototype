@@ -3,10 +3,12 @@ import {MapStyle} from './map-styles';
 import {AdminLayerType, AdminLayerData} from './admin-layers';
 import {modules} from '../store/index';
 import {LayerConfig} from './layers';
+import {ScenarioMetaData} from './scenarios';
 import {Scorecard, ScorecardRatings, ScorecardType} from './scorecards';
 import {ActionContext} from 'vuex';
 
 export interface RootState {
+  scenarioMetaData: ScenarioMetaData | null;
   layersConfig: Record<string /* layer type */, LayerConfig>;
   layerClassificationSelection: Record<
     string /* layer type */,
@@ -18,6 +20,9 @@ export interface RootState {
   adminLayerData: Record<AdminLayerType, AdminLayerData>;
   scorecards: Record<ScorecardType, Scorecard>;
   scorecardRatings: Record<ScorecardType, ScorecardRatings>;
+  balancedScorecards: Record<ScorecardType, Scorecard>;
+  balancedScorecardRatings: Record<ScorecardType, ScorecardRatings>;
+  notes: Record<string /* path */, string /* note */>;
 }
 
 export interface UserState {

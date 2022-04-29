@@ -62,7 +62,7 @@
 <script lang="ts">
 import Vue from 'vue';
 
-import {logIn, resetPassword} from '../libs/auth';
+import {logIn, resetPassword} from '../libs/firebase';
 
 interface Data {
   view: 'login' | 'reset';
