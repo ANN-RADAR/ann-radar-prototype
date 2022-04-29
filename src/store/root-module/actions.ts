@@ -80,57 +80,46 @@ const actions = {
       })
       .catch(error => console.error(error));
   },
-  fetchScorecard(
+  fetchBalancedScorecard(
     {commit}: ActionContext<RootState, StoreState>,
     type: ScorecardType
   ) {
     return fetch(scorecardURLs[type])
       .then(response => response.json())
       .then(scorecard => {
-        commit('setScorecard', {type, scorecard});
+        commit('setBalancedScorecard', {type, scorecard});
       })
       .catch(error => console.error(error));
   },
-  fetchScorecardRatings(
-    {commit}: ActionContext<RootState, StoreState>,
-    type: ScorecardType
-  ) {
-    // TODO: get data from API
-    commit('setScorecardRatings', {
-      type,
-      ratings: {
-        [AdminLayerType.BOROUGH]: {
-          Altona: {
-            A1: {value: false, comment: 'A1 comment'},
-            A2: {value: true},
-            C1: {value: true},
-            C2: {comment: 'C2 comment'}
-          },
-          Eimsbüttel: {
-            A1: {value: true},
-            B1: {value: true, comment: 'B1 comment'},
-            C1: {value: true},
-            C2: {value: false, comment: 'C2 comment'}
-          },
-          'Hamburg-Mitte': {
-            A1: {value: true},
-            C1: {value: false, comment: 'C1 comment'}
-          },
-          'Hamburg-Nord': {
-            A1: {value: true, comment: 'A1 comment'},
-            A2: {value: false, comment: 'A2 comment'},
-            C1: {value: false}
-          },
-          Wandsbek: {
-            A1: {value: true, comment: 'A1 comment'},
-            C1: {value: false},
-            C2: {value: true, comment: 'C2 comment'}
-          }
-        }
+  async fetchBalancedScorecardRatings({
+    commit,
+    state
+  }: ActionContext<RootState, StoreState>) {
+    if (!state.scenarioMetaData?.balancedScorecardsId) {
+      return;
+    }
+
+    try {
+      const balancedScorecardsRatingsRef = doc(
+        database,
+        ANNRadarCollection.BALANCED_SCORECARDS,
+        state.scenarioMetaData.balancedScorecardsId
+      );
+      const balancedScorecardsRatingsSnapshot = await getDoc(
+        balancedScorecardsRatingsRef
+      );
+
+      if (balancedScorecardsRatingsSnapshot.exists()) {
+        commit(
+          'setBalancedScorecardRatings',
+          balancedScorecardsRatingsSnapshot.data()
+        );
       }
-    });
+    } catch (error) {
+      console.error('Error loading balanced scorecard ratings:', error);
+    }
   },
-  saveScorecardRatings(
+  updateBalancedScorecardRatings(
     {commit, state}: ActionContext<RootState, StoreState>,
     payload: {
       scorecardType: ScorecardType;
@@ -140,18 +129,26 @@ const actions = {
       rating: ScorecardRating;
     }
   ) {
-    const ratings = state.scorecardRatings[ScorecardType.PLANS];
-    ratings[payload.adminLayerType] = ratings[payload.adminLayerType] || {};
-    ratings[payload.adminLayerType][payload.featureId] =
-      ratings[payload.adminLayerType][payload.featureId] || {};
-    ratings[payload.adminLayerType][payload.featureId][payload.measureId] =
-      payload.rating;
+    const ratings = {...state.balancedScorecardRatings};
+    ratings[payload.scorecardType] = ratings[payload.scorecardType] || {};
+    ratings[payload.scorecardType][payload.adminLayerType] =
+      ratings[payload.scorecardType][payload.adminLayerType] || {};
+    ratings[payload.scorecardType][payload.adminLayerType][payload.featureId] =
+      ratings[payload.scorecardType][payload.adminLayerType][
+        payload.featureId
+      ] || {};
 
-    // TODO: save in database
-    commit('setScorecardRatings', {
-      type: payload.scorecardType,
-      ratings
-    });
+    if (payload.rating.value === undefined && !payload.rating.comment) {
+      delete ratings[payload.scorecardType][payload.adminLayerType][
+        payload.featureId
+      ][payload.measureId];
+    } else {
+      ratings[payload.scorecardType][payload.adminLayerType][payload.featureId][
+        payload.measureId
+      ] = payload.rating;
+    }
+
+    commit('setBalancedScorecardRatings', ratings);
   }
 };
 

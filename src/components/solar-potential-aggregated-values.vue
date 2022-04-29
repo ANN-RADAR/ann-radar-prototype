@@ -51,20 +51,20 @@ export default Vue.extend({
   computed: {
     ...(mapState as MapStateToComputed)('root', [
       'adminLayerType',
-      'adminLayerData'
+      'selectedFeatureIds'
     ]),
     aggregation(): Record<string, number> | null {
       if (
         !this.adminLayerType ||
         this.adminLayerType === AdminLayerType.CITY ||
-        !this.adminLayerData[this.adminLayerType]?.selectedFeatureIds?.length
+        !this.selectedFeatureIds[this.adminLayerType]?.length
       ) {
         return null;
       }
 
       return calculateAggregateValues(
         this.adminLayerType,
-        this.adminLayerData[this.adminLayerType]?.selectedFeatureIds
+        this.selectedFeatureIds[this.adminLayerType]
       );
     }
   },

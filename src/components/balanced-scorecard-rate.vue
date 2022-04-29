@@ -61,18 +61,17 @@ export default Vue.extend({
   computed: {
     ...(mapState as MapStateToComputed)('root', [
       'adminLayerType',
-      'adminLayerData'
+      'selectedFeatureIds'
     ]),
     selectedFeatureId(): string | null {
       if (
         !this.adminLayerType ||
-        !this.adminLayerData[this.adminLayerType] ||
-        !this.adminLayerData[this.adminLayerType].selectedFeatureIds.length
+        !this.selectedFeatureIds[this.adminLayerType]?.length
       ) {
         return null;
       }
 
-      return this.adminLayerData[this.adminLayerType].selectedFeatureIds[0];
+      return this.selectedFeatureIds[this.adminLayerType][0];
     }
   },
   methods: {

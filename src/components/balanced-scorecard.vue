@@ -8,7 +8,7 @@
     </thead>
 
     <tbody
-      v-for="({objective, measures}, index) in scorecard"
+      v-for="({objective, measures}, index) in balancedScorecard"
       :key="objective || `objective-${index}`"
     >
       <tr v-if="objective">
@@ -113,50 +113,41 @@ export default Vue.extend({
   computed: {
     ...(mapState as MapStateToComputed)('root', [
       'adminLayerType',
-      'adminLayerData',
-      'scorecards',
-      'scorecardRatings'
+      'selectedFeatureIds',
+      'balancedScorecards',
+      'balancedScorecardRatings'
     ]),
     selectedFeatureId(): string | null {
       if (
         !this.adminLayerType ||
-        !this.adminLayerData[this.adminLayerType] ||
-        !this.adminLayerData[this.adminLayerType].selectedFeatureIds.length
+        !this.selectedFeatureIds[this.adminLayerType]?.length
       ) {
         return null;
       }
 
-      return this.adminLayerData[this.adminLayerType].selectedFeatureIds[0];
+      return this.selectedFeatureIds[this.adminLayerType][0];
     },
-    scorecard(): Scorecard {
-      return this.scorecards[this.scorecardType];
+    balancedScorecard(): Scorecard {
+      return this.balancedScorecards[this.scorecardType];
     },
     ratings(): Record<string, Record<ScorecardMeasureId, ScorecardRating>> {
       if (
         !this.adminLayerType ||
-        !this.scorecardRatings[this.scorecardType] ||
-        !this.scorecardRatings[this.scorecardType][this.adminLayerType]
+        !this.balancedScorecardRatings[this.scorecardType] ||
+        !this.balancedScorecardRatings[this.scorecardType][this.adminLayerType]
       ) {
         return {};
       }
 
-      return this.scorecardRatings[this.scorecardType][this.adminLayerType];
-    },
-    selectedFeaturesRatings(): Record<
-      string,
-      Record<ScorecardMeasureId, ScorecardRating>
-    > {
-      return this.selectedFeatures.reduce(
-        (ratings, selectedFeatureId) => ({
-          ...ratings,
-          [selectedFeatureId]: this.ratings[selectedFeatureId]
-        }),
-        {}
-      );
+      return this.balancedScorecardRatings[this.scorecardType][
+        this.adminLayerType
+      ];
     }
   },
   methods: {
-    ...(mapActions as MapActionsToMethods)('root', ['saveScorecardRatings']),
+    ...(mapActions as MapActionsToMethods)('root', [
+      'updateBalancedScorecardRatings'
+    ]),
     onChangeRatingValue(measureId: ScorecardMeasureId) {
       if (this.adminLayerType && this.selectedFeatureId) {
         const comment = this.getFeatureMeasureComment(
@@ -174,7 +165,7 @@ export default Vue.extend({
             ? undefined
             : true;
 
-        this.saveScorecardRatings({
+        this.updateBalancedScorecardRatings({
           scorecardType: this.scorecardType,
           adminLayerType: this.adminLayerType,
           featureId: this.selectedFeatureId,
@@ -189,7 +180,8 @@ export default Vue.extend({
           this.selectedFeatureId,
           measureId
         );
-        this.saveScorecardRatings({
+
+        this.updateBalancedScorecardRatings({
           scorecardType: this.scorecardType,
           adminLayerType: this.adminLayerType,
           featureId: this.selectedFeatureId,
@@ -202,15 +194,13 @@ export default Vue.extend({
       featureId: string,
       measureId: ScorecardMeasureId
     ): ScorecardRating['value'] {
-      return ((this.selectedFeaturesRatings[featureId] || {})[measureId] || {})
-        .value;
+      return ((this.ratings[featureId] || {})[measureId] || {}).value;
     },
     getFeatureMeasureComment(
       featureId: string,
       measureId: ScorecardMeasureId
     ): ScorecardRating['comment'] {
-      return ((this.selectedFeaturesRatings[featureId] || {})[measureId] || {})
-        .comment;
+      return ((this.ratings[featureId] || {})[measureId] || {}).comment;
     }
   }
 });

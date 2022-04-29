@@ -15,32 +15,27 @@
 </template>
 
 <script lang="ts">
-import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
+import {MapStateToComputed} from '@/types/store';
 import Vue from 'vue';
-import {mapMutations, mapState} from 'vuex';
+import {mapState} from 'vuex';
 
 export default Vue.extend({
   computed: {
-    ...(mapState as MapStateToComputed)('root', [
-      'adminLayerType',
-      'adminLayerData'
-    ]),
+    ...(mapState as MapStateToComputed)('root', ['adminLayerType']),
     note(): string {
       return (
-        (this.adminLayerType &&
-          this.adminLayerData[this.adminLayerType]?.note) ||
+        // (this.adminLayerType &&
+        //   this.adminLayerData[this.adminLayerType]?.note) ||
         ''
       );
     }
   },
   methods: {
-    ...(mapMutations as MapMutationsToMethods)('root', ['setNote']),
-    onNoteChange(note: string) {
-      if (!this.adminLayerType) {
-        return;
-      }
-
-      this.setNote({adminLayerType: this.adminLayerType, note});
+    onNoteChange() {
+      // if (!this.adminLayerType) {
+      //   return;
+      // }
+      // this.setNote({adminLayerType: this.adminLayerType, note});
     }
   }
 });

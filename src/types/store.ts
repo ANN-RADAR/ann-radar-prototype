@@ -1,6 +1,6 @@
 import {Accessors} from 'vue/types/options';
 import {MapStyle} from './map-styles';
-import {AdminLayerType, AdminLayerData} from './admin-layers';
+import {AdminLayerType} from './admin-layers';
 import {modules} from '../store/index';
 import {LayerConfig} from './layers';
 import {ScenarioMetaData} from './scenarios';
@@ -17,9 +17,7 @@ export interface RootState {
   mapStyle: MapStyle;
   baseLayerTypes: Array<string>;
   adminLayerType: AdminLayerType | null;
-  adminLayerData: Record<AdminLayerType, AdminLayerData>;
-  scorecards: Record<ScorecardType, Scorecard>;
-  scorecardRatings: Record<ScorecardType, ScorecardRatings>;
+  selectedFeatureIds: Record<AdminLayerType, Array<string>>;
   balancedScorecards: Record<ScorecardType, Scorecard>;
   balancedScorecardRatings: Record<ScorecardType, ScorecardRatings>;
   notes: Record<string /* path */, string /* note */>;
