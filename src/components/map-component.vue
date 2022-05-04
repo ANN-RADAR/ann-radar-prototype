@@ -133,7 +133,7 @@ export default Vue.extend({
   methods: {
     ...(mapActions as MapActionsToMethods)('root', ['fetchLayersConfig']),
     ...(mapMutations as MapMutationsToMethods)('root', [
-      'setSelectedFeatureIds'
+      'setSelectedFeatureIdsOfAdminLayer'
     ]),
     handleClickOnMap(event: MapBrowserEvent<UIEvent>) {
       const coord = this.map?.getCoordinateFromPixel(event.pixel);
@@ -172,7 +172,7 @@ export default Vue.extend({
             }
           });
 
-          this.setSelectedFeatureIds({
+          this.setSelectedFeatureIdsOfAdminLayer({
             adminLayerType: this.adminLayerType,
             featureIds: selectedFeatureIds
           });

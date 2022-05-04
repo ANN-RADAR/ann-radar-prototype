@@ -29,21 +29,6 @@ const mutations = {
   ) {
     state.balancedScorecardRatings = newScorecardRatings;
   },
-  setScorecard(
-    state: RootState,
-    payload: {type: ScorecardType; scorecard: Scorecard}
-  ) {
-    state.scorecards = {...state.scorecards, [payload.type]: payload.scorecard};
-  },
-  setScorecardRatings(
-    state: RootState,
-    payload: {type: ScorecardType; ratings: ScorecardRatings}
-  ) {
-    state.scorecardRatings = {
-      ...state.scorecardRatings,
-      [payload.type]: payload.ratings
-    };
-  },
   setLayerClassificationSelection(
     state: RootState,
     payload: {layerType: string; selectedClassificationIndex: number | null}
@@ -72,44 +57,23 @@ const mutations = {
   ) {
     state.baseLayerTypes = newBaseLayerTypes;
   },
-  setAdminLayerData(
-    state: RootState,
-    newAdminLayerData: RootState['adminLayerData']
-  ) {
-    state.adminLayerData = newAdminLayerData;
-  },
   setSelectedFeatureIds(
     state: RootState,
-    payload: {
-      adminLayerType: AdminLayerType;
-      featureIds: Array<string>;
-    }
+    newSelectedFeatureIds: RootState['selectedFeatureIds']
   ) {
-    state.adminLayerData = {
-      ...state.adminLayerData,
-      [payload.adminLayerType]: {
-        ...state.adminLayerData[payload.adminLayerType],
-        selectedFeatureIds: payload.featureIds
-      }
+    state.selectedFeatureIds = newSelectedFeatureIds;
+  },
+  setSelectedFeatureIdsOfAdminLayer(
+    state: RootState,
+    payload: {adminLayerType: AdminLayerType; featureIds: Array<string>}
+  ) {
+    state.selectedFeatureIds = {
+      ...state.selectedFeatureIds,
+      [payload.adminLayerType]: payload.featureIds
     };
   },
   setNotes(state: RootState, newNotes: Record<string, string>) {
     state.notes = newNotes;
-  },
-  setNote(
-    state: RootState,
-    payload: {
-      adminLayerType: AdminLayerType;
-      note: string;
-    }
-  ) {
-    state.adminLayerData = {
-      ...state.adminLayerData,
-      [payload.adminLayerType]: {
-        ...state.adminLayerData[payload.adminLayerType],
-        note: payload.note
-      }
-    };
   }
 };
 

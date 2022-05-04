@@ -101,7 +101,7 @@ export default Vue.extend({
   computed: {
     ...(mapState as MapStateToComputed)('root', [
       'adminLayerType',
-      'scorecardRatings'
+      'balancedScorecardRatings'
     ]),
     adminLayerOptions(): Array<{text: string; value: string}> {
       return this.adminLayerTypes.map(adminArea => ({
@@ -112,13 +112,15 @@ export default Vue.extend({
     ratings(): Record<string, Record<ScorecardMeasureId, ScorecardRating>> {
       if (
         !this.adminLayerType ||
-        !this.scorecardRatings[this.scorecardType] ||
-        !this.scorecardRatings[this.scorecardType][this.adminLayerType]
+        !this.balancedScorecardRatings[this.scorecardType] ||
+        !this.balancedScorecardRatings[this.scorecardType][this.adminLayerType]
       ) {
         return {};
       }
 
-      return this.scorecardRatings[this.scorecardType][this.adminLayerType];
+      return this.balancedScorecardRatings[this.scorecardType][
+        this.adminLayerType
+      ];
     },
     adminAreasWithRating(): Array<string> {
       return Object.keys(this.ratings);

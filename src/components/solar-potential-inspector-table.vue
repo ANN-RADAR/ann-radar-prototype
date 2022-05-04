@@ -95,7 +95,7 @@ export default Vue.extend({
   computed: {
     ...(mapState as MapStateToComputed)('root', [
       'adminLayerType',
-      'adminLayerData'
+      'selectedFeatureIds'
     ]),
     tableHeaders(): Array<DataTableHeader> {
       return [
@@ -160,7 +160,7 @@ export default Vue.extend({
       return data.filter((featureData: AdminLayerFeatureData) => {
         const selectedFeatureIds =
           (this.adminLayerType &&
-            this.adminLayerData[this.adminLayerType]?.selectedFeatureIds) ||
+            this.selectedFeatureIds[this.adminLayerType]) ||
           [];
 
         return selectedFeatureIds.some(
@@ -171,7 +171,7 @@ export default Vue.extend({
   },
   methods: {
     ...(mapMutations as MapMutationsToMethods)('root', [
-      'setSelectedFeatureIds'
+      'setSelectedFeatureIdsOfAdminLayer'
     ]),
     formatNumber(
       ...args: Parameters<typeof formatNumber>
@@ -190,10 +190,9 @@ export default Vue.extend({
       }
 
       const {dataId} = adminLayers[this.adminLayerType];
-      const featureIds =
-        this.adminLayerData[this.adminLayerType]?.selectedFeatureIds || [];
+      const featureIds = this.selectedFeatureIds[this.adminLayerType] || [];
 
-      this.setSelectedFeatureIds({
+      this.setSelectedFeatureIdsOfAdminLayer({
         adminLayerType: this.adminLayerType,
         featureIds: featureIds.filter((featureId: string) =>
           newSelectedFeaturesData

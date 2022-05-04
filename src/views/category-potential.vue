@@ -19,7 +19,7 @@ import Vue from 'vue';
 import {mapMutations} from 'vuex';
 
 import {MapMutationsToMethods} from '@/types/store';
-import {AdminLayerData, AdminLayerType} from '@/types/admin-layers';
+import {AdminLayerType} from '@/types/admin-layers';
 
 export default Vue.extend({
   data() {
@@ -38,13 +38,13 @@ export default Vue.extend({
   methods: {
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setAdminLayerType',
-      'setAdminLayerData'
+      'setSelectedFeatureIds'
     ])
   },
   destroyed() {
     // Reset selections on destroy
     this.setAdminLayerType(null);
-    this.setAdminLayerData({} as Record<AdminLayerType, AdminLayerData>);
+    this.setSelectedFeatureIds({} as Record<AdminLayerType, Array<string>>);
   }
 });
 </script>

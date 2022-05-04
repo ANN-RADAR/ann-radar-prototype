@@ -14,28 +14,28 @@ import Vue from 'vue';
 import {mapActions, mapMutations} from 'vuex';
 
 import {MapActionsToMethods, MapMutationsToMethods} from '@/types/store';
-import {AdminLayerData, AdminLayerType} from '@/types/admin-layers';
+import {AdminLayerType} from '@/types/admin-layers';
 import {ScorecardType} from '@/types/scorecards';
 
 export default Vue.extend({
   methods: {
     ...(mapActions as MapActionsToMethods)('root', [
-      'fetchScorecard',
-      'fetchScorecardRatings'
+      'fetchBalancedScorecard',
+      'fetchBalancedScorecardRatings'
     ]),
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setAdminLayerType',
-      'setAdminLayerData'
+      'setSelectedFeatureIds'
     ])
   },
   created() {
-    this.fetchScorecard(ScorecardType.PLANS);
-    this.fetchScorecardRatings(ScorecardType.PLANS);
+    this.fetchBalancedScorecard(ScorecardType.PLANS);
+    this.fetchBalancedScorecardRatings();
   },
   destroyed() {
     // Reset selections on destroy
     this.setAdminLayerType(null);
-    this.setAdminLayerData({} as Record<AdminLayerType, AdminLayerData>);
+    this.setSelectedFeatureIds({} as Record<AdminLayerType, Array<string>>);
   }
 });
 </script>

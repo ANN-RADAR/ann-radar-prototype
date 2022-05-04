@@ -17,8 +17,3 @@ export interface AdminLayerFeatureData
   SP_GebWB15: number; // Summiertes Solarpotential in mwh_a
   Soz_Status?: string; // only for statistical areas – Wert Statusindex aus Sozialmonitoring 2020
 }
-
-export interface AdminLayerData {
-  selectedFeatureIds: Array<string>;
-  note: string;
-}
