@@ -5,7 +5,12 @@ import {
   ScorecardType
 } from '@/types/scorecards';
 import {RootState, StoreState} from '@/types/store';
+
 import {ActionContext} from 'vuex';
+
+import {doc, getDoc} from 'firebase/firestore';
+import {database} from '../../libs/firebase';
+import {ANNRadarCollection} from '@/types/firestore';
 
 const scorecardURLs = {
   [ScorecardType.PLANS]:
@@ -19,6 +24,52 @@ const scorecardURLs = {
 };
 
 const actions = {
+  async fetchScenario(
+    {commit}: ActionContext<RootState, StoreState>,
+    scenarioId: string
+  ) {
+    try {
+      const scenarioRef = doc(
+        database,
+        ANNRadarCollection.SCENARIOS,
+        scenarioId
+      );
+      const scenarioSnapshot = await getDoc(scenarioRef);
+
+      if (scenarioSnapshot.exists()) {
+        const scenario = scenarioSnapshot.data();
+        const {
+          balancedScorecardsRef,
+          notesRef,
+          baseLayerTypes,
+          ...scenarioMetaData
+        } = scenario;
+
+        const balancedScorecardRatingsSnapshot = await getDoc(
+          balancedScorecardsRef
+        );
+        const balancedScorecardRatings =
+          balancedScorecardRatingsSnapshot.data();
+
+        const notesSnapshot = await getDoc(notesRef);
+        const notes = notesSnapshot.data();
+
+        commit('setScenarioMetaData', {
+          id: scenarioSnapshot.id,
+          balancedScorecardsId: balancedScorecardRatingsSnapshot.id,
+          notesId: notesSnapshot.id,
+          ...scenarioMetaData
+        });
+        commit('setBaseLayerTypes', baseLayerTypes);
+        commit('setBalancedScorecardRatings', balancedScorecardRatings);
+        commit('setNotes', notes);
+      } else {
+        console.error('Error loading scenario', scenarioId);
+      }
+    } catch (error) {
+      console.error('Error loading scenario', scenarioId, ':', error);
+    }
+  },
   fetchLayersConfig({commit}: ActionContext<RootState, StoreState>) {
     return fetch(
       'https://storage.googleapis.com/ann-radar-data/layers_config.json'

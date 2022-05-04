@@ -2,6 +2,7 @@ import Vue from 'vue';
 import {AdminLayerType} from '@/types/admin-layers';
 import {RootState} from '@/types/store';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
+import {ScenarioMetaData} from '@/types/scenarios';
 
 const mutations = {
   setLayersConfig(
@@ -9,6 +10,24 @@ const mutations = {
     newLayersConfig: RootState['layersConfig']
   ) {
     state.layersConfig = newLayersConfig;
+  },
+  setScenarioMetaData(state: RootState, newScenarioMetaData: ScenarioMetaData) {
+    state.scenarioMetaData = newScenarioMetaData;
+  },
+  setBalancedScorecard(
+    state: RootState,
+    payload: {type: ScorecardType; scorecard: Scorecard}
+  ) {
+    state.balancedScorecards = {
+      ...state.balancedScorecards,
+      [payload.type]: payload.scorecard
+    };
+  },
+  setBalancedScorecardRatings(
+    state: RootState,
+    newScorecardRatings: Record<ScorecardType, ScorecardRatings>
+  ) {
+    state.balancedScorecardRatings = newScorecardRatings;
   },
   setScorecard(
     state: RootState,
@@ -73,6 +92,9 @@ const mutations = {
         selectedFeatureIds: payload.featureIds
       }
     };
+  },
+  setNotes(state: RootState, newNotes: Record<string, string>) {
+    state.notes = newNotes;
   },
   setNote(
     state: RootState,

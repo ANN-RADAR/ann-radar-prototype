@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {logOut} from '@/libs/auth';
+import {logOut} from '@/libs/firebase';
 
 export default Vue.extend({
   data() {
