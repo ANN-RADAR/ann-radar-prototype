@@ -9,7 +9,7 @@
         <v-tab to="mobility">{{ $t('navigation.mobility') }}</v-tab>
       </v-tabs>
 
-      <v-btn>
+      <v-btn :to="$router.currentRoute.path + '/results'">
         <span>{{ $t('results.show') }}</span>
       </v-btn>
     </div>
