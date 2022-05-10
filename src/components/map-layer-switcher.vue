@@ -29,7 +29,7 @@
           <v-checkbox
             v-for="layer in thematicLayers"
             :key="layer.properties.name"
-            :value="baseLayerTypes.includes(layer.properties.name)"
+            :input-value="baseLayerTypes.includes(layer.properties.name)"
             :label="$t(`layer.${layer.properties.name}`)"
             style="margin-top: -4px"
             @change="onLayerChange(layer, $event)"
@@ -43,7 +43,7 @@
           <v-checkbox
             v-for="layer in baseLayers"
             :key="layer.properties.name"
-            :value="baseLayerTypes.includes(layer.properties.name)"
+            :input-value="baseLayerTypes.includes(layer.properties.name)"
             :label="$t(`layer.${layer.properties.name}`)"
             style="margin-top: -4px"
             @change="onLayerChange(layer, $event)"

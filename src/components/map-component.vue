@@ -60,8 +60,7 @@ export default Vue.extend({
     },
     highlightedFeatureIds: {
       type: Array as PropType<Array<string>>,
-      required: false,
-      default: [] as Array<string>
+      required: false
     }
   },
   data(): Data {
@@ -243,7 +242,7 @@ export default Vue.extend({
               );
               feature.set('selected', isSelected);
 
-              const isHighlighted = this.highlightedFeatureIds.some(
+              const isHighlighted = (this.highlightedFeatureIds || []).some(
                 id => id === feature.get(featureId)
               );
               feature.set('highlighted', isHighlighted);
