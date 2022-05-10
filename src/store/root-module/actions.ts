@@ -12,6 +12,8 @@ import {doc, getDoc, updateDoc} from 'firebase/firestore';
 import {database} from '../../libs/firebase';
 import {ANNRadarCollection} from '@/types/firestore';
 
+import {Scenario} from '@/types/scenario';
+
 const scorecardURLs = {
   [ScorecardType.PLANS]:
     'https://storage.googleapis.com/ann-radar-data/plans_scorecard.json',
@@ -24,51 +26,33 @@ const scorecardURLs = {
 };
 
 const actions = {
-  async fetchScenario(
+  async setScenario(
     {commit}: ActionContext<RootState, StoreState>,
-    scenarioId: string
+    scenario: Scenario
   ) {
-    try {
-      const scenarioRef = doc(
-        database,
-        ANNRadarCollection.SCENARIOS,
-        scenarioId
-      );
-      const scenarioSnapshot = await getDoc(scenarioRef);
+    const {
+      balancedScorecardsRef,
+      notesRef,
+      baseLayerTypes,
+      ...scenarioMetaData
+    } = scenario;
 
-      if (scenarioSnapshot.exists()) {
-        const scenario = scenarioSnapshot.data();
-        const {
-          balancedScorecardsRef,
-          notesRef,
-          baseLayerTypes,
-          ...scenarioMetaData
-        } = scenario;
+    const balancedScorecardRatingsSnapshot = await getDoc(
+      balancedScorecardsRef
+    );
+    const balancedScorecardRatings = balancedScorecardRatingsSnapshot.data();
 
-        const balancedScorecardRatingsSnapshot = await getDoc(
-          balancedScorecardsRef
-        );
-        const balancedScorecardRatings =
-          balancedScorecardRatingsSnapshot.data();
+    const notesSnapshot = await getDoc(notesRef);
+    const notes = notesSnapshot.data();
 
-        const notesSnapshot = await getDoc(notesRef);
-        const notes = notesSnapshot.data();
-
-        commit('setScenarioMetaData', {
-          id: scenarioSnapshot.id,
-          balancedScorecardsId: balancedScorecardRatingsSnapshot.id,
-          notesId: notesSnapshot.id,
-          ...scenarioMetaData
-        });
-        commit('setBaseLayerTypes', baseLayerTypes);
-        commit('setBalancedScorecardRatings', balancedScorecardRatings);
-        commit('setNotes', notes);
-      } else {
-        console.error('Error loading scenario', scenarioId);
-      }
-    } catch (error) {
-      console.error('Error loading scenario', scenarioId, ':', error);
-    }
+    commit('setScenarioMetaData', {
+      balancedScorecardsId: balancedScorecardRatingsSnapshot.id,
+      notesId: notesSnapshot.id,
+      ...scenarioMetaData
+    });
+    commit('setBaseLayerTypes', baseLayerTypes);
+    commit('setBalancedScorecardRatings', balancedScorecardRatings);
+    commit('setNotes', notes);
   },
   fetchLayersConfig({commit}: ActionContext<RootState, StoreState>) {
     return fetch(

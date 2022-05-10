@@ -3,6 +3,7 @@
     <v-app-bar-title>{{ $t('annRadar') }}</v-app-bar-title>
 
     <div class="header-actions">
+      <ScenarioLoadDialog />
       <v-btn text @click="saveScenario" :disabled="!scenarioMetaData">
         <span>{{ $t('scenarios.saveScenario') }}</span>
         <v-icon right>mdi-content-save</v-icon>
@@ -42,6 +43,8 @@ import {logOut} from '@/libs/firebase';
 import {mapActions, mapState} from 'vuex';
 import {MapActionsToMethods, MapStateToComputed} from '@/types/store';
 
+import ScenarioLoadDialog from '../components/scenario-load-dialog.vue';
+
 interface Data {
   tab: number;
 }
@@ -52,6 +55,9 @@ export default Vue.extend({
       type: Boolean,
       required: true
     }
+  },
+  components: {
+    ScenarioLoadDialog
   },
   data(): Data {
     return {

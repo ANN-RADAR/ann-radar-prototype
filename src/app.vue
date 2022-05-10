@@ -22,13 +22,6 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {mapActions, mapState} from 'vuex';
-
-import {
-  MapActionsToMethods,
-  MapStateToComputed,
-  UserState
-} from '@/types/store';
 
 import Header from './components/app-header.vue';
 import Notes from './components/app-notes.vue';
@@ -46,21 +39,6 @@ export default Vue.extend({
     return {
       showNotes: true
     };
-  },
-  computed: {
-    ...(mapState as MapStateToComputed)('user', ['data'])
-  },
-  watch: {
-    data(newUserData: UserState['data']) {
-      if (newUserData) {
-        // Fetch demo scenario as long as we didn't implement the scenario selection
-        // TODO: scenario selection
-        this.fetchScenario('tzWIt9gWFDVKG0B0CYU3');
-      }
-    }
-  },
-  methods: {
-    ...(mapActions as MapActionsToMethods)('root', ['fetchScenario'])
   }
 });
 </script>
