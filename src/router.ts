@@ -28,9 +28,18 @@ const routes = [
     component: Potential,
     name: 'Potential',
     children: [
-      {path: 'solar', component: SolarPotential, name: 'Solar'},
-      {path: 'energy-efficiency', component: EnergyPotential, name: 'Energy'},
-      {path: 'mobility', component: null, name: 'Mobility'}
+      {
+        path: 'solar',
+        component: SolarPotential,
+        name: 'Solar Potential',
+        props: {hello: 'world'}
+      },
+      {
+        path: 'energy-efficiency',
+        component: EnergyPotential,
+        name: 'Energy Potential'
+      },
+      {path: 'mobility', component: null, name: 'Mobility Potential'}
     ]
   },
   {
@@ -39,8 +48,8 @@ const routes = [
     component: Plans,
     name: 'Plans',
     children: [
-      {path: 'rate', component: PlansRate, name: 'Rate'},
-      {path: 'compare', component: PlansCompare, name: 'Compare'}
+      {path: 'rate', component: PlansRate, name: 'Rate Plans'},
+      {path: 'compare', component: PlansCompare, name: 'Compare Plans'}
     ]
   },
   {
@@ -49,8 +58,12 @@ const routes = [
     component: Stakeholders,
     name: 'Stakeholders',
     children: [
-      {path: 'rate', component: StakeholdersRate, name: 'Rate'},
-      {path: 'compare', component: StakeholdersCompare, name: 'Compare'}
+      {path: 'rate', component: StakeholdersRate, name: 'Rate Stakeholders'},
+      {
+        path: 'compare',
+        component: StakeholdersCompare,
+        name: 'Compare Stakeholders'
+      }
     ]
   },
   {
@@ -59,8 +72,8 @@ const routes = [
     component: UrbanData,
     name: 'Urban Data',
     children: [
-      {path: 'rate', component: UrbanDataRate, name: 'Rate'},
-      {path: 'compare', component: UrbanDataCompare, name: 'Compare'}
+      {path: 'rate', component: UrbanDataRate, name: 'Rate Urban Data'},
+      {path: 'compare', component: UrbanDataCompare, name: 'Compare Urban Data'}
     ]
   },
   {
@@ -69,8 +82,12 @@ const routes = [
     component: Governance,
     name: 'Governance',
     children: [
-      {path: 'rate', component: GovernanceRate, name: 'Rate'},
-      {path: 'compare', component: GovernanceCompare, name: 'Compare'}
+      {path: 'rate', component: GovernanceRate, name: 'Rate Governance'},
+      {
+        path: 'compare',
+        component: GovernanceCompare,
+        name: 'Compare Governance'
+      }
     ]
   },
   {path: '/login', component: Login, name: 'Login'}
