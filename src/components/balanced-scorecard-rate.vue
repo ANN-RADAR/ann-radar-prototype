@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="map">
-      <Map />
+      <Map :highlightedFeatureIds="highlightedFeatureIds" />
       <div class="map-overlays top-right">
         <MapStyleSwitcher />
       </div>
@@ -61,7 +61,8 @@ export default Vue.extend({
   computed: {
     ...(mapState as MapStateToComputed)('root', [
       'adminLayerType',
-      'selectedFeatureIds'
+      'selectedFeatureIds',
+      'balancedScorecardRatings'
     ]),
     selectedFeatureId(): string | null {
       if (
@@ -72,6 +73,19 @@ export default Vue.extend({
       }
 
       return this.selectedFeatureIds[this.adminLayerType][0];
+    },
+    highlightedFeatureIds(): Array<string> {
+      if (
+        !this.adminLayerType ||
+        !this.balancedScorecardRatings[this.scorecardType] ||
+        !this.balancedScorecardRatings[this.scorecardType][this.adminLayerType]
+      ) {
+        return [];
+      }
+
+      return Object.keys(
+        this.balancedScorecardRatings[this.scorecardType][this.adminLayerType]
+      );
     }
   },
   methods: {
