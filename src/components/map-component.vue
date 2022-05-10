@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue, {PropType} from 'vue';
 import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
 
 import {
@@ -57,6 +57,11 @@ export default Vue.extend({
       type: Boolean,
       required: false,
       default: false
+    },
+    highlightedFeatureIds: {
+      type: Array as PropType<Array<string>>,
+      required: false,
+      default: [] as Array<string>
     }
   },
   data(): Data {
@@ -127,7 +132,7 @@ export default Vue.extend({
       }
     },
     currentLayerSelectedFeatureIds() {
-      this.handleAdminAreaSelection();
+      this.handleAdminAreaSelectionAndHighlighting();
     }
   },
   methods: {
@@ -213,7 +218,7 @@ export default Vue.extend({
         }
       }
     },
-    handleAdminAreaSelection() {
+    handleAdminAreaSelectionAndHighlighting() {
       for (const layer of this.adminLayers.getLayers().getArray() as Array<
         VectorLayer<VectorSource<Geometry>>
       >) {
@@ -223,11 +228,13 @@ export default Vue.extend({
           const sourceLoadingHandler = (event: BaseEvent) => {
             const source = event.target as VectorSource<Geometry>;
             if (source.getState() === 'ready') {
-              handleSelection(source.getFeatures());
+              handleSelectionAndHighlighting(source.getFeatures());
             }
           };
 
-          const handleSelection = (features: Array<Feature<Geometry>>) => {
+          const handleSelectionAndHighlighting = (
+            features: Array<Feature<Geometry>>
+          ) => {
             adminLayerSource.un('change', sourceLoadingHandler);
 
             features.forEach(feature => {
@@ -235,6 +242,11 @@ export default Vue.extend({
                 id => id === feature.get(featureId)
               );
               feature.set('selected', isSelected);
+
+              const isHighlighted = this.highlightedFeatureIds.some(
+                id => id === feature.get(featureId)
+              );
+              feature.set('highlighted', isHighlighted);
             });
           };
 
@@ -242,7 +254,7 @@ export default Vue.extend({
           const adminLayerFeatures = adminLayerSource.getFeatures();
 
           if (adminLayerFeatures.length) {
-            handleSelection(adminLayerFeatures);
+            handleSelectionAndHighlighting(adminLayerFeatures);
           } else {
             // Wait for source to be loaded
             adminLayerSource.on('change', sourceLoadingHandler);
@@ -309,7 +321,7 @@ export default Vue.extend({
     this.toggleMapStyleLayers();
     this.toggleAdminLayers();
     this.toggleBaseLayers();
-    this.handleAdminAreaSelection();
+    this.handleAdminAreaSelectionAndHighlighting();
 
     // Select map features
     this.map.on('click', this.handleClickOnMap);
