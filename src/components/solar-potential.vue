@@ -1,23 +1,27 @@
 <template>
   <div class="wrapper">
-    <div class="map">
-      <Map hasMultipleFeatureSelection />
-      <div class="map-overlays top-right">
-        <MapLayerSwitcher
-          :thematicLayers="solarPotentialLayers"
-          :thematicLayersTitle="$t('layerOptions.solarLayers')"
-        />
-        <MapStyleSwitcher />
+    <div class="potential">
+      <div class="map">
+        <Map hasMultipleFeatureSelection />
+        <div class="map-overlays top-right">
+          <MapLayerSwitcher
+            :thematicLayers="solarPotentialLayers"
+            :thematicLayersTitle="$t('layerOptions.solarLayers')"
+          />
+          <MapStyleSwitcher />
+        </div>
+        <div class="map-overlays bottom-right">
+          <MapLegends />
+        </div>
       </div>
-      <div class="map-overlays bottom-right">
-        <MapLegends />
-      </div>
+      <v-card>
+        <AdminAreasInspector>
+          <SolarPotentialInspectorTable />
+        </AdminAreasInspector>
+      </v-card>
     </div>
-    <v-card>
-      <AdminAreasInspector>
-        <SolarPotentialInspectorTable />
-      </AdminAreasInspector>
-    </v-card>
+
+    <router-view />
   </div>
 </template>
 
@@ -56,15 +60,16 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.wrapper {
+.potential {
   display: grid;
   grid-template-columns: calc(50% - 0.5rem) calc(50% - 0.5rem);
   grid-template-rows: 100%;
   gap: 1rem;
+  height: 100%;
   padding: 1rem;
 }
 
-.wrapper > * {
+.potential > * {
   position: relative;
   display: grid;
 }

@@ -18,6 +18,7 @@ import UrbanDataCompare from './components/urban-data-compare.vue';
 import Governance from './views/category-governance.vue';
 import GovernanceRate from './components/governance-rate.vue';
 import GovernanceCompare from './components/governance-compare.vue';
+import Results from './views/category-results.vue';
 import Login from './views/app-login.vue';
 
 const routes = [
@@ -35,7 +36,7 @@ const routes = [
         children: [
           {
             path: 'results',
-            component: null,
+            component: Results,
             name: 'Solar Potential Results',
             props: {returnTo: '/potential/solar'}
           },
@@ -49,7 +50,7 @@ const routes = [
         children: [
           {
             path: 'results',
-            component: null,
+            component: Results,
             name: 'Energy Potential Results',
             props: {returnTo: '/potential/energy-efficiency'}
           },
@@ -63,7 +64,7 @@ const routes = [
         children: [
           {
             path: 'results',
-            component: null,
+            component: Results,
             name: 'Mobility Potential Results',
             props: {returnTo: '/potential/mobility'}
           },
