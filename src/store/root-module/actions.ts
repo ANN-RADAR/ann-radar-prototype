@@ -8,7 +8,7 @@ import {RootState, StoreState} from '@/types/store';
 
 import {ActionContext} from 'vuex';
 
-import {doc, getDoc} from 'firebase/firestore';
+import {doc, getDoc, updateDoc} from 'firebase/firestore';
 import {database} from '../../libs/firebase';
 import {ANNRadarCollection} from '@/types/firestore';
 
@@ -117,6 +117,37 @@ const actions = {
       }
     } catch (error) {
       console.error('Error loading balanced scorecard ratings:', error);
+    }
+  },
+  async saveScenario({state}: ActionContext<RootState, StoreState>) {
+    if (!state.scenarioMetaData) {
+      return;
+    }
+
+    try {
+      const {id, balancedScorecardsId, notesId, ...scenarioMetaData} =
+        state.scenarioMetaData;
+
+      const scenarioRef = doc(database, ANNRadarCollection.SCENARIOS, id);
+      await updateDoc(scenarioRef, {
+        ...scenarioMetaData,
+        baseLayerTypes: state.baseLayerTypes
+      });
+
+      const balancedScorecardsRatingsRef = doc(
+        database,
+        ANNRadarCollection.BALANCED_SCORECARDS,
+        balancedScorecardsId
+      );
+      await updateDoc(
+        balancedScorecardsRatingsRef,
+        state.balancedScorecardRatings
+      );
+
+      const notesRef = doc(database, ANNRadarCollection.NOTES, notesId);
+      await updateDoc(notesRef, state.notes);
+    } catch (error) {
+      console.error('Error saving scenario:', error);
     }
   },
   updateBalancedScorecardRatings(

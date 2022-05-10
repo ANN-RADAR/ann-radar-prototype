@@ -64,19 +64,19 @@ export default Vue.extend({
       tab: 0,
       path: null,
       nameByPath: {
-        '/potential/solar': `${this.$t('navigation.potential')} / ${this.$t(
+        potential_solar: `${this.$t('navigation.potential')} / ${this.$t(
           'navigation.solar'
         )}`,
-        '/potential/energy-efficiency': `${this.$t(
+        'potential_energy-efficiency': `${this.$t(
           'navigation.potential'
         )} / ${this.$t('navigation.energyEfficiency')}`,
-        '/potential/mobility': `${this.$t('navigation.potential')} / ${this.$t(
+        potential_mobility: `${this.$t('navigation.potential')} / ${this.$t(
           'navigation.mobility'
         )}`,
-        '/plans': this.$t('navigation.plans'),
-        '/stakeholders': this.$t('navigation.stakeholders'),
-        '/urban-data': this.$t('navigation.urbanData'),
-        '/governance': this.$t('navigation.governance')
+        plans: this.$t('navigation.plans'),
+        stakeholders: this.$t('navigation.stakeholders'),
+        'urban-data': this.$t('navigation.urbanData'),
+        governance: this.$t('navigation.governance')
       }
     };
   },
@@ -109,15 +109,17 @@ export default Vue.extend({
     }
   },
   created() {
-    const route = this.$route.matched.find((match: Route) =>
-      Object.keys(this.nameByPath).includes(match.path)
+    const matchedRoute = this.$route.matched.find((match: Route) =>
+      Object.keys(this.nameByPath).includes(
+        match.path.slice(1).replace('/', '_')
+      )
     );
 
-    if (route) {
-      this.path = route.path;
+    if (matchedRoute) {
+      this.path = matchedRoute.path.slice(1).replace('/', '_');
     }
 
-    this.tab = Number(Boolean(route));
+    this.tab = Number(Boolean(matchedRoute));
   }
 });
 </script>

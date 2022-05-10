@@ -3,6 +3,11 @@
     <v-app-bar-title>{{ $t('annRadar') }}</v-app-bar-title>
 
     <div class="header-actions">
+      <v-btn text @click="saveScenario" :disabled="!scenarioMetaData">
+        <span>{{ $t('scenarios.saveScenario') }}</span>
+        <v-icon right>mdi-content-save</v-icon>
+      </v-btn>
+
       <v-btn
         text
         active-class="primary--text"
@@ -34,6 +39,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import {logOut} from '@/libs/firebase';
+import {mapActions, mapState} from 'vuex';
+import {MapActionsToMethods, MapStateToComputed} from '@/types/store';
 
 interface Data {
   tab: number;
@@ -51,7 +58,11 @@ export default Vue.extend({
       tab: 0
     };
   },
+  computed: {
+    ...(mapState as MapStateToComputed)('root', ['scenarioMetaData'])
+  },
   methods: {
+    ...(mapActions as MapActionsToMethods)('root', ['saveScenario']),
     logOut() {
       logOut().then(() => {
         this.$router.push('/login');
