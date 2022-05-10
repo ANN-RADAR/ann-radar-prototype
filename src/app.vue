@@ -1,13 +1,21 @@
 <template>
   <v-app>
     <v-main>
-      <Header />
-      <v-container
-        fluid
-        style="display: flex; flex-direction: column; height: 100%; padding: 0"
-      >
+      <Header :showNotes="showNotes" @toggleNotes="showNotes = !showNotes" />
+
+      <div class="route-wrapper">
         <router-view />
-      </v-container>
+      </div>
+
+      <v-navigation-drawer
+        v-model="showNotes"
+        absolute
+        temporary
+        right
+        width="min(34rem, 90%)"
+      >
+        <Notes v-if="showNotes" />
+      </v-navigation-drawer>
     </v-main>
   </v-app>
 </template>
@@ -23,10 +31,21 @@ import {
 } from '@/types/store';
 
 import Header from './components/app-header.vue';
+import Notes from './components/app-notes.vue';
+
+interface Data {
+  showNotes: boolean;
+}
 
 export default Vue.extend({
   components: {
-    Header
+    Header,
+    Notes
+  },
+  data(): Data {
+    return {
+      showNotes: true
+    };
   },
   computed: {
     ...(mapState as MapStateToComputed)('user', ['data'])
@@ -65,5 +84,15 @@ body {
 .v-application,
 .v-application [class*='text-'] {
   font-family: Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.route-wrapper {
+  height: 100%;
+}
+
+.route-wrapper > div {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
 }
 </style>

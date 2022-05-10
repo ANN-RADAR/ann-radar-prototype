@@ -72,6 +72,9 @@ const mutations = {
       [payload.adminLayerType]: payload.featureIds
     };
   },
+  setNote(state: RootState, payload: {path: string; note: string}) {
+    state.notes = {...state.notes, [payload.path]: payload.note};
+  },
   setNotes(state: RootState, newNotes: Record<string, string>) {
     state.notes = newNotes;
   }
