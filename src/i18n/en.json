@@ -94,5 +94,8 @@
       "emptyCompare": "Select areas to compare"
     }
   },
-  "notAvailable": "n/a"
+  "notAvailable": "n/a",
+  "results": {
+    "show": "Show results"
+  }
 }
