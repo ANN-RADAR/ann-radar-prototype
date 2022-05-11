@@ -12,7 +12,7 @@ import {doc, getDoc, updateDoc} from 'firebase/firestore';
 import {database} from '../../libs/firebase';
 import {ANNRadarCollection} from '@/types/firestore';
 
-import {Scenario} from '@/types/scenario';
+import {Scenario} from '@/types/scenarios';
 
 const scorecardURLs = {
   [ScorecardType.PLANS]:
@@ -26,7 +26,7 @@ const scorecardURLs = {
 };
 
 const actions = {
-  async setScenario(
+  async fetchScenarioDetails(
     {commit}: ActionContext<RootState, StoreState>,
     scenario: Scenario
   ) {

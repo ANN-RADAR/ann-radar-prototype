@@ -73,7 +73,7 @@ import {collection, getDocs} from 'firebase/firestore';
 import {database} from '../libs/firebase';
 import {ANNRadarCollection} from '@/types/firestore';
 
-import {Scenario} from '@/types/scenario';
+import {Scenario} from '@/types/scenarios';
 
 interface Data {
   open: boolean;
@@ -104,7 +104,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...(mapActions as MapActionsToMethods)('root', ['setScenario']),
+    ...(mapActions as MapActionsToMethods)('root', ['fetchScenarioDetails']),
     async fetchScenarios(): Promise<Scenario[] | null> {
       try {
         const scenarioRef = collection(database, ANNRadarCollection.SCENARIOS);
@@ -139,7 +139,7 @@ export default Vue.extend({
         this.isLoading = false;
         return;
       }
-      this.setScenario(scenarioToSet);
+      this.fetchScenarioDetails(scenarioToSet);
       // Close the dialog
       this.open = false;
     }
