@@ -73,10 +73,6 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-header.header {
-  z-index: 8;
-}
-
 .header::v-deep > div {
   display: grid;
   grid-template-columns: 1fr auto auto;

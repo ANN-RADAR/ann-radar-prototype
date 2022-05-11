@@ -8,9 +8,13 @@
         </v-tab>
         <v-tab to="mobility">{{ $t('navigation.mobility') }}</v-tab>
       </v-tabs>
+
+      <v-btn :to="$router.currentRoute.path + '/results'">
+        <span>{{ $t('results.show') }}</span>
+      </v-btn>
     </div>
 
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 
@@ -22,19 +26,6 @@ import {MapMutationsToMethods} from '@/types/store';
 import {AdminLayerType} from '@/types/admin-layers';
 
 export default Vue.extend({
-  data() {
-    return {
-      scope: 'potential-solar'
-    };
-  },
-  watch: {
-    $route(to) {
-      this.scope =
-        (to.path.includes('energy-efficiency') && 'potential-energy') ||
-        (to.path.includes('mobility') && 'potential-mobility') ||
-        'potential-solar';
-    }
-  },
   methods: {
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setAdminLayerType',
@@ -53,5 +44,7 @@ export default Vue.extend({
 .potential-header {
   display: grid;
   grid-template-columns: 1fr auto;
+  align-items: center;
+  padding-right: 1rem;
 }
 </style>

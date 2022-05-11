@@ -18,6 +18,7 @@ import UrbanDataCompare from './components/urban-data-compare.vue';
 import Governance from './views/category-governance.vue';
 import GovernanceRate from './components/governance-rate.vue';
 import GovernanceCompare from './components/governance-compare.vue';
+import Results from './views/category-results.vue';
 import Login from './views/app-login.vue';
 
 const routes = [
@@ -32,14 +33,45 @@ const routes = [
         path: 'solar',
         component: SolarPotential,
         name: 'Solar Potential',
-        props: {hello: 'world'}
+        children: [
+          {
+            path: 'results',
+            component: Results,
+            name: 'Solar Potential Results',
+            props: {returnTo: '/potential/solar'}
+          },
+          {path: '*', redirect: '/potential/solar'}
+        ]
       },
       {
         path: 'energy-efficiency',
         component: EnergyPotential,
-        name: 'Energy Potential'
+        name: 'Energy Potential',
+        children: [
+          {
+            path: 'results',
+            component: Results,
+            name: 'Energy Potential Results',
+            props: {returnTo: '/potential/energy-efficiency'}
+          },
+          {path: '*', redirect: '/potential/energy-efficiency'}
+        ]
       },
-      {path: 'mobility', component: null, name: 'Mobility Potential'}
+      {
+        path: 'mobility',
+        component: null,
+        name: 'Mobility Potential',
+        children: [
+          {
+            path: 'results',
+            component: Results,
+            name: 'Mobility Potential Results',
+            props: {returnTo: '/potential/mobility'}
+          },
+          {path: '*', redirect: '/potential/mobility'}
+        ]
+      },
+      {path: '*', redirect: '/potential/solar'}
     ]
   },
   {
@@ -90,7 +122,8 @@ const routes = [
       }
     ]
   },
-  {path: '/login', component: Login, name: 'Login'}
+  {path: '/login', component: Login, name: 'Login'},
+  {path: '*', redirect: '/'}
 ];
 
 Vue.use(Router);
