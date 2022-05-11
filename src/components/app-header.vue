@@ -2,6 +2,9 @@
   <v-app-bar app elevation="2" dense class="header">
     <v-app-bar-title>{{ $t('annRadar') }}</v-app-bar-title>
 
+    <span class="scenario-name" v-if="scenarioMetaData">{{
+      $t('scenarios.scenario') + scenarioMetaData.name
+    }}</span>
     <div class="header-actions">
       <ScenarioLoadDialog />
       <v-btn text @click="saveScenario" :disabled="!scenarioMetaData">
@@ -92,5 +95,9 @@ header.header {
   display: grid;
   grid-auto-flow: column;
   grid-gap: 8px;
+}
+
+.scenario-name {
+  padding: 0 32px;
 }
 </style>
