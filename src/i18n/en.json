@@ -75,7 +75,7 @@
     "scenario": "Scenario: ",
     "saveScenario": "Save Scenario",
     "loadScenario": "Load Scenario",
-    "reallyLoadScenario": "Unsaved changes to current scenario will be lost. Do you want to proceed loading scenario?",
+    "loadScenarioWarning": "Unsaved changes to current scenario will be lost. Do you want to proceed loading scenario?",
     "scenarioTitle": "Scenario Title",
     "noSavedScenarios": "Couldn't find any saved scenarios.",
     "adminAreasConfigured": "No admin areas configured | 1 admin area configured | {count} admin areas configured",

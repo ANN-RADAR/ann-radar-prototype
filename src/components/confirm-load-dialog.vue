@@ -4,7 +4,7 @@
       <v-card-title>{{ $t('scenarios.loadScenario') }}</v-card-title>
       <v-card-text>
         <p>
-          {{ $t('scenarios.reallyLoadScenario') }}
+          {{ $t('scenarios.loadScenarioWarning') }}
         </p>
       </v-card-text>
       <v-card-actions>
