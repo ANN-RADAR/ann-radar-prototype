@@ -24,7 +24,8 @@ export interface RootState {
 }
 
 export interface UserState {
-  data: {email: string} | null;
+  data: {email: string; uid: string} | null;
+  roles: Array<string>;
 }
 
 export interface StoreState {
