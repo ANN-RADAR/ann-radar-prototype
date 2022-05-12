@@ -6,9 +6,7 @@
       nudge-left="8px"
       rounded="0"
       :close-on-content-click="false"
-      :close-on-click="
-        Boolean(!alwaysVisibleLayers || !alwaysVisibleLayers.length)
-      "
+      :close-on-click="!alwaysVisibleLayers || !alwaysVisibleLayers.length"
       :value="isOpen"
     >
       <template v-slot:activator="{on, attrs}">
@@ -61,7 +59,7 @@
         </div>
 
         <v-btn
-          v-if="Boolean(alwaysVisibleLayers && alwaysVisibleLayers.length)"
+          v-if="alwaysVisibleLayers && alwaysVisibleLayers.length"
           tile
           small
           elevation="0"
