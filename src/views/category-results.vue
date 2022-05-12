@@ -137,6 +137,9 @@ export default Vue.extend({
     }
   },
   created() {
+    if (!this.adminLayerType || !this.currentLayerSelectedFeatureIds.length) {
+      this.$router.push(this.returnTo);
+      return;
     }
 
     this.initialActiveLayers = this.baseLayerTypes;
