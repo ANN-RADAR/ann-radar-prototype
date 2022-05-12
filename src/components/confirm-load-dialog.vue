@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="open" max-width="600px">
+  <v-dialog persistent v-model="open" max-width="400px">
     <v-card>
       <v-card-title>{{ $t('scenarios.loadScenario') }}</v-card-title>
       <v-card-text>
