@@ -109,13 +109,12 @@ export default Vue.extend({
     }
   },
   data(): Data {
+    const hasAlwaysVisibleLayers = Boolean(
+      this.alwaysVisibleLayers && this.alwaysVisibleLayers.length
+    );
     return {
-      isOpen: Boolean(
-        this.alwaysVisibleLayers && this.alwaysVisibleLayers.length
-      ),
-      showReducedList: Boolean(
-        this.alwaysVisibleLayers && this.alwaysVisibleLayers.length
-      ),
+      isOpen: hasAlwaysVisibleLayers,
+      showReducedList: hasAlwaysVisibleLayers,
       baseLayers: baseLayersOptions
     };
   },
