@@ -98,6 +98,10 @@
   },
   "notAvailable": "n/a",
   "results": {
-    "show": "Show results"
+    "show": "Show results",
+    "title": "Results",
+    "layers": "Layers ({count})",
+    "balancedScorecards": "Balanced Scorecards",
+    "potential": "Potential"
   }
 }
