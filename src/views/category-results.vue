@@ -9,7 +9,11 @@
   >
     <div class="results-content">
       <div class="map">
-        <Map hasMultipleFeatureSelection disableFeatureSelection />
+        <Map
+          hasMultipleFeatureSelection
+          :highlightedFeatureIds="currentLayerSelectedFeatureIds"
+          disableFeatureSelection
+        />
         <div class="map-overlays top-right">
           <MapLayerSwitcher
             :thematicLayers="thematicLayers"
@@ -22,7 +26,11 @@
           <MapLegends />
         </div>
       </div>
-      <v-card>Hello results!</v-card>
+      <v-card>
+        <div>Hello results!</div>
+        <div>{{ adminLayerType }}</div>
+        <div>{{ currentLayerSelectedFeatureIds }}</div>
+      </v-card>
     </div>
   </v-navigation-drawer>
 </template>
@@ -36,8 +44,8 @@ import MapStyleSwitcher from '../components/map-style-switcher.vue';
 import MapLegends from '../components/map-legends.vue';
 
 import {LayerOptions} from '@/types/layers';
-import {mapState} from 'vuex';
-import {MapStateToComputed} from '@/types/store';
+import {mapGetters, mapState} from 'vuex';
+import {MapGettersToComputed, MapStateToComputed} from '@/types/store';
 
 interface Data {
   initialActiveLayers: Array<string>;
@@ -70,7 +78,13 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...(mapState as MapStateToComputed)('root', ['baseLayerTypes'])
+    ...(mapState as MapStateToComputed)('root', [
+      'baseLayerTypes',
+      'adminLayerType'
+    ]),
+    ...(mapGetters as MapGettersToComputed)('root', [
+      'currentLayerSelectedFeatureIds'
+    ])
   },
   methods: {
     toggleResults(open: boolean) {
