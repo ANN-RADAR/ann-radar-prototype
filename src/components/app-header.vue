@@ -12,6 +12,11 @@
         <v-icon right>mdi-content-save</v-icon>
       </v-btn>
 
+      <v-btn text active-class="primary--text" to="/laboratories">
+        <span>{{ $t('realLaboratories') }}</span>
+        <v-icon right>mdi-notebook-edit-outline</v-icon>
+      </v-btn>
+
       <v-btn
         text
         active-class="primary--text"
