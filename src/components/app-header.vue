@@ -7,7 +7,7 @@
     }}</span>
     <div class="header-actions">
       <ScenarioLoadDialog />
-      <v-btn text @click="saveScenario" :disabled="!scenarioMetaData">
+      <v-btn text @click="saveScenario" :disabled="!canSave">
         <span>{{ $t('scenarios.saveScenario') }}</span>
         <v-icon right>mdi-content-save</v-icon>
       </v-btn>
@@ -68,7 +68,14 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...(mapState as MapStateToComputed)('root', ['scenarioMetaData'])
+    ...(mapState as MapStateToComputed)('root', ['scenarioMetaData']),
+    ...(mapState as MapStateToComputed)('user', ['roles']),
+    canSave(): boolean {
+      const isWriter = this.roles.includes('WRITER');
+      const hasScenarioMetaData = Boolean(this.scenarioMetaData);
+
+      return hasScenarioMetaData && isWriter;
+    }
   },
   methods: {
     ...(mapActions as MapActionsToMethods)('root', ['saveScenario']),
