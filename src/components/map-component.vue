@@ -21,7 +21,7 @@ import LayerGroup from 'ol/layer/Group';
 import VectorLayer from 'ol/layer/Vector';
 import Geometry from 'ol/geom/Geometry';
 import VectorSource from 'ol/source/Vector';
-import Draw from 'ol/interaction/Draw';
+import {Draw, Modify, Snap} from 'ol/interaction';
 import {register} from 'ol/proj/proj4';
 import proj4 from 'proj4';
 
@@ -360,6 +360,9 @@ export default Vue.extend({
 
         this.map.addInteraction(draw);
         this.map.addLayer(vector);
+
+        const modify = new Modify({source: this.drawingSource});
+        this.map.addInteraction(modify);
       }
     }
   },
