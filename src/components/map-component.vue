@@ -21,6 +21,7 @@ import LayerGroup from 'ol/layer/Group';
 import VectorLayer from 'ol/layer/Vector';
 import Geometry from 'ol/geom/Geometry';
 import VectorSource from 'ol/source/Vector';
+import Draw from 'ol/interaction/Draw';
 import {register} from 'ol/proj/proj4';
 import proj4 from 'proj4';
 
@@ -59,6 +60,16 @@ export default Vue.extend({
       type: Boolean,
       required: false,
       default: false
+    },
+    showDrawingTools: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    drawingSource: {
+      type: VectorSource,
+      required: false,
+      default: null
     },
     highlightedFeatureIds: {
       type: Array as PropType<Array<string>>,
@@ -328,6 +339,28 @@ export default Vue.extend({
           })
         );
       }
+    },
+    toggleDrawingTools() {
+      if (this.map && this.drawingSource) {
+        const vector = new VectorLayer({
+          source: this.drawingSource
+        });
+
+        const draw = new Draw({
+          source: this.drawingSource,
+          type: 'Polygon'
+        });
+
+        draw.on('drawstart', () => {
+          if (this.drawingSource) {
+            // ask if user wants to clear the drawing if there is already one
+            this.drawingSource.clear();
+          }
+        });
+
+        this.map.addInteraction(draw);
+        this.map.addLayer(vector);
+      }
     }
   },
   created() {
@@ -341,6 +374,8 @@ export default Vue.extend({
     this.toggleAdminLayers();
     this.toggleBaseLayers();
     this.handleAdminAreaSelectionAndHighlighting();
+
+    this.toggleDrawingTools();
 
     // Select map features
     this.map.on('click', this.handleClickOnMap);
