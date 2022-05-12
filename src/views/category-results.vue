@@ -9,7 +9,7 @@
   >
     <div class="results-content">
       <div class="map">
-        <Map hasMultipleFeatureSelection />
+        <Map hasMultipleFeatureSelection disableFeatureSelection />
         <div class="map-overlays top-right">
           <MapLayerSwitcher
             :thematicLayers="thematicLayers"

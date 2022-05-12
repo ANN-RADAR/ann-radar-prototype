@@ -61,6 +61,11 @@ export default Vue.extend({
     highlightedFeatureIds: {
       type: Array as PropType<Array<string>>,
       required: false
+    },
+    disableFeatureSelection: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data(): Data {
@@ -140,6 +145,10 @@ export default Vue.extend({
       'setSelectedFeatureIdsOfAdminLayer'
     ]),
     handleClickOnMap(event: MapBrowserEvent<UIEvent>) {
+      if (this.disableFeatureSelection) {
+        return;
+      }
+
       const coord = this.map?.getCoordinateFromPixel(event.pixel);
 
       if (!coord) {
@@ -237,9 +246,11 @@ export default Vue.extend({
             adminLayerSource.un('change', sourceLoadingHandler);
 
             features.forEach(feature => {
-              const isSelected = this.currentLayerSelectedFeatureIds.some(
-                id => id === feature.get(featureId)
-              );
+              const isSelected = !this.disableFeatureSelection
+                ? this.currentLayerSelectedFeatureIds.some(
+                    id => id === feature.get(featureId)
+                  )
+                : false;
               feature.set('selected', isSelected);
 
               const isHighlighted = (this.highlightedFeatureIds || []).some(
