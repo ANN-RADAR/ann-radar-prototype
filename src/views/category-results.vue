@@ -14,6 +14,7 @@
           <MapLayerSwitcher
             :thematicLayers="thematicLayers"
             :thematicLayersTitle="$t(thematicLayersTitleKey)"
+            :alwaysVisibleLayers="initialActiveLayers"
           />
           <MapStyleSwitcher />
         </div>
@@ -38,6 +39,10 @@ import {LayerOptions} from '@/types/layers';
 import {mapState} from 'vuex';
 import {MapStateToComputed} from '@/types/store';
 
+interface Data {
+  initialActiveLayers: Array<string>;
+}
+
 export default Vue.extend({
   components: {
     Map,
@@ -59,12 +64,23 @@ export default Vue.extend({
       required: true
     }
   },
+  data(): Data {
+    return {
+      initialActiveLayers: []
+    };
+  },
+  computed: {
+    ...(mapState as MapStateToComputed)('root', ['baseLayerTypes'])
+  },
   methods: {
     toggleResults(open: boolean) {
       if (!open) {
         this.$router.push(this.returnTo);
       }
     }
+  },
+  created() {
+    this.initialActiveLayers = this.baseLayerTypes;
   }
 });
 </script>
