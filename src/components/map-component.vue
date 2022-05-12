@@ -35,6 +35,8 @@ import {AdminLayerFeatureData} from '@/types/admin-layers';
 import BaseLayer from 'ol/layer/Base';
 import {DataLayerOptions} from '@/types/layers';
 import BaseEvent from 'ol/events/Event';
+import TileLayer from 'ol/layer/Tile';
+import TileSource from 'ol/source/Tile';
 
 // projection for UTM zone 32N
 proj4.defs(
@@ -61,6 +63,11 @@ export default Vue.extend({
     highlightedFeatureIds: {
       type: Array as PropType<Array<string>>,
       required: false
+    },
+    disableFeatureSelection: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data(): Data {
@@ -97,7 +104,20 @@ export default Vue.extend({
     ]),
     ...(mapGetters as MapGettersToComputed)('root', [
       'currentLayerSelectedFeatureIds'
-    ])
+    ]),
+    allBaseLayers(): Array<BaseLayer> {
+      return this.baseLayers.getLayers().getArray();
+    },
+    allMapStyleLayers(): Array<TileLayer<TileSource>> {
+      return this.mapStyleLayers.getLayers().getArray() as Array<
+        TileLayer<TileSource>
+      >;
+    },
+    allAdminLayers(): Array<VectorLayer<VectorSource<Geometry>>> {
+      return this.adminLayers.getLayers().getArray() as Array<
+        VectorLayer<VectorSource<Geometry>>
+      >;
+    }
   },
   watch: {
     mapStyle() {
@@ -107,7 +127,7 @@ export default Vue.extend({
       this.toggleAdminLayers();
 
       // Update source and style of data layers
-      for (const layer of this.baseLayers.getLayers().getArray()) {
+      for (const layer of this.allBaseLayers) {
         if (layer.getVisible()) {
           const dataLayerOptions = dataLayers[layer.get('name')];
           if (dataLayerOptions) {
@@ -121,7 +141,7 @@ export default Vue.extend({
     },
     layerClassificationSelection() {
       // Update style of data layers
-      for (const layer of this.baseLayers.getLayers().getArray()) {
+      for (const layer of this.allBaseLayers) {
         if (layer.getVisible()) {
           const dataLayerOptions = dataLayers[layer.get('name')];
           if (dataLayerOptions && dataLayerOptions.style) {
@@ -140,6 +160,10 @@ export default Vue.extend({
       'setSelectedFeatureIdsOfAdminLayer'
     ]),
     handleClickOnMap(event: MapBrowserEvent<UIEvent>) {
+      if (this.disableFeatureSelection) {
+        return;
+      }
+
       const coord = this.map?.getCoordinateFromPixel(event.pixel);
 
       if (!coord) {
@@ -148,9 +172,7 @@ export default Vue.extend({
 
       let selectedFeatureIds = [...this.currentLayerSelectedFeatureIds];
 
-      for (const layer of this.adminLayers.getLayers().getArray() as Array<
-        VectorLayer<VectorSource<Geometry>>
-      >) {
+      for (const layer of this.allAdminLayers) {
         if (this.adminLayerType && layer.get('name') === this.adminLayerType) {
           const {featureId} = adminLayers[this.adminLayerType];
           const clickedFeatures = layer
@@ -185,7 +207,7 @@ export default Vue.extend({
       // TODO: Add selected feature id / name to store
     },
     toggleMapStyleLayers() {
-      for (const layer of this.mapStyleLayers.getLayers().getArray()) {
+      for (const layer of this.allMapStyleLayers) {
         if (layer.get('name') === this.mapStyle) {
           layer.setVisible(true);
         } else {
@@ -194,7 +216,7 @@ export default Vue.extend({
       }
     },
     toggleAdminLayers() {
-      for (const layer of this.adminLayers.getLayers().getArray()) {
+      for (const layer of this.allAdminLayers) {
         if (layer.get('name') === this.adminLayerType) {
           layer.setVisible(true);
         } else {
@@ -203,7 +225,7 @@ export default Vue.extend({
       }
     },
     toggleBaseLayers() {
-      for (const layer of this.baseLayers.getLayers().getArray()) {
+      for (const layer of this.allBaseLayers) {
         if (this.baseLayerTypes.includes(layer.get('name'))) {
           layer.setVisible(true);
 
@@ -218,9 +240,7 @@ export default Vue.extend({
       }
     },
     handleAdminAreaSelectionAndHighlighting() {
-      for (const layer of this.adminLayers.getLayers().getArray() as Array<
-        VectorLayer<VectorSource<Geometry>>
-      >) {
+      for (const layer of this.allAdminLayers) {
         if (this.adminLayerType && layer.get('name') === this.adminLayerType) {
           const {featureId} = adminLayers[this.adminLayerType];
 
@@ -237,14 +257,14 @@ export default Vue.extend({
             adminLayerSource.un('change', sourceLoadingHandler);
 
             features.forEach(feature => {
-              const isSelected = this.currentLayerSelectedFeatureIds.some(
-                id => id === feature.get(featureId)
-              );
+              const id = feature.get(featureId);
+
+              const isSelected = !this.disableFeatureSelection
+                ? this.currentLayerSelectedFeatureIds.includes(id)
+                : false;
               feature.set('selected', isSelected);
 
-              const isHighlighted = (this.highlightedFeatureIds || []).some(
-                id => id === feature.get(featureId)
-              );
+              const isHighlighted = this.highlightedFeatureIds?.includes(id);
               feature.set('highlighted', isHighlighted);
             });
           };

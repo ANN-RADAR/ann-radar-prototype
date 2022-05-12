@@ -82,6 +82,7 @@ export default Vue.extend({
   height: 40px;
   grid-gap: 4px;
   padding: 4px;
+  overflow: hidden;
 }
 
 .map-style-option input {

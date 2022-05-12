@@ -48,6 +48,8 @@ export const energyPotentialLayersOptions: Array<TileLayerOptions> = [
   }
 ];
 
+export const mobilityPotentialLayersOptions: Array<LayerOptions> = [];
+
 export const baseLayersOptions: Array<LayerOptions> = [
   {
     type: 'tile',
