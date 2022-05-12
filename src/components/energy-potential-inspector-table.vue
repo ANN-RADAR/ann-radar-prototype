@@ -4,12 +4,29 @@
     ref="tableContainer"
     v-resize="onResize"
   >
+    <v-select
+      class="inspector-column-select"
+      v-model="selectedTableHeaders"
+      :items="tableHeaders.slice(1)"
+      :label="$t('selectColumns')"
+      multiple
+      return-object
+    >
+      <template v-slot:selection="{item, index}">
+        <v-chip v-if="index === 0">
+          <span>{{ item.text }}</span>
+        </v-chip>
+        <span v-if="index === 1" class="grey--text caption"
+          >(+{{ selectedTableHeaders.length - 1 + ' ' + $t('others') }})</span
+        >
+      </template>
+    </v-select>
     <v-data-table
       class="inspector-table"
       v-if="adminLayerType"
       :value="selectedFeaturesData"
       @input="onSelectedFeaturesDataChange"
-      :headers="tableHeaders"
+      :headers="[tableHeaders[0], ...selectedTableHeaders]"
       :items="selectedFeaturesData"
       :item-key="adminLayers[adminLayerType].dataId"
       :show-select="true"
@@ -59,7 +76,9 @@
       </template>
 
       <template v-slot:[`body.append`]>
-        <AggregatedValues :tableHeaders="tableHeaders" />
+        <AggregatedValues
+          :tableHeaders="[tableHeaders[0], ...selectedTableHeaders]"
+        />
       </template>
     </v-data-table>
   </div>
@@ -80,6 +99,7 @@ import AggregatedValues from './energy-potential-aggregated-values.vue';
 interface Data {
   adminLayers: typeof adminLayers;
   tableHeight: number;
+  selectedTableHeaders: Array<DataTableHeader>;
 }
 
 export default Vue.extend({
@@ -89,8 +109,12 @@ export default Vue.extend({
   data(): Data {
     return {
       adminLayers,
-      tableHeight: 0
+      tableHeight: 0,
+      selectedTableHeaders: []
     };
+  },
+  created() {
+    this.selectedTableHeaders = this.tableHeaders.slice(1);
   },
   computed: {
     ...(mapState as MapStateToComputed)('root', [
@@ -209,5 +233,9 @@ export default Vue.extend({
 .inspector-table-container {
   height: 100%;
   overflow-x: auto;
+}
+
+.inspector-column-select {
+  width: 300px;
 }
 </style>
