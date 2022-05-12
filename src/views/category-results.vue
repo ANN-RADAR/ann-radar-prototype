@@ -10,6 +10,16 @@
     <div class="results-content">
       <div class="map">
         <Map hasMultipleFeatureSelection />
+        <div class="map-overlays top-right">
+          <MapLayerSwitcher
+            :thematicLayers="thematicLayers"
+            :thematicLayersTitle="$t(thematicLayersTitleKey)"
+          />
+          <MapStyleSwitcher />
+        </div>
+        <div class="map-overlays bottom-right">
+          <MapLegends />
+        </div>
       </div>
       <v-card>Hello results!</v-card>
     </div>
@@ -20,13 +30,31 @@
 import Vue, {PropType} from 'vue';
 
 import Map from '../components/map-component.vue';
+import MapLayerSwitcher from '../components/map-layer-switcher.vue';
+import MapStyleSwitcher from '../components/map-style-switcher.vue';
+import MapLegends from '../components/map-legends.vue';
+
+import {LayerOptions} from '@/types/layers';
+import {mapState} from 'vuex';
+import {MapStateToComputed} from '@/types/store';
 
 export default Vue.extend({
   components: {
-    Map
+    Map,
+    MapLayerSwitcher,
+    MapStyleSwitcher,
+    MapLegends
   },
   props: {
     returnTo: {
+      type: String,
+      required: true
+    },
+    thematicLayers: {
+      type: Array as PropType<Array<LayerOptions>>,
+      required: true
+    },
+    thematicLayersTitleKey: {
       type: String,
       required: true
     }
@@ -59,5 +87,23 @@ export default Vue.extend({
 
 .map {
   position: relative;
+}
+
+.map-overlays {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  grid-gap: 8px;
+  padding: 8px;
+}
+
+.map-overlays.top-right {
+  top: 0;
+  right: 0;
+}
+
+.map-overlays.bottom-right {
+  bottom: 0;
+  right: 0;
 }
 </style>

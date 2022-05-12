@@ -28,7 +28,8 @@
   "layerOptions": {
     "baseLayers": "Base Layers",
     "solarLayers": "Solar Layers",
-    "energyLayers": "Energy Efficiency Layers"
+    "energyLayers": "Energy Efficiency Layers",
+    "mobilityLayers": "Mobility Layers"
   },
   "mapStyles": "Map Style",
   "notes": "Notes",

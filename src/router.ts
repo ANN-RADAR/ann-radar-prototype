@@ -21,6 +21,12 @@ import GovernanceCompare from './components/governance-compare.vue';
 import Results from './views/category-results.vue';
 import Login from './views/app-login.vue';
 
+import {
+  solarPotentialLayersOptions,
+  energyPotentialLayersOptions,
+  mobilityPotentialLayersOptions
+} from './constants/layers';
+
 const routes = [
   {path: '/', redirect: '/potential/solar', name: 'Root'},
   {
@@ -32,44 +38,51 @@ const routes = [
       {
         path: 'solar',
         component: SolarPotential,
-        name: 'Solar Potential',
-        children: [
-          {
-            path: 'results',
-            component: Results,
-            name: 'Solar Potential Results',
-            props: {returnTo: '/potential/solar'}
-          },
-          {path: '*', redirect: '/potential/solar'}
-        ]
+        name: 'Solar Potential'
       },
+      {
+        path: 'solar/results',
+        component: Results,
+        name: 'Solar Potential Results',
+        props: {
+          returnTo: '/potential/solar',
+          thematicLayers: solarPotentialLayersOptions,
+          thematicLayersTitleKey: 'layerOptions.solarLayers'
+        }
+      },
+      {path: 'solar/*', redirect: '/potential/solar'},
       {
         path: 'energy-efficiency',
         component: EnergyPotential,
-        name: 'Energy Potential',
-        children: [
-          {
-            path: 'results',
-            component: Results,
-            name: 'Energy Potential Results',
-            props: {returnTo: '/potential/energy-efficiency'}
-          },
-          {path: '*', redirect: '/potential/energy-efficiency'}
-        ]
+        name: 'Energy Potential'
       },
+      {
+        path: 'energy-efficiency/results',
+        component: Results,
+        name: 'Energy Potential Results',
+        props: {
+          returnTo: '/potential/energy-efficiency',
+          thematicLayers: energyPotentialLayersOptions,
+          thematicLayersTitleKey: 'layerOptions.energyLayers'
+        }
+      },
+      {path: 'energy-efficiency/*', redirect: '/potential/energy-efficiency'},
       {
         path: 'mobility',
         component: null,
-        name: 'Mobility Potential',
-        children: [
-          {
-            path: 'results',
-            component: Results,
-            name: 'Mobility Potential Results',
-            props: {returnTo: '/potential/mobility'}
-          },
-          {path: '*', redirect: '/potential/mobility'}
-        ]
+        name: 'Mobility Potential'
+      },
+      {
+        path: 'mobility/results',
+        component: Results,
+        name: 'Mobility Potential Results',
+        props: {returnTo: '/potential/mobility'}
+      },
+      {
+        path: 'mobility/*',
+        redirect: '/potential/mobility',
+        thematicLayers: mobilityPotentialLayersOptions,
+        thematicLayersTitleKey: 'layerOptions.mobilityLayers'
       },
       {path: '*', redirect: '/potential/solar'}
     ]
