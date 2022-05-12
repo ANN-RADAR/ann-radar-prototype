@@ -4,7 +4,7 @@ import Router from 'vue-router';
 import store from './store';
 
 import Laboratories from './views/real-laboratories.vue';
-import AddLaboratories from './components/add-laboratory.vue';
+import AddLaboratory from './components/add-laboratory.vue';
 import Potential from './views/category-potential.vue';
 import SolarPotential from './components/solar-potential.vue';
 import EnergyPotential from './components/energy-potential.vue';
@@ -146,17 +146,8 @@ const routes = [
     children: [
       {
         path: 'edit',
-        component: AddLaboratories,
-        name: 'Add Laboratories',
-        children: [
-          {
-            path: 'results',
-            component: Results,
-            name: 'Solar Potential Results',
-            props: {returnTo: '/potential/solar'}
-          },
-          {path: '*', redirect: '/potential/solar'}
-        ]
+        component: AddLaboratory,
+        name: 'Add Laboratory'
       }
     ]
   },
