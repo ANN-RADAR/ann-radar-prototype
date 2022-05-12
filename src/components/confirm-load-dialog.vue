@@ -14,9 +14,6 @@
         </v-btn>
         <v-btn color="blue darken-1" text @click="onLoad">
           {{ $t('scenarios.loadScenario') }}
-          <template v-slot:loader>
-            <span>{{ $t('loading') }}</span>
-          </template>
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -42,10 +39,3 @@ export default Vue.extend({
   }
 });
 </script>
-
-<style scoped>
-.scenarios-list {
-  overflow: auto;
-  max-height: 50vh;
-}
-</style>
