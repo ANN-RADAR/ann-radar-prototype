@@ -27,9 +27,52 @@
         </div>
       </div>
       <v-card>
-        <div>Hello results!</div>
-        <div>{{ adminLayerType }}</div>
-        <div>{{ currentLayerSelectedFeatureIds }}</div>
+        <v-card-title>
+          {{ $t('results.title') }} |
+          {{ $t(`adminLayer.${adminLayerType}`) }}
+        </v-card-title>
+        <v-card-text>
+          <v-expansion-panels accordion flat tile class="panels">
+            <v-expansion-panel>
+              <v-expansion-panel-header color="grey lighten-4">
+                {{ $t('results.layers', {count: baseLayerTypes.length}) }}
+              </v-expansion-panel-header>
+              <v-expansion-panel-content class="panel-content">
+                <v-chip
+                  v-for="baseLayerType in baseLayerTypes"
+                  :key="baseLayerType"
+                  label
+                  disabled
+                  outlined
+                  class="layer-chip"
+                >
+                  {{ $t(`layer.${baseLayerType}`) }}
+                </v-chip>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+
+            <v-expansion-panel>
+              <v-expansion-panel-header color="grey lighten-4">
+                {{ $t('results.balancedScorecards') }}
+              </v-expansion-panel-header>
+              <v-expansion-panel-content class="panel-content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+
+            <v-expansion-panel>
+              <v-expansion-panel-header color="grey lighten-4">
+                {{ $t('results.potential') }}
+              </v-expansion-panel-header>
+              <v-expansion-panel-content class="panel-content">
+                {{ currentLayerSelectedFeatureIds }}
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-card-text>
       </v-card>
     </div>
   </v-navigation-drawer>
@@ -94,6 +137,11 @@ export default Vue.extend({
     }
   },
   created() {
+    if (!this.adminLayerType || !this.currentLayerSelectedFeatureIds.length) {
+      this.$router.push(this.returnTo);
+      return;
+    }
+
     this.initialActiveLayers = this.baseLayerTypes;
   }
 });
@@ -135,5 +183,22 @@ export default Vue.extend({
 .map-overlays.bottom-right {
   bottom: 0;
   right: 0;
+}
+
+.panels {
+  grid-gap: 2px;
+}
+
+.panel-content::v-deep > div {
+  padding-top: 16px;
+}
+
+.layer-chip {
+  margin-bottom: 8px;
+  opacity: 1;
+}
+
+.layer-chip:not(:last-child) {
+  margin-right: 8px;
 }
 </style>
