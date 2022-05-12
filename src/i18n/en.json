@@ -72,6 +72,7 @@
   "statisticalArea": "Statistical Area",
   "socialStatus": "Social Status",
   "scenarios": {
+    "scenario": "Scenario: ",
     "saveScenario": "Save Scenario",
     "loadScenario": "Load Scenario",
     "scenarioTitle": "Scenario Title",
