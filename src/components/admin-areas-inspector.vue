@@ -1,6 +1,6 @@
 <template>
   <div class="inspector">
-    <v-card-title>{{ $t('inspectAreas') }}</v-card-title>
+    <v-card-title>{{ $t('selectAreas') }}</v-card-title>
     <v-card-text class="inspector-content">
       <nav class="inspector-navigation">
         <v-btn

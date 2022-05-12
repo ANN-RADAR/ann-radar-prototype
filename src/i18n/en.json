@@ -18,8 +18,8 @@
     "energyEfficiency": "Energy Efficiency",
     "mobility": "Mobility",
     "plans": "Plans",
-    "rate": "Rate",
-    "compare": "Compare",
+    "rate": "Mark Indicators",
+    "compare": "View",
     "stakeholders": "Stakeholders",
     "urbanData": "Urban Data",
     "governance": "Governance"
@@ -33,7 +33,7 @@
   "mapStyles": "Map Style",
   "notes": "Notes",
   "cockpit": "Cockpit",
-  "inspectAreas": "Inspect Areas",
+  "selectAreas": "Select Areas",
   "adminArea": "Admin Area",
   "cancel": "Cancel",
   "saving": "Saving...",
@@ -96,7 +96,6 @@
       "emptyCompare": "Select areas to compare"
     }
   },
-  "notAvailable": "n/a",
   "results": {
     "show": "Show results"
   }
