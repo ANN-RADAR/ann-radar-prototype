@@ -16,9 +16,9 @@
         <v-chip v-if="index === 0">
           <span>{{ item.text }}</span>
         </v-chip>
-        <span v-if="index === 1" class="grey--text caption"
-          >(+{{ selectedTableHeaders.length - 1 + ' ' + $t('others') }})</span
-        >
+        <span v-if="index === 1" class="grey--text caption">{{
+          $t('others', {count: selectedTableHeaders.length - 1})
+        }}</span>
       </template>
     </v-select>
     <v-data-table

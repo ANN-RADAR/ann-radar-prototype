@@ -36,7 +36,7 @@
   "cockpit": "Cockpit",
   "selectAreas": "Select Areas",
   "selectColumns": "Select Columns",
-  "others": "others",
+  "others": "(+{count} others)",
   "adminArea": "Admin Area",
   "cancel": "Cancel",
   "saving": "Saving...",
