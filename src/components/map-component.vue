@@ -17,11 +17,12 @@ import 'ol/ol.css';
 import {Feature, Map, MapBrowserEvent, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
 import {ScaleLine, defaults as defaultControls} from 'ol/control';
+import {Style, Fill, Stroke, Circle as CircleStyle} from 'ol/style';
 import LayerGroup from 'ol/layer/Group';
 import VectorLayer from 'ol/layer/Vector';
 import Geometry from 'ol/geom/Geometry';
 import VectorSource from 'ol/source/Vector';
-import {Draw, Modify, Snap} from 'ol/interaction';
+import {Draw, Modify} from 'ol/interaction';
 import {register} from 'ol/proj/proj4';
 import proj4 from 'proj4';
 
@@ -340,10 +341,25 @@ export default Vue.extend({
         );
       }
     },
-    toggleDrawingTools() {
+    addDrawingTools() {
       if (this.map && this.drawingSource) {
         const vector = new VectorLayer({
-          source: this.drawingSource
+          source: this.drawingSource,
+          style: new Style({
+            fill: new Fill({
+              color: 'rgba(120, 120, 255, 0.5)'
+            }),
+            stroke: new Stroke({
+              color: '#1976d2',
+              width: 2
+            }),
+            image: new CircleStyle({
+              radius: 7,
+              fill: new Fill({
+                color: '#ffcc33'
+              })
+            })
+          })
         });
 
         const draw = new Draw({
@@ -378,7 +394,9 @@ export default Vue.extend({
     this.toggleBaseLayers();
     this.handleAdminAreaSelectionAndHighlighting();
 
-    this.toggleDrawingTools();
+    if (this.showDrawingTools) {
+      this.addDrawingTools();
+    }
 
     // Select map features
     this.map.on('click', this.handleClickOnMap);
