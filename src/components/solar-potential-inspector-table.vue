@@ -26,7 +26,7 @@
       v-if="adminLayerType"
       :value="selectedFeaturesData"
       @input="onSelectedFeaturesDataChange"
-      :headers="[tableHeaders[0], ...selectedTableHeaders]"
+      :headers="shownTableHeaders"
       :items="selectedFeaturesData"
       :item-key="adminLayers[adminLayerType].dataId"
       :show-select="true"
@@ -76,9 +76,7 @@
       </template>
 
       <template v-slot:[`body.append`]>
-        <AggregatedValues
-          :tableHeaders="[tableHeaders[0], ...selectedTableHeaders]"
-        />
+        <AggregatedValues :tableHeaders="shownTableHeaders" />
       </template>
     </v-data-table>
   </div>
@@ -121,6 +119,9 @@ export default Vue.extend({
       'adminLayerType',
       'selectedFeatureIds'
     ]),
+    shownTableHeaders(): Array<DataTableHeader> {
+      return [this.tableHeaders[0], ...this.selectedTableHeaders];
+    },
     tableHeaders(): Array<DataTableHeader> {
       return [
         {
