@@ -77,6 +77,9 @@ const mutations = {
   },
   setNotes(state: RootState, newNotes: Record<string, string>) {
     state.notes = newNotes;
+  },
+  setLaboratory(state: RootState, newLaboratory: RootState['laboratory']) {
+    state.laboratory = newLaboratory;
   }
 };
 

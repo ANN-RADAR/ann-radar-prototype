@@ -107,5 +107,11 @@
     "noLayersSelected": "No map layers selected",
     "balancedScorecards": "Balanced Scorecards",
     "potential": "Potential"
+  },
+  "laboratories": {
+    "title": "Laboratories",
+    "addLaboratory": "Add Laboratory",
+    "name": "Laboratory Name",
+    "description": "Laboratory Description"
   }
 }

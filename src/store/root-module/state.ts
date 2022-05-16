@@ -22,7 +22,12 @@ const state: RootState = {
     }),
     {} as Record<ScorecardType, ScorecardRatings>
   ),
-  notes: {}
+  notes: {},
+  laboratory: {
+    name: '',
+    description: '',
+    feature: null
+  }
 };
 
 export default state;
