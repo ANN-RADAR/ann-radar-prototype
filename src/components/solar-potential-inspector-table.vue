@@ -1,11 +1,11 @@
 <template>
   <div
-    class="inspector-table-container"
+    class="potential-table-container"
     ref="tableContainer"
     v-resize="onResize"
   >
     <v-data-table
-      class="inspector-table"
+      class="potential-table"
       v-if="adminLayerType"
       :value="selectedFeaturesData"
       @input="onSelectedFeaturesDataChange"
@@ -206,7 +206,7 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.inspector-table-container {
+.potential-table-container {
   height: 100%;
   overflow-x: auto;
 }

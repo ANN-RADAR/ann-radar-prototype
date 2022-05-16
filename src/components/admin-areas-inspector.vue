@@ -63,44 +63,4 @@ export default Vue.extend({
   grid-gap: 0.5rem;
   margin-bottom: 1rem;
 }
-
-.inspector >>> table th:nth-child(1),
-.inspector >>> table td:nth-child(1),
-.inspector >>> table th:nth-child(2),
-.inspector >>> table td:nth-child(2) {
-  position: sticky;
-  z-index: 3;
-  background-color: #fff;
-}
-
-.inspector >>> table th:nth-child(1),
-.inspector >>> table td:nth-child(1) {
-  left: 0;
-  padding-right: 0;
-}
-
-.inspector >>> table th:nth-child(2),
-.inspector >>> table td:nth-child(2) {
-  left: 48px;
-  border-right: thin solid rgba(0, 0, 0, 0.12);
-}
-
-.inspector >>> table tr:not(:last-child) td:nth-child(1),
-.inspector >>> table tr:not(:last-child) td:nth-child(2) {
-  z-index: 2;
-}
-
-.inspector >>> table tr:last-child {
-  position: sticky;
-  bottom: 0;
-  z-index: 2;
-  box-shadow: 0 -1px 0 rgb(0, 0, 0, 0.12);
-  font-weight: 600;
-}
-
-.inspector >>> table tr:last-child,
-.inspector >>> table tr:last-child td:nth-child(1),
-.inspector >>> table tr:last-child td:nth-child(2) {
-  background-color: #f5f5f5;
-}
 </style>
