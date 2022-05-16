@@ -32,6 +32,10 @@
           {{ $t(`adminLayer.${adminLayerType}`) }}
         </v-card-title>
         <v-card-text>
+          <div class="results-data-areas">
+            {{ currentLayerSelectedFeatureIds.join(', ') }}
+          </div>
+
           <v-expansion-panels accordion flat tile class="panels">
             <v-expansion-panel>
               <v-expansion-panel-header color="grey lighten-4">
@@ -48,6 +52,10 @@
                 >
                   {{ $t(`layer.${baseLayerType}`) }}
                 </v-chip>
+
+                <p v-if="!baseLayerTypes.length" class="empty-message">
+                  {{ $t('results.noLayersSelected') }}
+                </p>
               </v-expansion-panel-content>
             </v-expansion-panel>
 
@@ -163,6 +171,10 @@ export default Vue.extend({
   padding: 1rem;
 }
 
+.results-data-areas {
+  margin-bottom: 16px;
+}
+
 .map {
   position: relative;
 }
@@ -200,5 +212,9 @@ export default Vue.extend({
 
 .layer-chip:not(:last-child) {
   margin-right: 8px;
+}
+
+.empty-message {
+  color: rgba(0, 0, 0, 0.6);
 }
 </style>
