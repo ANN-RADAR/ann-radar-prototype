@@ -11,8 +11,6 @@
       </div>
     </div>
     <v-card> Formular </v-card>
-
-    <router-view />
   </div>
 </template>
 
