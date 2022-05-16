@@ -73,9 +73,4 @@ export default Vue.extend({
   top: 0;
   right: 0;
 }
-
-.map-overlays.bottom-right {
-  bottom: 0;
-  right: 0;
-}
 </style>
