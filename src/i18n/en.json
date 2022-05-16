@@ -101,6 +101,7 @@
     "show": "Show results",
     "title": "Results",
     "layers": "Layers ({count})",
+    "noLayersSelected": "No map layers selected",
     "balancedScorecards": "Balanced Scorecards",
     "potential": "Potential"
   }

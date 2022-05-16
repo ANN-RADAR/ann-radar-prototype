@@ -48,6 +48,10 @@
                 >
                   {{ $t(`layer.${baseLayerType}`) }}
                 </v-chip>
+
+                <p v-if="!baseLayerTypes.length" class="empty-message">
+                  {{ $t('results.noLayersSelected') }}
+                </p>
               </v-expansion-panel-content>
             </v-expansion-panel>
 
@@ -200,5 +204,9 @@ export default Vue.extend({
 
 .layer-chip:not(:last-child) {
   margin-right: 8px;
+}
+
+.empty-message {
+  color: rgba(0, 0, 0, 0.6);
 }
 </style>
