@@ -236,6 +236,6 @@ export default Vue.extend({
 }
 
 .inspector-column-select {
-  width: 300px;
+  width: 18.75rem;
 }
 </style>
