@@ -45,6 +45,7 @@ const routes = [
         component: Results,
         name: 'Solar Potential Results',
         props: {
+          category: 'solar',
           returnTo: '/potential/solar',
           thematicLayers: solarPotentialLayersOptions,
           thematicLayersTitleKey: 'layerOptions.solarLayers'
@@ -61,6 +62,7 @@ const routes = [
         component: Results,
         name: 'Energy Potential Results',
         props: {
+          category: 'energy-efficiency',
           returnTo: '/potential/energy-efficiency',
           thematicLayers: energyPotentialLayersOptions,
           thematicLayersTitleKey: 'layerOptions.energyLayers'
@@ -76,13 +78,16 @@ const routes = [
         path: 'mobility/results',
         component: Results,
         name: 'Mobility Potential Results',
-        props: {returnTo: '/potential/mobility'}
+        props: {
+          category: 'mobility',
+          returnTo: '/potential/mobility',
+          thematicLayers: mobilityPotentialLayersOptions,
+          thematicLayersTitleKey: 'layerOptions.mobilityLayers'
+        }
       },
       {
         path: 'mobility/*',
-        redirect: '/potential/mobility',
-        thematicLayers: mobilityPotentialLayersOptions,
-        thematicLayersTitleKey: 'layerOptions.mobilityLayers'
+        redirect: '/potential/mobility'
       },
       {path: '*', redirect: '/potential/solar'}
     ]

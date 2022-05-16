@@ -26,19 +26,28 @@
           <MapLegends />
         </div>
       </div>
-      <v-card>
+      <v-card class="results-data">
         <v-card-title>
           {{ $t('results.title') }} |
           {{ $t(`adminLayer.${adminLayerType}`) }}
         </v-card-title>
-        <v-card-text>
+        <v-card-text class="results-data-content">
           <div class="results-data-areas">
             {{ currentLayerSelectedFeatureIds.join(', ') }}
           </div>
 
-          <v-expansion-panels accordion flat tile class="panels">
+          <v-expansion-panels
+            accordion
+            flat
+            tile
+            class="panels"
+            v-model="expandedPanelIndex"
+          >
             <v-expansion-panel>
-              <v-expansion-panel-header color="grey lighten-4">
+              <v-expansion-panel-header
+                class="panel-header"
+                color="grey lighten-4"
+              >
                 {{ $t('results.layers', {count: baseLayerTypes.length}) }}
               </v-expansion-panel-header>
               <v-expansion-panel-content class="panel-content">
@@ -60,26 +69,50 @@
             </v-expansion-panel>
 
             <v-expansion-panel>
-              <v-expansion-panel-header color="grey lighten-4">
+              <v-expansion-panel-header
+                class="panel-header"
+                color="grey lighten-4"
+              >
                 {{ $t('results.balancedScorecards') }}
               </v-expansion-panel-header>
               <v-expansion-panel-content class="panel-content">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
+                amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                veniam, quis nostrud exercitation ullamco laboris nisi ut
+                aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet,
+                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                commodo consequat.
               </v-expansion-panel-content>
             </v-expansion-panel>
 
             <v-expansion-panel>
-              <v-expansion-panel-header color="grey lighten-4">
+              <v-expansion-panel-header
+                class="panel-header"
+                color="grey lighten-4"
+              >
                 {{ $t('results.potential') }}
               </v-expansion-panel-header>
-              <v-expansion-panel-content class="panel-content">
-                {{ currentLayerSelectedFeatureIds }}
-              </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
+
+          <div class="potential-table-wrapper">
+            <SolarPotentialInspectorTable
+              v-if="category === 'solar'"
+              :showAggregationOnly="expandedPanelIndex !== 2"
+              :showSelected="false"
+            />
+            <EnergyPotentialInspectorTable
+              v-if="category === 'energy-efficiency'"
+              :showAggregationOnly="expandedPanelIndex !== 2"
+              :showSelected="false"
+            />
+          </div>
         </v-card-text>
       </v-card>
     </div>
@@ -93,6 +126,8 @@ import Map from '../components/map-component.vue';
 import MapLayerSwitcher from '../components/map-layer-switcher.vue';
 import MapStyleSwitcher from '../components/map-style-switcher.vue';
 import MapLegends from '../components/map-legends.vue';
+import SolarPotentialInspectorTable from '../components/solar-potential-inspector-table.vue';
+import EnergyPotentialInspectorTable from '../components/energy-potential-inspector-table.vue';
 
 import {LayerOptions} from '@/types/layers';
 import {mapGetters, mapState} from 'vuex';
@@ -100,6 +135,7 @@ import {MapGettersToComputed, MapStateToComputed} from '@/types/store';
 
 interface Data {
   initialActiveLayers: Array<string>;
+  expandedPanelIndex: number | null;
 }
 
 export default Vue.extend({
@@ -107,9 +143,15 @@ export default Vue.extend({
     Map,
     MapLayerSwitcher,
     MapStyleSwitcher,
-    MapLegends
+    MapLegends,
+    SolarPotentialInspectorTable,
+    EnergyPotentialInspectorTable
   },
   props: {
+    category: {
+      type: String,
+      required: true
+    },
     returnTo: {
       type: String,
       required: true
@@ -125,7 +167,8 @@ export default Vue.extend({
   },
   data(): Data {
     return {
-      initialActiveLayers: []
+      initialActiveLayers: [],
+      expandedPanelIndex: null
     };
   },
   computed: {
@@ -171,6 +214,17 @@ export default Vue.extend({
   padding: 1rem;
 }
 
+.results-data {
+  display: flex;
+  flex-direction: column;
+}
+
+.results-data-content {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 64px);
+}
+
 .results-data-areas {
   margin-bottom: 16px;
 }
@@ -199,10 +253,44 @@ export default Vue.extend({
 
 .panels {
   grid-gap: 2px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  max-height: 100%;
+}
+
+.panels >>> div {
+  display: flex;
+  flex-direction: column;
+  flex: initial;
+  justify-content: center;
+  min-height: 48px;
+}
+
+.panel-header {
+  height: 48px;
+}
+
+.panel-content {
+  min-height: 0;
 }
 
 .panel-content::v-deep > div {
+  display: flex;
+  flex-direction: column;
   padding-top: 16px;
+}
+
+.potential-table-wrapper {
+  min-height: 0;
+  padding: 16px;
+}
+
+.potential-table-wrapper,
+.potential-table-wrapper::v-deep > div,
+.potential-table-wrapper::v-deep > div > div,
+.potential-table-wrapper::v-deep > div > div > div {
+  height: 100% !important;
 }
 
 .layer-chip {

@@ -6,13 +6,16 @@
   >
     <v-data-table
       class="potential-table"
+      :class="{
+        selectable: showAggregationOnly ? false : showSelected
+      }"
       v-if="adminLayerType"
       :value="selectedFeaturesData"
       @input="onSelectedFeaturesDataChange"
       :headers="tableHeaders"
       :items="selectedFeaturesData"
       :item-key="adminLayers[adminLayerType].dataId"
-      :show-select="true"
+      :show-select="showAggregationOnly ? false : showSelected"
       :height="tableHeight"
       :fixed-header="true"
       hide-default-footer
@@ -58,8 +61,17 @@
         <span v-else>{{ $t('notAvailable') }}</span>
       </template>
 
-      <template v-slot:[`body.append`]>
-        <AggregatedValues :tableHeaders="tableHeaders" />
+      <template v-slot:[`body.append`] v-if="!showAggregationOnly">
+        <AggregatedValues
+          :tableHeaders="tableHeaders"
+          :showSelect="showSelected"
+        />
+      </template>
+
+      <template v-slot:[`body`] v-else>
+        <tbody>
+          <AggregatedValues :tableHeaders="tableHeaders" :showSelect="false" />
+        </tbody>
       </template>
     </v-data-table>
   </div>
@@ -67,10 +79,14 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {mapState, mapMutations} from 'vuex';
+import {mapState, mapMutations, mapGetters} from 'vuex';
 
 import {AdminLayerFeatureData, AdminLayerType} from '@/types/admin-layers';
-import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
+import {
+  MapGettersToComputed,
+  MapMutationsToMethods,
+  MapStateToComputed
+} from '@/types/store';
 import {formatNumber} from '@/libs/format';
 import {adminLayers} from '@/constants/admin-layers';
 import {DataTableHeader} from 'vuetify';
@@ -86,6 +102,17 @@ export default Vue.extend({
   components: {
     AggregatedValues
   },
+  props: {
+    showAggregationOnly: {
+      type: Boolean,
+      required: false
+    },
+    showSelected: {
+      type: Boolean,
+      required: false,
+      default: true
+    }
+  },
   data(): Data {
     return {
       adminLayers,
@@ -93,9 +120,9 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...(mapState as MapStateToComputed)('root', [
-      'adminLayerType',
-      'selectedFeatureIds'
+    ...(mapState as MapStateToComputed)('root', ['adminLayerType']),
+    ...(mapGetters as MapGettersToComputed)('root', [
+      'currentLayerSelectedFeatureIds'
     ]),
     tableHeaders(): Array<DataTableHeader> {
       return [
@@ -158,12 +185,7 @@ export default Vue.extend({
       }
 
       return data.filter((featureData: AdminLayerFeatureData) => {
-        const selectedFeatureIds =
-          (this.adminLayerType &&
-            this.selectedFeatureIds[this.adminLayerType]) ||
-          [];
-
-        return selectedFeatureIds.some(
+        return this.currentLayerSelectedFeatureIds.some(
           (featureId: string) => featureId === String(featureData[dataId])
         );
       });
@@ -190,14 +212,14 @@ export default Vue.extend({
       }
 
       const {dataId} = adminLayers[this.adminLayerType];
-      const featureIds = this.selectedFeatureIds[this.adminLayerType] || [];
 
       this.setSelectedFeatureIdsOfAdminLayer({
         adminLayerType: this.adminLayerType,
-        featureIds: featureIds.filter((featureId: string) =>
-          newSelectedFeaturesData
-            .map(data => String(data[dataId]))
-            .includes(featureId)
+        featureIds: this.currentLayerSelectedFeatureIds.filter(
+          (featureId: string) =>
+            newSelectedFeaturesData
+              .map(data => String(data[dataId]))
+              .includes(featureId)
         )
       });
     }
