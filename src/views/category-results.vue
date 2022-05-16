@@ -32,6 +32,10 @@
           {{ $t(`adminLayer.${adminLayerType}`) }}
         </v-card-title>
         <v-card-text>
+          <div class="results-data-areas">
+            {{ currentLayerSelectedFeatureIds.join(', ') }}
+          </div>
+
           <v-expansion-panels accordion flat tile class="panels">
             <v-expansion-panel>
               <v-expansion-panel-header color="grey lighten-4">
@@ -165,6 +169,10 @@ export default Vue.extend({
   gap: 1rem;
   height: 100%;
   padding: 1rem;
+}
+
+.results-data-areas {
+  margin-bottom: 16px;
 }
 
 .map {
