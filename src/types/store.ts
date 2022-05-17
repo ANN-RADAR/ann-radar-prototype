@@ -13,7 +13,7 @@ type Laboratory = {
   id?: string;
   name: string;
   description: string;
-  feature: Feature<Geometry> | null;
+  feature: Feature<Geometry> | undefined;
 };
 
 export interface RootState {
