@@ -6,6 +6,17 @@ import {LayerConfig} from './layers';
 import {ScenarioMetaData} from './scenarios';
 import {Scorecard, ScorecardRatings, ScorecardType} from './scorecards';
 import {ActionContext} from 'vuex';
+import Geometry from 'ol/geom/Geometry';
+import {Feature} from 'ol';
+
+export type LaboratoryId = string;
+
+export type Laboratory = {
+  id?: LaboratoryId;
+  name: string;
+  description: string;
+  feature: Feature<Geometry>;
+};
 
 export interface RootState {
   scenarioMetaData: ScenarioMetaData | null;
@@ -21,6 +32,7 @@ export interface RootState {
   balancedScorecards: Record<ScorecardType, Scorecard>;
   balancedScorecardRatings: Record<ScorecardType, ScorecardRatings>;
   notes: Record<string /* path */, string /* note */>;
+  laboratories: Record<LaboratoryId, Laboratory>;
 }
 
 export interface UserState {

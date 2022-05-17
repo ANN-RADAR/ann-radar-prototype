@@ -10,28 +10,52 @@
         <MapStyleSwitcher />
       </div>
     </div>
-    <v-card> Formular </v-card>
+    <v-card>
+      <v-card-title>{{ $t('laboratories.addLaboratory') }}</v-card-title>
+      <v-card-text>
+        <v-text-field
+          class="laboratory-name"
+          outlined
+          hide-details
+          name="name"
+          :label="$t('laboratories.name')"
+          type="text"
+          v-model="laboratoryName"
+        ></v-text-field>
+        <v-textarea
+          outlined
+          hide-details
+          no-resize
+          name="description"
+          :label="$t('laboratories.description')"
+          type="text"
+          v-model="laboratoryDescription"
+        ></v-textarea>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn @click="onSave" :disabled="!canSave">{{ $t('save') }}</v-btn>
+      </v-card-actions>
+    </v-card>
   </div>
 </template>
 
 <script lang="ts">
+import {MapActionsToMethods, MapMutationsToMethods} from '@/types/store';
 import Geometry from 'ol/geom/Geometry';
-import VectorSource, {VectorSourceEvent} from 'ol/source/Vector';
+import VectorSource from 'ol/source/Vector';
 import Vue from 'vue';
+import {mapActions, mapMutations} from 'vuex';
 
 import Map from './map-component.vue';
 import MapStyleSwitcher from './map-style-switcher.vue';
 
 interface Data {
   source: VectorSource<Geometry>;
+  laboratoryName: string;
+  laboratoryDescription: string;
 }
 
 const source = new VectorSource({wrapX: false});
-
-source.on('addfeature', (event: VectorSourceEvent<Geometry>) =>
-  // save drawn feature
-  console.log(event.feature)
-);
 
 export default Vue.extend({
   components: {
@@ -39,12 +63,38 @@ export default Vue.extend({
     MapStyleSwitcher
   },
   data(): Data {
-    return {source};
+    return {source, laboratoryName: '', laboratoryDescription: ''};
+  },
+  methods: {
+    ...(mapMutations as MapMutationsToMethods)('root', ['setLaboratory']),
+    ...(mapActions as MapActionsToMethods)('root', ['saveLaboratory']),
+    onSave() {
+      this.saveLaboratory({
+        name: this.laboratoryName,
+        description: this.laboratoryDescription,
+        feature: this.source.getFeatures()[0]
+      });
+    }
+  },
+  computed: {
+    canSave(): boolean {
+      const features = this.source.getFeatures();
+
+      return (
+        features.length === 1 &&
+        Boolean(this.laboratoryDescription) &&
+        Boolean(this.laboratoryName)
+      );
+    }
   }
 });
 </script>
 
 <style scoped>
+.map {
+  position: relative;
+}
+
 .laboratory {
   display: grid;
   grid-template-columns: calc(50% - 0.5rem) calc(50% - 0.5rem);
@@ -52,11 +102,6 @@ export default Vue.extend({
   gap: 1rem;
   height: 100%;
   padding: 1rem;
-}
-
-.laboratory > * {
-  position: relative;
-  display: grid;
 }
 
 .map-overlays {
@@ -70,5 +115,9 @@ export default Vue.extend({
 .map-overlays.top-right {
   top: 0;
   right: 0;
+}
+
+.laboratory-name {
+  padding-bottom: 1rem;
 }
 </style>
