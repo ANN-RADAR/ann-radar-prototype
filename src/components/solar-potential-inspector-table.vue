@@ -4,6 +4,25 @@
     ref="tableContainer"
     v-resize="onResize"
   >
+    <v-select
+      class="inspector-column-select"
+      v-model="selectedTableHeaders"
+      :items="tableHeaders.slice(1)"
+      :label="$t('selectColumns')"
+      multiple
+      return-object
+    >
+      <template v-slot:selection="{item, index}">
+        <v-chip v-if="index === 0">
+          <span>{{ item.text }}</span>
+        </v-chip>
+        <span
+          v-if="index === 1 && selectedTableHeaders.length > 1"
+          class="grey--text caption"
+          >{{ $t('others', {count: selectedTableHeaders.length - 1}) }}</span
+        >
+      </template>
+    </v-select>
     <v-data-table
       class="potential-table"
       :class="{
@@ -12,7 +31,7 @@
       v-if="adminLayerType"
       :value="selectedFeaturesData"
       @input="onSelectedFeaturesDataChange"
-      :headers="tableHeaders"
+      :headers="shownTableHeaders"
       :items="selectedFeaturesData"
       :item-key="adminLayers[adminLayerType].dataId"
       :show-select="showAggregationOnly ? false : showSelected"
@@ -63,14 +82,17 @@
 
       <template v-slot:[`body.append`] v-if="!showAggregationOnly">
         <AggregatedValues
-          :tableHeaders="tableHeaders"
+          :tableHeaders="shownTableHeaders"
           :showSelect="showSelected"
         />
       </template>
 
       <template v-slot:[`body`] v-else>
         <tbody>
-          <AggregatedValues :tableHeaders="tableHeaders" :showSelect="false" />
+          <AggregatedValues
+            :tableHeaders="shownTableHeaders"
+            :showSelect="false"
+          />
         </tbody>
       </template>
     </v-data-table>
@@ -96,6 +118,7 @@ import AggregatedValues from './solar-potential-aggregated-values.vue';
 interface Data {
   adminLayers: typeof adminLayers;
   tableHeight: number;
+  selectedTableHeaders: Array<DataTableHeader>;
 }
 
 export default Vue.extend({
@@ -116,14 +139,21 @@ export default Vue.extend({
   data(): Data {
     return {
       adminLayers,
-      tableHeight: 0
+      tableHeight: 0,
+      selectedTableHeaders: []
     };
+  },
+  created() {
+    this.selectedTableHeaders = this.tableHeaders.slice(1);
   },
   computed: {
     ...(mapState as MapStateToComputed)('root', ['adminLayerType']),
     ...(mapGetters as MapGettersToComputed)('root', [
       'currentLayerSelectedFeatureIds'
     ]),
+    shownTableHeaders(): Array<DataTableHeader> {
+      return [this.tableHeaders[0], ...this.selectedTableHeaders];
+    },
     tableHeaders(): Array<DataTableHeader> {
       return [
         {
@@ -231,5 +261,9 @@ export default Vue.extend({
 .potential-table-container {
   height: 100%;
   overflow-x: auto;
+}
+
+.inspector-column-select {
+  width: 18.75rem;
 }
 </style>

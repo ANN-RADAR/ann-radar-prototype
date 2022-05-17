@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import {AdminLayerType} from '@/types/admin-layers';
-import {RootState} from '@/types/store';
+import {Laboratory, LaboratoryId, RootState} from '@/types/store';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {ScenarioMetaData} from '@/types/scenarios';
 
@@ -77,6 +77,12 @@ const mutations = {
   },
   setNotes(state: RootState, newNotes: Record<string, string>) {
     state.notes = newNotes;
+  },
+  setLaboratory(state: RootState, laboratory: Laboratory) {
+    state.laboratories = {
+      ...state.laboratories,
+      [laboratory.id as string]: laboratory
+    };
   }
 };
 

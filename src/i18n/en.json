@@ -33,10 +33,14 @@
   },
   "mapStyles": "Map Style",
   "notes": "Notes",
+  "realLaboratories": "Real Laboratories",
   "cockpit": "Cockpit",
   "selectAreas": "Select Areas",
+  "selectColumns": "Select Columns",
+  "others": "(+{count} others)",
   "adminArea": "Admin Area",
   "cancel": "Cancel",
+  "save": "Save",
   "saving": "Saving...",
   "loading": "Loading...",
   "notAvailable": "n/a",
@@ -104,5 +108,11 @@
     "noLayersSelected": "No map layers selected",
     "balancedScorecards": "Balanced Scorecards",
     "potential": "Potential"
+  },
+  "laboratories": {
+    "title": "Laboratories",
+    "addLaboratory": "Add Laboratory",
+    "name": "Laboratory Name",
+    "description": "Laboratory Description"
   }
 }

@@ -4,15 +4,17 @@ import {
   ScorecardRating,
   ScorecardType
 } from '@/types/scorecards';
-import {RootState, StoreState} from '@/types/store';
+import {Laboratory, RootState, StoreState} from '@/types/store';
 
 import {ActionContext} from 'vuex';
 
-import {doc, getDoc, updateDoc} from 'firebase/firestore';
+import {doc, getDoc, updateDoc, addDoc, collection} from 'firebase/firestore';
 import {database} from '../../libs/firebase';
 import {ANNRadarCollection} from '@/types/firestore';
 
 import {Scenario} from '@/types/scenarios';
+
+import GeoJSON from 'ol/format/GeoJSON';
 
 const scorecardURLs = {
   [ScorecardType.PLANS]:
@@ -101,6 +103,45 @@ const actions = {
       }
     } catch (error) {
       console.error('Error loading balanced scorecard ratings:', error);
+    }
+  },
+  async saveLaboratory(
+    {commit}: ActionContext<RootState, StoreState>,
+    laboratory: Laboratory
+  ) {
+    if (!laboratory) {
+      return;
+    }
+
+    const {name, description} = laboratory;
+    const feature = new GeoJSON().writeFeature(laboratory.feature);
+    let docRef = null;
+
+    try {
+      if (laboratory.id) {
+        docRef = doc(database, ANNRadarCollection.LABORATORIES, laboratory.id);
+        await updateDoc(docRef, {
+          name,
+          description,
+          feature
+        });
+      } else {
+        docRef = await addDoc(
+          collection(database, ANNRadarCollection.LABORATORIES),
+          {
+            name,
+            description,
+            feature
+          }
+        );
+      }
+
+      commit('setLaboratory', {
+        ...laboratory,
+        id: docRef.id
+      });
+    } catch (error) {
+      console.error('Error saving laboratory:', error);
     }
   },
   async saveScenario({state}: ActionContext<RootState, StoreState>) {
