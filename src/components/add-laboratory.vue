@@ -67,11 +67,6 @@ export default Vue.extend({
   data(): Data {
     return {source, laboratoryName: '', laboratoryDescription: ''};
   },
-  watch: {
-    source() {
-      console.log('source changed');
-    }
-  },
   methods: {
     ...(mapMutations as MapMutationsToMethods)('root', ['setLaboratory']),
     ...(mapActions as MapActionsToMethods)('root', ['saveLaboratory']),
