@@ -83,6 +83,9 @@ const mutations = {
       ...state.laboratories,
       [laboratory.id as string]: laboratory
     };
+  },
+  setLaboratories(state: RootState, laboratories: RootState['laboratories']) {
+    state.laboratories = laboratories;
   }
 };
 

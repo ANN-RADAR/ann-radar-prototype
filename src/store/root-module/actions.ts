@@ -4,11 +4,18 @@ import {
   ScorecardRating,
   ScorecardType
 } from '@/types/scorecards';
-import {Laboratory, RootState, StoreState} from '@/types/store';
+import {Laboratory, LaboratoryId, RootState, StoreState} from '@/types/store';
 
 import {ActionContext} from 'vuex';
 
-import {doc, getDoc, updateDoc, addDoc, collection} from 'firebase/firestore';
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  addDoc,
+  collection,
+  getDocs
+} from 'firebase/firestore';
 import {database} from '../../libs/firebase';
 import {ANNRadarCollection} from '@/types/firestore';
 
@@ -103,6 +110,22 @@ const actions = {
       }
     } catch (error) {
       console.error('Error loading balanced scorecard ratings:', error);
+    }
+  },
+  async fetchLaboratories({commit}: ActionContext<RootState, StoreState>) {
+    try {
+      const querySnapshot = await getDocs(
+        collection(database, ANNRadarCollection.LABORATORIES)
+      );
+      const laboratories = {} as Record<LaboratoryId, Laboratory>;
+
+      querySnapshot.forEach(doc => {
+        laboratories[doc.id] = doc.data() as Laboratory;
+      });
+
+      commit('setLaboratories', laboratories);
+    } catch (error) {
+      console.error('Error loading laboratories:', error);
     }
   },
   async saveLaboratory(
