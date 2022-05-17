@@ -1,6 +1,6 @@
 <template>
   <tr v-if="aggregation">
-    <td />
+    <td v-if="showSelect" />
     <template v-for="(header, index) in tableHeaders">
       <td v-if="index === 0" :key="header.value">{{ $t('total') }}</td>
       <td v-else-if="header.value === 'AnzFlur'" :key="header.value">
@@ -33,9 +33,9 @@
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
-import {mapState} from 'vuex';
+import {mapGetters, mapState} from 'vuex';
 
-import {MapStateToComputed} from '@/types/store';
+import {MapGettersToComputed, MapStateToComputed} from '@/types/store';
 import {AdminLayerType} from '@/types/admin-layers';
 import {calculateAggregateValues} from '@/libs/admin-layers';
 import {formatNumber} from '@/libs/format';
@@ -46,6 +46,10 @@ export default Vue.extend({
     tableHeaders: {
       type: Array as PropType<Array<DataTableHeader>>,
       required: true
+    },
+    showSelect: {
+      type: Boolean,
+      required: false
     }
   },
   computed: {
@@ -53,18 +57,21 @@ export default Vue.extend({
       'adminLayerType',
       'selectedFeatureIds'
     ]),
+    ...(mapGetters as MapGettersToComputed)('root', [
+      'currentLayerSelectedFeatureIds'
+    ]),
     aggregation(): Record<string, number> | null {
       if (
         !this.adminLayerType ||
         this.adminLayerType === AdminLayerType.CITY ||
-        !this.selectedFeatureIds[this.adminLayerType]?.length
+        !this.currentLayerSelectedFeatureIds.length
       ) {
         return null;
       }
 
       return calculateAggregateValues(
         this.adminLayerType,
-        this.selectedFeatureIds[this.adminLayerType]
+        this.currentLayerSelectedFeatureIds
       );
     }
   },
