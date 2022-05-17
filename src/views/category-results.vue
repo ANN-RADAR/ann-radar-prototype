@@ -26,6 +26,7 @@
           <MapLegends />
         </div>
       </div>
+
       <v-card class="results-data">
         <v-card-title>
           {{ $t('results.title') }} |
@@ -41,6 +42,7 @@
             flat
             tile
             class="panels"
+            :class="{closed: expandedPanelIndex == null}"
             v-model="expandedPanelIndex"
           >
             <v-expansion-panel>
@@ -76,18 +78,7 @@
                 {{ $t('results.balancedScorecards') }}
               </v-expansion-panel-header>
               <v-expansion-panel-content class="panel-content">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet,
-                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat.
+                <BalancedScorecardResults />
               </v-expansion-panel-content>
             </v-expansion-panel>
 
@@ -101,7 +92,10 @@
             </v-expansion-panel>
           </v-expansion-panels>
 
-          <div class="potential-table-wrapper">
+          <div
+            class="potential-table-wrapper"
+            :class="{reduced: expandedPanelIndex !== panelIndices.POTENTIAL}"
+          >
             <SolarPotentialInspectorTable
               v-if="category === 'solar'"
               :showAggregationOnly="
@@ -130,12 +124,18 @@ import Map from '../components/map-component.vue';
 import MapLayerSwitcher from '../components/map-layer-switcher.vue';
 import MapStyleSwitcher from '../components/map-style-switcher.vue';
 import MapLegends from '../components/map-legends.vue';
+import BalancedScorecardResults from '../components/balanced-scorecard-results.vue';
 import SolarPotentialInspectorTable from '../components/solar-potential-inspector-table.vue';
 import EnergyPotentialInspectorTable from '../components/energy-potential-inspector-table.vue';
 
 import {LayerOptions} from '@/types/layers';
-import {mapGetters, mapState} from 'vuex';
-import {MapGettersToComputed, MapStateToComputed} from '@/types/store';
+import {mapActions, mapGetters, mapState} from 'vuex';
+import {
+  MapActionsToMethods,
+  MapGettersToComputed,
+  MapStateToComputed
+} from '@/types/store';
+import {ScorecardType} from '@/types/scorecards';
 
 interface Data {
   initialActiveLayers: Array<string>;
@@ -149,6 +149,7 @@ export default Vue.extend({
     MapLayerSwitcher,
     MapStyleSwitcher,
     MapLegends,
+    BalancedScorecardResults,
     SolarPotentialInspectorTable,
     EnergyPotentialInspectorTable
   },
@@ -191,6 +192,10 @@ export default Vue.extend({
     ])
   },
   methods: {
+    ...(mapActions as MapActionsToMethods)('root', [
+      'fetchBalancedScorecard',
+      'fetchBalancedScorecardRatings'
+    ]),
     toggleResults(open: boolean) {
       if (!open) {
         this.$router.push(this.returnTo);
@@ -204,6 +209,11 @@ export default Vue.extend({
     }
 
     this.initialActiveLayers = this.baseLayerTypes;
+
+    Object.values(ScorecardType).forEach(scorecardType => {
+      this.fetchBalancedScorecard(scorecardType);
+    });
+    this.fetchBalancedScorecardRatings();
   }
 });
 </script>
@@ -266,10 +276,15 @@ export default Vue.extend({
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: flex-start;
-  max-height: 100%;
+  overflow: hidden;
+  min-height: 164px;
 }
 
-.panels >>> div {
+.panels.closed {
+  min-height: 148px;
+}
+
+.panels::v-deep > div {
   display: flex;
   flex-direction: column;
   flex: initial;
@@ -287,16 +302,18 @@ export default Vue.extend({
 
 .panel-content::v-deep > div {
   display: flex;
-  flex-direction: column;
   padding-top: 16px;
 }
 
 .potential-table-wrapper {
-  min-height: 0;
   padding: 16px;
+  overflow: hidden;
 }
 
-.potential-table-wrapper,
+.potential-table-wrapper.reduced {
+  flex-shrink: 0;
+}
+
 .potential-table-wrapper::v-deep > div,
 .potential-table-wrapper::v-deep > div > div,
 .potential-table-wrapper::v-deep > div > div > div {
@@ -313,6 +330,7 @@ export default Vue.extend({
 }
 
 .empty-message {
+  margin: 0;
   color: rgba(0, 0, 0, 0.6);
 }
 </style>
