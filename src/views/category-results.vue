@@ -104,12 +104,16 @@
           <div class="potential-table-wrapper">
             <SolarPotentialInspectorTable
               v-if="category === 'solar'"
-              :showAggregationOnly="expandedPanelIndex !== 2"
+              :showAggregationOnly="
+                expandedPanelIndex !== panelIndices.POTENTIAL
+              "
               :showSelected="false"
             />
             <EnergyPotentialInspectorTable
               v-if="category === 'energy-efficiency'"
-              :showAggregationOnly="expandedPanelIndex !== 2"
+              :showAggregationOnly="
+                expandedPanelIndex !== panelIndices.POTENTIAL
+              "
               :showSelected="false"
             />
           </div>
@@ -136,6 +140,7 @@ import {MapGettersToComputed, MapStateToComputed} from '@/types/store';
 interface Data {
   initialActiveLayers: Array<string>;
   expandedPanelIndex: number | null;
+  panelIndices: Record<string, number>;
 }
 
 export default Vue.extend({
@@ -168,7 +173,12 @@ export default Vue.extend({
   data(): Data {
     return {
       initialActiveLayers: [],
-      expandedPanelIndex: null
+      expandedPanelIndex: null,
+      panelIndices: {
+        LAYERS: 0,
+        BALANCED_SCORECARDS: 1,
+        POTENTIAL: 2
+      }
     };
   },
   computed: {
