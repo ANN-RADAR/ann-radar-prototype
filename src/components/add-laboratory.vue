@@ -21,7 +21,6 @@
           :label="$t('laboratories.name')"
           type="text"
           v-model="laboratoryName"
-          @input="onChange"
         ></v-text-field>
         <v-textarea
           outlined
@@ -30,12 +29,11 @@
           name="description"
           :label="$t('laboratories.description')"
           type="text"
-          @input="onChange"
           v-model="laboratoryDescription"
         ></v-textarea>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="saveLaboratory" :disabled="!canSave">Test</v-btn>
+        <v-btn @click="onSave" :disabled="!canSave">{{ $t('save') }}</v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -70,8 +68,8 @@ export default Vue.extend({
   methods: {
     ...(mapMutations as MapMutationsToMethods)('root', ['setLaboratory']),
     ...(mapActions as MapActionsToMethods)('root', ['saveLaboratory']),
-    onChange() {
-      this.setLaboratory({
+    onSave() {
+      this.saveLaboratory({
         name: this.laboratoryName,
         description: this.laboratoryDescription,
         feature: this.source.getFeatures()[0]
@@ -88,14 +86,15 @@ export default Vue.extend({
         Boolean(this.laboratoryName)
       );
     }
-  },
-  mounted() {
-    this.source.addEventListener('addfeature', this.onChange);
   }
 });
 </script>
 
 <style scoped>
+.map {
+  position: relative;
+}
+
 .laboratory {
   display: grid;
   grid-template-columns: calc(50% - 0.5rem) calc(50% - 0.5rem);

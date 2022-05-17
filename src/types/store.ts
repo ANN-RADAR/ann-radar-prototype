@@ -9,11 +9,13 @@ import {ActionContext} from 'vuex';
 import Geometry from 'ol/geom/Geometry';
 import {Feature} from 'ol';
 
-type Laboratory = {
-  id?: string;
+export type LaboratoryId = string;
+
+export type Laboratory = {
+  id?: LaboratoryId;
   name: string;
   description: string;
-  feature: Feature<Geometry> | undefined;
+  feature: Feature<Geometry>;
 };
 
 export interface RootState {
@@ -30,7 +32,7 @@ export interface RootState {
   balancedScorecards: Record<ScorecardType, Scorecard>;
   balancedScorecardRatings: Record<ScorecardType, ScorecardRatings>;
   notes: Record<string /* path */, string /* note */>;
-  laboratory: Laboratory | null;
+  laboratories: Record<LaboratoryId, Laboratory>;
 }
 
 export interface UserState {

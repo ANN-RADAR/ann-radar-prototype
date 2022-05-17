@@ -4,7 +4,7 @@ import {
   ScorecardRating,
   ScorecardType
 } from '@/types/scorecards';
-import {RootState, StoreState} from '@/types/store';
+import {Laboratory, RootState, StoreState} from '@/types/store';
 
 import {ActionContext} from 'vuex';
 
@@ -105,33 +105,41 @@ const actions = {
       console.error('Error loading balanced scorecard ratings:', error);
     }
   },
-  async saveLaboratory({state}: ActionContext<RootState, StoreState>) {
-    if (!state.laboratory || !state.laboratory.feature) {
+  async saveLaboratory(
+    {commit}: ActionContext<RootState, StoreState>,
+    laboratory: Laboratory
+  ) {
+    if (!laboratory) {
       return;
     }
 
-    const {name, description} = state.laboratory;
-    const feature = new GeoJSON().writeFeature(state.laboratory.feature);
+    const {name, description} = laboratory;
+    const feature = new GeoJSON().writeFeature(laboratory.feature);
+    let docRef = null;
 
     try {
-      if (state.laboratory.id) {
-        const laboratoryRef = doc(
-          database,
-          ANNRadarCollection.LABORATORIES,
-          state.laboratory.id
-        );
-        await updateDoc(laboratoryRef, {
+      if (laboratory.id) {
+        docRef = doc(database, ANNRadarCollection.LABORATORIES, laboratory.id);
+        await updateDoc(docRef, {
           name,
           description,
           feature
         });
       } else {
-        await addDoc(collection(database, ANNRadarCollection.LABORATORIES), {
-          name,
-          description,
-          feature
-        });
+        docRef = await addDoc(
+          collection(database, ANNRadarCollection.LABORATORIES),
+          {
+            name,
+            description,
+            feature
+          }
+        );
       }
+
+      commit('setLaboratory', {
+        ...laboratory,
+        id: docRef.id
+      });
     } catch (error) {
       console.error('Error saving laboratory:', error);
     }
