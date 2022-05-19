@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import {AdminLayerType} from '@/types/admin-layers';
-import {Laboratory, LaboratoryId, RootState} from '@/types/store';
+import {Laboratory, RootState} from '@/types/store';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {ScenarioMetaData} from '@/types/scenarios';
 
