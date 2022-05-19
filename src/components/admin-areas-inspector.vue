@@ -50,10 +50,15 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+.inspector {
+  display: flex;
+  flex-direction: column;
+}
+
 .inspector-content {
   display: grid;
   grid-template-rows: auto 1fr;
-  height: calc(100% - 2rem - 32px);
+  flex-grow: 1;
 }
 
 .inspector-navigation {
