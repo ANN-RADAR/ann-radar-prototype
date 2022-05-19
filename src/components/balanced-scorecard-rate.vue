@@ -7,7 +7,7 @@
       </div>
     </div>
     <v-card class="rate">
-      <v-card-title>{{ $t('balancedScorecards.rate.rateAreas') }}</v-card-title>
+      <v-card-title>{{ $t('balancedScorecards.rate.title') }}</v-card-title>
       <v-card-text class="rate-content">
         <nav class="areas-navigation">
           <v-btn
