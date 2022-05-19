@@ -18,7 +18,7 @@
     "energyEfficiency": "Energy Efficiency",
     "mobility": "Mobility",
     "plans": "Plans",
-    "rate": "Mark Indicators",
+    "rate": "Select",
     "compare": "View",
     "stakeholders": "Stakeholders",
     "urbanData": "Urban Data",
@@ -92,7 +92,7 @@
   "total": "Total",
   "balancedScorecards": {
     "rate": {
-      "rateAreas": "Rate Areas"
+      "title": "Mark indicators"
     },
     "compare": {
       "compareAreaRatings": "Compare Area Ratings",
