@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="potential-table-container"
-    ref="tableContainer"
-    v-resize="onResize"
-  >
+  <div class="wrapper" v-if="adminLayerType">
     <v-select
       class="inspector-column-select"
       v-model="selectedTableHeaders"
@@ -11,6 +7,7 @@
       :label="$t('selectColumns')"
       multiple
       return-object
+      hide-details
     >
       <template v-slot:selection="{item, index}">
         <v-chip v-if="index === 0">
@@ -23,79 +20,87 @@
         >
       </template>
     </v-select>
-    <v-data-table
-      class="potential-table"
-      :class="{
-        selectable: showAggregationOnly ? false : showSelected
-      }"
-      v-if="adminLayerType"
-      :value="selectedFeaturesData"
-      @input="onSelectedFeaturesDataChange"
-      :headers="shownTableHeaders"
-      :items="selectedFeaturesData"
-      :item-key="adminLayers[adminLayerType].dataId"
-      :show-select="showAggregationOnly ? false : showSelected"
-      :height="tableHeight"
-      :fixed-header="true"
-      hide-default-footer
+
+    <div
+      class="potential-table-container"
+      ref="tableContainer"
+      v-resize="onResize"
     >
-      <template v-slot:[`item.AnzFlur`]="{item}">
-        <span v-if="item.AnzFlur !== undefined">
-          {{ formatNumber(Math.round(item.AnzFlur)) }}
-        </span>
-        <span v-else>{{ $t('notAvailable') }}</span>
-      </template>
-      <template v-slot:[`item.mittlFlur`]="{item}">
-        <span v-if="item.mittlFlur !== undefined">
-          {{ formatNumber(Math.round(item.mittlFlur)) }}&nbsp;m²
-        </span>
-        <span v-else>{{ $t('notAvailable') }}</span>
-      </template>
-      <template v-slot:[`item.BGF`]="{item}">
-        <span v-if="item.BGF !== undefined">
-          {{ formatNumber(Math.round(item.BGF)) }}&nbsp;m²
-        </span>
-        <span v-else>{{ $t('notAvailable') }}</span>
-      </template>
-      <template v-slot:[`item.tatNu_WB_P`]="{item}">
-        <span v-if="item.tatNu_WB_P !== undefined">
-          {{ formatNumber(item.tatNu_WB_P) }}&nbsp;%
-        </span>
-        <span v-else>{{ $t('notAvailable') }} </span>
-      </template>
-      <template v-slot:[`item.Bev_311220`]="{item}">
-        <span v-if="item.Bev_311220 !== undefined">
-          {{ formatNumber(Math.round(item.Bev_311220)) }}
-        </span>
-        <span v-else>{{ $t('notAvailable') }} </span>
-      </template>
-      <template v-slot:[`item.SP_GebWB15`]="{item}">
-        <span v-if="item.SP_GebWB15 !== undefined">
-          {{ formatNumber(item.SP_GebWB15) }}&nbsp;MWh/a
-        </span>
-        <span v-else>{{ $t('notAvailable') }}</span>
-      </template>
-      <template v-slot:[`item.Soz_Status`]="{item}">
-        <span v-if="item.Soz_Status !== undefined">{{ item.Soz_Status }}</span>
-        <span v-else>{{ $t('notAvailable') }}</span>
-      </template>
+      <v-data-table
+        class="potential-table"
+        :class="{
+          selectable: showAggregationOnly ? false : showSelected
+        }"
+        :value="selectedFeaturesData"
+        @input="onSelectedFeaturesDataChange"
+        :headers="shownTableHeaders"
+        :items="selectedFeaturesData"
+        :item-key="adminLayers[adminLayerType].dataId"
+        :show-select="showAggregationOnly ? false : showSelected"
+        :height="tableHeight"
+        :fixed-header="true"
+        hide-default-footer
+      >
+        <template v-slot:[`item.AnzFlur`]="{item}">
+          <span v-if="item.AnzFlur !== undefined">
+            {{ formatNumber(Math.round(item.AnzFlur)) }}
+          </span>
+          <span v-else>{{ $t('notAvailable') }}</span>
+        </template>
+        <template v-slot:[`item.mittlFlur`]="{item}">
+          <span v-if="item.mittlFlur !== undefined">
+            {{ formatNumber(Math.round(item.mittlFlur)) }}&nbsp;m²
+          </span>
+          <span v-else>{{ $t('notAvailable') }}</span>
+        </template>
+        <template v-slot:[`item.BGF`]="{item}">
+          <span v-if="item.BGF !== undefined">
+            {{ formatNumber(Math.round(item.BGF)) }}&nbsp;m²
+          </span>
+          <span v-else>{{ $t('notAvailable') }}</span>
+        </template>
+        <template v-slot:[`item.tatNu_WB_P`]="{item}">
+          <span v-if="item.tatNu_WB_P !== undefined">
+            {{ formatNumber(item.tatNu_WB_P) }}&nbsp;%
+          </span>
+          <span v-else>{{ $t('notAvailable') }} </span>
+        </template>
+        <template v-slot:[`item.Bev_311220`]="{item}">
+          <span v-if="item.Bev_311220 !== undefined">
+            {{ formatNumber(Math.round(item.Bev_311220)) }}
+          </span>
+          <span v-else>{{ $t('notAvailable') }} </span>
+        </template>
+        <template v-slot:[`item.SP_GebWB15`]="{item}">
+          <span v-if="item.SP_GebWB15 !== undefined">
+            {{ formatNumber(item.SP_GebWB15) }}&nbsp;MWh/a
+          </span>
+          <span v-else>{{ $t('notAvailable') }}</span>
+        </template>
+        <template v-slot:[`item.Soz_Status`]="{item}">
+          <span v-if="item.Soz_Status !== undefined">{{
+            item.Soz_Status
+          }}</span>
+          <span v-else>{{ $t('notAvailable') }}</span>
+        </template>
 
-      <template v-slot:[`body.append`] v-if="!showAggregationOnly">
-        <AggregatedValues
-          :tableHeaders="shownTableHeaders"
-          :showSelect="showSelected"
-        />
-      </template>
-
-      <template v-slot:[`body`] v-else>
-        <tbody>
+        <template v-slot:[`body.append`] v-if="!showAggregationOnly">
           <AggregatedValues
             :tableHeaders="shownTableHeaders"
-            :showSelect="false"
+            :showSelect="showSelected"
           />
-        </tbody>
-      </template>
-    </v-data-table>
+        </template>
+
+        <template v-slot:[`body`] v-else>
+          <tbody>
+            <AggregatedValues
+              :tableHeaders="shownTableHeaders"
+              :showSelect="false"
+            />
+          </tbody>
+        </template>
+      </v-data-table>
+    </div>
   </div>
 </template>
 
@@ -258,12 +263,19 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.potential-table-container {
+.wrapper {
+  display: grid;
+  grid-template-rows: auto 1fr;
   height: 100%;
+  overflow-x: auto;
+}
+
+.potential-table-container {
   overflow-x: auto;
 }
 
 .inspector-column-select {
   width: 18.75rem;
+  margin-bottom: 1rem;
 }
 </style>

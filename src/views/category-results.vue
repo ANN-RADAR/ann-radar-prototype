@@ -315,8 +315,9 @@ export default Vue.extend({
 }
 
 .potential-table-wrapper::v-deep > div,
-.potential-table-wrapper::v-deep > div > div,
-.potential-table-wrapper::v-deep > div > div > div {
+.potential-table-wrapper::v-deep > div > div:last-child,
+.potential-table-wrapper::v-deep > div > div:last-child > div,
+.potential-table-wrapper::v-deep > div > div:last-child > div > div {
   height: 100% !important;
 }
 
