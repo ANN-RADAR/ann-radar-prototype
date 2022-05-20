@@ -65,6 +65,8 @@ body {
   font-family: Avenir, Helvetica, Arial, sans-serif !important;
 }
 
+.v-application--wrap,
+.v-main,
 .route-wrapper {
   height: 100%;
 }
@@ -73,5 +75,9 @@ body {
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100%;
+}
+
+.route-wrapper > div > :last-child {
+  grid-row-end: 3;
 }
 </style>
