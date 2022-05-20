@@ -4,7 +4,7 @@ import Router from 'vue-router';
 import store from './store';
 
 import Laboratories from './views/real-laboratories.vue';
-import AddLaboratory from './components/add-laboratory.vue';
+import EditLaboratory from './components/laboratories-edit.vue';
 import ListLaboratories from './components/laboratories-list.vue';
 import Potential from './views/category-potential.vue';
 import SolarPotential from './components/solar-potential.vue';
@@ -156,9 +156,15 @@ const routes = [
         name: 'List Laboratories'
       },
       {
-        path: 'edit',
-        component: AddLaboratory,
+        path: 'new',
+        component: EditLaboratory,
         name: 'Add Laboratory'
+      },
+      {
+        path: ':laboratoryId',
+        component: EditLaboratory,
+        name: 'Edit Laboratory',
+        props: true
       }
     ]
   },

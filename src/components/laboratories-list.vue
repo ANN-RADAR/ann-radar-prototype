@@ -16,6 +16,7 @@
         <v-list-item
           v-for="[laboratoryId, laboratory] in Object.entries(laboratories)"
           :key="laboratoryId"
+          :to="`/laboratories/${laboratoryId}`"
         >
           <v-list-item-content>
             <v-list-item-title>{{ laboratory.name }}</v-list-item-title>
@@ -30,7 +31,7 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn to="/laboratories/edit">
+        <v-btn to="/laboratories/new">
           {{ $t('laboratories.newLaboratory') }}
         </v-btn>
       </v-card-actions>
