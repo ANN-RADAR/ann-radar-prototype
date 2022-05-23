@@ -22,7 +22,8 @@
     "compare": "View",
     "stakeholders": "Stakeholders",
     "urbanData": "Urban Data",
-    "governance": "Governance"
+    "governance": "Governance",
+    "laboratories": "Real Laboratories"
   },
   "layers": "Layers",
   "layerOptions": {
@@ -33,7 +34,6 @@
   },
   "mapStyles": "Map Style",
   "notes": "Notes",
-  "realLaboratories": "Real Laboratories",
   "cockpit": "Cockpit",
   "selectAreas": "Select Areas",
   "selectColumns": "Select Columns",

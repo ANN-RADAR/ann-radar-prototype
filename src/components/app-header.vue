@@ -12,11 +12,6 @@
         <v-icon right>mdi-content-save</v-icon>
       </v-btn>
 
-      <v-btn text active-class="primary--text" to="/laboratories">
-        <span>{{ $t('realLaboratories') }}</span>
-        <v-icon right>mdi-notebook-edit-outline</v-icon>
-      </v-btn>
-
       <v-btn
         text
         active-class="primary--text"
@@ -40,6 +35,7 @@
         <v-tab to="/stakeholders">{{ $t('navigation.stakeholders') }}</v-tab>
         <v-tab to="/urban-data">{{ $t('navigation.urbanData') }}</v-tab>
         <v-tab to="/governance">{{ $t('navigation.governance') }}</v-tab>
+        <v-tab to="/laboratories">{{ $t('navigation.laboratories') }} </v-tab>
       </v-tabs>
     </template>
   </v-app-bar>
