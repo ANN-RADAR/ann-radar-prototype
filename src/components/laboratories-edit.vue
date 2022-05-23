@@ -123,7 +123,7 @@ export default Vue.extend({
       if (newLaboratory) {
         this.laboratoryName = newLaboratory.name;
         this.laboratoryDescription = newLaboratory.description;
-        this.source.addFeature(newLaboratory.feature);
+        this.source.addFeature(newLaboratory.feature.clone());
       } else {
         this.laboratoryName = '';
         this.laboratoryDescription = '';

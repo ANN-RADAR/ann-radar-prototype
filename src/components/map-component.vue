@@ -33,6 +33,7 @@ import {
 } from '@/constants/layers';
 import {dataLayers} from '@/constants/data-layers';
 import {adminLayers} from '@/constants/admin-layers';
+import {getLaboratoriesLayer} from '@/constants/laboratories-layers';
 import {AdminLayerFeatureData} from '@/types/admin-layers';
 import BaseLayer from 'ol/layer/Base';
 import {DataLayerOptions} from '@/types/layers';
@@ -53,6 +54,7 @@ type Data = {
   mapStyleLayers: LayerGroup;
   adminLayers: LayerGroup;
   baseLayers: LayerGroup;
+  laboratoriesLayer: VectorLayer<VectorSource<Geometry>>;
 };
 
 export default Vue.extend({
@@ -86,16 +88,18 @@ export default Vue.extend({
     const mapStyleLayers = getMapStyleLayers();
     const adminLayers = getAdminAreaLayers();
     const baseLayers = getBaseLayers();
+    const laboratoriesLayer = getLaboratoriesLayer();
 
     return {
       map: null,
       mapStyleLayers,
       adminLayers,
       baseLayers,
+      laboratoriesLayer,
       mapOptions: {
         target: 'map',
         controls: defaultControls().extend([new ScaleLine({units: 'metric'})]),
-        layers: [mapStyleLayers, adminLayers, baseLayers],
+        layers: [mapStyleLayers, adminLayers, baseLayers, laboratoriesLayer],
         view: new View({
           projection: 'EPSG:25832',
           zoom: 12,
@@ -112,7 +116,8 @@ export default Vue.extend({
       'mapStyle',
       'baseLayerTypes',
       'layersConfig',
-      'layerClassificationSelection'
+      'layerClassificationSelection',
+      'laboratories'
     ]),
     ...(mapGetters as MapGettersToComputed)('root', [
       'currentLayerSelectedFeatureIds'
@@ -164,6 +169,9 @@ export default Vue.extend({
     },
     currentLayerSelectedFeatureIds() {
       this.handleAdminAreaSelectionAndHighlighting();
+    },
+    laboratories() {
+      this.updateLaboratoriesFeatures();
     }
   },
   methods: {
@@ -380,6 +388,32 @@ export default Vue.extend({
         const modify = new Modify({source: this.drawingSource});
         this.map.addInteraction(modify);
       }
+    },
+    toggleLaboratoriesLayer() {
+      if (!this.map) {
+        return;
+      }
+
+      const laboratoriesAreVisible =
+        this.$route.path.startsWith('/laboratories');
+      this.laboratoriesLayer.setVisible(laboratoriesAreVisible);
+    },
+    updateLaboratoriesFeatures() {
+      const laboratoriesSource = this.laboratoriesLayer.getSource();
+      // Remove old laboratories
+      laboratoriesSource.clear();
+      // Add laboratories to the map
+      laboratoriesSource.addFeatures(
+        Object.values(this.laboratories).map(({feature}) => {
+          // Hide the laboratory from the laboratories layer
+          // if the user is editing this laboratory
+          const isEditingLaboratory =
+            this.$route.params.laboratoryId === feature.get('id');
+          feature.set('hidden', isEditingLaboratory);
+
+          return feature;
+        })
+      );
     }
   },
   created() {
@@ -393,6 +427,8 @@ export default Vue.extend({
     this.toggleAdminLayers();
     this.toggleBaseLayers();
     this.handleAdminAreaSelectionAndHighlighting();
+    this.toggleLaboratoriesLayer();
+    this.updateLaboratoriesFeatures();
 
     if (this.showDrawingTools) {
       this.addDrawingTools();
