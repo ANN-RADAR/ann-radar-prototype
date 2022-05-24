@@ -7,16 +7,15 @@
       </div>
     </div>
     <v-card class="laboratories-data">
-      <v-card-title>{{ $t('laboratories.title') }}</v-card-title>
+      <v-card-title>{{
+        $t(`laboratories.${laboratoryType}.title`)
+      }}</v-card-title>
 
-      <v-list
-        class="laboratories-list"
-        v-if="Object.values(laboratories).length"
-      >
+      <v-list class="laboratories-list" v-if="laboratoryEntries.length">
         <v-list-item
-          v-for="[laboratoryId, laboratory] in Object.entries(laboratories)"
+          v-for="[laboratoryId, laboratory] in laboratoryEntries"
           :key="laboratoryId"
-          :to="`/laboratories/${laboratoryId}`"
+          :to="`${basePath}/${laboratoryId}`"
         >
           <v-list-item-content>
             <v-list-item-title>{{ laboratory.name }}</v-list-item-title>
@@ -27,12 +26,14 @@
         </v-list-item>
       </v-list>
       <v-card-text v-else class="laboratories-list">
-        <p class="emptyMessage">{{ $t('laboratories.emptyList') }}</p>
+        <p class="emptyMessage">
+          {{ $t(`laboratories.${laboratoryType}.emptyList`) }}
+        </p>
       </v-card-text>
 
       <v-card-actions>
-        <v-btn to="/laboratories/new">
-          {{ $t('laboratories.newLaboratory') }}
+        <v-btn :to="`${basePath}/new`">
+          {{ $t(`laboratories.${laboratoryType}.new`) }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -40,21 +41,37 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue, {PropType} from 'vue';
 import {mapState} from 'vuex';
 
 import {MapStateToComputed} from '@/types/store';
 
 import Map from './map-component.vue';
 import MapStyleSwitcher from './map-style-switcher.vue';
+import {Laboratory, LaboratoryId, LaboratoryType} from '@/types/laboratories';
 
 export default Vue.extend({
+  props: {
+    laboratoryType: {
+      type: String as PropType<LaboratoryType>,
+      required: true
+    },
+    basePath: {
+      type: String,
+      required: true
+    }
+  },
   components: {
     Map,
     MapStyleSwitcher
   },
   computed: {
-    ...(mapState as MapStateToComputed)('root', ['laboratories'])
+    ...(mapState as MapStateToComputed)('root', ['laboratories']),
+    laboratoryEntries(): Array<[LaboratoryId, Laboratory]> {
+      return Object.entries(this.laboratories).filter(
+        ([, {type}]) => type === this.laboratoryType
+      );
+    }
   }
 });
 </script>

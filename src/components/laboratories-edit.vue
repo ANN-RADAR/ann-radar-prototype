@@ -10,8 +10,8 @@
       <v-card-title>
         {{
           laboratory
-            ? $t('laboratories.editLaboratory', {name: laboratory.name})
-            : $t('laboratories.addLaboratory')
+            ? $t(`laboratories.${laboratoryType}.edit`, {name: laboratory.name})
+            : $t(`laboratories.${laboratoryType}.add`)
         }}
       </v-card-title>
       <v-card-text>
@@ -55,7 +55,7 @@ import {
 
 import Geometry from 'ol/geom/Geometry';
 import VectorSource from 'ol/source/Vector';
-import Vue from 'vue';
+import Vue, {PropType} from 'vue';
 import {mapActions, mapMutations, mapState} from 'vuex';
 
 import Map from './map-component.vue';
@@ -76,9 +76,17 @@ export default Vue.extend({
     MapStyleSwitcher
   },
   props: {
+    laboratoryType: {
+      type: String as PropType<LaboratoryType>,
+      required: true
+    },
     laboratoryId: {
       type: String,
       required: false
+    },
+    returnTo: {
+      type: String,
+      required: true
     }
   },
   data(): Data {
@@ -109,7 +117,7 @@ export default Vue.extend({
   watch: {
     laboratoryId(newLaboratoryId: LaboratoryId) {
       if (newLaboratoryId && !this.laboratories[newLaboratoryId]) {
-        this.$router.push('/laboratories');
+        this.$router.push(this.returnTo);
       } else {
         this.updateLaboratoryData(this.laboratories[newLaboratoryId]);
       }
@@ -132,21 +140,22 @@ export default Vue.extend({
     onSave() {
       this.saveLaboratory({
         id: this.laboratoryId,
+        type: this.laboratoryType,
         name: this.laboratoryName,
         description: this.laboratoryDescription,
         feature: this.source.getFeatures()[0]
       })
         .then(() => {
-          this.$router.push('laboratories');
+          this.$router.push(this.returnTo);
         })
-        .catch(error => {
+        .catch((error: string) => {
           this.error = error;
         });
     }
   },
   created() {
     if (this.laboratoryId && !this.laboratory) {
-      this.$router.push('/laboratories');
+      this.$router.push(this.returnTo);
       return;
     }
 

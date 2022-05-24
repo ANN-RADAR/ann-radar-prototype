@@ -6,7 +6,7 @@
 
 <template>
   <div>
-    <router-view />
+    <router-view :key="$route.params.laboratoryType" />
   </div>
 </template>
 

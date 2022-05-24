@@ -22,7 +22,9 @@
     "compare": "View",
     "stakeholders": "Stakeholders",
     "urbanData": "Urban Data",
-    "governance": "Governance"
+    "governance": "Governance",
+    "urbanTestbeds": "Urban Testbeds",
+    "modelQuarters": "Model Quarters"
   },
   "layers": "Layers",
   "layerOptions": {
@@ -33,7 +35,6 @@
   },
   "mapStyles": "Map Style",
   "notes": "Notes",
-  "realLaboratories": "Real Laboratories",
   "cockpit": "Cockpit",
   "selectAreas": "Select Areas",
   "selectColumns": "Select Columns",
@@ -110,12 +111,21 @@
     "potential": "Potential"
   },
   "laboratories": {
-    "title": "Laboratories",
-    "emptyList": "No laboratories found",
-    "newLaboratory": "Add New Laboratory",
-    "addLaboratory": "Add Laboratory",
-    "editLaboratory": "Edit Laboratory \"{name}\"",
-    "name": "Laboratory Name",
-    "description": "Laboratory Description"
+    "urban-testbeds": {
+      "title": "Urban Testbeds",
+      "new": "Add New Urban Testbed",
+      "emptyList": "No urban testbeds found",
+      "add": "Add Urban Testbed",
+      "edit": "Edit Urban Testbed \"{name}\""
+    },
+    "model-quarters": {
+      "title": "Model Quarters",
+      "new": "Add New Model Quarter",
+      "emptyList": "No model quarters found",
+      "add": "Add Model Quarter",
+      "edit": "Edit Model Quarter \"{name}\""
+    },
+    "name": "Name",
+    "description": "Description"
   }
 }
