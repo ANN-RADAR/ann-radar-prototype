@@ -43,14 +43,10 @@
         hide-default-footer
       >
         <template
-          v-for="header in shownTableHeaders"
+          v-for="(header, index) in shownTableHeaders"
           v-slot:[`item.${header.value}`]="{item}"
         >
-          <slot
-            v-if="header.value === 'Bezirk'"
-            :name="[`item.Bezirk`]"
-            :item="item"
-          >
+          <slot v-if="index === 0" :name="[`item.Bezirk`]" :item="item">
             {{ item.Bezirk }}
           </slot>
           <slot v-else :name="[`item.${header.value}`]" :item="item">
@@ -65,12 +61,12 @@
                 {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²</span
               >
               <span v-else-if="header.value === 'tatNu_WB_P'">
-                {{ formatNumber(Math.round(item[header.value])) }}&nbsp;%</span
+                {{ formatNumber(item[header.value]) }}&nbsp;%</span
               >
               <span v-else-if="header.value === 'SP_GebWB15'">
                 {{ formatNumber(item[header.value]) }}&nbsp;MWh/a</span
               >
-              <span v-else-if="isNaN(header.value)">
+              <span v-else-if="isNaN(item[header.value])">
                 {{ item[header.value] }}</span
               >
               <span v-else>
@@ -118,12 +114,14 @@ import {adminLayers} from '@/constants/admin-layers';
 import {DataTableHeader} from 'vuetify';
 
 import AggregatedValues from './energy-potential-aggregated-values.vue';
+import {PotentialConfig} from '@/types/potential-config';
 
 interface Data {
   adminLayers: typeof adminLayers;
   tableHeight: number;
   tableHeaders: Array<DataTableHeader>;
   selectedTableHeaders: Array<DataTableHeader>;
+  unsubscribe?: () => void;
 }
 
 export default Vue.extend({
@@ -150,32 +148,23 @@ export default Vue.extend({
     };
   },
   created() {
-    this.tableHeaders = [
-      {
-        text: this.adminLayerType
-          ? this.$t(`adminLayer.${this.adminLayerType}`)
-          : '',
-        sortable: true,
-        value: this.adminLayerType
-          ? adminLayers[this.adminLayerType].dataId
-          : ''
-      }
-    ];
-    if (this.selectedFeaturesData.length) {
-      Object.keys(this.selectedFeaturesData[0])
-        .filter(param => param !== 'Bezirk')
-        .forEach(param => {
-          this.tableHeaders.push({
-            text: this.potentialConfig?.table.columns.en[param] || param,
-            sortable: true,
-            value: param
-          });
-        });
+    if (this.potentialConfig) {
+      this.setTableHeaders(this.potentialConfig);
     }
-    this.selectedTableHeaders = this.tableHeaders.slice(1);
+
+    this.unsubscribe = this.$store.subscribe(mutation => {
+      if (mutation.type === 'root/setPotentialConfig') {
+        const potentialConfig = mutation.payload;
+        this.setTableHeaders(potentialConfig);
+      }
+    });
+  },
+  beforeDestroy() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
   },
   computed: {
-    console: () => console,
     ...(mapState as MapStateToComputed)('root', [
       'adminLayerType',
       'potentialConfig'
@@ -235,6 +224,33 @@ export default Vue.extend({
               .includes(featureId)
         )
       });
+    },
+    setTableHeaders(potentialConfig: PotentialConfig) {
+      this.tableHeaders = [
+        {
+          text: this.adminLayerType
+            ? this.$t(`adminLayer.${this.adminLayerType}`)
+            : '',
+          sortable: true,
+          value: this.adminLayerType
+            ? adminLayers[this.adminLayerType].dataId
+            : ''
+        },
+        ...Object.keys(potentialConfig.table.columns).map(key => {
+          return {
+            // TODO: choose translation by language setting
+            text: potentialConfig.table.columns[key].translations?.en || key,
+            sortable: true,
+            value: key
+          };
+        })
+      ];
+      this.selectedTableHeaders = this.tableHeaders
+        .slice(1)
+        .filter(
+          header =>
+            potentialConfig.table.columns[header.value].selected === true
+        );
     }
   }
 });
