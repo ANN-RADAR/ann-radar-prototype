@@ -46,9 +46,8 @@
 </template>
 
 <script lang="ts">
+import {Laboratory, LaboratoryId, LaboratoryType} from '@/types/laboratories';
 import {
-  Laboratory,
-  LaboratoryId,
   MapActionsToMethods,
   MapMutationsToMethods,
   MapStateToComputed
