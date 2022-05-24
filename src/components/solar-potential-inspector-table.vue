@@ -41,47 +41,45 @@
         :fixed-header="true"
         hide-default-footer
       >
-        <template v-slot:[`item.AnzFlur`]="{item}">
-          <span v-if="item.AnzFlur !== undefined">
-            {{ formatNumber(Math.round(item.AnzFlur)) }}
-          </span>
-          <span v-else>{{ $t('notAvailable') }}</span>
-        </template>
-        <template v-slot:[`item.mittlFlur`]="{item}">
-          <span v-if="item.mittlFlur !== undefined">
-            {{ formatNumber(Math.round(item.mittlFlur)) }}&nbsp;m²
-          </span>
-          <span v-else>{{ $t('notAvailable') }}</span>
-        </template>
-        <template v-slot:[`item.BGF`]="{item}">
-          <span v-if="item.BGF !== undefined">
-            {{ formatNumber(Math.round(item.BGF)) }}&nbsp;m²
-          </span>
-          <span v-else>{{ $t('notAvailable') }}</span>
-        </template>
-        <template v-slot:[`item.tatNu_WB_P`]="{item}">
-          <span v-if="item.tatNu_WB_P !== undefined">
-            {{ formatNumber(item.tatNu_WB_P) }}&nbsp;%
-          </span>
-          <span v-else>{{ $t('notAvailable') }} </span>
-        </template>
-        <template v-slot:[`item.Bev_311220`]="{item}">
-          <span v-if="item.Bev_311220 !== undefined">
-            {{ formatNumber(Math.round(item.Bev_311220)) }}
-          </span>
-          <span v-else>{{ $t('notAvailable') }} </span>
-        </template>
-        <template v-slot:[`item.SP_GebWB15`]="{item}">
-          <span v-if="item.SP_GebWB15 !== undefined">
-            {{ formatNumber(item.SP_GebWB15) }}&nbsp;MWh/a
-          </span>
-          <span v-else>{{ $t('notAvailable') }}</span>
-        </template>
-        <template v-slot:[`item.Soz_Status`]="{item}">
-          <span v-if="item.Soz_Status !== undefined">{{
-            item.Soz_Status
-          }}</span>
-          <span v-else>{{ $t('notAvailable') }}</span>
+        <template
+          v-for="header in shownTableHeaders"
+          v-slot:[`item.${header.value}`]="{item}"
+        >
+          <slot
+            v-if="header.value === 'Bezirk'"
+            :name="[`item.Bezirk`]"
+            :item="item"
+          >
+            {{ item.Bezirk }}
+          </slot>
+          <slot v-else :name="[`item.${header.value}`]" :item="item">
+            <span
+              v-if="item[header.value] !== undefined"
+              v-bind:key="header.value"
+            >
+              <span v-if="header.value === 'mittlFlur'">
+                {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²</span
+              >
+              <span v-else-if="header.value === 'BGF'">
+                {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²</span
+              >
+              <span v-else-if="header.value === 'tatNu_WB_P'">
+                {{ formatNumber(Math.round(item[header.value])) }}&nbsp;%</span
+              >
+              <span v-else-if="header.value === 'SP_GebWB15'">
+                {{ formatNumber(item[header.value]) }}&nbsp;MWh/a</span
+              >
+              <span v-else-if="isNaN(header.value)">
+                {{ item[header.value] }}</span
+              >
+              <span v-else>
+                {{ formatNumber(Math.round(item[header.value])) }}</span
+              >
+            </span>
+            <span v-else v-bind:key="header.value">{{
+              $t('notAvailable')
+            }}</span>
+          </slot>
         </template>
 
         <template v-slot:[`body.append`] v-if="!showAggregationOnly">
@@ -108,7 +106,7 @@
 import Vue from 'vue';
 import {mapState, mapMutations, mapGetters} from 'vuex';
 
-import {AdminLayerFeatureData, AdminLayerType} from '@/types/admin-layers';
+import {AdminLayerFeatureData} from '@/types/admin-layers';
 import {
   MapGettersToComputed,
   MapMutationsToMethods,
@@ -123,6 +121,7 @@ import AggregatedValues from './solar-potential-aggregated-values.vue';
 interface Data {
   adminLayers: typeof adminLayers;
   tableHeight: number;
+  tableHeaders: Array<DataTableHeader>;
   selectedTableHeaders: Array<DataTableHeader>;
 }
 
@@ -145,68 +144,46 @@ export default Vue.extend({
     return {
       adminLayers,
       tableHeight: 0,
+      tableHeaders: [],
       selectedTableHeaders: []
     };
   },
   created() {
+    this.tableHeaders = [
+      {
+        text: this.adminLayerType
+          ? this.$t(`adminLayer.${this.adminLayerType}`)
+          : '',
+        sortable: true,
+        value: this.adminLayerType
+          ? adminLayers[this.adminLayerType].dataId
+          : ''
+      }
+    ];
+    if (this.selectedFeaturesData.length) {
+      Object.keys(this.selectedFeaturesData[0])
+        .filter(param => param !== 'Bezirk')
+        .forEach(param => {
+          this.tableHeaders.push({
+            text: this.potentialConfig?.table.columns.en[param] || param,
+            sortable: true,
+            value: param
+          });
+        });
+    }
     this.selectedTableHeaders = this.tableHeaders.slice(1);
   },
   computed: {
-    ...(mapState as MapStateToComputed)('root', ['adminLayerType']),
+    console: () => console,
+    ...(mapState as MapStateToComputed)('root', [
+      'adminLayerType',
+      'potentialConfig'
+    ]),
     ...(mapGetters as MapGettersToComputed)('root', [
       'currentLayerSelectedFeatureIds'
     ]),
     shownTableHeaders(): Array<DataTableHeader> {
       return [this.tableHeaders[0], ...this.selectedTableHeaders];
-    },
-    tableHeaders(): Array<DataTableHeader> {
-      return [
-        {
-          text: this.adminLayerType
-            ? this.$t(`adminLayer.${this.adminLayerType}`)
-            : '',
-          sortable: true,
-          value: this.adminLayerType
-            ? adminLayers[this.adminLayerType].dataId
-            : ''
-        },
-        {
-          text: this.$t('parcels'),
-          sortable: true,
-          value: 'AnzFlur'
-        },
-        {
-          text: this.$t('meanParcelSize'),
-          sortable: true,
-          value: 'mittlFlur'
-        },
-        {text: this.$t('grossFloorArea'), sortable: true, value: 'BGF'},
-        {
-          text: this.$t('residentialBuildingArea'),
-          sortable: true,
-          value: 'tatNu_WB_P'
-        },
-        {
-          text: this.$t('population'),
-          sortable: true,
-          value: 'Bev_311220'
-        },
-        {
-          text: this.$t('solarPotential'),
-          sortable: true,
-          value: 'SP_GebWB15'
-        }
-      ].concat(
-        this.adminLayerType === AdminLayerType.STATISTICAL_AREA
-          ? [
-              {
-                text: this.$t('socialStatus'),
-                sortable: true,
-                value: 'Soz_Status'
-              }
-            ]
-          : []
-      );
     },
     selectedFeaturesData(): Array<AdminLayerFeatureData> {
       if (!this.adminLayerType) {

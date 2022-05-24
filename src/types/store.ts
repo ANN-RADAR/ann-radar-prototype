@@ -6,6 +6,7 @@ import {LayerConfig} from './layers';
 import {ScenarioMetaData} from './scenarios';
 import {Scorecard, ScorecardRatings, ScorecardType} from './scorecards';
 import {ActionContext} from 'vuex';
+import {PotentialConfig} from './potential-config';
 import Geometry from 'ol/geom/Geometry';
 import {Feature} from 'ol';
 
@@ -25,6 +26,7 @@ export interface RootState {
     string /* layer type */,
     number /* selected classification index */
   >;
+  potentialConfig: PotentialConfig;
   mapStyle: MapStyle;
   baseLayerTypes: Array<string>;
   adminLayerType: AdminLayerType | null;

@@ -3,6 +3,7 @@ import {AdminLayerType} from '@/types/admin-layers';
 import {Laboratory, RootState} from '@/types/store';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {ScenarioMetaData} from '@/types/scenarios';
+import {PotentialConfig} from '@/types/potential-config';
 
 const mutations = {
   setLayersConfig(
@@ -10,6 +11,9 @@ const mutations = {
     newLayersConfig: RootState['layersConfig']
   ) {
     state.layersConfig = newLayersConfig;
+  },
+  setPotentialConfig(state: RootState, newPotentialConfig: PotentialConfig) {
+    state.potentialConfig = newPotentialConfig;
   },
   setScenarioMetaData(state: RootState, newScenarioMetaData: ScenarioMetaData) {
     state.scenarioMetaData = newScenarioMetaData;
