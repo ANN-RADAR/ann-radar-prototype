@@ -114,6 +114,7 @@
     "emptyList": "No laboratories found",
     "newLaboratory": "Add New Laboratory",
     "addLaboratory": "Add Laboratory",
+    "editLaboratory": "Edit Laboratory \"{name}\"",
     "name": "Laboratory Name",
     "description": "Laboratory Description"
   }

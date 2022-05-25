@@ -120,7 +120,9 @@ const actions = {
       const laboratories = {} as Record<LaboratoryId, Laboratory>;
 
       querySnapshot.forEach(doc => {
-        laboratories[doc.id] = doc.data() as Laboratory;
+        const data = doc.data();
+        data.feature = new GeoJSON().readFeature(JSON.parse(data.feature));
+        laboratories[doc.id] = data as Laboratory;
       });
 
       commit('setLaboratories', laboratories);
@@ -165,6 +167,7 @@ const actions = {
       });
     } catch (error) {
       console.error('Error saving laboratory:', error);
+      throw `Error saving laboratory: ${error}`;
     }
   },
   async saveScenario({state}: ActionContext<RootState, StoreState>) {

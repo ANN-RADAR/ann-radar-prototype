@@ -109,6 +109,9 @@ type ActionsPayloadParameter<
   ? P
   : never;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ActionsReturnType<T> = T extends (...args: any) => infer R ? R : any;
+
 export interface MapActionsToMethods {
   <
     Module extends keyof typeof modules,
@@ -127,6 +130,6 @@ export interface MapActionsToMethods {
             typeof modules[Module]['state'],
             typeof modules[Module]['actions'][Action]
           >
-        ) => void;
+        ) => ActionsReturnType<typeof modules[Module]['actions'][Action]>;
   };
 }
