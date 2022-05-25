@@ -186,15 +186,11 @@ export default Vue.extend({
         return [];
       }
 
-      const selectedFeatures = data.filter(
-        (featureData: AdminLayerFeatureData) => {
-          return this.currentLayerSelectedFeatureIds.some(
-            (featureId: string) => featureId === String(featureData[dataId])
-          );
-        }
-      );
-
-      return selectedFeatures;
+      return data.filter((featureData: AdminLayerFeatureData) => {
+        return this.currentLayerSelectedFeatureIds.some(
+          (featureId: string) => featureId === String(featureData[dataId])
+        );
+      });
     }
   },
   watch: {
