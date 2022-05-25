@@ -102,7 +102,7 @@
 import Vue from 'vue';
 import {mapState, mapMutations, mapGetters} from 'vuex';
 
-import {AdminLayerFeatureData} from '@/types/admin-layers';
+import {AdminLayerFeatureData, AdminLayerType} from '@/types/admin-layers';
 import {
   MapGettersToComputed,
   MapMutationsToMethods,
@@ -170,7 +170,17 @@ export default Vue.extend({
             value: key
           };
         })
-      ];
+      ].concat(
+        this.adminLayerType === AdminLayerType.STATISTICAL_AREA
+          ? [
+              {
+                text: this.$t('socialStatus'),
+                sortable: true,
+                value: 'Soz_Status'
+              }
+            ]
+          : []
+      );
     },
     shownTableHeaders(): Array<DataTableHeader> {
       return [this.tableHeaders[0], ...this.selectedTableHeaders];
