@@ -164,11 +164,13 @@ export default Vue.extend({
             ? adminLayers[this.adminLayerType].dataId
             : ''
         },
-        ...Object.keys(this.potentialConfig?.table.columns || {}).map(key => {
+        ...Object.keys(
+          this.potentialConfig?.table.columns.translations || {}
+        ).map(key => {
           return {
             // TODO: choose translation by language setting
             text:
-              this.potentialConfig?.table.columns[key].translations?.en || key,
+              this.potentialConfig?.table.columns.translations[key].en || key,
             sortable: true,
             value: key
           };
@@ -248,8 +250,9 @@ export default Vue.extend({
         .slice(1)
         .filter(
           header =>
-            this.potentialConfig?.table.columns[header.value]?.selected ===
-              true || header.value === 'Soz_Status'
+            this.potentialConfig?.table.columns.selected.solar.includes(
+              header.value
+            ) || header.value === 'Soz_Status'
         );
     }
   }

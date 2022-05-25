@@ -1,11 +1,15 @@
 export interface PotentialConfig {
   table: {
     columns: {
-      [key: string]: /* column param */ {
-        selected: boolean;
-        translations: {
+      translations: {
+        [key: string]: /* column param */ {
           [key: string]: /* language e.g. en */ string;
         };
+      };
+      selected: /* initially selected columns */ {
+        solar: string[];
+        energyEfficency: string[];
+        mobility: string[];
       };
     };
   };
