@@ -6,7 +6,7 @@
       $t('scenarios.scenario') + scenarioMetaData.name
     }}</span>
     <div class="header-actions">
-      <ScenarioCreateDialog />
+      <ScenarioCreateDialog :disabled="!canCreate" />
       <ScenarioLoadDialog />
       <v-btn text @click="saveScenario" :disabled="!canSave">
         <span>{{ $t('scenarios.saveScenario') }}</span>
@@ -83,6 +83,9 @@ export default Vue.extend({
       const hasScenarioMetaData = Boolean(this.scenarioMetaData);
 
       return hasScenarioMetaData && isWriter;
+    },
+    canCreate(): boolean {
+      return this.roles.includes('WRITER');
     }
   },
   methods: {

@@ -1,10 +1,10 @@
 <template>
   <v-dialog persistent v-model="open" max-width="400px">
     <v-card>
-      <v-card-title>{{ $t('scenarios.loadScenario') }}</v-card-title>
+      <v-card-title>{{ title }}</v-card-title>
       <v-card-text>
         <p>
-          {{ $t('scenarios.loadScenarioWarning') }}
+          {{ content }}
         </p>
       </v-card-text>
       <v-card-actions>
@@ -12,8 +12,8 @@
         <v-btn color="blue darken-1" text @click="onCancel">
           {{ $t('cancel') }}
         </v-btn>
-        <v-btn color="blue darken-1" text @click="onLoad">
-          {{ $t('scenarios.loadScenario') }}
+        <v-btn color="blue darken-1" text @click="onConfirm">
+          {{ confirmText }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -24,14 +24,28 @@
 import Vue from 'vue';
 
 export default Vue.extend({
+  props: {
+    title: {
+      type: String,
+      required: false
+    },
+    content: {
+      type: String,
+      required: true
+    },
+    confirmText: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       open: true
     };
   },
   methods: {
-    onLoad() {
-      this.$emit('onLoad');
+    onConfirm() {
+      this.$emit('onConfirm');
     },
     onCancel() {
       this.$emit('onCancel');

@@ -2,7 +2,10 @@
   <div>
     <ConfirmLoadDialog
       v-if="showConfirm"
-      @onLoad="loadScenario"
+      :title="$t('scenarios.loadScenario')"
+      :content="$t('scenarios.loadScenarioWarning')"
+      :confirmText="$t('scenarios.loadScenario')"
+      @onConfirm="loadScenario"
       @onCancel="showConfirm = false"
     />
     <v-dialog v-model="open" max-width="600px">
@@ -86,7 +89,7 @@ import {ANNRadarCollection} from '@/types/firestore';
 
 import {Scenario} from '@/types/scenarios';
 
-import ConfirmLoadDialog from './confirm-load-dialog.vue';
+import ConfirmLoadDialog from './confirm-dialog.vue';
 
 interface Data {
   open: boolean;
