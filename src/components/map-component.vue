@@ -17,7 +17,7 @@ import 'ol/ol.css';
 import {Feature, Map, MapBrowserEvent, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
 import {ScaleLine, defaults as defaultControls} from 'ol/control';
-import {Style, Fill, Stroke, Circle as CircleStyle} from 'ol/style';
+import {Style} from 'ol/style';
 import LayerGroup from 'ol/layer/Group';
 import VectorLayer from 'ol/layer/Vector';
 import Geometry from 'ol/geom/Geometry';
@@ -33,12 +33,17 @@ import {
 } from '@/constants/layers';
 import {dataLayers} from '@/constants/data-layers';
 import {adminLayers} from '@/constants/admin-layers';
+import {
+  getLaboratoriesLayer,
+  laboratoriesStyles
+} from '@/constants/laboratories-layers';
 import {AdminLayerFeatureData} from '@/types/admin-layers';
 import BaseLayer from 'ol/layer/Base';
 import {DataLayerOptions} from '@/types/layers';
 import BaseEvent from 'ol/events/Event';
 import TileLayer from 'ol/layer/Tile';
 import TileSource from 'ol/source/Tile';
+import {StyleFunction} from 'ol/style/Style';
 
 // projection for UTM zone 32N
 proj4.defs(
@@ -53,6 +58,8 @@ type Data = {
   mapStyleLayers: LayerGroup;
   adminLayers: LayerGroup;
   baseLayers: LayerGroup;
+  laboratoriesLayer: VectorLayer<VectorSource<Geometry>>;
+  laboratoriesStyles: Record<string, StyleFunction | Style>;
 };
 
 export default Vue.extend({
@@ -86,16 +93,19 @@ export default Vue.extend({
     const mapStyleLayers = getMapStyleLayers();
     const adminLayers = getAdminAreaLayers();
     const baseLayers = getBaseLayers();
+    const laboratoriesLayer = getLaboratoriesLayer();
 
     return {
       map: null,
       mapStyleLayers,
       adminLayers,
       baseLayers,
+      laboratoriesLayer,
+      laboratoriesStyles,
       mapOptions: {
         target: 'map',
         controls: defaultControls().extend([new ScaleLine({units: 'metric'})]),
-        layers: [mapStyleLayers, adminLayers, baseLayers],
+        layers: [mapStyleLayers, adminLayers, baseLayers, laboratoriesLayer],
         view: new View({
           projection: 'EPSG:25832',
           zoom: 12,
@@ -112,7 +122,8 @@ export default Vue.extend({
       'mapStyle',
       'baseLayerTypes',
       'layersConfig',
-      'layerClassificationSelection'
+      'layerClassificationSelection',
+      'laboratories'
     ]),
     ...(mapGetters as MapGettersToComputed)('root', [
       'currentLayerSelectedFeatureIds'
@@ -164,6 +175,9 @@ export default Vue.extend({
     },
     currentLayerSelectedFeatureIds() {
       this.handleAdminAreaSelectionAndHighlighting();
+    },
+    laboratories() {
+      this.updateLaboratoriesFeatures();
     }
   },
   methods: {
@@ -345,41 +359,57 @@ export default Vue.extend({
       if (this.map && this.drawingSource) {
         const vector = new VectorLayer({
           source: this.drawingSource,
-          style: new Style({
-            fill: new Fill({
-              color: 'rgba(120, 120, 255, 0.5)'
-            }),
-            stroke: new Stroke({
-              color: '#1976d2',
-              width: 2
-            }),
-            image: new CircleStyle({
-              radius: 7,
-              fill: new Fill({
-                color: '#ffcc33'
-              })
-            })
-          })
+          style: this.laboratoriesStyles.laboratoriesDrawAreaStyle
         });
+
+        const modify = new Modify({
+          source: this.drawingSource,
+          style: this.laboratoriesStyles.laboratoriesModifyHandleStyle
+        });
+        this.map.addInteraction(modify);
 
         const draw = new Draw({
           source: this.drawingSource,
-          type: 'Polygon'
+          type: 'Polygon',
+          style: this.laboratoriesStyles.laboratoriesDrawHandleStyle
         });
 
         draw.on('drawstart', () => {
           if (this.drawingSource) {
-            // ask if user wants to clear the drawing if there is already one
+            // TODO: ask if user wants to clear the drawing if there is already one
             this.drawingSource.clear();
           }
         });
 
         this.map.addInteraction(draw);
         this.map.addLayer(vector);
-
-        const modify = new Modify({source: this.drawingSource});
-        this.map.addInteraction(modify);
       }
+    },
+    toggleLaboratoriesLayer() {
+      if (!this.map) {
+        return;
+      }
+
+      const laboratoriesAreVisible =
+        this.$route.path.startsWith('/laboratories');
+      this.laboratoriesLayer.setVisible(laboratoriesAreVisible);
+    },
+    updateLaboratoriesFeatures() {
+      const laboratoriesSource = this.laboratoriesLayer.getSource();
+      // Remove old laboratories
+      laboratoriesSource.clear();
+      // Add laboratories to the map
+      laboratoriesSource.addFeatures(
+        Object.values(this.laboratories).map(({feature}) => {
+          // Hide the laboratory from the laboratories layer
+          // if the user is editing this laboratory
+          const isEditingLaboratory =
+            this.$route.params.laboratoryId === feature.get('id');
+          feature.set('hidden', isEditingLaboratory);
+
+          return feature;
+        })
+      );
     }
   },
   created() {
@@ -393,6 +423,8 @@ export default Vue.extend({
     this.toggleAdminLayers();
     this.toggleBaseLayers();
     this.handleAdminAreaSelectionAndHighlighting();
+    this.toggleLaboratoriesLayer();
+    this.updateLaboratoriesFeatures();
 
     if (this.showDrawingTools) {
       this.addDrawingTools();

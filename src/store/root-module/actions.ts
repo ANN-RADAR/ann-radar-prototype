@@ -122,6 +122,7 @@ const actions = {
       querySnapshot.forEach(doc => {
         const data = doc.data();
         data.feature = new GeoJSON().readFeature(JSON.parse(data.feature));
+        data.feature.set('id', doc.id);
         laboratories[doc.id] = data as Laboratory;
       });
 
@@ -160,6 +161,8 @@ const actions = {
           }
         );
       }
+
+      laboratory.feature.set('id', docRef.id);
 
       commit('setLaboratory', {
         ...laboratory,
