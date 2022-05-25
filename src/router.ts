@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Router from 'vue-router';
+import Router, {Route} from 'vue-router';
 
 import store from './store';
 
@@ -145,26 +145,38 @@ const routes = [
   },
   {path: '/login', component: Login, name: 'Login'},
   {
-    path: '/laboratories',
-    redirect: '/laboratories/list',
+    path: '/urban-testbeds/:laboratoryType',
+    redirect: '/urban-testbeds/:laboratoryType/list',
     component: Laboratories,
-    name: 'Laboratories',
+    name: 'Urban Testbeds',
     children: [
       {
         path: 'list',
         component: ListLaboratories,
-        name: 'List Laboratories'
+        name: 'List Urban Testbeds',
+        props: (route: Route) => ({
+          laboratoryType: route.params.laboratoryType,
+          basePath: `/urban-testbeds/${route.params.laboratoryType}`
+        })
       },
       {
         path: 'new',
         component: EditLaboratory,
-        name: 'Add Laboratory'
+        name: 'Add Urban Testbed',
+        props: (route: Route) => ({
+          laboratoryType: route.params.laboratoryType,
+          returnTo: `/urban-testbeds/${route.params.laboratoryType}/list`
+        })
       },
       {
         path: ':laboratoryId',
         component: EditLaboratory,
-        name: 'Edit Laboratory',
-        props: true
+        name: 'Edit Urban Testbed',
+        props: (route: Route) => ({
+          laboratoryType: route.params.laboratoryType,
+          laboratoryId: route.params.laboratoryId,
+          returnTo: `/urban-testbeds/${route.params.laboratoryType}/list`
+        })
       }
     ]
   },

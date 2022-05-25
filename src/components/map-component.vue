@@ -140,6 +140,11 @@ export default Vue.extend({
       return this.adminLayers.getLayers().getArray() as Array<
         VectorLayer<VectorSource<Geometry>>
       >;
+    },
+    laboratoryFeatures(): Array<Feature<Geometry>> {
+      return Object.values(this.laboratories)
+        .filter(({type}) => this.$route.params.laboratoryType === type)
+        .map(({feature}) => feature);
     }
   },
   watch: {
@@ -390,8 +395,7 @@ export default Vue.extend({
         return;
       }
 
-      const laboratoriesAreVisible =
-        this.$route.path.startsWith('/laboratories');
+      const laboratoriesAreVisible = Boolean(this.$route.params.laboratoryType);
       this.laboratoriesLayer.setVisible(laboratoriesAreVisible);
     },
     updateLaboratoriesFeatures() {
@@ -400,7 +404,7 @@ export default Vue.extend({
       laboratoriesSource.clear();
       // Add laboratories to the map
       laboratoriesSource.addFeatures(
-        Object.values(this.laboratories).map(({feature}) => {
+        this.laboratoryFeatures.map(feature => {
           // Hide the laboratory from the laboratories layer
           // if the user is editing this laboratory
           const isEditingLaboratory =

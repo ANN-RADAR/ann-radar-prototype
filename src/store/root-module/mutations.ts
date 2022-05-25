@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import {AdminLayerType} from '@/types/admin-layers';
-import {Laboratory, RootState} from '@/types/store';
+import {RootState} from '@/types/store';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {ScenarioMetaData} from '@/types/scenarios';
+import {Laboratory} from '@/types/laboratories';
 
 const mutations = {
   setLayersConfig(

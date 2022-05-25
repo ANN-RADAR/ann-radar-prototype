@@ -6,17 +6,7 @@ import {LayerConfig} from './layers';
 import {ScenarioMetaData} from './scenarios';
 import {Scorecard, ScorecardRatings, ScorecardType} from './scorecards';
 import {ActionContext} from 'vuex';
-import Geometry from 'ol/geom/Geometry';
-import {Feature} from 'ol';
-
-export type LaboratoryId = string;
-
-export type Laboratory = {
-  id?: LaboratoryId;
-  name: string;
-  description: string;
-  feature: Feature<Geometry>;
-};
+import {Laboratory, LaboratoryId} from './laboratories';
 
 export interface RootState {
   scenarioMetaData: ScenarioMetaData | null;

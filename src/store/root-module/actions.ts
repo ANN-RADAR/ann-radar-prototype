@@ -4,7 +4,7 @@ import {
   ScorecardRating,
   ScorecardType
 } from '@/types/scorecards';
-import {Laboratory, LaboratoryId, RootState, StoreState} from '@/types/store';
+import {RootState, StoreState} from '@/types/store';
 
 import {ActionContext} from 'vuex';
 
@@ -22,6 +22,7 @@ import {ANNRadarCollection} from '@/types/firestore';
 import {Scenario} from '@/types/scenarios';
 
 import GeoJSON from 'ol/format/GeoJSON';
+import {Laboratory, LaboratoryId} from '@/types/laboratories';
 
 const scorecardURLs = {
   [ScorecardType.PLANS]:
