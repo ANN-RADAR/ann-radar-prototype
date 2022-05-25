@@ -142,6 +142,9 @@ export default Vue.extend({
       selectedTableHeaders: []
     };
   },
+  created() {
+    this.setSelectedTableHeaders(this.tableHeaders);
+  },
   computed: {
     ...(mapState as MapStateToComputed)('root', [
       'adminLayerType',
@@ -205,12 +208,7 @@ export default Vue.extend({
   },
   watch: {
     tableHeaders(newTableHeaders: Array<DataTableHeader>) {
-      this.selectedTableHeaders = newTableHeaders
-        .slice(1)
-        .filter(
-          header =>
-            this.potentialConfig?.table.columns[header.value].selected === true
-        );
+      this.setSelectedTableHeaders(newTableHeaders);
     }
   },
   methods: {
@@ -244,6 +242,15 @@ export default Vue.extend({
               .includes(featureId)
         )
       });
+    },
+    setSelectedTableHeaders(tableHeaders: Array<DataTableHeader>) {
+      this.selectedTableHeaders = tableHeaders
+        .slice(1)
+        .filter(
+          header =>
+            this.potentialConfig?.table.columns[header.value]?.selected ===
+              true || header.value === 'Soz_Status'
+        );
     }
   }
 });
