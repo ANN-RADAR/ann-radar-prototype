@@ -5,11 +5,22 @@
 -->
 
 <template>
-  <router-view />
+  <div>
+    <router-view :key="$route.params.laboratoryType" />
+  </div>
 </template>
 
 <script lang="ts">
+import {MapActionsToMethods} from '@/types/store';
 import Vue from 'vue';
+import {mapActions} from 'vuex';
 
-export default Vue.extend({});
+export default Vue.extend({
+  methods: {
+    ...(mapActions as MapActionsToMethods)('root', ['fetchLaboratories'])
+  },
+  created() {
+    this.fetchLaboratories();
+  }
+});
 </script>

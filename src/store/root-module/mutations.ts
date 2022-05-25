@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import {AdminLayerType} from '@/types/admin-layers';
-import {Laboratory, RootState} from '@/types/store';
+import {RootState} from '@/types/store';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {ScenarioMetaData} from '@/types/scenarios';
 import {PotentialConfig} from '@/types/potential-config';
+import {Laboratory} from '@/types/laboratories';
 
 const mutations = {
   setLayersConfig(
@@ -87,6 +88,9 @@ const mutations = {
       ...state.laboratories,
       [laboratory.id as string]: laboratory
     };
+  },
+  setLaboratories(state: RootState, laboratories: RootState['laboratories']) {
+    state.laboratories = laboratories;
   }
 };
 

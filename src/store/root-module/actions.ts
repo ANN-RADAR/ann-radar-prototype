@@ -4,17 +4,25 @@ import {
   ScorecardRating,
   ScorecardType
 } from '@/types/scorecards';
-import {Laboratory, RootState, StoreState} from '@/types/store';
+import {RootState, StoreState} from '@/types/store';
 
 import {ActionContext} from 'vuex';
 
-import {doc, getDoc, updateDoc, addDoc, collection} from 'firebase/firestore';
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  addDoc,
+  collection,
+  getDocs
+} from 'firebase/firestore';
 import {database} from '../../libs/firebase';
 import {ANNRadarCollection} from '@/types/firestore';
 
 import {Scenario} from '@/types/scenarios';
 
 import GeoJSON from 'ol/format/GeoJSON';
+import {Laboratory, LaboratoryId} from '@/types/laboratories';
 
 const scorecardURLs = {
   [ScorecardType.PLANS]:
@@ -115,6 +123,25 @@ const actions = {
       console.error('Error loading balanced scorecard ratings:', error);
     }
   },
+  async fetchLaboratories({commit}: ActionContext<RootState, StoreState>) {
+    try {
+      const querySnapshot = await getDocs(
+        collection(database, ANNRadarCollection.LABORATORIES)
+      );
+      const laboratories = {} as Record<LaboratoryId, Laboratory>;
+
+      querySnapshot.forEach(doc => {
+        const data = doc.data();
+        data.feature = new GeoJSON().readFeature(JSON.parse(data.feature));
+        data.feature.set('id', doc.id);
+        laboratories[doc.id] = data as Laboratory;
+      });
+
+      commit('setLaboratories', laboratories);
+    } catch (error) {
+      console.error('Error loading laboratories:', error);
+    }
+  },
   async saveLaboratory(
     {commit}: ActionContext<RootState, StoreState>,
     laboratory: Laboratory
@@ -146,12 +173,15 @@ const actions = {
         );
       }
 
+      laboratory.feature.set('id', docRef.id);
+
       commit('setLaboratory', {
         ...laboratory,
         id: docRef.id
       });
     } catch (error) {
       console.error('Error saving laboratory:', error);
+      throw `Error saving laboratory: ${error}`;
     }
   },
   async saveScenario({state}: ActionContext<RootState, StoreState>) {

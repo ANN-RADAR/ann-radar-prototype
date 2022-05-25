@@ -12,10 +12,27 @@
         <v-icon right>mdi-content-save</v-icon>
       </v-btn>
 
-      <v-btn text active-class="primary--text" to="/laboratories">
-        <span>{{ $t('realLaboratories') }}</span>
-        <v-icon right>mdi-notebook-edit-outline</v-icon>
-      </v-btn>
+      <v-menu open-on-hover bottom offset-y>
+        <template v-slot:activator="{on, attrs}">
+          <v-btn text active-class="primary--text" v-bind="attrs" v-on="on">
+            <span>{{ $t('navigation.urbanTestbeds') }}</span>
+            <v-icon right>mdi-notebook-edit-outline</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item to="/urban-testbeds/model-quarters">
+            <v-list-item-title>
+              {{ $t('navigation.modelQuarters') }}
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/urban-testbeds/urban-testbeds">
+            <v-list-item-title>
+              {{ $t('navigation.urbanTestbeds') }}
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
 
       <v-btn
         text

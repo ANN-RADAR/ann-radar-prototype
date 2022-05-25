@@ -7,17 +7,7 @@ import {ScenarioMetaData} from './scenarios';
 import {Scorecard, ScorecardRatings, ScorecardType} from './scorecards';
 import {ActionContext} from 'vuex';
 import {PotentialConfig} from './potential-config';
-import Geometry from 'ol/geom/Geometry';
-import {Feature} from 'ol';
-
-export type LaboratoryId = string;
-
-export type Laboratory = {
-  id?: LaboratoryId;
-  name: string;
-  description: string;
-  feature: Feature<Geometry>;
-};
+import {Laboratory, LaboratoryId} from './laboratories';
 
 export interface RootState {
   scenarioMetaData: ScenarioMetaData | null;
@@ -111,6 +101,9 @@ type ActionsPayloadParameter<
   ? P
   : never;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ActionsReturnType<T> = T extends (...args: any) => infer R ? R : any;
+
 export interface MapActionsToMethods {
   <
     Module extends keyof typeof modules,
@@ -129,6 +122,6 @@ export interface MapActionsToMethods {
             typeof modules[Module]['state'],
             typeof modules[Module]['actions'][Action]
           >
-        ) => void;
+        ) => ActionsReturnType<typeof modules[Module]['actions'][Action]>;
   };
 }

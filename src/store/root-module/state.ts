@@ -1,7 +1,8 @@
-import {Laboratory, LaboratoryId, RootState} from '@/types/store';
+import {RootState} from '@/types/store';
 import {MapStyle} from '@/types/map-styles';
 import {AdminLayerType} from '@/types/admin-layers';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
+import {Laboratory, LaboratoryId} from '@/types/laboratories';
 
 const state: RootState = {
   scenarioMetaData: null,
