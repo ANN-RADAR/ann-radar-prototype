@@ -31,7 +31,9 @@
                       v-text="
                         $tc(
                           'scenarios.scenarioLayers',
-                          scenario.baseLayerTypes.length
+                          scenario.baseLayerTypes
+                            ? scenario.baseLayerTypes.length
+                            : 0
                         )
                       "
                     ></v-list-item-subtitle>

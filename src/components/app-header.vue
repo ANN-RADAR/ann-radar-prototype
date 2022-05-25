@@ -6,6 +6,7 @@
       $t('scenarios.scenario') + scenarioMetaData.name
     }}</span>
     <div class="header-actions">
+      <ScenarioCreateDialog />
       <ScenarioLoadDialog />
       <v-btn text @click="saveScenario" :disabled="!canSave">
         <span>{{ $t('scenarios.saveScenario') }}</span>
@@ -51,6 +52,7 @@ import {logOut} from '@/libs/firebase';
 import {mapActions, mapState} from 'vuex';
 import {MapActionsToMethods, MapStateToComputed} from '@/types/store';
 
+import ScenarioCreateDialog from './create-scenario-dialog.vue';
 import ScenarioLoadDialog from '../components/scenario-load-dialog.vue';
 
 interface Data {
@@ -65,6 +67,7 @@ export default Vue.extend({
     }
   },
   components: {
+    ScenarioCreateDialog,
     ScenarioLoadDialog
   },
   data(): Data {
