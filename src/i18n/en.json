@@ -111,6 +111,8 @@
   },
   "laboratories": {
     "title": "Laboratories",
+    "emptyList": "No laboratories found",
+    "newLaboratory": "Add New Laboratory",
     "addLaboratory": "Add Laboratory",
     "name": "Laboratory Name",
     "description": "Laboratory Description"
