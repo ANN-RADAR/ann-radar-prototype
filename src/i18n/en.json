@@ -69,12 +69,6 @@
     "blackGray": "black-gray",
     "satellite": "satellite"
   },
-  "parcels": "Parcels",
-  "meanParcelSize": "Mean Parcel Size",
-  "grossFloorArea": "Gross Floor Area",
-  "residentialBuildingArea": "Residential Building Area",
-  "population": "Population",
-  "solarPotential": "Solar Potential",
   "statisticalArea": "Statistical Area",
   "socialStatus": "Social Status",
   "scenarios": {

@@ -6,6 +6,7 @@ import {LayerConfig} from './layers';
 import {ScenarioMetaData} from './scenarios';
 import {Scorecard, ScorecardRatings, ScorecardType} from './scorecards';
 import {ActionContext} from 'vuex';
+import {PotentialConfig} from './potential-config';
 import {Laboratory, LaboratoryId} from './laboratories';
 
 export interface RootState {
@@ -15,6 +16,7 @@ export interface RootState {
     string /* layer type */,
     number /* selected classification index */
   >;
+  potentialConfig: PotentialConfig | null;
   mapStyle: MapStyle;
   baseLayerTypes: Array<string>;
   adminLayerType: AdminLayerType | null;

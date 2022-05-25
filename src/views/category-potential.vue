@@ -23,9 +23,13 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {mapGetters, mapMutations} from 'vuex';
+import {mapActions, mapGetters, mapMutations} from 'vuex';
 
-import {MapGettersToComputed, MapMutationsToMethods} from '@/types/store';
+import {
+  MapActionsToMethods,
+  MapGettersToComputed,
+  MapMutationsToMethods
+} from '@/types/store';
 import {AdminLayerType} from '@/types/admin-layers';
 
 export default Vue.extend({
@@ -38,7 +42,11 @@ export default Vue.extend({
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setAdminLayerType',
       'setSelectedFeatureIds'
-    ])
+    ]),
+    ...(mapActions as MapActionsToMethods)('root', ['fetchPotentialConfig'])
+  },
+  created() {
+    this.fetchPotentialConfig();
   },
   destroyed() {
     // Reset selections on destroy

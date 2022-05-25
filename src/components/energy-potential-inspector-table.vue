@@ -42,47 +42,41 @@
         :fixed-header="true"
         hide-default-footer
       >
-        <template v-slot:[`item.AnzFlur`]="{item}">
-          <span v-if="item.AnzFlur !== undefined">
-            {{ formatNumber(Math.round(item.AnzFlur)) }}
-          </span>
-          <span v-else>{{ $t('notAvailable') }}</span>
-        </template>
-        <template v-slot:[`item.mittlFlur`]="{item}">
-          <span v-if="item.mittlFlur !== undefined">
-            {{ formatNumber(Math.round(item.mittlFlur)) }}&nbsp;m²
-          </span>
-          <span v-else>{{ $t('notAvailable') }}</span>
-        </template>
-        <template v-slot:[`item.BGF`]="{item}">
-          <span v-if="item.BGF !== undefined">
-            {{ formatNumber(Math.round(item.BGF)) }}&nbsp;m²
-          </span>
-          <span v-else>{{ $t('notAvailable') }}</span>
-        </template>
-        <template v-slot:[`item.tatNu_WB_P`]="{item}">
-          <span v-if="item.tatNu_WB_P !== undefined">
-            {{ formatNumber(item.tatNu_WB_P) }}&nbsp;%
-          </span>
-          <span v-else>{{ $t('notAvailable') }}</span>
-        </template>
-        <template v-slot:[`item.Bev_311220`]="{item}">
-          <span v-if="item.Bev_311220 !== undefined">
-            {{ formatNumber(Math.round(item.Bev_311220)) }}
-          </span>
-          <span v-else>{{ $t('notAvailable') }}</span>
-        </template>
-        <template v-slot:[`item.SP_GebWB15`]="{item}">
-          <span v-if="item.SP_GebWB15 !== undefined">
-            {{ formatNumber(item.SP_GebWB15) }}&nbsp;MWh/a
-          </span>
-          <span v-else>{{ $t('notAvailable') }}</span>
-        </template>
-        <template v-slot:[`item.Soz_Status`]="{item}">
-          <span v-if="item.Soz_Status !== undefined">{{
-            item.Soz_Status
-          }}</span>
-          <span v-else>{{ $t('notAvailable') }}</span>
+        <template
+          v-for="(header, index) in shownTableHeaders"
+          v-slot:[`item.${header.value}`]="{item}"
+        >
+          <slot v-if="index === 0" :name="[`item.Bezirk`]" :item="item">
+            {{ item.Bezirk }}
+          </slot>
+          <slot v-else :name="[`item.${header.value}`]" :item="item">
+            <span
+              v-if="item[header.value] !== undefined"
+              v-bind:key="header.value"
+            >
+              <span v-if="header.value === 'mittlFlur'">
+                {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²</span
+              >
+              <span v-else-if="header.value === 'BGF'">
+                {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²</span
+              >
+              <span v-else-if="header.value === 'tatNu_WB_P'">
+                {{ formatNumber(item[header.value]) }}&nbsp;%</span
+              >
+              <span v-else-if="header.value === 'SP_GebWB15'">
+                {{ formatNumber(item[header.value]) }}&nbsp;MWh/a</span
+              >
+              <span v-else-if="isNaN(item[header.value])">
+                {{ item[header.value] }}</span
+              >
+              <span v-else>
+                {{ formatNumber(Math.round(item[header.value])) }}</span
+              >
+            </span>
+            <span v-else v-bind:key="header.value">{{
+              $t('notAvailable')
+            }}</span>
+          </slot>
         </template>
 
         <template v-slot:[`body.append`] v-if="!showAggregationOnly">
@@ -150,16 +144,16 @@ export default Vue.extend({
     };
   },
   created() {
-    this.selectedTableHeaders = this.tableHeaders.slice(1);
+    this.setSelectedTableHeaders(this.tableHeaders);
   },
   computed: {
-    ...(mapState as MapStateToComputed)('root', ['adminLayerType']),
+    ...(mapState as MapStateToComputed)('root', [
+      'adminLayerType',
+      'potentialConfig'
+    ]),
     ...(mapGetters as MapGettersToComputed)('root', [
       'currentLayerSelectedFeatureIds'
     ]),
-    shownTableHeaders(): Array<DataTableHeader> {
-      return [this.tableHeaders[0], ...this.selectedTableHeaders];
-    },
     tableHeaders(): Array<DataTableHeader> {
       return [
         {
@@ -171,32 +165,17 @@ export default Vue.extend({
             ? adminLayers[this.adminLayerType].dataId
             : ''
         },
-        {
-          text: this.$t('parcels'),
-          sortable: true,
-          value: 'AnzFlur'
-        },
-        {
-          text: this.$t('meanParcelSize'),
-          sortable: true,
-          value: 'mittlFlur'
-        },
-        {text: this.$t('grossFloorArea'), sortable: true, value: 'BGF'},
-        {
-          text: this.$t('residentialBuildingArea'),
-          sortable: true,
-          value: 'tatNu_WB_P'
-        },
-        {
-          text: this.$t('population'),
-          sortable: true,
-          value: 'Bev_311220'
-        },
-        {
-          text: this.$t('solarPotential'),
-          sortable: true,
-          value: 'SP_GebWB15'
-        }
+        ...Object.keys(
+          this.potentialConfig?.table.columns.translations || {}
+        ).map(key => {
+          return {
+            // TODO: choose translation by language setting
+            text:
+              this.potentialConfig?.table.columns.translations[key].en || key,
+            sortable: true,
+            value: key
+          };
+        })
       ].concat(
         this.adminLayerType === AdminLayerType.STATISTICAL_AREA
           ? [
@@ -208,6 +187,9 @@ export default Vue.extend({
             ]
           : []
       );
+    },
+    shownTableHeaders(): Array<DataTableHeader> {
+      return [this.tableHeaders[0], ...this.selectedTableHeaders];
     },
     selectedFeaturesData(): Array<AdminLayerFeatureData> {
       if (!this.adminLayerType) {
@@ -225,6 +207,11 @@ export default Vue.extend({
           (featureId: string) => featureId === String(featureData[dataId])
         );
       });
+    }
+  },
+  watch: {
+    tableHeaders(newTableHeaders: Array<DataTableHeader>) {
+      this.setSelectedTableHeaders(newTableHeaders);
     }
   },
   methods: {
@@ -258,6 +245,16 @@ export default Vue.extend({
               .includes(featureId)
         )
       });
+    },
+    setSelectedTableHeaders(tableHeaders: Array<DataTableHeader>) {
+      this.selectedTableHeaders = tableHeaders
+        .slice(1)
+        .filter(
+          header =>
+            this.potentialConfig?.table.columns.selected.energyEfficency.includes(
+              header.value
+            ) || header.value === 'Soz_Status'
+        );
     }
   }
 });

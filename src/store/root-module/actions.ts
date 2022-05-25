@@ -74,6 +74,16 @@ const actions = {
       })
       .catch(error => console.error(error));
   },
+  fetchPotentialConfig({commit}: ActionContext<RootState, StoreState>) {
+    return fetch(
+      'https://storage.googleapis.com/ann-radar-data/potential_config.json'
+    )
+      .then(response => response.json())
+      .then(data => {
+        commit('setPotentialConfig', data);
+      })
+      .catch(error => console.error(error));
+  },
   fetchBalancedScorecard(
     {commit}: ActionContext<RootState, StoreState>,
     type: ScorecardType

@@ -7,6 +7,7 @@ import {Laboratory, LaboratoryId} from '@/types/laboratories';
 const state: RootState = {
   scenarioMetaData: null,
   layersConfig: {},
+  potentialConfig: null,
   layerClassificationSelection: {},
   mapStyle: MapStyle.COLORED,
   baseLayerTypes: [],
