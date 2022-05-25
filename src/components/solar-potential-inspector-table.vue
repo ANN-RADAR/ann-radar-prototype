@@ -113,12 +113,10 @@ import {adminLayers} from '@/constants/admin-layers';
 import {DataTableHeader} from 'vuetify';
 
 import AggregatedValues from './solar-potential-aggregated-values.vue';
-import {PotentialConfig} from '@/types/potential-config';
 
 interface Data {
   adminLayers: typeof adminLayers;
   tableHeight: number;
-  tableHeaders: Array<DataTableHeader>;
   selectedTableHeaders: Array<DataTableHeader>;
 }
 
@@ -141,14 +139,8 @@ export default Vue.extend({
     return {
       adminLayers,
       tableHeight: 0,
-      tableHeaders: [],
       selectedTableHeaders: []
     };
-  },
-  created() {
-    if (this.potentialConfig) {
-      this.setTableHeaders(this.potentialConfig);
-    }
   },
   computed: {
     ...(mapState as MapStateToComputed)('root', [
@@ -158,6 +150,28 @@ export default Vue.extend({
     ...(mapGetters as MapGettersToComputed)('root', [
       'currentLayerSelectedFeatureIds'
     ]),
+    tableHeaders(): Array<DataTableHeader> {
+      return [
+        {
+          text: this.adminLayerType
+            ? this.$t(`adminLayer.${this.adminLayerType}`)
+            : '',
+          sortable: true,
+          value: this.adminLayerType
+            ? adminLayers[this.adminLayerType].dataId
+            : ''
+        },
+        ...Object.keys(this.potentialConfig?.table.columns || {}).map(key => {
+          return {
+            // TODO: choose translation by language setting
+            text:
+              this.potentialConfig?.table.columns[key].translations?.en || key,
+            sortable: true,
+            value: key
+          };
+        })
+      ];
+    },
     shownTableHeaders(): Array<DataTableHeader> {
       return [this.tableHeaders[0], ...this.selectedTableHeaders];
     },
@@ -184,8 +198,13 @@ export default Vue.extend({
     }
   },
   watch: {
-    potentialConfig(newPotentialConfig: PotentialConfig) {
-      this.setTableHeaders(newPotentialConfig);
+    tableHeaders(newTableHeaders: Array<DataTableHeader>) {
+      this.selectedTableHeaders = newTableHeaders
+        .slice(1)
+        .filter(
+          header =>
+            this.potentialConfig?.table.columns[header.value].selected === true
+        );
     }
   },
   methods: {
@@ -219,33 +238,6 @@ export default Vue.extend({
               .includes(featureId)
         )
       });
-    },
-    setTableHeaders(potentialConfig: PotentialConfig) {
-      this.tableHeaders = [
-        {
-          text: this.adminLayerType
-            ? this.$t(`adminLayer.${this.adminLayerType}`)
-            : '',
-          sortable: true,
-          value: this.adminLayerType
-            ? adminLayers[this.adminLayerType].dataId
-            : ''
-        },
-        ...Object.keys(potentialConfig.table.columns).map(key => {
-          return {
-            // TODO: choose translation by language setting
-            text: potentialConfig.table.columns[key].translations?.en || key,
-            sortable: true,
-            value: key
-          };
-        })
-      ];
-      this.selectedTableHeaders = this.tableHeaders
-        .slice(1)
-        .filter(
-          header =>
-            potentialConfig.table.columns[header.value].selected === true
-        );
     }
   }
 });
