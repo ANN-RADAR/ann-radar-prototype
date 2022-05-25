@@ -6,6 +6,7 @@ import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 const state: RootState = {
   scenarioMetaData: null,
   layersConfig: {},
+  potentialConfig: null,
   layerClassificationSelection: {},
   mapStyle: MapStyle.COLORED,
   baseLayerTypes: [],

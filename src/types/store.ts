@@ -26,7 +26,7 @@ export interface RootState {
     string /* layer type */,
     number /* selected classification index */
   >;
-  potentialConfig: PotentialConfig;
+  potentialConfig: PotentialConfig | null;
   mapStyle: MapStyle;
   baseLayerTypes: Array<string>;
   adminLayerType: AdminLayerType | null;
