@@ -120,7 +120,6 @@ interface Data {
   tableHeight: number;
   tableHeaders: Array<DataTableHeader>;
   selectedTableHeaders: Array<DataTableHeader>;
-  unsubscribe?: () => void;
 }
 
 export default Vue.extend({
@@ -149,18 +148,6 @@ export default Vue.extend({
   created() {
     if (this.potentialConfig) {
       this.setTableHeaders(this.potentialConfig);
-    }
-
-    this.unsubscribe = this.$store.subscribe(mutation => {
-      if (mutation.type === 'root/setPotentialConfig') {
-        const potentialConfig = mutation.payload;
-        this.setTableHeaders(potentialConfig);
-      }
-    });
-  },
-  beforeDestroy() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
     }
   },
   computed: {
@@ -194,6 +181,11 @@ export default Vue.extend({
       );
 
       return selectedFeatures;
+    }
+  },
+  watch: {
+    potentialConfig(newPotentialConfig: PotentialConfig) {
+      this.setTableHeaders(newPotentialConfig);
     }
   },
   methods: {
