@@ -31,7 +31,7 @@ import {
   getAdminAreaLayers,
   getBaseLayers
 } from '@/constants/layers';
-import {dataLayers} from '@/constants/data-layers';
+import {dataLayerIds, dataLayerOptions} from '@/constants/data-layers';
 import {adminLayers} from '@/constants/admin-layers';
 import {
   getLaboratoriesLayer,
@@ -157,8 +157,7 @@ export default Vue.extend({
       // Update source and style of data layers
       for (const layer of this.allBaseLayers) {
         if (layer.getVisible()) {
-          const dataLayerOptions = dataLayers[layer.get('name')];
-          if (dataLayerOptions) {
+          if (dataLayerIds.includes(layer.get('name'))) {
             this.updateDataLayer(layer, dataLayerOptions);
           }
         }
@@ -171,8 +170,10 @@ export default Vue.extend({
       // Update style of data layers
       for (const layer of this.allBaseLayers) {
         if (layer.getVisible()) {
-          const dataLayerOptions = dataLayers[layer.get('name')];
-          if (dataLayerOptions && dataLayerOptions.style) {
+          if (
+            dataLayerIds.includes(layer.get('name')) &&
+            dataLayerOptions.style
+          ) {
             this.updateDataLayerStyle(layer, dataLayerOptions.style);
           }
         }
@@ -260,9 +261,8 @@ export default Vue.extend({
         if (this.baseLayerTypes.includes(layer.get('name'))) {
           layer.setVisible(true);
 
-          const dataLayerOptions = dataLayers[layer.get('name')];
           // Update source and style of data layers
-          if (dataLayerOptions) {
+          if (dataLayerIds.includes(layer.get('name'))) {
             this.updateDataLayer(layer, dataLayerOptions);
           }
         } else {
