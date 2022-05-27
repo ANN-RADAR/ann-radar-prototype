@@ -6,7 +6,7 @@
         <MapStyleSwitcher />
       </div>
     </div>
-    <v-card>
+    <v-card class="laboratories-data">
       <v-card-title>
         {{
           laboratory
@@ -14,25 +14,250 @@
             : $t(`laboratories.${laboratoryType}.add`)
         }}
       </v-card-title>
-      <v-card-text>
+      <v-card-text class="laboratories-form">
+        <label>{{ $t('laboratories.name') }}</label>
         <v-text-field
-          class="laboratory-name"
+          class="laboratory-input"
           outlined
+          dense
           hide-details
           name="name"
-          :label="$t('laboratories.name')"
           type="text"
-          v-model="laboratoryName"
+          v-model="laboratoryData.name"
         ></v-text-field>
-        <v-textarea
+
+        <label>{{ $t('laboratories.runtime') }}</label>
+        <v-text-field
+          class="laboratory-input"
           outlined
+          dense
           hide-details
-          no-resize
-          name="description"
-          :label="$t('laboratories.description')"
+          name="runtime"
           type="text"
-          v-model="laboratoryDescription"
+          v-model="laboratoryData.runtime"
+        ></v-text-field>
+
+        <label>{{ $t('laboratories.budget') }}</label>
+        <v-text-field
+          class="laboratory-input"
+          outlined
+          dense
+          hide-details
+          name="budget"
+          type="text"
+          v-model="laboratoryData.budget"
+        ></v-text-field>
+
+        <label>{{ $t('laboratories.location') }}</label>
+        <v-text-field
+          class="laboratory-input"
+          outlined
+          dense
+          hide-details
+          name="location"
+          type="text"
+          v-model="laboratoryData.location"
+        ></v-text-field>
+
+        <label>{{ $t('laboratories.goals') }}</label>
+        <v-textarea
+          class="laboratory-input"
+          outlined
+          dense
+          hide-details
+          name="goals"
+          v-model="laboratoryData.goals"
         ></v-textarea>
+
+        <div class="laboratory-input">
+          <label class="label-with-add-button">
+            {{ $t('laboratories.stakeholders') }}
+            <v-btn
+              icon
+              small
+              @click="
+                laboratoryData.stakeholders.push({name: ''});
+                addCustomStakeholderCategory.push(false);
+                customStakeholderCategory.push('');
+              "
+            >
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </label>
+
+          <div
+            class="laboratory-stakeholder"
+            v-for="(stakeholder, index) in laboratoryData.stakeholders"
+            :key="`stakeholder-${index}`"
+          >
+            <v-select
+              class="laboratory-stakeholder-type"
+              outlined
+              dense
+              hide-details
+              :label="$t('laboratories.stakeholderType')"
+              :items="
+                stakeholderTypes.map(type => ({
+                  text: $t(`laboratories.stakeholderTypes.${type}`),
+                  value: type
+                }))
+              "
+              v-model="laboratoryData.stakeholders[index].type"
+            ></v-select>
+            <v-select
+              class="laboratory-stakeholder-category"
+              outlined
+              dense
+              hide-details
+              :label="$t('laboratories.stakeholderCategory')"
+              :items="[
+                ...stakeholderCategories.map(category => ({
+                  text: $t(`laboratories.stakeholderCategories.${category}`),
+                  value: category
+                })),
+                {text: $t('laboratories.other'), value: 'other'}
+              ]"
+              @change="addCustomStakeholderCategory[index] = $event === 'other'"
+              v-model="laboratoryData.stakeholders[index].category"
+            ></v-select>
+            <v-text-field
+              v-if="addCustomStakeholderCategory[index]"
+              class="laboratory-stakeholder-custom-category"
+              outlined
+              dense
+              hide-details
+              name="stakeholder-category"
+              :placeholder="$t('laboratories.enterStakeholderCategory')"
+              type="text"
+              v-model="customStakeholderCategory[index]"
+            ></v-text-field>
+            <v-text-field
+              class="laboratory-stakeholder-name"
+              outlined
+              dense
+              hide-details
+              name="stakeholder-name"
+              :label="$t('laboratories.stakeholderName')"
+              type="text"
+              v-model="laboratoryData.stakeholders[index].name"
+            ></v-text-field>
+
+            <v-btn
+              v-if="laboratoryData.stakeholders.length > 1"
+              icon
+              small
+              @click="
+                laboratoryData.stakeholders.splice(index, 1);
+                addCustomStakeholderCategory.splice(index, 1);
+                customStakeholderCategory.splice(index, 1);
+              "
+            >
+              <v-icon>mdi-close-circle</v-icon>
+            </v-btn>
+          </div>
+        </div>
+
+        <div class="laboratory-input">
+          <label>{{ $t('laboratories.sectors') }}</label>
+          <v-checkbox
+            v-for="sector in sectors"
+            :key="sector"
+            v-model="laboratoryData.sectors"
+            dense
+            hide-details
+            :label="$t(`laboratories.sector.${sector}`)"
+            :value="sector"
+          ></v-checkbox>
+
+          <div>
+            <v-checkbox
+              v-model="addCustomSector"
+              dense
+              hide-details
+              :label="$t('laboratories.other')"
+            ></v-checkbox>
+            <v-text-field
+              v-if="addCustomSector"
+              class="indent"
+              outlined
+              dense
+              hide-details
+              name="custom-sector"
+              :placeholder="$t('laboratories.enterSector')"
+              type="text"
+              v-model="customSector"
+            ></v-text-field>
+          </div>
+        </div>
+
+        <div class="laboratory-input">
+          <label>{{ $t('laboratories.experimentalGovernance') }}</label>
+          <v-checkbox
+            v-for="experimentalGovernance in experimentalGovernanceOptions"
+            :key="experimentalGovernance"
+            v-model="laboratoryData.experimentalGovernance"
+            dense
+            hide-details
+            :label="
+              $t(
+                `laboratories.experimentalGovernanceOptions.${experimentalGovernance}`
+              )
+            "
+            :value="experimentalGovernance"
+          ></v-checkbox>
+
+          <div>
+            <v-checkbox
+              v-model="addCustomExperimentalGovernance"
+              dense
+              hide-details
+              :label="$t('laboratories.other')"
+            ></v-checkbox>
+            <v-text-field
+              v-if="addCustomExperimentalGovernance"
+              class="indent"
+              outlined
+              dense
+              hide-details
+              name="custom-experimental-governance"
+              :placeholder="$t('laboratories.enterExperimentalGovernance')"
+              type="text"
+            ></v-text-field>
+          </div>
+        </div>
+
+        <div class="laboratory-input">
+          <label class="label-with-add-button">
+            {{ $t('laboratories.links') }}
+            <v-btn icon small @click="laboratoryData.links.push('')">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </label>
+
+          <div
+            class="laboratory-link"
+            v-for="(link, index) in laboratoryData.links"
+            :key="`link-${index}`"
+          >
+            <v-text-field
+              outlined
+              dense
+              hide-details
+              name="link"
+              type="text"
+              :placeholder="$t('laboratories.link')"
+              v-model="laboratoryData.links[index]"
+            ></v-text-field>
+            <v-btn
+              v-if="laboratoryData.links.length > 1"
+              icon
+              small
+              @click="laboratoryData.links.splice(index, 1)"
+            >
+              <v-icon>mdi-close-circle</v-icon>
+            </v-btn>
+          </div>
+        </div>
 
         <v-alert v-if="error" class="error-message" dense text type="error">
           {{ error }}
@@ -46,7 +271,15 @@
 </template>
 
 <script lang="ts">
-import {Laboratory, LaboratoryId, LaboratoryType} from '@/types/laboratories';
+import {
+  Laboratory,
+  LaboratoryExperimentalGovernance,
+  LaboratoryId,
+  LaboratorySector,
+  LaboratoryStakeholderCategory,
+  LaboratoryStakeholderType,
+  LaboratoryType
+} from '@/types/laboratories';
 import {
   MapActionsToMethods,
   MapMutationsToMethods,
@@ -64,9 +297,27 @@ import MapStyleSwitcher from './map-style-switcher.vue';
 interface Data {
   error: string;
   source: VectorSource<Geometry>;
-  laboratoryName: string;
-  laboratoryDescription: string;
+  laboratoryData: Omit<Laboratory, 'type' | 'feature'>;
+  stakeholderTypes: Array<LaboratoryStakeholderType>;
+  stakeholderCategories: Array<LaboratoryStakeholderCategory>;
+  sectors: Array<LaboratorySector>;
+  experimentalGovernanceOptions: Array<LaboratoryExperimentalGovernance>;
+  addCustomStakeholderCategory: Array<boolean>;
+  customStakeholderCategory: Array<string>;
+  addCustomSector: boolean;
+  customSector: string;
+  addCustomExperimentalGovernance: boolean;
+  customExperimentalGovernance: string;
 }
+
+const EMPTY_LABORATORY_DATA = {
+  name: '',
+  location: '',
+  stakeholders: [{name: ''}],
+  sectors: [],
+  experimentalGovernance: [],
+  links: ['']
+};
 
 const source = new VectorSource({wrapX: false});
 
@@ -93,20 +344,25 @@ export default Vue.extend({
     return {
       error: '',
       source,
-      laboratoryName: '',
-      laboratoryDescription: ''
+      laboratoryData: EMPTY_LABORATORY_DATA,
+      stakeholderTypes: Object.values(LaboratoryStakeholderType),
+      stakeholderCategories: Object.values(LaboratoryStakeholderCategory),
+      sectors: Object.values(LaboratorySector),
+      experimentalGovernanceOptions: Object.values(
+        LaboratoryExperimentalGovernance
+      ),
+      addCustomStakeholderCategory: [false],
+      customStakeholderCategory: [''],
+      addCustomSector: false,
+      customSector: '',
+      addCustomExperimentalGovernance: false,
+      customExperimentalGovernance: ''
     };
   },
   computed: {
     ...(mapState as MapStateToComputed)('root', ['laboratories']),
     canSave(): boolean {
-      const features = this.source.getFeatures();
-
-      return (
-        features.length === 1 &&
-        Boolean(this.laboratoryDescription) &&
-        Boolean(this.laboratoryName)
-      );
+      return Boolean(this.laboratoryData.name && this.laboratoryData.location);
     },
     laboratory(): Laboratory | null {
       return (
@@ -121,6 +377,33 @@ export default Vue.extend({
       } else {
         this.updateLaboratoryData(this.laboratories[newLaboratoryId]);
       }
+    },
+    laboratoryData(newLaboratoryData: Omit<Laboratory, 'type' | 'feature'>) {
+      console.log(
+        'newLaboratoryData',
+        JSON.parse(JSON.stringify(newLaboratoryData))
+      );
+    },
+    addCustomStakeholderCategory(
+      newAddCustomStakeholderCategory: Array<boolean>
+    ) {
+      newAddCustomStakeholderCategory.forEach((addCategory, index) => {
+        if (!addCategory) {
+          this.customStakeholderCategory[index] = '';
+        }
+      });
+    },
+    addCustomSector(newAddCustomSector: boolean) {
+      if (!newAddCustomSector) {
+        this.customSector = '';
+      }
+    },
+    addCustomExperimentalGovernance(
+      newAddCustomExperimentalGovernance: boolean
+    ) {
+      if (!newAddCustomExperimentalGovernance) {
+        this.customExperimentalGovernance = '';
+      }
     }
   },
   methods: {
@@ -128,21 +411,106 @@ export default Vue.extend({
     ...(mapActions as MapActionsToMethods)('root', ['saveLaboratory']),
     updateLaboratoryData(newLaboratory: Laboratory | null | undefined) {
       if (newLaboratory) {
-        this.laboratoryName = newLaboratory.name;
-        this.laboratoryDescription = newLaboratory.description;
-        this.source.addFeature(newLaboratory.feature.clone());
+        // Fill form with laboratory data and add laboratory feature to the map
+        const {
+          feature,
+          stakeholders,
+          sectors,
+          experimentalGovernance,
+          ...data
+        } = newLaboratory;
+
+        const stakeholdersWithSelectedCategories = stakeholders.map(
+          (stakeholder, index) => {
+            if (
+              !stakeholder.category ||
+              (this.stakeholderCategories as Array<string>).includes(
+                stakeholder.category
+              )
+            ) {
+              return stakeholder;
+            }
+
+            this.addCustomStakeholderCategory[index] = true;
+            this.customStakeholderCategory[index] = stakeholder.category;
+            return {...stakeholder, category: 'other'};
+          }
+        );
+
+        this.addCustomSector = false;
+        let selectedSectors: Array<LaboratorySector> = [];
+        sectors.forEach(sector => {
+          if ((this.sectors as Array<string>).includes(sector)) {
+            selectedSectors.push(sector as LaboratorySector);
+          } else {
+            this.addCustomSector = true;
+            this.customSector = sector;
+          }
+        });
+
+        this.addCustomExperimentalGovernance = false;
+        let definedExperimentalGovernance: Array<LaboratoryExperimentalGovernance> =
+          [];
+        experimentalGovernance.forEach(option => {
+          if (
+            (this.experimentalGovernanceOptions as Array<string>).includes(
+              option
+            )
+          ) {
+            definedExperimentalGovernance.push(
+              option as LaboratoryExperimentalGovernance
+            );
+          } else {
+            this.addCustomExperimentalGovernance = true;
+            this.customExperimentalGovernance = option;
+          }
+        });
+
+        this.laboratoryData = {
+          ...EMPTY_LABORATORY_DATA,
+          ...data,
+          stakeholders: stakeholdersWithSelectedCategories,
+          sectors: selectedSectors,
+          experimentalGovernance: definedExperimentalGovernance
+        };
+        this.source.addFeature(feature.clone());
       } else {
-        this.laboratoryName = '';
-        this.laboratoryDescription = '';
+        // Reset form
+        this.laboratoryData = EMPTY_LABORATORY_DATA;
+        this.addCustomStakeholderCategory = [false];
+        this.customStakeholderCategory = [''];
+        this.addCustomSector = false;
+        this.customSector = '';
+        this.addCustomExperimentalGovernance = false;
+        this.customExperimentalGovernance = '';
         this.source.clear();
       }
     },
     onSave() {
+      const {stakeholders, sectors, experimentalGovernance, links, ...data} =
+        this.laboratoryData;
+
       this.saveLaboratory({
+        ...data,
+        stakeholders: stakeholders
+          .map((stakeholder, index) => {
+            const {category, ...data} = stakeholder;
+            if (category === 'other') {
+              return {...data, category: this.customStakeholderCategory[index]};
+            }
+            return stakeholder;
+          })
+          .filter(({name, type, category}) =>
+            Boolean(name || type || category)
+          ),
+        sectors: [...sectors, this.customSector].filter(Boolean),
+        experimentalGovernance: [
+          ...experimentalGovernance,
+          this.customExperimentalGovernance
+        ].filter(Boolean),
+        links: links.filter(Boolean),
         id: this.laboratoryId,
         type: this.laboratoryType,
-        name: this.laboratoryName,
-        description: this.laboratoryDescription,
         feature: this.source.getFeatures()[0]
       })
         .then(() => {
@@ -181,6 +549,7 @@ export default Vue.extend({
   grid-template-columns: calc(50% - 0.5rem) calc(50% - 0.5rem);
   grid-template-rows: 100%;
   gap: 1rem;
+  min-height: 0;
   height: 100%;
   padding: 1rem;
 }
@@ -198,8 +567,63 @@ export default Vue.extend({
   right: 0;
 }
 
-.laboratory-name {
+.laboratories-data {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.laboratories-form {
+  flex-grow: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.laboratory-input {
   padding-bottom: 1rem;
+}
+
+.laboratory-stakeholder {
+  display: grid;
+  grid-auto-columns: 1fr 1fr 28px;
+  grid-gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.laboratory-stakeholder-custom-category {
+  grid-column: 2;
+}
+
+.laboratory-stakeholder-name {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.laboratory-stakeholder > button {
+  grid-column: 3;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+.laboratory-link {
+  display: grid;
+  grid-template-columns: 1fr 28px;
+  grid-gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.label-with-add-button {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.label-with-add-button > button {
+  margin-bottom: 0.125rem;
+}
+
+.indent {
+  margin-left: 32px;
 }
 
 .error-message {

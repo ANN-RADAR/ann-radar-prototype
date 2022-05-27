@@ -20,7 +20,7 @@
           <v-list-item-content>
             <v-list-item-title>{{ laboratory.name }}</v-list-item-title>
             <v-list-item-subtitle>
-              {{ laboratory.description }}
+              {{ laboratory.location }}
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>

@@ -123,6 +123,41 @@
       "edit": "Edit Model Quarter \"{name}\""
     },
     "name": "Name",
-    "description": "Description"
+    "runtime": "Runtime",
+    "budget": "Budget",
+    "location": "Location",
+    "goals": "Goals",
+    "stakeholders": "Stakeholders",
+    "stakeholderType": "Stakeholder Type",
+    "stakeholderTypes": {
+      "project-partner": "Project Partner",
+      "associate": "Associate"
+    },
+    "stakeholderCategory": "Stakeholder Category",
+    "enterStakeholderCategory": "Enter custom category",
+    "stakeholderCategories": {
+      "municipal": "Municipal",
+      "academic": "Academic",
+      "civic": "Civic",
+      "business": "Business"
+    },
+    "stakeholderName": "Stakeholder Name",
+    "sectors": "Sectors",
+    "enterSector": "Enter custom sector",
+    "sector": {
+      "solar": "Solar",
+      "energy-efficiency": "Energy Efficiency",
+      "mobility": "Mobility",
+      "integrated-planning": "Integrated Planning"
+    },
+    "experimentalGovernance": "Experimental Governance",
+    "enterExperimentalGovernance": "Enter custom experimental governance",
+    "experimentalGovernanceOptions": {
+      "exceptions-to-legal-regulations": "Exceptions to current legal regulations",
+      "citizen-driven-location-based-urban-development": "Citizen driven location based urban development"
+    },
+    "links": "Links to Evidence",
+    "link": "Link",
+    "other": "Other"
   }
 }
