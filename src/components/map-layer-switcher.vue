@@ -11,6 +11,7 @@
     >
       <template v-slot:activator="{on, attrs}">
         <v-btn
+          id="tour-data-layers"
           fab
           small
           tile

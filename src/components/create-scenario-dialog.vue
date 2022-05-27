@@ -10,7 +10,13 @@
     />
     <v-dialog v-model="open" max-width="600px">
       <template v-slot:activator="{on, attrs}">
-        <v-btn text v-bind="attrs" v-on="on" :disabled="disabled">
+        <v-btn
+          id="tour-create-scenario"
+          text
+          v-bind="attrs"
+          v-on="on"
+          :disabled="disabled"
+        >
           {{ $t('scenarios.createScenario') }}
         </v-btn>
       </template>

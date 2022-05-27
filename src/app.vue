@@ -17,6 +17,8 @@
         <Notes v-if="showNotes" />
       </v-navigation-drawer>
     </v-main>
+
+    <Tour />
   </v-app>
 </template>
 
@@ -25,6 +27,7 @@ import Vue from 'vue';
 
 import Header from './components/app-header.vue';
 import Notes from './components/app-notes.vue';
+import Tour from './components/app-tour.vue';
 
 interface Data {
   showNotes: boolean;
@@ -33,7 +36,8 @@ interface Data {
 export default Vue.extend({
   components: {
     Header,
-    Notes
+    Notes,
+    Tour
   },
   data(): Data {
     return {
