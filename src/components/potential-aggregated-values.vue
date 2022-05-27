@@ -4,7 +4,7 @@
     <template v-for="(header, index) in tableHeaders">
       <td v-if="index === 0" :key="header.value">{{ $t('total') }}</td>
       <td v-else-if="header.value === 'AnzFlur'" :key="header.value">
-        {{ formatNumber(aggregation.AnzFlur) }}
+        {{ formatNumber(Math.round(aggregation.AnzFlur)) }}
       </td>
       <td v-else-if="header.value === 'mittlFlur'" :key="header.value">
         {{ formatNumber(Math.round(aggregation.mittlFlur)) }}&nbsp;m²
@@ -18,7 +18,7 @@
         }}&nbsp;%
       </td>
       <td v-else-if="header.value === 'Bev_311220'" :key="header.value">
-        {{ formatNumber(aggregation.Bev_311220) }}
+        {{ formatNumber(Math.round(aggregation.Bev_311220)) }}
       </td>
       <td v-else-if="header.value === 'SP_GebWB15'" :key="header.value">
         <span v-if="isNaN(aggregation.SP_GebWB15)">?</span>

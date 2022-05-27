@@ -16,7 +16,7 @@
       </div>
       <v-card>
         <AdminAreasInspector>
-          <SolarPotentialInspectorTable />
+          <PotentialInspectorTable category="solar" />
         </AdminAreasInspector>
       </v-card>
     </div>
@@ -33,7 +33,7 @@ import MapLayerSwitcher from './map-layer-switcher.vue';
 import MapStyleSwitcher from './map-style-switcher.vue';
 import MapLegends from './map-legends.vue';
 import AdminAreasInspector from './admin-areas-inspector.vue';
-import SolarPotentialInspectorTable from './solar-potential-inspector-table.vue';
+import PotentialInspectorTable from './potential-inspector-table.vue';
 
 import {LayerOptions} from '@/types/layers';
 import {solarPotentialLayersOptions} from '../constants/layers';
@@ -49,7 +49,7 @@ export default Vue.extend({
     MapStyleSwitcher,
     MapLegends,
     AdminAreasInspector,
-    SolarPotentialInspectorTable
+    PotentialInspectorTable
   },
   data(): Data {
     return {
