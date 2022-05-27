@@ -62,9 +62,18 @@
               <span v-else-if="header.value === 'tatNu_WB_P'">
                 {{ formatNumber(item[header.value]) }}&nbsp;%</span
               >
+              <span v-else-if="header.value === 'Wohnfl_WK'">
+                {{ formatNumber(item[header.value]) }}&nbsp;%
+              </span>
               <span v-else-if="header.value === 'SP_GebWB15'">
                 {{ formatNumber(item[header.value]) }}&nbsp;MWh/a</span
               >
+              <span v-else-if="header.value === 'NW_absdiff'">
+                {{ formatNumber(item[header.value]) }}&nbsp;MWh/a
+              </span>
+              <span v-else-if="header.value === 'spezWBd_dP'">
+                {{ formatNumber(item[header.value]) }}&nbsp;%
+              </span>
               <span v-else-if="isNaN(item[header.value])">
                 {{ item[header.value] }}</span
               >
