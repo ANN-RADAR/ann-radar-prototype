@@ -122,6 +122,7 @@
       "add": "Add Model Quarter",
       "edit": "Edit Model Quarter \"{name}\""
     },
+    "drawingHint": "Click on the map to draw in the corresponding area.",
     "name": "Name",
     "runtime": "Runtime",
     "budget": "Budget",

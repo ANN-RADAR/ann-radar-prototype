@@ -48,16 +48,20 @@
           v-model="laboratoryData.budget"
         ></v-text-field>
 
-        <label>{{ $t('laboratories.location') }}</label>
-        <v-text-field
-          class="laboratory-input"
-          outlined
-          dense
-          hide-details
-          name="location"
-          type="text"
-          v-model="laboratoryData.location"
-        ></v-text-field>
+        <div class="laboratory-input">
+          <label>{{ $t('laboratories.location') }}</label>
+          <v-text-field
+            outlined
+            dense
+            hide-details
+            name="location"
+            type="text"
+            v-model="laboratoryData.location"
+          ></v-text-field>
+          <v-alert class="drawing-hint" dense text type="info">
+            {{ $t('laboratories.drawingHint') }}
+          </v-alert>
+        </div>
 
         <label>{{ $t('laboratories.goals') }}</label>
         <v-textarea
@@ -624,6 +628,10 @@ export default Vue.extend({
 
 .indent {
   margin-left: 32px;
+}
+
+.drawing-hint {
+  margin-top: 0.5rem;
 }
 
 .error-message {
