@@ -58,6 +58,7 @@
   "layer": {
     "solarMap": "Solar Map",
     "solarCoverageRate": "Solar Coverage Rate",
+    "heatAtlas": "Heat Atlas",
     "heatDemand": "Heat Demand",
     "schools": "Schools",
     "quarterCulture": "Suburban Culture",

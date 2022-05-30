@@ -16,7 +16,7 @@
       </div>
       <v-card>
         <AdminAreasInspector>
-          <EnergyPotentialInspectorTable />
+          <PotentialInspectorTable category="energyEfficiency" />
         </AdminAreasInspector>
       </v-card>
     </div>
@@ -33,7 +33,7 @@ import MapLayerSwitcher from './map-layer-switcher.vue';
 import MapStyleSwitcher from './map-style-switcher.vue';
 import MapLegends from './map-legends.vue';
 import AdminAreasInspector from './admin-areas-inspector.vue';
-import EnergyPotentialInspectorTable from './energy-potential-inspector-table.vue';
+import PotentialInspectorTable from './potential-inspector-table.vue';
 
 import {LayerOptions} from '@/types/layers';
 import {energyPotentialLayersOptions} from '../constants/layers';
@@ -49,7 +49,7 @@ export default Vue.extend({
     MapStyleSwitcher,
     MapLegends,
     AdminAreasInspector,
-    EnergyPotentialInspectorTable
+    PotentialInspectorTable
   },
   data(): Data {
     return {

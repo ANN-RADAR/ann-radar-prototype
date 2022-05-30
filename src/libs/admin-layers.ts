@@ -65,8 +65,12 @@ export const calculateAggregateValues = (
         mittlFlur: aggr.mittlFlur + area.mittlFlur * area.AnzFlur,
         BGF: aggr.BGF + area.BGF,
         tatNu_WB_P: aggr.tatNu_WB_P + area.tatNu_WB_P * area.Shape_Area,
+        Wohnfl_WK: aggr.Wohnfl_WK + (area.Wohnfl_WK || 0),
+        Haush: aggr.Haush + area.Haush,
         Bev_311220: aggr.Bev_311220 + area.Bev_311220,
-        SP_GebWB15: aggr.SP_GebWB15 + (area.SP_GebWB15 || 0)
+        SP_GebWB15: aggr.SP_GebWB15 + (area.SP_GebWB15 || 0),
+        NW_absdiff: aggr.NW_absdiff + (area.NW_absdiff || 0),
+        spezWBd_dP: aggr.spezWBd_dP + area.spezWBd_dP * area.Shape_Area
       };
     },
     {
@@ -75,8 +79,12 @@ export const calculateAggregateValues = (
       mittlFlur: 0,
       BGF: 0,
       tatNu_WB_P: 0,
+      Wohnfl_WK: 0,
+      Haush: 0,
       Bev_311220: 0,
-      SP_GebWB15: 0
+      SP_GebWB15: 0,
+      NW_absdiff: 0,
+      spezWBd_dP: 0
     }
   );
 
@@ -85,7 +93,11 @@ export const calculateAggregateValues = (
     mittlFlur: weightedSums.mittlFlur / weightedSums.AnzFlur,
     BGF: weightedSums.BGF,
     tatNu_WB_P: weightedSums.tatNu_WB_P / weightedSums.Shape_Area,
+    Wohnfl_WK: weightedSums.Wohnfl_WK,
+    Haush: weightedSums.Haush,
     Bev_311220: weightedSums.Bev_311220,
-    SP_GebWB15: weightedSums.SP_GebWB15
+    SP_GebWB15: weightedSums.SP_GebWB15,
+    NW_absdiff: weightedSums.NW_absdiff,
+    spezWBd_dP: weightedSums.spezWBd_dP / weightedSums.Shape_Area
   };
 };
