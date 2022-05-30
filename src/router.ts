@@ -65,7 +65,7 @@ const routes = [
         component: Results,
         name: 'Energy Potential Results',
         props: {
-          category: 'energy-efficiency',
+          category: 'energyEfficiency',
           returnTo: '/potential/energy-efficiency',
           thematicLayers: energyPotentialLayersOptions,
           thematicLayersTitleKey: 'layerOptions.energyLayers'

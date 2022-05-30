@@ -8,7 +8,7 @@ export interface PotentialConfig {
       };
       selected: /* initially selected columns */ {
         solar: string[];
-        energyEfficency: string[];
+        energyEfficiency: string[];
         mobility: string[];
       };
     };
