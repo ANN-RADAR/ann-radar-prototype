@@ -1,11 +1,6 @@
 <template>
   <div class="laboratories">
-    <div class="map">
-      <Map />
-      <div class="map-overlays top-right">
-        <MapStyleSwitcher />
-      </div>
-    </div>
+    <Map showStyleSwitcher />
     <v-card class="laboratories-data">
       <v-card-title>{{
         $t(`laboratories.${laboratoryType}.title`)
@@ -47,7 +42,6 @@ import {mapState} from 'vuex';
 import {MapStateToComputed} from '@/types/store';
 
 import Map from './map-component.vue';
-import MapStyleSwitcher from './map-style-switcher.vue';
 import {Laboratory, LaboratoryId, LaboratoryType} from '@/types/laboratories';
 
 export default Vue.extend({
@@ -62,8 +56,7 @@ export default Vue.extend({
     }
   },
   components: {
-    Map,
-    MapStyleSwitcher
+    Map
   },
   computed: {
     ...(mapState as MapStateToComputed)('root', ['laboratories']),
@@ -85,23 +78,6 @@ export default Vue.extend({
   min-height: 0;
   height: 100%;
   padding: 1rem;
-}
-
-.map {
-  position: relative;
-}
-
-.map-overlays {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  grid-gap: 8px;
-  padding: 8px;
-}
-
-.map-overlays.top-right {
-  top: 0;
-  right: 0;
 }
 
 .laboratories-data {

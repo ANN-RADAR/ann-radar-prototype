@@ -8,24 +8,19 @@
     width="100%"
   >
     <div class="results-content">
-      <div class="map">
-        <Map
-          hasMultipleFeatureSelection
-          :highlightedFeatureIds="currentLayerSelectedFeatureIds"
-          disableFeatureSelection
-        />
-        <div class="map-overlays top-right">
-          <MapLayerSwitcher
-            :thematicLayers="thematicLayers"
-            :thematicLayersTitle="$t(thematicLayersTitleKey)"
-            :alwaysVisibleLayers="initialActiveLayers"
-          />
-          <MapStyleSwitcher />
-        </div>
-        <div class="map-overlays bottom-right">
-          <MapLegends />
-        </div>
-      </div>
+      <Map
+        hasMultipleFeatureSelection
+        :highlightedFeatureIds="currentLayerSelectedFeatureIds"
+        disableFeatureSelection
+        showLayerSwitcher
+        :layerSwitcherProps="{
+          thematicLayers,
+          thematicLayersTitle: $t(thematicLayersTitleKey),
+          alwaysVisibleLayers: initialActiveLayers
+        }"
+        showStyleSwitcher
+        showLegends
+      />
 
       <v-card class="results-data" id="tour-results">
         <v-card-title>
@@ -114,9 +109,6 @@
 import Vue, {PropType} from 'vue';
 
 import Map from '../components/map-component.vue';
-import MapLayerSwitcher from '../components/map-layer-switcher.vue';
-import MapStyleSwitcher from '../components/map-style-switcher.vue';
-import MapLegends from '../components/map-legends.vue';
 import BalancedScorecardResults from '../components/balanced-scorecard-results.vue';
 import PotentialInspectorTable from '../components/potential-inspector-table.vue';
 
@@ -138,9 +130,6 @@ interface Data {
 export default Vue.extend({
   components: {
     Map,
-    MapLayerSwitcher,
-    MapStyleSwitcher,
-    MapLegends,
     BalancedScorecardResults,
     PotentialInspectorTable
   },
@@ -238,28 +227,6 @@ export default Vue.extend({
 
 .results-data-areas {
   margin-bottom: 16px;
-}
-
-.map {
-  position: relative;
-}
-
-.map-overlays {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  grid-gap: 8px;
-  padding: 8px;
-}
-
-.map-overlays.top-right {
-  top: 0;
-  right: 0;
-}
-
-.map-overlays.bottom-right {
-  bottom: 0;
-  right: 0;
 }
 
 .panels {
