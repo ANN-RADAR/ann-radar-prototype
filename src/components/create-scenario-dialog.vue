@@ -113,6 +113,7 @@ export default Vue.extend({
     close() {
       this.name = '';
       this.open = false;
+      this.showConfirm = false;
     }
   }
 });
