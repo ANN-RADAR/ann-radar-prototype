@@ -55,7 +55,28 @@
       <v-tabs v-model="tab">
         <v-tab to="/potential">{{ $t('navigation.potential') }}</v-tab>
         <v-tab to="/plans">{{ $t('navigation.plans') }}</v-tab>
-        <v-tab to="/stakeholders">{{ $t('navigation.stakeholders') }}</v-tab>
+
+        <v-menu open-on-hover bottom offset-y content-class="stakeholders-menu">
+          <template v-slot:activator="{on, attrs}">
+            <v-tab to="/stakeholders" v-bind="attrs" v-on="on">
+              {{ $t('navigation.stakeholders') }}
+            </v-tab>
+          </template>
+
+          <v-list>
+            <v-list-item>
+              <v-list-item-title>
+                {{ $t('navigation.stakeholdersOrganizations') }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>
+                {{ $t('navigation.citizens') }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+
         <v-tab to="/urban-data">{{ $t('navigation.urbanData') }}</v-tab>
         <v-tab to="/governance">{{ $t('navigation.governance') }}</v-tab>
       </v-tabs>
@@ -130,5 +151,9 @@ export default Vue.extend({
 
 .scenario-name {
   padding: 0 32px;
+}
+
+.stakeholders-menu {
+  margin-top: -2px;
 }
 </style>
