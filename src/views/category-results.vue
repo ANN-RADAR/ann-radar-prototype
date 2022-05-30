@@ -96,15 +96,8 @@
             class="potential-table-wrapper"
             :class="{reduced: expandedPanelIndex !== panelIndices.POTENTIAL}"
           >
-            <SolarPotentialInspectorTable
-              v-if="category === 'solar'"
-              :showAggregationOnly="
-                expandedPanelIndex !== panelIndices.POTENTIAL
-              "
-              :showSelected="false"
-            />
-            <EnergyPotentialInspectorTable
-              v-if="category === 'energy-efficiency'"
+            <PotentialInspectorTable
+              :category="category"
               :showAggregationOnly="
                 expandedPanelIndex !== panelIndices.POTENTIAL
               "
@@ -125,8 +118,7 @@ import MapLayerSwitcher from '../components/map-layer-switcher.vue';
 import MapStyleSwitcher from '../components/map-style-switcher.vue';
 import MapLegends from '../components/map-legends.vue';
 import BalancedScorecardResults from '../components/balanced-scorecard-results.vue';
-import SolarPotentialInspectorTable from '../components/solar-potential-inspector-table.vue';
-import EnergyPotentialInspectorTable from '../components/energy-potential-inspector-table.vue';
+import PotentialInspectorTable from '../components/potential-inspector-table.vue';
 
 import {LayerOptions} from '@/types/layers';
 import {mapActions, mapGetters, mapState} from 'vuex';
@@ -150,12 +142,11 @@ export default Vue.extend({
     MapStyleSwitcher,
     MapLegends,
     BalancedScorecardResults,
-    SolarPotentialInspectorTable,
-    EnergyPotentialInspectorTable
+    PotentialInspectorTable
   },
   props: {
     category: {
-      type: String,
+      type: String as PropType<'solar' | 'energyEfficiency' | 'mobility'>,
       required: true
     },
     returnTo: {

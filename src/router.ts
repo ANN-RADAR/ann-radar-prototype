@@ -15,6 +15,8 @@ import PlansCompare from './components/plans-compare.vue';
 import Stakeholders from './views/category-stakeholders.vue';
 import StakeholdersRate from './components/stakeholders-rate.vue';
 import StakeholdersCompare from './components/stakeholders-compare.vue';
+import StakeholdersOrganizations from './components/stakeholders-organizations.vue';
+import StakeholdersCitizens from './components/stakeholders-citizens.vue';
 import UrbanData from './views/category-urban-data.vue';
 import UrbanDataRate from './components/urban-data-rate.vue';
 import UrbanDataCompare from './components/urban-data-compare.vue';
@@ -65,7 +67,7 @@ const routes = [
         component: Results,
         name: 'Energy Potential Results',
         props: {
-          category: 'energy-efficiency',
+          category: 'energyEfficiency',
           returnTo: '/potential/energy-efficiency',
           thematicLayers: energyPotentialLayersOptions,
           thematicLayersTitleKey: 'layerOptions.energyLayers'
@@ -104,6 +106,16 @@ const routes = [
       {path: 'rate', component: PlansRate, name: 'Rate Plans'},
       {path: 'compare', component: PlansCompare, name: 'Compare Plans'}
     ]
+  },
+  {
+    path: '/stakeholders/organizations',
+    component: StakeholdersOrganizations,
+    name: 'Stakeholders Organizations'
+  },
+  {
+    path: '/stakeholders/citizens',
+    component: StakeholdersCitizens,
+    name: 'Stakeholders Citizens'
   },
   {
     path: '/stakeholders',

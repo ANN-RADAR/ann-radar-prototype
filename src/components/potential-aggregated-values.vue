@@ -4,7 +4,7 @@
     <template v-for="(header, index) in tableHeaders">
       <td v-if="index === 0" :key="header.value">{{ $t('total') }}</td>
       <td v-else-if="header.value === 'AnzFlur'" :key="header.value">
-        {{ formatNumber(aggregation.AnzFlur) }}
+        {{ formatNumber(Math.round(aggregation.AnzFlur)) }}
       </td>
       <td v-else-if="header.value === 'mittlFlur'" :key="header.value">
         {{ formatNumber(Math.round(aggregation.mittlFlur)) }}&nbsp;m²
@@ -17,13 +17,31 @@
           formatNumber(Math.round(aggregation.tatNu_WB_P * 100) / 100)
         }}&nbsp;%
       </td>
+      <td v-else-if="header.value === 'Wohnfl_WK'" :key="header.value">
+        {{ formatNumber(Math.round(aggregation.Wohnfl_WK * 100) / 100) }}&nbsp;%
+      </td>
+      <td v-else-if="header.value === 'Haush'" :key="header.value">
+        {{ formatNumber(Math.round(aggregation.Haush)) }}
+      </td>
       <td v-else-if="header.value === 'Bev_311220'" :key="header.value">
-        {{ formatNumber(aggregation.Bev_311220) }}
+        {{ formatNumber(Math.round(aggregation.Bev_311220)) }}
       </td>
       <td v-else-if="header.value === 'SP_GebWB15'" :key="header.value">
         <span v-if="isNaN(aggregation.SP_GebWB15)">?</span>
         <span v-else>
           {{ formatNumber(Math.round(aggregation.SP_GebWB15)) }}&nbsp;MWh/a
+        </span>
+      </td>
+      <td v-else-if="header.value === 'NW_absdiff'" :key="header.value">
+        <span v-if="isNaN(aggregation.NW_absdiff)">?</span>
+        <span v-else>
+          {{ formatNumber(Math.round(aggregation.NW_absdiff)) }}&nbsp;MWh/a
+        </span>
+      </td>
+      <td v-else-if="header.value === 'spezWBd_dP'" :key="header.value">
+        <span v-if="isNaN(aggregation.spezWBd_dP)">?</span>
+        <span v-else>
+          {{ formatNumber(Math.round(aggregation.spezWBd_dP)) }}&nbsp;%
         </span>
       </td>
       <td v-else :key="header.value" />

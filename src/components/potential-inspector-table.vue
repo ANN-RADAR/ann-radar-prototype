@@ -31,7 +31,6 @@
         :class="{
           selectable: showAggregationOnly ? false : showSelected
         }"
-        v-if="adminLayerType"
         :value="selectedFeaturesData"
         @input="onSelectedFeaturesDataChange"
         :headers="shownTableHeaders"
@@ -63,9 +62,18 @@
               <span v-else-if="header.value === 'tatNu_WB_P'">
                 {{ formatNumber(item[header.value]) }}&nbsp;%</span
               >
+              <span v-else-if="header.value === 'Wohnfl_WK'">
+                {{ formatNumber(item[header.value]) }}&nbsp;%
+              </span>
               <span v-else-if="header.value === 'SP_GebWB15'">
                 {{ formatNumber(item[header.value]) }}&nbsp;MWh/a</span
               >
+              <span v-else-if="header.value === 'NW_absdiff'">
+                {{ formatNumber(item[header.value]) }}&nbsp;MWh/a
+              </span>
+              <span v-else-if="header.value === 'spezWBd_dP'">
+                {{ formatNumber(item[header.value]) }}&nbsp;%
+              </span>
               <span v-else-if="isNaN(item[header.value])">
                 {{ item[header.value] }}</span
               >
@@ -100,7 +108,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue, {PropType} from 'vue';
 import {mapState, mapMutations, mapGetters} from 'vuex';
 
 import {AdminLayerFeatureData, AdminLayerType} from '@/types/admin-layers';
@@ -113,7 +121,7 @@ import {formatNumber} from '@/libs/format';
 import {adminLayers} from '@/constants/admin-layers';
 import {DataTableHeader} from 'vuetify';
 
-import AggregatedValues from './energy-potential-aggregated-values.vue';
+import AggregatedValues from './potential-aggregated-values.vue';
 
 interface Data {
   adminLayers: typeof adminLayers;
@@ -126,6 +134,10 @@ export default Vue.extend({
     AggregatedValues
   },
   props: {
+    category: {
+      type: String as PropType<'solar' | 'energyEfficiency' | 'mobility'>,
+      required: true
+    },
     showAggregationOnly: {
       type: Boolean,
       required: false
@@ -251,9 +263,9 @@ export default Vue.extend({
         .slice(1)
         .filter(
           header =>
-            this.potentialConfig?.table.columns.selected.energyEfficency.includes(
-              header.value
-            ) || header.value === 'Soz_Status'
+            this.potentialConfig?.table.columns.selected[
+              this.category
+            ].includes(header.value) || header.value === 'Soz_Status'
         );
     }
   }
