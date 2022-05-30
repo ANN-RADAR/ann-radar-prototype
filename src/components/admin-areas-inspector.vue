@@ -2,12 +2,13 @@
   <div class="inspector">
     <v-card-title>{{ $t('selectAreas') }}</v-card-title>
     <v-card-text class="inspector-content">
-      <nav class="inspector-navigation">
+      <nav class="inspector-navigation" id="tour-select-urban-areas">
         <v-btn
           v-for="layerType in adminLayerTypes"
           :key="layerType"
           :color="layerType === adminLayerType ? 'primary' : ''"
           @click="onLayerTypeChanged(layerType)"
+          :id="`tour-urban-area-${layerType}`"
         >
           {{ $t(`adminLayer.${layerType}`) }}
         </v-btn>

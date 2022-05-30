@@ -3,7 +3,7 @@
     <div class="potential-header">
       <v-tabs>
         <v-tab to="solar">{{ $t('navigation.solar') }}</v-tab>
-        <v-tab to="energy-efficiency">
+        <v-tab to="energy-efficiency" id="tour-sustainability-themes">
           {{ $t('navigation.energyEfficiency') }}
         </v-tab>
         <v-tab to="mobility">{{ $t('navigation.mobility') }}</v-tab>

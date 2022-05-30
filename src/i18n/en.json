@@ -163,5 +163,33 @@
     "links": "Links to Evidence",
     "link": "Link",
     "other": "Other"
+  },
+  "tour": {
+    "scenarios": {
+      "title": "1 – Scenarios",
+      "content": {
+        "select": "Select a predefined scenario ...",
+        "create": "... or build your own scenario."
+      }
+    },
+    "sustainabilityThemes": {
+      "title": "2 – Sustainability Themes",
+      "content": "Sustainability Themes"
+    },
+    "dataLayers": {
+      "title": "3 – Data layers",
+      "content": "Choose relevant data layers"
+    },
+    "urbanAreas": {
+      "title": "4 – Urban Areas",
+      "content": {
+        "select": "Select functional urban areas",
+        "view": "Data-based view of urban areas"
+      }
+    },
+    "results": {
+      "title": "5 – View & Discuss Results",
+      "content": "Select data layers<br/>Balanced Scorecards per area<br/>Sustainability thematic potentials"
+    }
   }
 }

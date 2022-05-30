@@ -27,7 +27,7 @@
         </div>
       </div>
 
-      <v-card class="results-data">
+      <v-card class="results-data" id="tour-results">
         <v-card-title>
           {{ $t('results.title') }} |
           {{ $t(`adminLayer.${adminLayerType}`) }}

@@ -10,7 +10,7 @@
     />
     <v-dialog v-model="open" max-width="600px">
       <template v-slot:activator="{on, attrs}">
-        <v-btn text v-bind="attrs" v-on="on">
+        <v-btn id="tour-load-scenario" text v-bind="attrs" v-on="on">
           {{ $t('scenarios.loadScenario') }}
         </v-btn>
       </template>
