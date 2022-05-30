@@ -13,8 +13,8 @@ import {
 import Vue from 'vue';
 import {mapGetters, mapMutations, mapState} from 'vuex';
 
-// TODO: replace with the id of the demo scenario created by the HCU
-const TOUR_DEMO_SCENARIO_ID = 'tzWIt9gWFDVKG0B0CYU3';
+// "NEB Pilot Region" Demo Scenario
+const TOUR_DEMO_SCENARIO_ID = 'lvRzhEbHfvAyForoGBTv';
 
 export default Vue.extend({
   computed: {
