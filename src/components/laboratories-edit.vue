@@ -76,15 +76,7 @@
         <div class="laboratory-input">
           <label class="label-with-add-button">
             {{ $t('laboratories.stakeholders') }}
-            <v-btn
-              icon
-              small
-              @click="
-                laboratoryData.stakeholders.push({name: ''});
-                addCustomStakeholderCategory.push(false);
-                customStakeholderCategory.push('');
-              "
-            >
+            <v-btn icon small @click="addStakeholder">
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </label>
@@ -150,11 +142,7 @@
               v-if="laboratoryData.stakeholders.length > 1"
               icon
               small
-              @click="
-                laboratoryData.stakeholders.splice(index, 1);
-                addCustomStakeholderCategory.splice(index, 1);
-                customStakeholderCategory.splice(index, 1);
-              "
+              @click="removeStakeholder(index)"
             >
               <v-icon>mdi-close-circle</v-icon>
             </v-btn>
@@ -233,7 +221,7 @@
         <div class="laboratory-input">
           <label class="label-with-add-button">
             {{ $t('laboratories.links') }}
-            <v-btn icon small @click="laboratoryData.links.push('')">
+            <v-btn icon small @click="addLink">
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </label>
@@ -256,7 +244,7 @@
               v-if="laboratoryData.links.length > 1"
               icon
               small
-              @click="laboratoryData.links.splice(index, 1)"
+              @click="removeLink(index)"
             >
               <v-icon>mdi-close-circle</v-icon>
             </v-btn>
@@ -523,6 +511,22 @@ export default Vue.extend({
         .catch((error: string) => {
           this.error = error;
         });
+    },
+    addStakeholder() {
+      this.laboratoryData.stakeholders.push({name: ''});
+      this.addCustomStakeholderCategory.push(false);
+      this.customStakeholderCategory.push('');
+    },
+    removeStakeholder(index: number) {
+      this.laboratoryData.stakeholders.splice(index, 1);
+      this.addCustomStakeholderCategory.splice(index, 1);
+      this.customStakeholderCategory.splice(index, 1);
+    },
+    addLink() {
+      this.laboratoryData.links.push('');
+    },
+    removeLink(index: number) {
+      this.laboratoryData.links.splice(index, 1);
     }
   },
   created() {
