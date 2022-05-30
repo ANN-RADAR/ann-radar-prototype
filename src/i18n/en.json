@@ -21,6 +21,8 @@
     "rate": "Select",
     "compare": "View",
     "stakeholders": "Stakeholders",
+    "stakeholdersOrganizations": "Stakeholders (Organizations)",
+    "citizens": "Citizens",
     "urbanData": "Urban Data",
     "governance": "Governance",
     "urbanTestbeds": "Urban Testbeds",
