@@ -29,18 +29,18 @@ export default Vue.extend({
       return [
         {
           target: '#tour-load-scenario',
-          header: {title: '1 – Scenarios'},
-          content: 'Select a predefined scenario ...'
+          header: {title: this.$t('tour.scenarios.title')},
+          content: this.$t('tour.scenarios.content.select')
         },
         {
           target: '#tour-create-scenario',
-          header: {title: '1 – Scenarios'},
-          content: '... or build your own scenario.'
+          header: {title: this.$t('tour.scenarios.title')},
+          content: this.$t('tour.scenarios.content.create')
         },
         {
           target: '#tour-sustainability-themes',
-          header: {title: '2 – Sustainability Themes'},
-          content: 'Sustainability Themes',
+          header: {title: this.$t('tour.sustainabilityThemes.title')},
+          content: this.$t('tour.sustainabilityThemes.content'),
           before: () => {
             if (!this.$route.path.startsWith('/potential')) {
               this.$router.push('/potential');
@@ -49,8 +49,8 @@ export default Vue.extend({
         },
         {
           target: '#tour-data-layers',
-          header: {title: '3 – Data layers'},
-          content: 'Choose relevant data layers',
+          header: {title: this.$t('tour.dataLayers.title')},
+          content: this.$t('tour.dataLayers.content'),
           before: () => {
             if (!this.$route.path.startsWith('/potential')) {
               this.$router.push('/potential');
@@ -60,8 +60,8 @@ export default Vue.extend({
         },
         {
           target: '#tour-select-urban-areas',
-          header: {title: '4 – Urban Areas'},
-          content: 'Select functional urban areas',
+          header: {title: this.$t('tour.urbanAreas.title')},
+          content: this.$t('tour.urbanAreas.content.select'),
           before: () => {
             if (!this.$route.path.startsWith('/potential')) {
               this.$router.push('/potential');
@@ -73,8 +73,8 @@ export default Vue.extend({
         },
         {
           target: '#map',
-          header: {title: '4 – Urban Areas'},
-          content: 'Data-based view of urban areas',
+          header: {title: this.$t('tour.urbanAreas.title')},
+          content: this.$t('tour.urbanAreas.content.view'),
           params: {placement: 'right'},
           before: () => {
             if (!this.$route.path.startsWith('/potential')) {
@@ -87,9 +87,8 @@ export default Vue.extend({
         },
         {
           target: '#tour-results',
-          header: {title: '5 – View & Discuss Results'},
-          content:
-            'Select data layers<br/>Balanced Scorecards per area<br/>Sustainability thematic potentials',
+          header: {title: this.$t('tour.results.title')},
+          content: this.$t('tour.results.content'),
           params: {placement: 'left'},
           before: () => {
             this.setAdminLayerType(AdminLayerType.BOROUGH);
