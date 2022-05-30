@@ -113,11 +113,11 @@
                 })),
                 {text: $t('laboratories.other'), value: 'other'}
               ]"
-              @change="addCustomStakeholderCategory[index] = $event === 'other'"
+              @change="onStakeholderCategoryChange($event, index)"
               v-model="laboratoryData.stakeholders[index].category"
             ></v-select>
             <v-text-field
-              v-if="addCustomStakeholderCategory[index]"
+              v-if="laboratoryData.stakeholders[index].category === 'other'"
               class="laboratory-stakeholder-custom-category"
               outlined
               dense
@@ -294,7 +294,6 @@ interface Data {
   stakeholderCategories: Array<LaboratoryStakeholderCategory>;
   sectors: Array<LaboratorySector>;
   experimentalGovernanceOptions: Array<LaboratoryExperimentalGovernance>;
-  addCustomStakeholderCategory: Array<boolean>;
   customStakeholderCategory: Array<string>;
   addCustomSector: boolean;
   customSector: string;
@@ -343,7 +342,6 @@ export default Vue.extend({
       experimentalGovernanceOptions: Object.values(
         LaboratoryExperimentalGovernance
       ),
-      addCustomStakeholderCategory: [false],
       customStakeholderCategory: [''],
       addCustomSector: false,
       customSector: '',
@@ -369,21 +367,6 @@ export default Vue.extend({
       } else {
         this.updateLaboratoryData(this.laboratories[newLaboratoryId]);
       }
-    },
-    laboratoryData(newLaboratoryData: Omit<Laboratory, 'type' | 'feature'>) {
-      console.log(
-        'newLaboratoryData',
-        JSON.parse(JSON.stringify(newLaboratoryData))
-      );
-    },
-    addCustomStakeholderCategory(
-      newAddCustomStakeholderCategory: Array<boolean>
-    ) {
-      newAddCustomStakeholderCategory.forEach((addCategory, index) => {
-        if (!addCategory) {
-          this.customStakeholderCategory[index] = '';
-        }
-      });
     },
     addCustomSector(newAddCustomSector: boolean) {
       if (!newAddCustomSector) {
@@ -423,7 +406,6 @@ export default Vue.extend({
               return stakeholder;
             }
 
-            this.addCustomStakeholderCategory[index] = true;
             this.customStakeholderCategory[index] = stakeholder.category;
             return {...stakeholder, category: 'other'};
           }
@@ -469,7 +451,6 @@ export default Vue.extend({
       } else {
         // Reset form
         this.laboratoryData = EMPTY_LABORATORY_DATA;
-        this.addCustomStakeholderCategory = [false];
         this.customStakeholderCategory = [''];
         this.addCustomSector = false;
         this.customSector = '';
@@ -514,12 +495,10 @@ export default Vue.extend({
     },
     addStakeholder() {
       this.laboratoryData.stakeholders.push({name: ''});
-      this.addCustomStakeholderCategory.push(false);
       this.customStakeholderCategory.push('');
     },
     removeStakeholder(index: number) {
       this.laboratoryData.stakeholders.splice(index, 1);
-      this.addCustomStakeholderCategory.splice(index, 1);
       this.customStakeholderCategory.splice(index, 1);
     },
     addLink() {
@@ -527,6 +506,11 @@ export default Vue.extend({
     },
     removeLink(index: number) {
       this.laboratoryData.links.splice(index, 1);
+    },
+    onStakeholderCategoryChange(category: string, index: number) {
+      if (category !== 'other') {
+        this.customStakeholderCategory[index] = '';
+      }
     }
   },
   created() {
