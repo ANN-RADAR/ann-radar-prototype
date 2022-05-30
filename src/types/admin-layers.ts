@@ -13,7 +13,11 @@ export interface AdminLayerFeatureData
   mittlFlur: number; // Mittlere Flurstücksgröße
   BGF: number; // Summe Bruttogeschoßfläche aller Gebäude
   tatNu_WB_P: number; // Prozentualer Anteil Wohnbauflächen
+  Wohnfl_WK: number; // Wohnfläche Wärmekataster
+  Haush: number; // Zahl der Haushalte
   Bev_311220: number; // Gesamtbevölkerung, Stand 31.12.2020
   SP_GebWB15: number; // Summiertes Solarpotential in mwh_a
   Soz_Status?: string; // only for statistical areas – Wert Statusindex aus Sozialmonitoring 2020
+  NW_absdiff: number; // Differenz Nutzwärmebedarf absolut Wohnflächen in kwh_a unsaniert/saniert
+  spezWBd_dP: number; // Sanierungspotential Wärmebedarf der Wohngebäude in Prozent
 }
