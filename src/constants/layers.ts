@@ -38,13 +38,19 @@ export const solarPotentialLayersOptions: Array<LayerOptions> = [
   }
 ];
 
-export const energyPotentialLayersOptions: Array<TileLayerOptions> = [
+export const energyPotentialLayersOptions: Array<LayerOptions> = [
   {
     type: 'tile',
-    properties: {name: 'heatDemand'},
+    properties: {name: 'heatAtlas'},
     visible: false,
     source: tileSourcesOptions.HH_WMS_Waermekataster_Waermebedarf,
     zIndex: 5
+  },
+  {
+    type: 'vector',
+    properties: {name: 'heatDemand'},
+    visible: false,
+    zIndex: 4
   }
 ];
 
