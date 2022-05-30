@@ -150,24 +150,22 @@ const actions = {
       return;
     }
 
-    const {name, description} = laboratory;
-    const feature = new GeoJSON().writeFeature(laboratory.feature);
+    const {id, feature: laboratoryFeature, ...data} = laboratory;
+    const feature = new GeoJSON().writeFeature(laboratoryFeature);
     let docRef = null;
 
     try {
-      if (laboratory.id) {
-        docRef = doc(database, ANNRadarCollection.LABORATORIES, laboratory.id);
+      if (id) {
+        docRef = doc(database, ANNRadarCollection.LABORATORIES, id);
         await updateDoc(docRef, {
-          name,
-          description,
+          ...data,
           feature
         });
       } else {
         docRef = await addDoc(
           collection(database, ANNRadarCollection.LABORATORIES),
           {
-            name,
-            description,
+            ...data,
             feature
           }
         );
