@@ -53,25 +53,21 @@
               v-if="item[header.value] !== undefined"
               v-bind:key="header.value"
             >
-              <span v-if="header.value === 'mittlFlur'">
-                {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²</span
+              <span
+                v-if="
+                  ['mittlFlur', 'BGF', 'tatNu_WB_P', 'Wohnfl_WK'].includes(
+                    header.value
+                  )
+                "
               >
-              <span v-else-if="header.value === 'BGF'">
-                {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²</span
-              >
-              <span v-else-if="header.value === 'tatNu_WB_P'">
-                {{ formatNumber(item[header.value]) }}&nbsp;%</span
-              >
-              <span v-else-if="header.value === 'Wohnfl_WK'">
-                {{ formatNumber(item[header.value]) }}&nbsp;%
+                {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²
               </span>
-              <span v-else-if="header.value === 'SP_GebWB15'">
-                {{ formatNumber(item[header.value]) }}&nbsp;MWh/a</span
+              <span
+                v-else-if="['SP_GebWB15', 'NW_absdiff'].includes(header.value)"
               >
-              <span v-else-if="header.value === 'NW_absdiff'">
                 {{ formatNumber(item[header.value]) }}&nbsp;MWh/a
               </span>
-              <span v-else-if="header.value === 'spezWBd_dP'">
+              <span v-else-if="['spezWBd_dP'].includes(header.value)">
                 {{ formatNumber(item[header.value]) }}&nbsp;%
               </span>
               <span v-else-if="isNaN(item[header.value])">

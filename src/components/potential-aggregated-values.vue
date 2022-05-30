@@ -13,12 +13,10 @@
         {{ formatNumber(Math.round(aggregation.BGF)) }}&nbsp;m²
       </td>
       <td v-else-if="header.value === 'tatNu_WB_P'" :key="header.value">
-        {{
-          formatNumber(Math.round(aggregation.tatNu_WB_P * 100) / 100)
-        }}&nbsp;%
+        {{ formatNumber(Math.round(aggregation.tatNu_WB_P)) }}&nbsp;m²
       </td>
       <td v-else-if="header.value === 'Wohnfl_WK'" :key="header.value">
-        {{ formatNumber(Math.round(aggregation.Wohnfl_WK * 100) / 100) }}&nbsp;%
+        {{ formatNumber(Math.round(aggregation.Wohnfl_WK)) }}&nbsp;m²
       </td>
       <td v-else-if="header.value === 'Haush'" :key="header.value">
         {{ formatNumber(Math.round(aggregation.Haush)) }}
