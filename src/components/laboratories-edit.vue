@@ -1,11 +1,6 @@
 <template>
   <div class="laboratory">
-    <div class="map">
-      <Map :drawingSource="source" showDrawingTools />
-      <div class="map-overlays top-right">
-        <MapStyleSwitcher />
-      </div>
-    </div>
+    <Map :drawingSource="source" showStyleSwitcher showDrawingTools />
     <v-card class="laboratories-data">
       <v-card-title>
         {{
@@ -284,7 +279,6 @@ import Vue, {PropType} from 'vue';
 import {mapActions, mapMutations, mapState} from 'vuex';
 
 import Map from './map-component.vue';
-import MapStyleSwitcher from './map-style-switcher.vue';
 
 interface Data {
   error: string;
@@ -314,8 +308,7 @@ const source = new VectorSource({wrapX: false});
 
 export default Vue.extend({
   components: {
-    Map,
-    MapStyleSwitcher
+    Map
   },
   props: {
     laboratoryType: {
@@ -532,10 +525,6 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.map {
-  position: relative;
-}
-
 .laboratory {
   display: grid;
   grid-template-columns: calc(50% - 0.5rem) calc(50% - 0.5rem);
@@ -544,19 +533,6 @@ export default Vue.extend({
   min-height: 0;
   height: 100%;
   padding: 1rem;
-}
-
-.map-overlays {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  grid-gap: 8px;
-  padding: 8px;
-}
-
-.map-overlays.top-right {
-  top: 0;
-  right: 0;
 }
 
 .laboratories-data {

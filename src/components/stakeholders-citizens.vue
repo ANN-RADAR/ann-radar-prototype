@@ -1,12 +1,7 @@
 <template>
   <div>
     <div class="wrapper">
-      <div class="map">
-        <Map />
-        <div class="map-overlays top-right">
-          <MapStyleSwitcher />
-        </div>
-      </div>
+      <Map showStyleSwitcher />
       <v-card>
         <v-card-text class="content">
           <img src="assets/citizens_engagement.png" />
@@ -20,12 +15,10 @@
 import Vue from 'vue';
 
 import Map from './map-component.vue';
-import MapStyleSwitcher from './map-style-switcher.vue';
 
 export default Vue.extend({
   components: {
-    Map,
-    MapStyleSwitcher
+    Map
   }
 });
 </script>
@@ -42,19 +35,6 @@ export default Vue.extend({
 
 .wrapper > * {
   position: relative;
-}
-
-.map-overlays {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  grid-gap: 8px;
-  padding: 8px;
-}
-
-.map-overlays.top-right {
-  top: 0;
-  right: 0;
 }
 
 .content {

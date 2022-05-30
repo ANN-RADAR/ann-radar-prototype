@@ -1,11 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="map">
-      <Map :highlightedFeatureIds="highlightedFeatureIds" />
-      <div class="map-overlays top-right">
-        <MapStyleSwitcher />
-      </div>
-    </div>
+    <Map :highlightedFeatureIds="highlightedFeatureIds" showStyleSwitcher />
     <v-card class="rate">
       <v-card-title>{{ $t('balancedScorecards.rate.title') }}</v-card-title>
       <v-card-text class="rate-content">
@@ -39,13 +34,11 @@ import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 import {ScorecardType} from '@/types/scorecards';
 
 import Map from './map-component.vue';
-import MapStyleSwitcher from './map-style-switcher.vue';
 import BalancedScorecard from './balanced-scorecard.vue';
 
 export default Vue.extend({
   components: {
     Map,
-    MapStyleSwitcher,
     BalancedScorecard
   },
   props: {
@@ -110,19 +103,6 @@ export default Vue.extend({
 
 .wrapper > * {
   position: relative;
-}
-
-.map-overlays {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  grid-gap: 8px;
-  padding: 8px;
-}
-
-.map-overlays.top-right {
-  top: 0;
-  right: 0;
 }
 
 .areas-navigation {

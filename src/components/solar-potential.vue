@@ -1,19 +1,16 @@
 <template>
   <div class="wrapper">
     <div class="potential">
-      <div class="map">
-        <Map hasMultipleFeatureSelection />
-        <div class="map-overlays top-right">
-          <MapLayerSwitcher
-            :thematicLayers="solarPotentialLayers"
-            :thematicLayersTitle="$t('layerOptions.solarLayers')"
-          />
-          <MapStyleSwitcher />
-        </div>
-        <div class="map-overlays bottom-right">
-          <MapLegends />
-        </div>
-      </div>
+      <Map
+        hasMultipleFeatureSelection
+        showLayerSwitcher
+        :layerSwitcherProps="{
+          thematicLayers: solarPotentialLayers,
+          thematicLayersTitle: $t('layerOptions.solarLayers')
+        }"
+        showStyleSwitcher
+        showLegends
+      />
       <v-card>
         <AdminAreasInspector>
           <PotentialInspectorTable category="solar" />
@@ -29,9 +26,6 @@
 import Vue from 'vue';
 
 import Map from './map-component.vue';
-import MapLayerSwitcher from './map-layer-switcher.vue';
-import MapStyleSwitcher from './map-style-switcher.vue';
-import MapLegends from './map-legends.vue';
 import AdminAreasInspector from './admin-areas-inspector.vue';
 import PotentialInspectorTable from './potential-inspector-table.vue';
 
@@ -45,9 +39,6 @@ interface Data {
 export default Vue.extend({
   components: {
     Map,
-    MapLayerSwitcher,
-    MapStyleSwitcher,
-    MapLegends,
     AdminAreasInspector,
     PotentialInspectorTable
   },
@@ -72,23 +63,5 @@ export default Vue.extend({
 .potential > * {
   position: relative;
   display: grid;
-}
-
-.map-overlays {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  grid-gap: 8px;
-  padding: 8px;
-}
-
-.map-overlays.top-right {
-  top: 0;
-  right: 0;
-}
-
-.map-overlays.bottom-right {
-  bottom: 0;
-  right: 0;
 }
 </style>

@@ -1,5 +1,19 @@
 <template>
-  <div id="map"></div>
+  <div class="map-wrapper">
+    <div id="map"></div>
+    <div class="map-overlays top-right">
+      <MapLayerSwitcher
+        v-if="showLayerSwitcher"
+        :thematicLayers="layerSwitcherProps.thematicLayers"
+        :thematicLayersTitle="layerSwitcherProps.thematicLayersTitle"
+        :alwaysVisibleLayers="layerSwitcherProps.alwaysVisibleLayers"
+      />
+      <MapStyleSwitcher v-if="showStyleSwitcher" />
+    </div>
+    <div class="map-overlays bottom-right">
+      <MapLegends v-if="showLegends" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -39,11 +53,15 @@ import {
 } from '@/constants/laboratories-layers';
 import {AdminLayerFeatureData} from '@/types/admin-layers';
 import BaseLayer from 'ol/layer/Base';
-import {DataLayerOptions} from '@/types/layers';
+import {DataLayerOptions, LayerOptions} from '@/types/layers';
 import BaseEvent from 'ol/events/Event';
 import TileLayer from 'ol/layer/Tile';
 import TileSource from 'ol/source/Tile';
 import {StyleFunction} from 'ol/style/Style';
+
+import MapLayerSwitcher from './map-layer-switcher.vue';
+import MapStyleSwitcher from './map-style-switcher.vue';
+import MapLegends from './map-legends.vue';
 
 // projection for UTM zone 32N
 proj4.defs(
@@ -63,7 +81,34 @@ type Data = {
 };
 
 export default Vue.extend({
+  components: {
+    MapLayerSwitcher,
+    MapStyleSwitcher,
+    MapLegends
+  },
   props: {
+    showLayerSwitcher: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    layerSwitcherProps: {
+      type: Object as PropType<{
+        thematicLayers?: Array<LayerOptions>;
+        thematicLayersTitle?: string;
+        alwaysVisibleLayers?: Array<string>;
+      }>
+    },
+    showStyleSwitcher: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    showLegends: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     hasMultipleFeatureSelection: {
       type: Boolean,
       required: false,
@@ -441,9 +486,31 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+.map-wrapper {
+  position: relative;
+}
+
 #map {
   width: 100%;
   height: 100%;
   background-color: #f5f5f5;
+}
+
+.map-overlays {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  grid-gap: 8px;
+  padding: 8px;
+}
+
+.map-overlays.top-right {
+  top: 0;
+  right: 0;
+}
+
+.map-overlays.bottom-right {
+  bottom: 0;
+  right: 0;
 }
 </style>
