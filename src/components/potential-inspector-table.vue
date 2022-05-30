@@ -45,16 +45,16 @@
           v-for="(header, index) in shownTableHeaders"
           v-slot:[`item.${header.value}`]="{item}"
         >
-          <slot v-if="index === 0" :name="[`item.Bezirk`]" :item="item">
-            {{ item.Bezirk }}
-          </slot>
-          <slot v-else :name="[`item.${header.value}`]" :item="item">
+          <slot :name="[`item.${header.value}`]" :item="item">
             <span
               v-if="item[header.value] !== undefined"
               v-bind:key="header.value"
             >
+              <span v-if="index === 0 || isNaN(item[header.value])">
+                {{ item[header.value] }}
+              </span>
               <span
-                v-if="
+                v-else-if="
                   ['mittlFlur', 'BGF', 'tatNu_WB_P', 'Wohnfl_WK'].includes(
                     header.value
                   )
@@ -70,16 +70,13 @@
               <span v-else-if="['spezWBd_dP'].includes(header.value)">
                 {{ formatNumber(item[header.value]) }}&nbsp;%
               </span>
-              <span v-else-if="isNaN(item[header.value])">
-                {{ item[header.value] }}</span
-              >
               <span v-else>
-                {{ formatNumber(Math.round(item[header.value])) }}</span
-              >
+                {{ formatNumber(Math.round(item[header.value])) }}
+              </span>
             </span>
-            <span v-else v-bind:key="header.value">{{
-              $t('notAvailable')
-            }}</span>
+            <span v-else v-bind:key="header.value">
+              {{ $t('notAvailable') }}
+            </span>
           </slot>
         </template>
 
