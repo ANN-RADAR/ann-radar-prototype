@@ -181,20 +181,17 @@ export default Vue.extend({
             value: key
           };
         })
-      ].concat(
-        this.adminLayerType === AdminLayerType.STATISTICAL_AREA
-          ? [
-              {
-                text: this.$t('socialStatus'),
-                sortable: true,
-                value: 'Soz_Status'
-              }
-            ]
-          : []
-      );
+      ];
     },
     shownTableHeaders(): Array<DataTableHeader> {
-      return [this.tableHeaders[0], ...this.selectedTableHeaders];
+      const headers = [this.tableHeaders[0], ...this.selectedTableHeaders];
+
+      // Show `Soz_Status` only if the admin layer is statistical area
+      if (this.adminLayerType !== AdminLayerType.STATISTICAL_AREA) {
+        return headers.filter(({value}) => value !== 'Soz_Status');
+      }
+
+      return headers;
     },
     selectedFeaturesData(): Array<AdminLayerFeatureData> {
       if (!this.adminLayerType) {
@@ -254,11 +251,10 @@ export default Vue.extend({
     setSelectedTableHeaders(tableHeaders: Array<DataTableHeader>) {
       this.selectedTableHeaders = tableHeaders
         .slice(1)
-        .filter(
-          header =>
-            this.potentialConfig?.table.columns.selected[
-              this.category
-            ].includes(header.value) || header.value === 'Soz_Status'
+        .filter(header =>
+          this.potentialConfig?.table.columns.selected[this.category].includes(
+            header.value
+          )
         );
     }
   }
