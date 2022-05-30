@@ -64,12 +64,12 @@
           </template>
 
           <v-list>
-            <v-list-item>
+            <v-list-item to="/stakeholders/organizations">
               <v-list-item-title>
                 {{ $t('navigation.stakeholdersOrganizations') }}
               </v-list-item-title>
             </v-list-item>
-            <v-list-item>
+            <v-list-item to="/stakeholders/citizens">
               <v-list-item-title>
                 {{ $t('navigation.citizens') }}
               </v-list-item-title>
