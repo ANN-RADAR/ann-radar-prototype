@@ -1,55 +1,61 @@
 <template>
   <v-app-bar app elevation="2" dense class="header">
-    <v-app-bar-title>{{ $t('annRadar') }}</v-app-bar-title>
+    <div class="header-top-row">
+      <v-app-bar-title class="header-title">
+        {{ $t('annRadar') }}
+      </v-app-bar-title>
 
-    <span class="scenario-name" v-if="scenarioMetaData">{{
-      $t('scenarios.scenario') + scenarioMetaData.name
-    }}</span>
-    <div class="header-actions">
-      <ScenarioCreateDialog :disabled="!canCreate" />
-      <ScenarioLoadDialog />
-      <v-btn text @click="saveScenario" :disabled="!canSave">
-        <span>{{ $t('scenarios.saveScenario') }}</span>
-        <v-icon right>mdi-content-save</v-icon>
-      </v-btn>
+      <span class="scenario-name" v-if="scenarioMetaData">
+        {{ $t('scenarios.scenario') + scenarioMetaData.name }}
+      </span>
+      <div class="header-actions">
+        <ScenarioCreateDialog :disabled="!canCreate" />
+        <ScenarioLoadDialog />
+        <v-btn text @click="saveScenario" :disabled="!canSave">
+          <span>{{ $t('scenarios.saveScenario') }}</span>
+          <v-icon right>mdi-content-save</v-icon>
+        </v-btn>
 
-      <v-menu open-on-hover bottom offset-y>
-        <template v-slot:activator="{on, attrs}">
-          <v-btn text active-class="primary--text" v-bind="attrs" v-on="on">
-            <span>{{ $t('navigation.urbanTestbeds') }}</span>
-            <v-icon right>mdi-notebook-edit-outline</v-icon>
-          </v-btn>
-        </template>
+        <v-menu open-on-hover bottom offset-y>
+          <template v-slot:activator="{on, attrs}">
+            <v-btn text active-class="primary--text" v-bind="attrs" v-on="on">
+              <span>{{ $t('navigation.urbanTestbeds') }}</span>
+              <v-icon right>mdi-notebook-edit-outline</v-icon>
+            </v-btn>
+          </template>
 
-        <v-list>
-          <v-list-item to="/urban-testbeds/model-quarters">
-            <v-list-item-title>
-              {{ $t('navigation.modelQuarters') }}
-            </v-list-item-title>
-          </v-list-item>
-          <v-list-item to="/urban-testbeds/urban-testbeds">
-            <v-list-item-title>
-              {{ $t('navigation.urbanTestbeds') }}
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+          <v-list>
+            <v-list-item to="/urban-testbeds/model-quarters">
+              <v-list-item-title>
+                {{ $t('navigation.modelQuarters') }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/urban-testbeds/urban-testbeds">
+              <v-list-item-title>
+                {{ $t('navigation.urbanTestbeds') }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
 
-      <v-btn
-        text
-        active-class="primary--text"
-        :input-value="showNotes"
-        @click="$emit('toggleNotes')"
-      >
-        <span>{{ $t('notes') }}</span>
-        <v-icon right>mdi-notebook-edit-outline</v-icon>
-      </v-btn>
+        <v-btn
+          text
+          active-class="primary--text"
+          :input-value="showNotes"
+          @click="$emit('toggleNotes')"
+        >
+          <span>{{ $t('notes') }}</span>
+          <v-icon right>mdi-notebook-edit-outline</v-icon>
+        </v-btn>
 
-      <v-btn text @click="logOut">
-        <span>{{ $t('auth.logout') }}</span>
-        <v-icon right>mdi-logout</v-icon>
-      </v-btn>
+        <v-btn text @click="logOut">
+          <span>{{ $t('auth.logout') }}</span>
+          <v-icon right>mdi-logout</v-icon>
+        </v-btn>
+      </div>
     </div>
+
+    <img class="iclei-logo" :src="`assets/iclei-logo.png`" />
 
     <template v-slot:extension>
       <v-tabs v-model="tab">
@@ -118,17 +124,35 @@ export default Vue.extend({
 
 <style scoped>
 .header::v-deep > div {
+  display: flex;
+}
+
+.header-top-row {
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 1fr auto auto auto;
+  flex-grow: 1;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
 }
 
 .header-actions {
   display: grid;
   grid-auto-flow: column;
-  grid-gap: 8px;
+  grid-gap: 4px;
 }
 
 .scenario-name {
+  display: flex;
+  align-items: center;
   padding: 0 32px;
+}
+
+.iclei-logo {
+  align-self: flex-start;
+  height: 80px;
+  margin: 8px -8px 8px 4px;
 }
 </style>
