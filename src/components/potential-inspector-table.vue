@@ -57,9 +57,7 @@
               </span>
               <span
                 v-else-if="
-                  ['mittlFlur', 'BGF', 'tatNu_WB_P', 'Wohnfl_WK'].includes(
-                    header.value
-                  )
+                  ['mittlFlur', 'BGF', 'Wohnfl_WK'].includes(header.value)
                 "
               >
                 {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²
@@ -69,7 +67,9 @@
               >
                 {{ formatNumber(item[header.value]) }}&nbsp;MWh/a
               </span>
-              <span v-else-if="['spezWBd_dP'].includes(header.value)">
+              <span
+                v-else-if="['tatNu_WB_P', 'spezWBd_dP'].includes(header.value)"
+              >
                 {{ formatNumber(item[header.value]) }}&nbsp;%
               </span>
               <span v-else>
