@@ -45,45 +45,40 @@
           v-for="(header, index) in shownTableHeaders"
           v-slot:[`item.${header.value}`]="{item}"
         >
-          <slot v-if="index === 0" :name="[`item.Bezirk`]" :item="item">
-            {{ item.Bezirk }}
-          </slot>
-          <slot v-else :name="[`item.${header.value}`]" :item="item">
+          <slot :name="[`item.${header.value}`]" :item="item">
             <span
-              v-if="item[header.value] !== undefined"
+              v-if="
+                item[header.value] !== undefined && item[header.value] !== ''
+              "
               v-bind:key="header.value"
             >
-              <span v-if="header.value === 'mittlFlur'">
-                {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²</span
-              >
-              <span v-else-if="header.value === 'BGF'">
-                {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²</span
-              >
-              <span v-else-if="header.value === 'tatNu_WB_P'">
-                {{ formatNumber(item[header.value]) }}&nbsp;%</span
-              >
-              <span v-else-if="header.value === 'Wohnfl_WK'">
-                {{ formatNumber(item[header.value]) }}&nbsp;%
+              <span v-if="index === 0 || isNaN(item[header.value])">
+                {{ item[header.value] }}
               </span>
-              <span v-else-if="header.value === 'SP_GebWB15'">
-                {{ formatNumber(item[header.value]) }}&nbsp;MWh/a</span
+              <span
+                v-else-if="
+                  ['mittlFlur', 'BGF', 'tatNu_WB_P', 'Wohnfl_WK'].includes(
+                    header.value
+                  )
+                "
               >
-              <span v-else-if="header.value === 'NW_absdiff'">
+                {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²
+              </span>
+              <span
+                v-else-if="['SP_GebWB15', 'NW_absdiff'].includes(header.value)"
+              >
                 {{ formatNumber(item[header.value]) }}&nbsp;MWh/a
               </span>
-              <span v-else-if="header.value === 'spezWBd_dP'">
+              <span v-else-if="['spezWBd_dP'].includes(header.value)">
                 {{ formatNumber(item[header.value]) }}&nbsp;%
               </span>
-              <span v-else-if="isNaN(item[header.value])">
-                {{ item[header.value] }}</span
-              >
               <span v-else>
-                {{ formatNumber(Math.round(item[header.value])) }}</span
-              >
+                {{ formatNumber(Math.round(item[header.value])) }}
+              </span>
             </span>
-            <span v-else v-bind:key="header.value">{{
-              $t('notAvailable')
-            }}</span>
+            <span v-else v-bind:key="header.value">
+              {{ $t('notAvailable') }}
+            </span>
           </slot>
         </template>
 
@@ -188,20 +183,17 @@ export default Vue.extend({
             value: key
           };
         })
-      ].concat(
-        this.adminLayerType === AdminLayerType.STATISTICAL_AREA
-          ? [
-              {
-                text: this.$t('socialStatus'),
-                sortable: true,
-                value: 'Soz_Status'
-              }
-            ]
-          : []
-      );
+      ];
     },
     shownTableHeaders(): Array<DataTableHeader> {
-      return [this.tableHeaders[0], ...this.selectedTableHeaders];
+      const headers = [this.tableHeaders[0], ...this.selectedTableHeaders];
+
+      // Show `Soz_Status` only if the admin layer is statistical area
+      if (this.adminLayerType !== AdminLayerType.STATISTICAL_AREA) {
+        return headers.filter(({value}) => value !== 'Soz_Status');
+      }
+
+      return headers;
     },
     selectedFeaturesData(): Array<AdminLayerFeatureData> {
       if (!this.adminLayerType) {
@@ -261,11 +253,10 @@ export default Vue.extend({
     setSelectedTableHeaders(tableHeaders: Array<DataTableHeader>) {
       this.selectedTableHeaders = tableHeaders
         .slice(1)
-        .filter(
-          header =>
-            this.potentialConfig?.table.columns.selected[
-              this.category
-            ].includes(header.value) || header.value === 'Soz_Status'
+        .filter(header =>
+          this.potentialConfig?.table.columns.selected[this.category].includes(
+            header.value
+          )
         );
     }
   }
