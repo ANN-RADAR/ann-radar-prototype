@@ -10,7 +10,7 @@
         }}
       </v-card-title>
       <v-card-text class="laboratories-form">
-        <label>{{ $t('laboratories.name') }}</label>
+        <label>{{ $t('laboratories.name') }}*</label>
         <v-text-field
           class="laboratory-input"
           outlined
@@ -44,7 +44,7 @@
         ></v-text-field>
 
         <div class="laboratory-input">
-          <label>{{ $t('laboratories.location') }}</label>
+          <label>{{ $t('laboratories.location') }}*</label>
           <v-text-field
             outlined
             dense
