@@ -326,8 +326,15 @@ export default Vue.extend({
       }
     },
     toggleBaseLayers() {
+      const baseLayersAreVisible = Boolean(
+        this.$route.path.startsWith('/potential')
+      );
+
       for (const layer of this.allBaseLayers) {
-        if (this.baseLayerTypes.includes(layer.get('name'))) {
+        if (
+          baseLayersAreVisible &&
+          this.baseLayerTypes.includes(layer.get('name'))
+        ) {
           layer.setVisible(true);
 
           // Update source and style of data layers
