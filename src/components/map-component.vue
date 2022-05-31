@@ -62,6 +62,7 @@ import {StyleFunction} from 'ol/style/Style';
 import MapLayerSwitcher from './map-layer-switcher.vue';
 import MapStyleSwitcher from './map-style-switcher.vue';
 import MapLegends from './map-legends.vue';
+import {LaboratoryId} from '@/types/laboratories';
 
 // projection for UTM zone 32N
 proj4.defs(
@@ -168,7 +169,8 @@ export default Vue.extend({
       'baseLayerTypes',
       'layersConfig',
       'layerClassificationSelection',
-      'laboratories'
+      'laboratories',
+      'hoveredLaboratoryId'
     ]),
     ...(mapGetters as MapGettersToComputed)('root', [
       'currentLayerSelectedFeatureIds'
@@ -229,12 +231,19 @@ export default Vue.extend({
     },
     laboratories() {
       this.updateLaboratoriesFeatures();
+    },
+    hoveredLaboratoryId(newHoveredLaboratoryId: LaboratoryId | null) {
+      this.laboratoryFeatures.forEach(feature => {
+        const isHovered = feature.get('id') === newHoveredLaboratoryId;
+        feature.set('hovered', isHovered);
+      });
     }
   },
   methods: {
     ...(mapActions as MapActionsToMethods)('root', ['fetchLayersConfig']),
     ...(mapMutations as MapMutationsToMethods)('root', [
-      'setSelectedFeatureIdsOfAdminLayer'
+      'setSelectedFeatureIdsOfAdminLayer',
+      'setHoveredLaboratoryId'
     ]),
     handleClickOnMap(event: MapBrowserEvent<UIEvent>) {
       if (this.disableFeatureSelection) {
@@ -281,7 +290,19 @@ export default Vue.extend({
           });
         }
       }
-      // TODO: Add selected feature id / name to store
+    },
+    handleHoverOnMap(event: MapBrowserEvent<UIEvent>) {
+      const hoveredFeatures = this.map?.getFeaturesAtPixel(
+        event.pixel
+      ) as Array<Feature<Geometry>>;
+
+      // Highlight hovered laboratory feature
+      const laboratoriesSource = this.laboratoriesLayer.getSource();
+      const hoveredLaboratoryId =
+        hoveredFeatures
+          .find(feature => laboratoriesSource.hasFeature(feature))
+          ?.get('id') || null;
+      this.setHoveredLaboratoryId(hoveredLaboratoryId);
     },
     toggleMapStyleLayers() {
       for (const layer of this.allMapStyleLayers) {
@@ -481,6 +502,8 @@ export default Vue.extend({
 
     // Select map features
     this.map.on('click', this.handleClickOnMap);
+    // Hover map features
+    this.map.on('pointermove', this.handleHoverOnMap);
   }
 });
 </script>

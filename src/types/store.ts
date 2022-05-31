@@ -25,6 +25,7 @@ export interface RootState {
   balancedScorecardRatings: Record<ScorecardType, ScorecardRatings>;
   notes: Record<string /* path */, string /* note */>;
   laboratories: Record<LaboratoryId, Laboratory>;
+  hoveredLaboratoryId: LaboratoryId | null;
 }
 
 export interface UserState {
