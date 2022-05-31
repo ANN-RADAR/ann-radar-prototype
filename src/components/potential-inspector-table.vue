@@ -47,7 +47,9 @@
         >
           <slot :name="[`item.${header.value}`]" :item="item">
             <span
-              v-if="item[header.value] !== undefined"
+              v-if="
+                item[header.value] !== undefined && item[header.value] !== ''
+              "
               v-bind:key="header.value"
             >
               <span v-if="index === 0 || isNaN(item[header.value])">
