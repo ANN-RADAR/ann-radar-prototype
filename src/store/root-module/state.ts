@@ -25,7 +25,8 @@ const state: RootState = {
     {} as Record<ScorecardType, ScorecardRatings>
   ),
   notes: {},
-  laboratories: {} as Record<LaboratoryId, Laboratory>
+  laboratories: {} as Record<LaboratoryId, Laboratory>,
+  hoveredLaboratoryId: null
 };
 
 export default state;

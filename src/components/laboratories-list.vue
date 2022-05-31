@@ -5,12 +5,14 @@
       <v-card-title>{{
         $t(`laboratories.${laboratoryType}.title`)
       }}</v-card-title>
-
       <v-list class="laboratories-list" v-if="laboratoryEntries.length">
         <v-list-item
           v-for="[laboratoryId, laboratory] in laboratoryEntries"
           :key="laboratoryId"
           :to="`${basePath}/${laboratoryId}`"
+          :class="{hovered: hoveredLaboratoryId === laboratoryId}"
+          @mouseover="setHoveredLaboratoryId(laboratoryId)"
+          @mouseout="setHoveredLaboratoryId(null)"
         >
           <v-list-item-content>
             <v-list-item-title>{{ laboratory.name }}</v-list-item-title>
@@ -37,9 +39,9 @@
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
-import {mapState} from 'vuex';
+import {mapMutations, mapState} from 'vuex';
 
-import {MapStateToComputed} from '@/types/store';
+import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 
 import Map from './map-component.vue';
 import {Laboratory, LaboratoryId, LaboratoryType} from '@/types/laboratories';
@@ -58,13 +60,29 @@ export default Vue.extend({
   components: {
     Map
   },
+  data: () => ({
+    selectedItem: 1,
+    items: [
+      {text: 'Real-Time', icon: 'mdi-clock'},
+      {text: 'Audience', icon: 'mdi-account'},
+      {text: 'Conversions', icon: 'mdi-flag'}
+    ]
+  }),
   computed: {
-    ...(mapState as MapStateToComputed)('root', ['laboratories']),
+    ...(mapState as MapStateToComputed)('root', [
+      'laboratories',
+      'hoveredLaboratoryId'
+    ]),
     laboratoryEntries(): Array<[LaboratoryId, Laboratory]> {
       return Object.entries(this.laboratories).filter(
         ([, {type}]) => type === this.laboratoryType
       );
     }
+  },
+  methods: {
+    ...(mapMutations as MapMutationsToMethods)('root', [
+      'setHoveredLaboratoryId'
+    ])
   }
 });
 </script>
@@ -89,6 +107,10 @@ export default Vue.extend({
   flex-grow: 1;
   min-height: 0;
   overflow: auto;
+}
+
+.hovered::before {
+  opacity: 0.04;
 }
 
 .emptyMessage {

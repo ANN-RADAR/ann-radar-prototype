@@ -4,7 +4,7 @@ import {RootState} from '@/types/store';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {ScenarioMetaData} from '@/types/scenarios';
 import {PotentialConfig} from '@/types/potential-config';
-import {Laboratory} from '@/types/laboratories';
+import {Laboratory, LaboratoryId} from '@/types/laboratories';
 
 const mutations = {
   setLayersConfig(
@@ -76,6 +76,9 @@ const mutations = {
       ...state.selectedFeatureIds,
       [payload.adminLayerType]: payload.featureIds
     };
+  },
+  setHoveredLaboratoryId(state: RootState, laboratoryId: LaboratoryId | null) {
+    state.hoveredLaboratoryId = laboratoryId;
   },
   setNote(state: RootState, payload: {path: string; note: string}) {
     state.notes = {...state.notes, [payload.path]: payload.note};

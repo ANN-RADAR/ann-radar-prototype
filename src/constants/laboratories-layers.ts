@@ -8,6 +8,7 @@ import Text from 'ol/style/Text';
 
 const laboratoriesStyle: StyleFunction = feature => {
   const isHidden = feature.get('hidden');
+  const isHovered = feature.get('hovered');
 
   if (isHidden) {
     return new Style();
@@ -16,16 +17,18 @@ const laboratoriesStyle: StyleFunction = feature => {
   return new Style({
     stroke: new Stroke({
       color: '#ff9800',
-      width: 2
+      width: isHovered ? 3 : 2
     }),
     fill: new Fill({
-      color: 'rgba(255, 152, 0, 0.2)'
+      color: isHovered ? 'rgba(255, 152, 0, 0.4)' : 'rgba(255, 152, 0, 0.2)'
     }),
-    text: new Text({
-      font: '16px Arial',
-      text: feature.get('name'),
-      fill: new Fill({color: 'black'}),
-      stroke: new Stroke({color: '#fff', width: 4})
+    ...(isHovered && {
+      text: new Text({
+        font: '16px Arial',
+        text: feature.get('name'),
+        fill: new Fill({color: 'black'}),
+        stroke: new Stroke({color: '#fff', width: 4})
+      })
     })
   });
 };

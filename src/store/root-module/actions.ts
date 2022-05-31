@@ -134,6 +134,7 @@ const actions = {
         const data = doc.data();
         data.feature = new GeoJSON().readFeature(JSON.parse(data.feature));
         data.feature.set('id', doc.id);
+        data.feature.set('name', data.name);
         laboratories[doc.id] = data as Laboratory;
       });
 
