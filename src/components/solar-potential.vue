@@ -3,9 +3,9 @@
     <div class="potential">
       <Map
         hasMultipleFeatureSelection
+        :thematicLayerOptions="solarPotentialLayers"
         showLayerSwitcher
         :layerSwitcherProps="{
-          thematicLayers: solarPotentialLayers,
           thematicLayersTitle: $t('layerOptions.solarLayers')
         }"
         showStyleSwitcher
