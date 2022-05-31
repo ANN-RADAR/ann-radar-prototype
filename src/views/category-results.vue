@@ -12,9 +12,9 @@
         hasMultipleFeatureSelection
         :highlightedFeatureIds="currentLayerSelectedFeatureIds"
         disableFeatureSelection
+        :thematicLayerOptions="thematicLayers"
         showLayerSwitcher
         :layerSwitcherProps="{
-          thematicLayers,
           thematicLayersTitle: $t(thematicLayersTitleKey),
           alwaysVisibleLayers: initialActiveLayers
         }"

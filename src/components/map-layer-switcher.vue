@@ -139,16 +139,10 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...(mapMutations as MapMutationsToMethods)('root', ['setBaseLayerTypes']),
+    ...(mapMutations as MapMutationsToMethods)('root', ['toggleBaseLayerType']),
     onLayerChange(layer: LayerOptions, visible: boolean) {
       layer.visible = visible;
-
-      const layers = [...this.baseLayers, ...this.thematicLayers];
-      this.setBaseLayerTypes(
-        layers
-          .filter(layer => layer.visible)
-          .map(layer => layer.properties.name)
-      );
+      this.toggleBaseLayerType(layer.properties.name);
     },
     toggleReducedList() {
       this.showReducedList = !this.showReducedList;

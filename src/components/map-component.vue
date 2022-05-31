@@ -4,14 +4,14 @@
     <div class="map-overlays top-right">
       <MapLayerSwitcher
         v-if="showLayerSwitcher"
-        :thematicLayers="layerSwitcherProps.thematicLayers"
+        :thematicLayers="thematicLayerOptions"
         :thematicLayersTitle="layerSwitcherProps.thematicLayersTitle"
         :alwaysVisibleLayers="layerSwitcherProps.alwaysVisibleLayers"
       />
       <MapStyleSwitcher v-if="showStyleSwitcher" />
     </div>
     <div class="map-overlays bottom-right">
-      <MapLegends v-if="showLegends" />
+      <MapLegends v-if="showLegends" :thematicLayers="thematicLayerOptions" />
     </div>
   </div>
 </template>
@@ -93,9 +93,12 @@ export default Vue.extend({
       required: false,
       default: false
     },
+    thematicLayerOptions: {
+      type: Array as PropType<Array<LayerOptions>>,
+      required: false
+    },
     layerSwitcherProps: {
       type: Object as PropType<{
-        thematicLayers?: Array<LayerOptions>;
         thematicLayersTitle?: string;
         alwaysVisibleLayers?: Array<string>;
       }>
@@ -323,8 +326,15 @@ export default Vue.extend({
       }
     },
     toggleBaseLayers() {
+      const baseLayersAreVisible = Boolean(
+        this.$route.path.startsWith('/potential')
+      );
+
       for (const layer of this.allBaseLayers) {
-        if (this.baseLayerTypes.includes(layer.get('name'))) {
+        if (
+          baseLayersAreVisible &&
+          this.baseLayerTypes.includes(layer.get('name'))
+        ) {
           layer.setVisible(true);
 
           // Update source and style of data layers

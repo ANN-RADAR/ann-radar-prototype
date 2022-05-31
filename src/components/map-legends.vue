@@ -90,21 +90,44 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue, {PropType} from 'vue';
 import {mapMutations, mapState} from 'vuex';
 
 import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
-import {LayerConfig} from '@/types/layers';
+import {LayerConfig, LayerOptions} from '@/types/layers';
+import {baseLayersOptions} from '@/constants/layers';
+
+interface Data {
+  baseLayers: Array<LayerOptions>;
+}
 
 export default Vue.extend({
+  props: {
+    thematicLayers: {
+      type: Array as PropType<Array<LayerOptions>>,
+      required: false
+    }
+  },
+  data(): Data {
+    return {baseLayers: baseLayersOptions};
+  },
   computed: {
     ...(mapState as MapStateToComputed)('root', [
       'baseLayerTypes',
       'layersConfig',
       'layerClassificationSelection'
     ]),
+    availableLayers(): Array<string> {
+      return [...this.baseLayers, ...(this.thematicLayers || [])].map(
+        ({properties: {name}}) => name
+      );
+    },
     legends(): Record<string, LayerConfig> {
       return this.baseLayerTypes.reduce((config, layer) => {
+        if (!this.availableLayers.includes(layer)) {
+          return config;
+        }
+
         const layerConfig = this.layersConfig[layer];
         return {...config, ...(layerConfig && {[layer]: layerConfig})};
       }, {});
