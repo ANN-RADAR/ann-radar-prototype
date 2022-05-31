@@ -62,6 +62,15 @@ const mutations = {
   ) {
     state.baseLayerTypes = newBaseLayerTypes;
   },
+  toggleBaseLayerType(state: RootState, baseLayerTypeToToggle: string) {
+    if (state.baseLayerTypes.includes(baseLayerTypeToToggle)) {
+      state.baseLayerTypes = state.baseLayerTypes.filter(
+        type => type !== baseLayerTypeToToggle
+      );
+    } else {
+      state.baseLayerTypes = [...state.baseLayerTypes, baseLayerTypeToToggle];
+    }
+  },
   setSelectedFeatureIds(
     state: RootState,
     newSelectedFeatureIds: RootState['selectedFeatureIds']
