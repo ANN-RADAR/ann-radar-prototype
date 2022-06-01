@@ -55,8 +55,10 @@
       </div>
     </div>
 
-    <img class="iclei-logo" :src="`assets/iclei-logo.png`" />
-
+    <div class="logos">
+      <img class="iclei-logo" :src="`assets/iclei-logo.png`" />
+      <img class="iclei-logo" :src="`assets/hcu-logo.svg`" />
+    </div>
     <template v-slot:extension>
       <v-tabs v-model="tab">
         <v-tab to="/potential">{{ $t('navigation.potential') }}</v-tab>
@@ -176,8 +178,19 @@ export default Vue.extend({
 }
 
 .iclei-logo {
+  height: 2.5rem;
+}
+
+.iclei-logo:first-child {
+  margin-bottom: 0.25rem;
+}
+
+.logos {
   align-self: flex-start;
-  height: 80px;
-  margin: 8px -8px 8px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0.5rem -0.5rem 0 0;
+  flex-direction: column;
 }
 </style>
