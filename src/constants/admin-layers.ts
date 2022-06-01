@@ -4,6 +4,7 @@ import buildingBlockData from '../../public/data/baublöcke.json';
 import boroughData from '../../public/data/bezirke.json';
 import statisticalAreaData from '../../public/data/statistische_gebiete.json';
 import quarterData from '../../public/data/stadtteile.json';
+import cityData from '../../public/data/city.json';
 
 export const adminLayers: {
   [key in AdminLayerType]: {
@@ -14,7 +15,8 @@ export const adminLayers: {
 } = {
   [AdminLayerType.CITY]: {
     featureId: 'fhh',
-    dataId: 'name'
+    data: cityData as unknown as AdminLayerFeatureData[],
+    dataId: 'Stadt'
   },
   [AdminLayerType.BOROUGH]: {
     featureId: 'bezirk_name',
