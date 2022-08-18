@@ -13,7 +13,7 @@ export interface LayerBaseOptions<T = TileSourceOptions | VectorSourceOptions>
     'properties' | 'source'
   > {
   properties: {[x: string]: any}; // eslint-disable-line @typescript-eslint/no-explicit-any
-  source?: T;
+  source?: T | T[];
 }
 
 export interface TileLayerOptions extends LayerBaseOptions<TileSourceOptions> {
