@@ -95,34 +95,6 @@ const actions = {
       })
       .catch(error => console.error(error));
   },
-  async fetchBalancedScorecardRatings({
-    commit,
-    state
-  }: ActionContext<RootState, StoreState>) {
-    if (!state.scenarioMetaData?.balancedScorecardsId) {
-      return;
-    }
-
-    try {
-      const balancedScorecardsRatingsRef = doc(
-        database,
-        ANNRadarCollection.BALANCED_SCORECARDS,
-        state.scenarioMetaData.balancedScorecardsId
-      );
-      const balancedScorecardsRatingsSnapshot = await getDoc(
-        balancedScorecardsRatingsRef
-      );
-
-      if (balancedScorecardsRatingsSnapshot.exists()) {
-        commit(
-          'setBalancedScorecardRatings',
-          balancedScorecardsRatingsSnapshot.data()
-        );
-      }
-    } catch (error) {
-      console.error('Error loading balanced scorecard ratings:', error);
-    }
-  },
   async fetchLaboratories({commit}: ActionContext<RootState, StoreState>) {
     try {
       const querySnapshot = await getDocs(

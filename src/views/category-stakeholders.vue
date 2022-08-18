@@ -19,10 +19,7 @@ import {ScorecardType} from '@/types/scorecards';
 
 export default Vue.extend({
   methods: {
-    ...(mapActions as MapActionsToMethods)('root', [
-      'fetchBalancedScorecard',
-      'fetchBalancedScorecardRatings'
-    ]),
+    ...(mapActions as MapActionsToMethods)('root', ['fetchBalancedScorecard']),
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setAdminLayerType',
       'setSelectedFeatureIds'
@@ -30,7 +27,6 @@ export default Vue.extend({
   },
   created() {
     this.fetchBalancedScorecard(ScorecardType.STAKEHOLDERS);
-    this.fetchBalancedScorecardRatings();
   },
   destroyed() {
     // Reset selections on destroy
