@@ -34,7 +34,7 @@ export interface DataLayerOptions {
     layerConfig: LayerConfig;
     selectedClassificationIndex: number | undefined;
     adminLayerDataById: Record<string, AdminLayerFeatureData>;
-    dataId: string;
+    featureId: string;
   }) => StyleFunction;
 }
 

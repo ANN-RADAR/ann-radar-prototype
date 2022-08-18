@@ -22,16 +22,16 @@ export const dataLayerOptions: DataLayerOptions = {
       layerConfig: LayerConfig;
       selectedClassificationIndex: number | undefined;
       adminLayerDataById: Record<string, AdminLayerFeatureData>;
-      dataId: string;
+      featureId: string;
     }) =>
     (feature: Feature<Geometry> | RenderFeature) => {
       const {
         layerConfig,
         selectedClassificationIndex,
         adminLayerDataById,
-        dataId
+        featureId
       } = options;
-      const adminLayerData = adminLayerDataById[String(feature.get(dataId))];
+      const adminLayerData = adminLayerDataById[String(feature.get(featureId))];
       const value = adminLayerData && adminLayerData[layerConfig.attributeName];
       const classification =
         selectedClassificationIndex != null

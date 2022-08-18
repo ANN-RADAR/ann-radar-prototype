@@ -419,7 +419,7 @@ export default Vue.extend({
       // Update the style depending on the layer config and data
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if (this.adminLayerType && layerConfig && (layer as any).setStyle) {
-        const {data = [], dataId} = adminLayers[this.adminLayerType];
+        const {data = [], dataId, featureId} = adminLayers[this.adminLayerType];
         const adminLayerDataById: Record<string, AdminLayerFeatureData> =
           data.reduce(
             (byId, data) => ({...byId, [String(data[dataId])]: data}),
@@ -431,7 +431,7 @@ export default Vue.extend({
             layerConfig,
             selectedClassificationIndex,
             adminLayerDataById,
-            dataId
+            featureId
           })
         );
       }
