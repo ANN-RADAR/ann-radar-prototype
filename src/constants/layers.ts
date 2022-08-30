@@ -5,6 +5,7 @@ import {
   VectorLayerOptions
 } from '@/types/layers';
 import {Options as TileSourceOptions} from 'ol/source/TileWMS';
+import {Options as VectorSourceOptions} from 'ol/source/Vector';
 import {Feature} from 'ol';
 import Geometry from 'ol/geom/Geometry';
 import LayerGroup from 'ol/layer/Group';
@@ -73,13 +74,24 @@ export const baseLayersOptions: Array<LayerOptions> = [
     type: 'tile',
     properties: {name: 'socialInfrastructure'},
     visible: false,
-    source: tileSourcesOptions.HH_WMS_Geobasiskarten_GB
+    source: [
+      tileSourcesOptions.HH_WMS_Freiwilliges_Engagement,
+      tileSourcesOptions.HH_WMS_Familien_Angebote,
+      tileSourcesOptions[
+        'HH_WMS_Sozialraeumliche_Angebote_der_Jugend-_und_Familienhilfe'
+      ],
+      tileSourcesOptions.HH_WMS_Jugend_Aktiv_Plus,
+      tileSourcesOptions.HH_WMS_KitaEinrichtung
+    ]
   },
   {
     type: 'tile',
     properties: {name: 'buildingAndLiving'},
     visible: false,
-    source: tileSourcesOptions.HH_WMS_Geobasiskarten
+    source: [
+      tileSourcesOptions.HH_WMS_Wohnungsbauprojekte,
+      tileSourcesOptions.HH_WMS_Wohnbauflaechenpotenziale
+    ]
   },
   {
     type: 'tile',
@@ -202,42 +214,67 @@ const adminAreaLayersOptions: Array<VectorLayerOptions> = [
   }
 ];
 
+const getLayerWithSource = (
+  type: 'vector' | 'tile',
+  {
+    source,
+    ...layerOptions
+  }: Omit<LayerOptions, 'type' | 'source'> & {
+    source?: TileSourceOptions | VectorSourceOptions;
+  }
+) =>
+  type === 'vector'
+    ? new VectorLayer({
+        ...layerOptions,
+        source: new VectorSource(source)
+      })
+    : new TileLayer({
+        ...layerOptions,
+        source: new TileWMS(source as TileSourceOptions)
+      });
+
+const getLayerWithOptions = ({type, ...layerOptions}: LayerOptions) => {
+  const sources = Array.isArray(layerOptions.source)
+    ? layerOptions.source
+    : [layerOptions.source];
+
+  // Return layer group if multiple sources were configured
+  if (sources.length > 1) {
+    const {properties, visible, ...options} = layerOptions;
+
+    return new LayerGroup({
+      layers: sources.map(source =>
+        getLayerWithSource(type, {
+          ...options,
+          properties,
+          source,
+          visible: true
+        })
+      ),
+      properties,
+      visible
+    });
+  }
+
+  // Return single layer if only one source was configured
+  return getLayerWithSource(type, {...layerOptions, source: sources[0]});
+};
+
 export const getBaseLayers = (): LayerGroup =>
   new LayerGroup({
     layers: [
       ...baseLayersOptions,
       ...solarPotentialLayersOptions,
       ...energyPotentialLayersOptions
-    ].map(({type, source, ...layerOptions}) =>
-      type === 'vector'
-        ? new VectorLayer({
-            ...layerOptions,
-            source: new VectorSource(source)
-          })
-        : new TileLayer({
-            ...layerOptions,
-            source: new TileWMS(source as TileSourceOptions)
-          })
-    )
+    ].map(getLayerWithOptions)
   });
 
 export const getMapStyleLayers = (): LayerGroup =>
   new LayerGroup({
-    layers: mapStyleLayersOptions.map(
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      ({type, source, ...layerOptions}) =>
-        new TileLayer({...layerOptions, source: new TileWMS(source)})
-    )
+    layers: mapStyleLayersOptions.map(getLayerWithOptions)
   });
 
 export const getAdminAreaLayers = (): LayerGroup =>
   new LayerGroup({
-    layers: adminAreaLayersOptions.map(
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      ({type, source, ...layerOptions}) =>
-        new VectorLayer({
-          ...layerOptions,
-          source: new VectorSource(source)
-        })
-    )
+    layers: adminAreaLayersOptions.map(getLayerWithOptions)
   });
