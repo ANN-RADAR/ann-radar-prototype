@@ -22,6 +22,7 @@ import {MapStyle} from '@/types/map-styles';
 import {adminLayers} from './admin-layers';
 import {AdminLayerType} from '@/types/admin-layers';
 import {socialMonitoringColors} from './colors';
+import {laboratoriesStyle} from './laboratories-layers';
 
 export const solarPotentialLayersOptions: Array<LayerOptions> = [
   {
@@ -118,6 +119,25 @@ export const baseLayersOptions: Array<LayerOptions> = [
       });
     },
     zIndex: 6
+  }
+];
+
+export const laboratoriesLayersOptions: Array<VectorLayerOptions> = [
+  {
+    type: 'vector',
+    properties: {name: 'urban-testbeds'},
+    visible: false,
+    source: {wrapX: false},
+    style: laboratoriesStyle,
+    zIndex: 4
+  },
+  {
+    type: 'vector',
+    properties: {name: 'model-quarters'},
+    visible: false,
+    source: {wrapX: false},
+    style: laboratoriesStyle,
+    zIndex: 4
   }
 ];
 
@@ -268,6 +288,9 @@ export const getBaseLayers = (): LayerGroup =>
       ...energyPotentialLayersOptions
     ].map(getLayerWithOptions)
   });
+
+export const getLabortoriesLayers = (): LayerGroup =>
+  new LayerGroup({layers: laboratoriesLayersOptions.map(getLayerWithOptions)});
 
 export const getMapStyleLayers = (): LayerGroup =>
   new LayerGroup({

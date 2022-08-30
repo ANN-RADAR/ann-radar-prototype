@@ -32,9 +32,14 @@ import {Feature, Map, MapBrowserEvent, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
 import {ScaleLine, defaults as defaultControls} from 'ol/control';
 import {Style} from 'ol/style';
+import {StyleFunction} from 'ol/style/Style';
+import BaseEvent from 'ol/events/Event';
+import BaseLayer from 'ol/layer/Base';
+import TileLayer from 'ol/layer/Tile';
 import LayerGroup from 'ol/layer/Group';
 import VectorLayer from 'ol/layer/Vector';
 import Geometry from 'ol/geom/Geometry';
+import TileSource from 'ol/source/Tile';
 import VectorSource from 'ol/source/Vector';
 import {Draw, Modify} from 'ol/interaction';
 import {register} from 'ol/proj/proj4';
@@ -43,26 +48,20 @@ import proj4 from 'proj4';
 import {
   getMapStyleLayers,
   getAdminAreaLayers,
-  getBaseLayers
+  getBaseLayers,
+  getLabortoriesLayers
 } from '@/constants/layers';
 import {dataLayerIds, dataLayerOptions} from '@/constants/data-layers';
 import {adminLayers} from '@/constants/admin-layers';
-import {
-  getLaboratoriesLayer,
-  laboratoriesStyles
-} from '@/constants/laboratories-layers';
+import {laboratoriesStyles} from '@/constants/laboratories-layers';
+
 import {AdminLayerFeatureData} from '@/types/admin-layers';
-import BaseLayer from 'ol/layer/Base';
 import {DataLayerOptions, LayerOptions} from '@/types/layers';
-import BaseEvent from 'ol/events/Event';
-import TileLayer from 'ol/layer/Tile';
-import TileSource from 'ol/source/Tile';
-import {StyleFunction} from 'ol/style/Style';
+import {LaboratoryId} from '@/types/laboratories';
 
 import MapLayerSwitcher from './map-layer-switcher.vue';
 import MapStyleSwitcher from './map-style-switcher.vue';
 import MapLegends from './map-legends.vue';
-import {LaboratoryId} from '@/types/laboratories';
 
 // projection for UTM zone 32N
 proj4.defs(
@@ -77,7 +76,7 @@ type Data = {
   mapStyleLayers: LayerGroup;
   adminLayers: LayerGroup;
   baseLayers: LayerGroup;
-  laboratoriesLayer: VectorLayer<VectorSource<Geometry>>;
+  laboratoriesLayers: LayerGroup;
   laboratoriesStyles: Record<string, StyleFunction | Style>;
 };
 
@@ -142,19 +141,19 @@ export default Vue.extend({
     const mapStyleLayers = getMapStyleLayers();
     const adminLayers = getAdminAreaLayers();
     const baseLayers = getBaseLayers();
-    const laboratoriesLayer = getLaboratoriesLayer();
+    const laboratoriesLayers = getLabortoriesLayers();
 
     return {
       map: null,
       mapStyleLayers,
       adminLayers,
       baseLayers,
-      laboratoriesLayer,
+      laboratoriesLayers,
       laboratoriesStyles,
       mapOptions: {
         target: 'map',
         controls: defaultControls().extend([new ScaleLine({units: 'metric'})]),
-        layers: [mapStyleLayers, adminLayers, baseLayers, laboratoriesLayer],
+        layers: [mapStyleLayers, adminLayers, baseLayers, laboratoriesLayers],
         view: new View({
           projection: 'EPSG:25832',
           zoom: 12,
@@ -181,6 +180,11 @@ export default Vue.extend({
     allBaseLayers(): Array<BaseLayer> {
       return this.baseLayers.getLayers().getArray();
     },
+    allLaboratoriesLayers(): Array<VectorLayer<VectorSource<Geometry>>> {
+      return this.laboratoriesLayers.getLayers().getArray() as Array<
+        VectorLayer<VectorSource<Geometry>>
+      >;
+    },
     allMapStyleLayers(): Array<TileLayer<TileSource>> {
       return this.mapStyleLayers.getLayers().getArray() as Array<
         TileLayer<TileSource>
@@ -193,7 +197,11 @@ export default Vue.extend({
     },
     laboratoryFeatures(): Array<Feature<Geometry>> {
       return Object.values(this.laboratories)
-        .filter(({type}) => this.$route.params.laboratoryType === type)
+        .filter(
+          ({type}) =>
+            this.$route.params.laboratoryType === type ||
+            this.baseLayerTypes.includes(type)
+        )
         .map(({feature}) => feature);
     }
   },
@@ -215,6 +223,7 @@ export default Vue.extend({
     },
     baseLayerTypes() {
       this.toggleBaseLayers();
+      this.toggleLaboratoriesLayers();
     },
     layerClassificationSelection() {
       // Update style of data layers
@@ -236,14 +245,19 @@ export default Vue.extend({
       this.updateLaboratoriesFeatures();
     },
     hoveredLaboratoryId(newHoveredLaboratoryId: LaboratoryId | null) {
+      const isLaboratoriesView = Boolean(this.$route.params.laboratoryType);
+
       this.laboratoryFeatures.forEach(feature => {
         const isHovered = feature.get('id') === newHoveredLaboratoryId;
-        feature.set('hovered', isHovered);
+        feature.set('hovered', isLaboratoriesView && isHovered);
       });
     }
   },
   methods: {
-    ...(mapActions as MapActionsToMethods)('root', ['fetchLayersConfig']),
+    ...(mapActions as MapActionsToMethods)('root', [
+      'fetchLayersConfig',
+      'fetchLaboratories'
+    ]),
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setSelectedFeatureIdsOfAdminLayer',
       'setHoveredLaboratoryId'
@@ -300,11 +314,12 @@ export default Vue.extend({
       ) as Array<Feature<Geometry>>;
 
       // Highlight hovered laboratory feature
-      const laboratoriesSource = this.laboratoriesLayer.getSource();
-      const hoveredLaboratoryId =
-        hoveredFeatures
-          .find(feature => laboratoriesSource.hasFeature(feature))
-          ?.get('id') || null;
+      const hoveredLaboratoryFeature = hoveredFeatures.find(feature =>
+        this.allLaboratoriesLayers.some(layer =>
+          layer.getSource().hasFeature(feature)
+        )
+      );
+      const hoveredLaboratoryId = hoveredLaboratoryFeature?.get('id') || null;
       this.setHoveredLaboratoryId(hoveredLaboratoryId);
     },
     toggleMapStyleLayers() {
@@ -466,34 +481,48 @@ export default Vue.extend({
         this.map.addLayer(vector);
       }
     },
-    toggleLaboratoriesLayer() {
+    toggleLaboratoriesLayers() {
       if (!this.map) {
         return;
       }
 
-      const laboratoriesAreVisible = Boolean(this.$route.params.laboratoryType);
-      this.laboratoriesLayer.setVisible(laboratoriesAreVisible);
+      for (const layer of this.allLaboratoriesLayers) {
+        const layerIsVisible =
+          this.$route.params.laboratoryType === layer.get('name') ||
+          (this.$route.path.startsWith('/potential') &&
+            this.baseLayerTypes.includes(layer.get('name')));
+
+        layer.setVisible(layerIsVisible);
+      }
     },
     updateLaboratoriesFeatures() {
-      const laboratoriesSource = this.laboratoriesLayer.getSource();
-      // Remove old laboratories
-      laboratoriesSource.clear();
-      // Add laboratories to the map
-      laboratoriesSource.addFeatures(
-        this.laboratoryFeatures.map(feature => {
-          // Hide the laboratory from the laboratories layer
-          // if the user is editing this laboratory
-          const isEditingLaboratory =
-            this.$route.params.laboratoryId === feature.get('id');
-          feature.set('hidden', isEditingLaboratory);
+      for (const layer of this.allLaboratoriesLayers) {
+        const laboratoriesSource = layer.getSource();
 
-          return feature;
-        })
-      );
+        // Remove old laboratories
+        laboratoriesSource.clear();
+
+        // Add laboratories to the map
+        laboratoriesSource.addFeatures(
+          Object.values(this.laboratories)
+            .filter(({type}) => type === layer.get('name'))
+            .map(({feature}) => {
+              // Hide the laboratory from the laboratories layer
+              // if the user is editing this laboratory
+              const isEditingLaboratory =
+                this.$route.params.laboratoryId === feature.get('id');
+              feature.set('hidden', isEditingLaboratory);
+              feature.set('hovered', false);
+
+              return feature;
+            })
+        );
+      }
     }
   },
   created() {
     this.fetchLayersConfig();
+    this.fetchLaboratories();
   },
   mounted() {
     this.map = new Map(this.mapOptions);
@@ -503,7 +532,7 @@ export default Vue.extend({
     this.toggleAdminLayers();
     this.toggleBaseLayers();
     this.handleAdminAreaSelectionAndHighlighting();
-    this.toggleLaboratoriesLayer();
+    this.toggleLaboratoriesLayers();
     this.updateLaboratoriesFeatures();
 
     if (this.showDrawingTools) {

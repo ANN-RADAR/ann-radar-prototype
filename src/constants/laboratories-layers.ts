@@ -1,12 +1,10 @@
-import VectorLayer from 'ol/layer/Vector';
-import VectorSource from 'ol/source/Vector';
 import Circle from 'ol/style/Circle';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import Style, {StyleFunction} from 'ol/style/Style';
 import Text from 'ol/style/Text';
 
-const laboratoriesStyle: StyleFunction = feature => {
+export const laboratoriesStyle: StyleFunction = feature => {
   const isHidden = feature.get('hidden');
   const isHovered = feature.get('hovered');
 
@@ -71,9 +69,3 @@ export const laboratoriesStyles = {
   laboratoriesDrawHandleStyle,
   laboratoriesModifyHandleStyle
 };
-
-export const getLaboratoriesLayer = () =>
-  new VectorLayer({
-    source: new VectorSource({wrapX: false}),
-    style: laboratoriesStyle
-  });
