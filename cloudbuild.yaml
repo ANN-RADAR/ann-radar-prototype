@@ -20,7 +20,12 @@ steps:
     waitFor: ['build']
     name: 'gcr.io/cloud-builders/gsutil'
     entrypoint: 'gsutil'
-    args: ['-m', 'cp', '-r', 'dist/*', 'gs://ann-radar-develop']
+    args:
+      - '-m'
+      - 'rsync'
+      - '-r'
+      - 'dist/'
+      - 'gs://ann-radar-develop'
 
   - id: setmeta
     waitFor: ['deploy']
