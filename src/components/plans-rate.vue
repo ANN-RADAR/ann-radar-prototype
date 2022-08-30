@@ -25,7 +25,7 @@ export default Vue.extend({
   data(): Data {
     return {
       adminLayerTypes: [
-        AdminLayerType.BOROUGH,
+        AdminLayerType.DISTRICT,
         AdminLayerType.QUARTER,
         AdminLayerType.STATISTICAL_AREA
       ],

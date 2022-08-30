@@ -123,7 +123,7 @@ export const vectorSourcesOptions: Record<string, VectorSourceOptions> = {
     format: new GML3(),
     url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=landesgrenze'
   },
-  BOROUGH: {
+  DISTRICT: {
     format: new GML3(),
     url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=bezirke'
   },

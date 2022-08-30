@@ -50,7 +50,7 @@
   "notAvailable": "n/a",
   "adminLayer": {
     "city": "City",
-    "borough": "Borough",
+    "district": "District",
     "quarter": "Quarter",
     "statisticalArea": "Statistical Area",
     "buildingBlock": "Building Block"
