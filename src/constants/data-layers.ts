@@ -12,7 +12,7 @@ export const dataLayerIds = ['solarCoverageRate', 'heatDemand'];
 export const dataLayerOptions: DataLayerOptions = {
   sources: {
     [AdminLayerType.CITY]: vectorSourcesOptions.CITY,
-    [AdminLayerType.BOROUGH]: vectorSourcesOptions.BOROUGH,
+    [AdminLayerType.DISTRICT]: vectorSourcesOptions.DISTRICT,
     [AdminLayerType.QUARTER]: vectorSourcesOptions.QUARTER,
     [AdminLayerType.STATISTICAL_AREA]: vectorSourcesOptions.STATISTICAL_AREA,
     [AdminLayerType.BUILDING_BLOCK]: vectorSourcesOptions.BUILDING_BLOCK_NETTO

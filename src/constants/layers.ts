@@ -189,11 +189,11 @@ const adminAreaLayersOptions: Array<VectorLayerOptions> = [
   },
   {
     type: 'vector',
-    source: vectorSourcesOptions.BOROUGH,
+    source: vectorSourcesOptions.DISTRICT,
     visible: false,
-    style: getAdminLayerStyle(adminLayers[AdminLayerType.BOROUGH].featureId),
+    style: getAdminLayerStyle(adminLayers[AdminLayerType.DISTRICT].featureId),
     properties: {
-      name: AdminLayerType.BOROUGH
+      name: AdminLayerType.DISTRICT
     },
     zIndex: 6
   },

@@ -1,6 +1,6 @@
 export enum AdminLayerType {
   CITY = 'city',
-  BOROUGH = 'borough',
+  DISTRICT = 'district',
   QUARTER = 'quarter',
   STATISTICAL_AREA = 'statisticalArea',
   BUILDING_BLOCK = 'buildingBlock'
