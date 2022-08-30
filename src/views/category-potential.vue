@@ -8,13 +8,6 @@
         </v-tab>
         <v-tab to="mobility">{{ $t('navigation.mobility') }}</v-tab>
       </v-tabs>
-
-      <v-btn
-        :to="$router.currentRoute.path + '/results'"
-        :disabled="!currentLayerSelectedFeatureIds.length"
-      >
-        <span>{{ $t('results.show') }}</span>
-      </v-btn>
     </div>
 
     <router-view />
@@ -23,21 +16,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {mapActions, mapGetters, mapMutations} from 'vuex';
+import {mapActions, mapMutations} from 'vuex';
 
-import {
-  MapActionsToMethods,
-  MapGettersToComputed,
-  MapMutationsToMethods
-} from '@/types/store';
+import {MapActionsToMethods, MapMutationsToMethods} from '@/types/store';
 import {AdminLayerType} from '@/types/admin-layers';
 
 export default Vue.extend({
-  computed: {
-    ...(mapGetters as MapGettersToComputed)('root', [
-      'currentLayerSelectedFeatureIds'
-    ])
-  },
   methods: {
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setAdminLayerType',

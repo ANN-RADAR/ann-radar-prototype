@@ -18,6 +18,38 @@
 
         <v-menu open-on-hover bottom offset-y>
           <template v-slot:activator="{on, attrs}">
+            <v-btn
+              text
+              active-class="primary--text"
+              v-bind="attrs"
+              v-on="on"
+              :disabled="!currentLayerSelectedFeatureIds.length"
+            >
+              <span>{{ $t('results.show') }}</span>
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item to="/potential/solar/results">
+              <v-list-item-title>
+                {{ $t('navigation.solar') }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/potential/energy-efficiency/results">
+              <v-list-item-title>
+                {{ $t('navigation.energyEfficiency') }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/potential/mobility/results">
+              <v-list-item-title>
+                {{ $t('navigation.mobility') }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+
+        <v-menu open-on-hover bottom offset-y>
+          <template v-slot:activator="{on, attrs}">
             <v-btn text active-class="primary--text" v-bind="attrs" v-on="on">
               <span>{{ $t('navigation.urbanTestbeds') }}</span>
               <v-icon right>mdi-notebook-edit-outline</v-icon>
@@ -95,8 +127,12 @@
 <script lang="ts">
 import Vue from 'vue';
 import {logOut} from '@/libs/firebase';
-import {mapActions, mapState} from 'vuex';
-import {MapActionsToMethods, MapStateToComputed} from '@/types/store';
+import {mapActions, mapGetters, mapState} from 'vuex';
+import {
+  MapActionsToMethods,
+  MapGettersToComputed,
+  MapStateToComputed
+} from '@/types/store';
 
 import ScenarioCreateDialog from './create-scenario-dialog.vue';
 import ScenarioLoadDialog from '../components/scenario-load-dialog.vue';
@@ -124,6 +160,9 @@ export default Vue.extend({
   computed: {
     ...(mapState as MapStateToComputed)('root', ['scenarioMetaData']),
     ...(mapState as MapStateToComputed)('user', ['roles']),
+    ...(mapGetters as MapGettersToComputed)('root', [
+      'currentLayerSelectedFeatureIds'
+    ]),
     canSave(): boolean {
       const isWriter = this.roles.includes('WRITER');
       const hasScenarioMetaData = Boolean(this.scenarioMetaData);
