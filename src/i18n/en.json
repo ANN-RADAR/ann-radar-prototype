@@ -56,10 +56,10 @@
     "buildingBlock": "Building Block"
   },
   "layer": {
-    "solarMap": "Solar Map",
+    "solarMap": "Solar Potential 2015",
     "solarCoverageRate": "Solar Coverage Rate",
-    "heatAtlas": "Heat Atlas",
-    "heatDemand": "Heat Demand",
+    "heatAtlas": "Specific Heat Demand",
+    "heatDemand": "Potential of Renovation",
     "schools": "Schools",
     "quarterCulture": "Suburban Culture",
     "socialInfrastructure": "Social Infrastructure",
