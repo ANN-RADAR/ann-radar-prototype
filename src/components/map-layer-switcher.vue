@@ -35,7 +35,7 @@
               :key="layer.properties.name"
               :input-value="baseLayerTypes.includes(layer.properties.name)"
               :label="$t(`layer.${layer.properties.name}`)"
-              style="margin-top: -4px"
+              class="checkbox"
               @change="onLayerChange(layer, $event)"
               dense
               hide-details
@@ -51,7 +51,7 @@
               :key="layer.properties.name"
               :input-value="baseLayerTypes.includes(layer.properties.name)"
               :label="$t(`layer.${layer.properties.name}`)"
-              style="margin-top: -4px"
+              class="checkbox"
               @change="onLayerChange(layer, $event)"
               dense
               hide-details
@@ -67,7 +67,7 @@
               :key="layer.properties.name"
               :input-value="baseLayerTypes.includes(layer.properties.name)"
               :label="$t(`layer.${layer.properties.name}`)"
-              style="margin-top: -4px"
+              class="checkbox"
               @change="onLayerChange(layer, $event)"
               dense
               hide-details
@@ -187,6 +187,10 @@ export default Vue.extend({
   grid-gap: 16px;
   padding: 4px 12px 12px 12px;
   overflow: auto;
+}
+
+.list .checkbox {
+  margin-top: -4px;
 }
 
 .reduced {
