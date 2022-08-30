@@ -35,7 +35,7 @@
               :key="layer.properties.name"
               :input-value="baseLayerTypes.includes(layer.properties.name)"
               :label="$t(`layer.${layer.properties.name}`)"
-              style="margin-top: -4px"
+              class="checkbox"
               @change="onLayerChange(layer, $event)"
               dense
               hide-details
@@ -51,7 +51,23 @@
               :key="layer.properties.name"
               :input-value="baseLayerTypes.includes(layer.properties.name)"
               :label="$t(`layer.${layer.properties.name}`)"
-              style="margin-top: -4px"
+              class="checkbox"
+              @change="onLayerChange(layer, $event)"
+              dense
+              hide-details
+            ></v-checkbox>
+          </section>
+
+          <section>
+            <h4 v-if="!showReducedList" class="overline">
+              {{ $t('navigation.urbanTestbeds') }}
+            </h4>
+            <v-checkbox
+              v-for="layer in laboratoriesLayers"
+              :key="layer.properties.name"
+              :input-value="baseLayerTypes.includes(layer.properties.name)"
+              :label="$t(`layer.${layer.properties.name}`)"
+              class="checkbox"
               @change="onLayerChange(layer, $event)"
               dense
               hide-details
@@ -86,12 +102,16 @@ import {mapMutations, mapState} from 'vuex';
 
 import {LayerOptions} from '@/types/layers';
 import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
-import {baseLayersOptions} from '../constants/layers';
+import {
+  baseLayersOptions,
+  laboratoriesLayersOptions
+} from '../constants/layers';
 
 interface Data {
   isOpen: boolean;
   showReducedList: boolean;
   baseLayers: Array<LayerOptions>;
+  laboratoriesLayers: Array<LayerOptions>;
 }
 
 export default Vue.extend({
@@ -116,7 +136,8 @@ export default Vue.extend({
     return {
       isOpen: hasAlwaysVisibleLayers,
       showReducedList: hasAlwaysVisibleLayers,
-      baseLayers: baseLayersOptions
+      baseLayers: baseLayersOptions,
+      laboratoriesLayers: laboratoriesLayersOptions
     };
   },
   computed: {
@@ -166,6 +187,10 @@ export default Vue.extend({
   grid-gap: 16px;
   padding: 4px 12px 12px 12px;
   overflow: auto;
+}
+
+.list .checkbox {
+  margin-top: -4px;
 }
 
 .reduced {

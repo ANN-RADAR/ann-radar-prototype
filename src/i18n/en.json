@@ -65,7 +65,9 @@
     "socialInfrastructure": "Social Infrastructure",
     "buildingAndLiving": "Building and Living",
     "riseFundingAreas": "RISE Funding Areas",
-    "socialMonitoring2020": "Social Monitoring 2020"
+    "socialMonitoring2020": "Social Monitoring 2020",
+    "urban-testbeds": "Urban Testbeds",
+    "model-quarters": "Model Quarters"
   },
   "mapStyle": {
     "colored": "colored",

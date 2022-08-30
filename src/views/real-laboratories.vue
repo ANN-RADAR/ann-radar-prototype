@@ -11,16 +11,7 @@
 </template>
 
 <script lang="ts">
-import {MapActionsToMethods} from '@/types/store';
 import Vue from 'vue';
-import {mapActions} from 'vuex';
 
-export default Vue.extend({
-  methods: {
-    ...(mapActions as MapActionsToMethods)('root', ['fetchLaboratories'])
-  },
-  created() {
-    this.fetchLaboratories();
-  }
-});
+export default Vue.extend();
 </script>
