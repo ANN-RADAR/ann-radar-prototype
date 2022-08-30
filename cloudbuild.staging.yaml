@@ -25,7 +25,7 @@ steps:
       - 'rsync'
       - '-r'
       - 'dist/'
-      - 'gs://ann-radar-develop'
+      - 'gs://ann-radar-staging'
 
   - id: setmeta
     waitFor: ['deploy']
@@ -38,7 +38,7 @@ steps:
         '-r',
         '-h',
         'Cache-Control: no-cache',
-        'gs://ann-radar-develop/*'
+        'gs://ann-radar-staging/*'
       ]
 
   - id: slack_notification
@@ -48,7 +48,7 @@ steps:
     args:
       - -c
       - |
-        curl -X POST -H "Content-type: application/json; charset=utf-8" -H "Authorization: Bearer $$SLACK_BOT_TOKEN" --data "{\"channel\":\"C02V2LH6LRM\",\"username\":\"Production Deployment\",\"icon_emoji\":\":robot_face:\",\"text\":\"New production version deployed: https://storage.googleapis.com/ann-radar-develop/index.html\",\"unfurl_links\":false}" https://slack.com/api/chat.postMessage
+        curl -X POST -H "Content-type: application/json; charset=utf-8" -H "Authorization: Bearer $$SLACK_BOT_TOKEN" --data "{\"channel\":\"C02V2LH6LRM\",\"username\":\"Staging Deployment\",\"icon_emoji\":\":robot_face:\",\"text\":\"New staging version deployed: https://storage.googleapis.com/ann-radar-staging/index.html\",\"unfurl_links\":false}" https://slack.com/api/chat.postMessage
     secretEnv: ['SLACK_BOT_TOKEN']
 
 availableSecrets:
