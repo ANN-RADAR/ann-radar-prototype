@@ -77,7 +77,7 @@
   },
   "statisticalArea": "Statistical Area",
   "scenarios": {
-    "scenario": "Scenario: ",
+    "scenario": "Scenario",
     "createScenario": "Create Scenario",
     "saveScenario": "Save Scenario",
     "loadScenario": "Load Scenario",
