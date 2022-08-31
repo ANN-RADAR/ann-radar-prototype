@@ -12,9 +12,9 @@
         showLegends
       />
       <v-card>
-        <AdminAreasInspector>
+        <v-card-text>
           <PotentialInspectorTable category="energyEfficiency" />
-        </AdminAreasInspector>
+        </v-card-text>
       </v-card>
     </div>
 
@@ -26,7 +26,6 @@
 import Vue from 'vue';
 
 import Map from './map-component.vue';
-import AdminAreasInspector from './admin-areas-inspector.vue';
 import PotentialInspectorTable from './potential-inspector-table.vue';
 
 import {LayerOptions} from '@/types/layers';
@@ -39,7 +38,6 @@ interface Data {
 export default Vue.extend({
   components: {
     Map,
-    AdminAreasInspector,
     PotentialInspectorTable
   },
   data(): Data {

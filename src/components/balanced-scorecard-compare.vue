@@ -2,16 +2,6 @@
   <div class="wrapper">
     <v-card class="area-selection">
       <v-card-text class="area-selection-content">
-        <v-select
-          outlined
-          dense
-          hide-details
-          :value="adminLayerType"
-          :items="adminLayerOptions"
-          :label="$t('adminArea')"
-          @change="onLayerTypeChanged"
-        />
-
         <v-list class="list" v-if="adminAreasWithRating.length">
           <v-list-item-group
             multiple
@@ -63,10 +53,9 @@
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
-import {mapMutations, mapState} from 'vuex';
+import {mapState} from 'vuex';
 
-import {AdminLayerType} from '@/types/admin-layers';
-import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
+import {MapStateToComputed} from '@/types/store';
 import {
   ScorecardMeasureId,
   ScorecardRating,
@@ -84,10 +73,6 @@ export default Vue.extend({
     BalancedScorecard
   },
   props: {
-    adminLayerTypes: {
-      type: Array as PropType<Array<AdminLayerType>>,
-      required: true
-    },
     scorecardType: {
       type: String as PropType<ScorecardType>,
       required: true
@@ -103,12 +88,6 @@ export default Vue.extend({
       'adminLayerType',
       'balancedScorecardRatings'
     ]),
-    adminLayerOptions(): Array<{text: string; value: string}> {
-      return this.adminLayerTypes.map(adminArea => ({
-        text: this.$t(`adminLayer.${adminArea}`),
-        value: adminArea
-      }));
-    },
     ratings(): Record<string, Record<ScorecardMeasureId, ScorecardRating>> {
       if (
         !this.adminLayerType ||
@@ -126,13 +105,8 @@ export default Vue.extend({
       return Object.keys(this.ratings);
     }
   },
-  methods: {
-    ...(mapMutations as MapMutationsToMethods)('root', ['setAdminLayerType']),
-    onLayerTypeChanged(adminLayerType: AdminLayerType) {
-      const selectedAdminLayerType =
-        adminLayerType === this.adminLayerType ? null : adminLayerType;
-      this.setAdminLayerType(selectedAdminLayerType);
-
+  watch: {
+    adminLayerType() {
       // Reset list selection if admin area selection changed
       this.selectedAreaIndices = [];
     }
@@ -151,9 +125,6 @@ export default Vue.extend({
 }
 
 .area-selection-content {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  row-gap: 1rem;
   height: 100%;
   padding-bottom: 0;
 }
@@ -162,11 +133,10 @@ export default Vue.extend({
   margin: 0 -16px;
   padding: 0;
   overflow: auto;
-  border-top: 1px solid #ddd;
 }
 
 .emptyMessage {
-  padding: 16px;
+  padding: 12px 16px;
 }
 
 .compare {
