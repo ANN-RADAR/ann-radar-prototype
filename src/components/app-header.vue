@@ -48,28 +48,6 @@
           </v-list>
         </v-menu>
 
-        <v-menu open-on-hover bottom offset-y>
-          <template v-slot:activator="{on, attrs}">
-            <v-btn text active-class="primary--text" v-bind="attrs" v-on="on">
-              <span>{{ $t('navigation.urbanTestbeds') }}</span>
-              <v-icon right>mdi-notebook-edit-outline</v-icon>
-            </v-btn>
-          </template>
-
-          <v-list>
-            <v-list-item to="/urban-testbeds/model-quarters">
-              <v-list-item-title>
-                {{ $t('navigation.modelQuarters') }}
-              </v-list-item-title>
-            </v-list-item>
-            <v-list-item to="/urban-testbeds/urban-testbeds">
-              <v-list-item-title>
-                {{ $t('navigation.urbanTestbeds') }}
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-
         <v-btn
           text
           active-class="primary--text"
@@ -92,7 +70,7 @@
       <img class="iclei-logo" :src="`assets/hcu-logo.svg`" />
     </div>
     <template v-slot:extension>
-      <v-tabs v-model="tab">
+      <v-tabs v-model="tab" optional>
         <v-tab to="/potential">{{ $t('navigation.potential') }}</v-tab>
         <v-tab to="/plans">{{ $t('navigation.plans') }}</v-tab>
 
@@ -119,6 +97,36 @@
 
         <v-tab to="/urban-data">{{ $t('navigation.urbanData') }}</v-tab>
         <v-tab to="/governance">{{ $t('navigation.governance') }}</v-tab>
+
+        <!-- Visible laboratories tab -->
+        <v-tab to="/urban-testbeds">
+          {{ $t('navigation.urbanTestbeds') }}
+        </v-tab>
+        <v-menu open-on-hover bottom offset-y content-class="laboratories-menu">
+          <template v-slot:activator="{on, attrs}">
+            <!-- Invisible laboratories menu button to show menu on hover and overlap tab to make it not clickable -->
+            <span
+              class="laboratories-menu-button v-tab"
+              v-bind="attrs"
+              v-on="on"
+            >
+              {{ $t('navigation.urbanTestbeds') }}
+            </span>
+          </template>
+
+          <v-list>
+            <v-list-item to="/urban-testbeds/model-quarters">
+              <v-list-item-title>
+                {{ $t('navigation.modelQuarters') }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/urban-testbeds/urban-testbeds">
+              <v-list-item-title>
+                {{ $t('navigation.urbanTestbeds') }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-tabs>
     </template>
   </v-app-bar>
@@ -212,8 +220,14 @@ export default Vue.extend({
   padding: 0 32px;
 }
 
-.stakeholders-menu {
+.stakeholders-menu,
+.laboratories-menu {
   margin-top: -2px;
+}
+
+.laboratories-menu-button {
+  transform: translateX(-100%);
+  opacity: 0;
 }
 
 .iclei-logo {
