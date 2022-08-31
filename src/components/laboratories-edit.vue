@@ -10,248 +10,264 @@
         }}
       </v-card-title>
       <v-card-text class="laboratories-form">
-        <label>{{ $t('laboratories.name') }}*</label>
-        <v-text-field
-          class="laboratory-input"
-          outlined
-          dense
-          hide-details
-          name="name"
-          type="text"
-          v-model="laboratoryData.name"
-        ></v-text-field>
-
-        <label>{{ $t('laboratories.runtime') }}</label>
-        <v-text-field
-          class="laboratory-input"
-          outlined
-          dense
-          hide-details
-          name="runtime"
-          type="text"
-          v-model="laboratoryData.runtime"
-        ></v-text-field>
-
-        <label>{{ $t('laboratories.budget') }}</label>
-        <v-text-field
-          class="laboratory-input"
-          outlined
-          dense
-          hide-details
-          name="budget"
-          type="text"
-          v-model="laboratoryData.budget"
-        ></v-text-field>
-
-        <div class="laboratory-input">
-          <label>{{ $t('laboratories.location') }}*</label>
+        <form id="laboratories-form" @submit="onSave" ref="form" novalidate>
+          <label>{{ $t('laboratories.name') }}*</label>
           <v-text-field
+            class="laboratory-input"
             outlined
             dense
             hide-details
-            name="location"
+            name="name"
             type="text"
-            v-model="laboratoryData.location"
+            v-model="laboratoryData.name"
+            required
           ></v-text-field>
-          <v-alert class="drawing-hint" dense text type="info">
-            {{ $t('laboratories.drawingHint') }}
-          </v-alert>
-        </div>
 
-        <label>{{ $t('laboratories.goals') }}</label>
-        <v-textarea
-          class="laboratory-input"
-          outlined
-          dense
-          hide-details
-          name="goals"
-          v-model="laboratoryData.goals"
-        ></v-textarea>
+          <label>{{ $t('laboratories.runtime') }}</label>
+          <v-text-field
+            class="laboratory-input"
+            outlined
+            dense
+            hide-details
+            name="runtime"
+            type="text"
+            v-model="laboratoryData.runtime"
+          ></v-text-field>
 
-        <div class="laboratory-input">
-          <label class="label-with-add-button">
-            {{ $t('laboratories.stakeholders') }}
-            <v-btn icon small @click="addStakeholder">
-              <v-icon>mdi-plus</v-icon>
-            </v-btn>
-          </label>
+          <label>{{ $t('laboratories.budget') }}</label>
+          <v-text-field
+            class="laboratory-input"
+            outlined
+            dense
+            hide-details
+            name="budget"
+            type="text"
+            v-model="laboratoryData.budget"
+          ></v-text-field>
 
-          <div
-            class="laboratory-stakeholder"
-            v-for="(stakeholder, index) in laboratoryData.stakeholders"
-            :key="`stakeholder-${index}`"
-          >
-            <v-select
-              class="laboratory-stakeholder-type"
+          <div class="laboratory-input">
+            <label>{{ $t('laboratories.location') }}*</label>
+            <v-text-field
               outlined
               dense
               hide-details
-              :label="$t('laboratories.stakeholderType')"
-              :items="
-                stakeholderTypes.map(type => ({
-                  text: $t(`laboratories.stakeholderTypes.${type}`),
-                  value: type
-                }))
+              name="location"
+              type="text"
+              v-model="laboratoryData.location"
+              required
+            ></v-text-field>
+
+            <div class="drawing-wrapper">
+              <v-alert class="drawing-hint" dense text type="info">
+                {{ $t('laboratories.drawingHint') }}
+              </v-alert>
+
+              <input
+                class="drawing-hidden-input"
+                name="hasFeature"
+                type="checkbox"
+                :checked="hasFeature"
+                required
+                ref="featureInput"
+              />
+            </div>
+          </div>
+
+          <label>{{ $t('laboratories.goals') }}</label>
+          <v-textarea
+            class="laboratory-input"
+            outlined
+            dense
+            hide-details
+            name="goals"
+            v-model="laboratoryData.goals"
+          ></v-textarea>
+
+          <div class="laboratory-input">
+            <label class="label-with-add-button">
+              {{ $t('laboratories.stakeholders') }}
+              <v-btn icon small @click="addStakeholder">
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
+            </label>
+
+            <div
+              class="laboratory-stakeholder"
+              v-for="(stakeholder, index) in laboratoryData.stakeholders"
+              :key="`stakeholder-${index}`"
+            >
+              <v-select
+                class="laboratory-stakeholder-type"
+                outlined
+                dense
+                hide-details
+                :label="$t('laboratories.stakeholderType')"
+                :items="
+                  stakeholderTypes.map(type => ({
+                    text: $t(`laboratories.stakeholderTypes.${type}`),
+                    value: type
+                  }))
+                "
+                v-model="laboratoryData.stakeholders[index].type"
+              ></v-select>
+              <v-select
+                class="laboratory-stakeholder-category"
+                outlined
+                dense
+                hide-details
+                :label="$t('laboratories.stakeholderCategory')"
+                :items="[
+                  ...stakeholderCategories.map(category => ({
+                    text: $t(`laboratories.stakeholderCategories.${category}`),
+                    value: category
+                  })),
+                  {text: $t('laboratories.other'), value: 'other'}
+                ]"
+                @change="onStakeholderCategoryChange($event, index)"
+                v-model="laboratoryData.stakeholders[index].category"
+              ></v-select>
+              <v-text-field
+                v-if="laboratoryData.stakeholders[index].category === 'other'"
+                class="laboratory-stakeholder-custom-category"
+                outlined
+                dense
+                hide-details
+                name="stakeholder-category"
+                :placeholder="$t('laboratories.enterStakeholderCategory')"
+                type="text"
+                v-model="customStakeholderCategory[index]"
+              ></v-text-field>
+              <v-text-field
+                class="laboratory-stakeholder-name"
+                outlined
+                dense
+                hide-details
+                name="stakeholder-name"
+                :label="$t('laboratories.stakeholderName')"
+                type="text"
+                v-model="laboratoryData.stakeholders[index].name"
+              ></v-text-field>
+
+              <v-btn
+                v-if="laboratoryData.stakeholders.length > 1"
+                icon
+                small
+                @click="removeStakeholder(index)"
+              >
+                <v-icon>mdi-close-circle</v-icon>
+              </v-btn>
+            </div>
+          </div>
+
+          <div class="laboratory-input">
+            <label>{{ $t('laboratories.sectors') }}</label>
+            <v-checkbox
+              v-for="sector in sectors"
+              :key="sector"
+              v-model="laboratoryData.sectors"
+              dense
+              hide-details
+              :label="$t(`laboratories.sector.${sector}`)"
+              :value="sector"
+            ></v-checkbox>
+
+            <div>
+              <v-checkbox
+                v-model="addCustomSector"
+                dense
+                hide-details
+                :label="$t('laboratories.other')"
+              ></v-checkbox>
+              <v-text-field
+                v-if="addCustomSector"
+                class="indent"
+                outlined
+                dense
+                hide-details
+                name="custom-sector"
+                :placeholder="$t('laboratories.enterSector')"
+                type="text"
+                v-model="customSector"
+              ></v-text-field>
+            </div>
+          </div>
+
+          <div class="laboratory-input">
+            <label>{{ $t('laboratories.experimentalGovernance') }}</label>
+            <v-checkbox
+              v-for="experimentalGovernance in experimentalGovernanceOptions"
+              :key="experimentalGovernance"
+              v-model="laboratoryData.experimentalGovernance"
+              dense
+              hide-details
+              :label="
+                $t(
+                  `laboratories.experimentalGovernanceOptions.${experimentalGovernance}`
+                )
               "
-              v-model="laboratoryData.stakeholders[index].type"
-            ></v-select>
-            <v-select
-              class="laboratory-stakeholder-category"
-              outlined
-              dense
-              hide-details
-              :label="$t('laboratories.stakeholderCategory')"
-              :items="[
-                ...stakeholderCategories.map(category => ({
-                  text: $t(`laboratories.stakeholderCategories.${category}`),
-                  value: category
-                })),
-                {text: $t('laboratories.other'), value: 'other'}
-              ]"
-              @change="onStakeholderCategoryChange($event, index)"
-              v-model="laboratoryData.stakeholders[index].category"
-            ></v-select>
-            <v-text-field
-              v-if="laboratoryData.stakeholders[index].category === 'other'"
-              class="laboratory-stakeholder-custom-category"
-              outlined
-              dense
-              hide-details
-              name="stakeholder-category"
-              :placeholder="$t('laboratories.enterStakeholderCategory')"
-              type="text"
-              v-model="customStakeholderCategory[index]"
-            ></v-text-field>
-            <v-text-field
-              class="laboratory-stakeholder-name"
-              outlined
-              dense
-              hide-details
-              name="stakeholder-name"
-              :label="$t('laboratories.stakeholderName')"
-              type="text"
-              v-model="laboratoryData.stakeholders[index].name"
-            ></v-text-field>
-
-            <v-btn
-              v-if="laboratoryData.stakeholders.length > 1"
-              icon
-              small
-              @click="removeStakeholder(index)"
-            >
-              <v-icon>mdi-close-circle</v-icon>
-            </v-btn>
-          </div>
-        </div>
-
-        <div class="laboratory-input">
-          <label>{{ $t('laboratories.sectors') }}</label>
-          <v-checkbox
-            v-for="sector in sectors"
-            :key="sector"
-            v-model="laboratoryData.sectors"
-            dense
-            hide-details
-            :label="$t(`laboratories.sector.${sector}`)"
-            :value="sector"
-          ></v-checkbox>
-
-          <div>
-            <v-checkbox
-              v-model="addCustomSector"
-              dense
-              hide-details
-              :label="$t('laboratories.other')"
+              :value="experimentalGovernance"
             ></v-checkbox>
-            <v-text-field
-              v-if="addCustomSector"
-              class="indent"
-              outlined
-              dense
-              hide-details
-              name="custom-sector"
-              :placeholder="$t('laboratories.enterSector')"
-              type="text"
-              v-model="customSector"
-            ></v-text-field>
+
+            <div>
+              <v-checkbox
+                v-model="addCustomExperimentalGovernance"
+                dense
+                hide-details
+                :label="$t('laboratories.other')"
+              ></v-checkbox>
+              <v-text-field
+                v-if="addCustomExperimentalGovernance"
+                class="indent"
+                outlined
+                dense
+                hide-details
+                name="custom-experimental-governance"
+                :placeholder="$t('laboratories.enterExperimentalGovernance')"
+                type="text"
+              ></v-text-field>
+            </div>
           </div>
-        </div>
 
-        <div class="laboratory-input">
-          <label>{{ $t('laboratories.experimentalGovernance') }}</label>
-          <v-checkbox
-            v-for="experimentalGovernance in experimentalGovernanceOptions"
-            :key="experimentalGovernance"
-            v-model="laboratoryData.experimentalGovernance"
-            dense
-            hide-details
-            :label="
-              $t(
-                `laboratories.experimentalGovernanceOptions.${experimentalGovernance}`
-              )
-            "
-            :value="experimentalGovernance"
-          ></v-checkbox>
+          <div class="laboratory-input">
+            <label class="label-with-add-button">
+              {{ $t('laboratories.links') }}
+              <v-btn icon small @click="addLink">
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
+            </label>
 
-          <div>
-            <v-checkbox
-              v-model="addCustomExperimentalGovernance"
-              dense
-              hide-details
-              :label="$t('laboratories.other')"
-            ></v-checkbox>
-            <v-text-field
-              v-if="addCustomExperimentalGovernance"
-              class="indent"
-              outlined
-              dense
-              hide-details
-              name="custom-experimental-governance"
-              :placeholder="$t('laboratories.enterExperimentalGovernance')"
-              type="text"
-            ></v-text-field>
-          </div>
-        </div>
-
-        <div class="laboratory-input">
-          <label class="label-with-add-button">
-            {{ $t('laboratories.links') }}
-            <v-btn icon small @click="addLink">
-              <v-icon>mdi-plus</v-icon>
-            </v-btn>
-          </label>
-
-          <div
-            class="laboratory-link"
-            v-for="(link, index) in laboratoryData.links"
-            :key="`link-${index}`"
-          >
-            <v-text-field
-              outlined
-              dense
-              hide-details
-              name="link"
-              type="text"
-              :placeholder="$t('laboratories.link')"
-              v-model="laboratoryData.links[index]"
-            ></v-text-field>
-            <v-btn
-              v-if="laboratoryData.links.length > 1"
-              icon
-              small
-              @click="removeLink(index)"
+            <div
+              class="laboratory-link"
+              v-for="(link, index) in laboratoryData.links"
+              :key="`link-${index}`"
             >
-              <v-icon>mdi-close-circle</v-icon>
-            </v-btn>
+              <v-text-field
+                outlined
+                dense
+                hide-details
+                name="link"
+                type="text"
+                :placeholder="$t('laboratories.link')"
+                v-model="laboratoryData.links[index]"
+              ></v-text-field>
+              <v-btn
+                v-if="laboratoryData.links.length > 1"
+                icon
+                small
+                @click="removeLink(index)"
+              >
+                <v-icon>mdi-close-circle</v-icon>
+              </v-btn>
+            </div>
           </div>
-        </div>
 
-        <v-alert v-if="error" class="error-message" dense text type="error">
-          {{ error }}
-        </v-alert>
+          <v-alert v-if="error" class="error-message" dense text type="error">
+            {{ error }}
+          </v-alert>
+        </form>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="onSave" :disabled="!canSave">{{ $t('save') }}</v-btn>
+        <v-btn type="submit" form="laboratories-form">{{ $t('save') }}</v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -283,6 +299,7 @@ import Map from './map-component.vue';
 interface Data {
   error: string;
   source: VectorSource<Geometry>;
+  hasFeature: boolean;
   laboratoryData: Omit<Laboratory, 'type' | 'feature'>;
   stakeholderTypes: Array<LaboratoryStakeholderType>;
   stakeholderCategories: Array<LaboratoryStakeholderCategory>;
@@ -328,6 +345,7 @@ export default Vue.extend({
     return {
       error: '',
       source,
+      hasFeature: false,
       laboratoryData: EMPTY_LABORATORY_DATA,
       stakeholderTypes: Object.values(LaboratoryStakeholderType),
       stakeholderCategories: Object.values(LaboratoryStakeholderCategory),
@@ -344,9 +362,6 @@ export default Vue.extend({
   },
   computed: {
     ...(mapState as MapStateToComputed)('root', ['laboratories']),
-    canSave(): boolean {
-      return Boolean(this.laboratoryData.name && this.laboratoryData.location);
-    },
     laboratory(): Laboratory | null {
       return (
         (this.laboratoryId && this.laboratories[this.laboratoryId]) || null
@@ -452,7 +467,37 @@ export default Vue.extend({
         this.source.clear();
       }
     },
-    onSave() {
+    validateFeature() {
+      const featureInputElement = this.$refs.featureInput as
+        | HTMLInputElement
+        | undefined;
+
+      if (featureInputElement) {
+        const validityState = featureInputElement.validity;
+
+        if (validityState.valueMissing) {
+          featureInputElement.setCustomValidity(
+            'You must draw an area on the map.'
+          );
+        } else {
+          featureInputElement.setCustomValidity('');
+        }
+      }
+    },
+    onSave(event: Event) {
+      event.preventDefault();
+
+      // Run custom validations
+      this.validateFeature();
+
+      // Run browser form validation
+      const formElement = this.$refs.form as HTMLFormElement | undefined;
+      const formIsValid = formElement?.reportValidity();
+
+      if (!formIsValid) {
+        return;
+      }
+
       const {stakeholders, sectors, experimentalGovernance, links, ...data} =
         this.laboratoryData;
 
@@ -511,6 +556,14 @@ export default Vue.extend({
       this.$router.push(this.returnTo);
       return;
     }
+
+    // Handle laboratory feature changes
+    this.source.on('addfeature', () => {
+      this.hasFeature = true;
+    });
+    this.source.on('clear', () => {
+      this.hasFeature = false;
+    });
 
     // Set laboratory data for the current route
     if (this.laboratory) {
@@ -594,8 +647,22 @@ export default Vue.extend({
   margin-left: 32px;
 }
 
+.drawing-wrapper {
+  position: relative;
+}
+
 .drawing-hint {
   margin-top: 0.5rem;
+}
+
+.drawing-hidden-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .error-message {
