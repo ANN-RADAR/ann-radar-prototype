@@ -283,6 +283,7 @@ import Map from './map-component.vue';
 interface Data {
   error: string;
   source: VectorSource<Geometry>;
+  hasFeature: boolean;
   laboratoryData: Omit<Laboratory, 'type' | 'feature'>;
   stakeholderTypes: Array<LaboratoryStakeholderType>;
   stakeholderCategories: Array<LaboratoryStakeholderCategory>;
@@ -328,6 +329,7 @@ export default Vue.extend({
     return {
       error: '',
       source,
+      hasFeature: false,
       laboratoryData: EMPTY_LABORATORY_DATA,
       stakeholderTypes: Object.values(LaboratoryStakeholderType),
       stakeholderCategories: Object.values(LaboratoryStakeholderCategory),
@@ -345,7 +347,11 @@ export default Vue.extend({
   computed: {
     ...(mapState as MapStateToComputed)('root', ['laboratories']),
     canSave(): boolean {
-      return Boolean(this.laboratoryData.name && this.laboratoryData.location);
+      return Boolean(
+        this.laboratoryData.name &&
+          this.laboratoryData.location &&
+          this.hasFeature
+      );
     },
     laboratory(): Laboratory | null {
       return (
@@ -511,6 +517,14 @@ export default Vue.extend({
       this.$router.push(this.returnTo);
       return;
     }
+
+    // Handle laboratory feature changes
+    this.source.on('addfeature', () => {
+      this.hasFeature = true;
+    });
+    this.source.on('clear', () => {
+      this.hasFeature = false;
+    });
 
     // Set laboratory data for the current route
     if (this.laboratory) {
