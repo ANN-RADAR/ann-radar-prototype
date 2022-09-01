@@ -1,20 +1,14 @@
 <template>
-  <div>
-    <router-view />
-    <div class="potential">
-      <Map
-        hasMultipleFeatureSelection
-        :thematicLayerOptions="potentialLayers.layerOptions"
-        showLayerSwitcher
-        :layerSwitcherProps="{
-          thematicLayersTitle: $t(potentialLayers.titleKey)
-        }"
-        showStyleSwitcher
-        showLegends
-      />
-      <router-view name="content" />
-    </div>
-  </div>
+  <Map
+    hasMultipleFeatureSelection
+    :thematicLayerOptions="potentialLayers.layerOptions"
+    showLayerSwitcher
+    :layerSwitcherProps="{
+      thematicLayersTitle: $t(potentialLayers.titleKey)
+    }"
+    showStyleSwitcher
+    showLegends
+  />
 </template>
 
 <script lang="ts">
@@ -59,19 +53,3 @@ export default Vue.extend({
   }
 });
 </script>
-
-<style scoped>
-.potential {
-  display: grid;
-  grid-template-columns: calc(50% - 0.5rem) calc(50% - 0.5rem);
-  grid-template-rows: 100%;
-  gap: 1rem;
-  height: 100%;
-  padding: 1rem;
-}
-
-.potential > * {
-  position: relative;
-  display: grid;
-}
-</style>

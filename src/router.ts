@@ -7,6 +7,8 @@ import Laboratories from './views/real-laboratories.vue';
 import EditLaboratory from './components/laboratories-edit.vue';
 import ListLaboratories from './components/laboratories-list.vue';
 import Potential from './views/category-potential.vue';
+import PotentialMap from './components/potential-map.vue';
+import PotentialInspectorTable from './components/potential-inspector-table.vue';
 import Plans from './views/category-plans.vue';
 import PlansRate from './components/plans-rate.vue';
 import PlansCompare from './components/plans-compare.vue';
@@ -23,8 +25,6 @@ import GovernanceRate from './components/governance-rate.vue';
 import GovernanceCompare from './components/governance-compare.vue';
 import Results from './views/category-results.vue';
 import Login from './views/app-login.vue';
-import PotentialMap from './components/potential-map.vue';
-import PotentialInspectorTable from './components/potential-inspector-table.vue';
 
 import {
   solarPotentialLayersOptions,
@@ -37,13 +37,13 @@ const routes = [
   {
     path: '/potential',
     redirect: '/potential/solar',
-    component: PotentialMap,
+    component: Potential,
     children: [
       {
         path: 'solar',
-        components: {default: Potential, content: PotentialInspectorTable},
+        components: {map: PotentialMap, table: PotentialInspectorTable},
         name: 'Solar Potential',
-        props: {content: {category: 'solar'}}
+        props: {table: {category: 'solar'}}
       },
       {
         path: 'solar/results',
@@ -59,9 +59,9 @@ const routes = [
       {path: 'solar/*', redirect: '/potential/solar'},
       {
         path: 'energy-efficiency',
-        components: {default: Potential, content: PotentialInspectorTable},
+        components: {map: PotentialMap, table: PotentialInspectorTable},
         name: 'Energy Potential',
-        props: {content: {category: 'energyEfficiency'}}
+        props: {table: {category: 'energyEfficiency'}}
       },
       {
         path: 'energy-efficiency/results',
@@ -80,7 +80,7 @@ const routes = [
       },
       {
         path: 'mobility',
-        components: {default: Potential, content: null},
+        components: {map: PotentialMap, table: null},
         name: 'Mobility Potential'
       },
       {
