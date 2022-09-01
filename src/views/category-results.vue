@@ -15,7 +15,7 @@
         :thematicLayerOptions="thematicLayers"
         showLayerSwitcher
         :layerSwitcherProps="{
-          thematicLayersTitle: $t(thematicLayersTitleKey),
+          thematicLayersTitle: thematicLayersTitle,
           alwaysVisibleLayers: initialActiveLayers
         }"
         showStyleSwitcher
@@ -141,7 +141,7 @@ export default Vue.extend({
       type: Array as PropType<Array<LayerOptions>>,
       required: true
     },
-    thematicLayersTitleKey: {
+    thematicLayersTitle: {
       type: String,
       required: true
     }
