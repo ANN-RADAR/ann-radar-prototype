@@ -14,23 +14,26 @@
 import Vue from 'vue';
 import {mapMutations, mapState} from 'vuex';
 
-import {AdminLayerType} from '@/types/admin-layers';
+import {
+  AdminLayerType,
+  BalancedScorecardAdminLayerType
+} from '@/types/admin-layers';
 import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 
 interface Data {
   allAdminLayerTypes: Array<AdminLayerType>;
-  balancedScorecardAdminLayerTypes: Array<AdminLayerType>;
+  balancedScorecardAdminLayerTypes: Array<
+    BalancedScorecardAdminLayerType | string
+  >;
 }
 
 export default Vue.extend({
   data(): Data {
     return {
       allAdminLayerTypes: Object.values(AdminLayerType),
-      balancedScorecardAdminLayerTypes: [
-        AdminLayerType.DISTRICT,
-        AdminLayerType.QUARTER,
-        AdminLayerType.STATISTICAL_AREA
-      ]
+      balancedScorecardAdminLayerTypes: Object.values(
+        BalancedScorecardAdminLayerType
+      )
     };
   },
   computed: {

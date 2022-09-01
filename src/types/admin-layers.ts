@@ -6,6 +6,12 @@ export enum AdminLayerType {
   BUILDING_BLOCK = 'buildingBlock'
 }
 
+export enum BalancedScorecardAdminLayerType {
+  DISTRICT = AdminLayerType.DISTRICT,
+  QUARTER = AdminLayerType.QUARTER,
+  STATISTICAL_AREA = AdminLayerType.STATISTICAL_AREA
+}
+
 export interface AdminLayerFeatureData
   extends Record<string, string | number | undefined> {
   Shape_Area: number; // Fläche in Quadratmeter
