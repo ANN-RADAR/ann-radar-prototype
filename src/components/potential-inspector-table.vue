@@ -150,9 +150,6 @@ export default Vue.extend({
       selectedTableHeaders: []
     };
   },
-  created() {
-    this.setSelectedTableHeaders(this.tableHeaders);
-  },
   computed: {
     ...(mapState as MapStateToComputed)('root', [
       'adminLayerType',
@@ -216,6 +213,9 @@ export default Vue.extend({
   watch: {
     tableHeaders(newTableHeaders: Array<DataTableHeader>) {
       this.setSelectedTableHeaders(newTableHeaders);
+    },
+    category() {
+      this.setSelectedTableHeaders(this.tableHeaders);
     }
   },
   methods: {

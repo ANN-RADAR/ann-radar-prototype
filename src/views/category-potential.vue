@@ -9,8 +9,6 @@
         <v-tab to="mobility">{{ $t('navigation.mobility') }}</v-tab>
       </v-tabs>
     </div>
-
-    <router-view />
   </div>
 </template>
 

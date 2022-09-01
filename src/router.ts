@@ -7,8 +7,6 @@ import Laboratories from './views/real-laboratories.vue';
 import EditLaboratory from './components/laboratories-edit.vue';
 import ListLaboratories from './components/laboratories-list.vue';
 import Potential from './views/category-potential.vue';
-import SolarPotential from './components/solar-potential.vue';
-import EnergyPotential from './components/energy-potential.vue';
 import Plans from './views/category-plans.vue';
 import PlansRate from './components/plans-rate.vue';
 import PlansCompare from './components/plans-compare.vue';
@@ -25,6 +23,8 @@ import GovernanceRate from './components/governance-rate.vue';
 import GovernanceCompare from './components/governance-compare.vue';
 import Results from './views/category-results.vue';
 import Login from './views/app-login.vue';
+import PotentialMap from './components/potential-map.vue';
+import PotentialInspectorTable from './components/potential-inspector-table.vue';
 
 import {
   solarPotentialLayersOptions,
@@ -37,13 +37,13 @@ const routes = [
   {
     path: '/potential',
     redirect: '/potential/solar',
-    component: Potential,
-    name: 'Potential',
+    component: PotentialMap,
     children: [
       {
         path: 'solar',
-        component: SolarPotential,
-        name: 'Solar Potential'
+        components: {default: Potential, content: PotentialInspectorTable},
+        name: 'Solar Potential',
+        props: {content: {category: 'solar'}}
       },
       {
         path: 'solar/results',
@@ -59,8 +59,9 @@ const routes = [
       {path: 'solar/*', redirect: '/potential/solar'},
       {
         path: 'energy-efficiency',
-        component: EnergyPotential,
-        name: 'Energy Potential'
+        components: {default: Potential, content: PotentialInspectorTable},
+        name: 'Energy Potential',
+        props: {content: {category: 'energyEfficiency'}}
       },
       {
         path: 'energy-efficiency/results',
@@ -73,10 +74,13 @@ const routes = [
           thematicLayersTitleKey: 'layerOptions.energyLayers'
         }
       },
-      {path: 'energy-efficiency/*', redirect: '/potential/energy-efficiency'},
+      {
+        path: 'energy-efficiency/*',
+        redirect: '/potential/energy-efficiency'
+      },
       {
         path: 'mobility',
-        component: null,
+        components: {default: Potential, content: null},
         name: 'Mobility Potential'
       },
       {
@@ -123,7 +127,11 @@ const routes = [
     component: Stakeholders,
     name: 'Stakeholders',
     children: [
-      {path: 'rate', component: StakeholdersRate, name: 'Rate Stakeholders'},
+      {
+        path: 'rate',
+        component: StakeholdersRate,
+        name: 'Rate Stakeholders'
+      },
       {
         path: 'compare',
         component: StakeholdersCompare,
@@ -138,7 +146,11 @@ const routes = [
     name: 'Urban Data',
     children: [
       {path: 'rate', component: UrbanDataRate, name: 'Rate Urban Data'},
-      {path: 'compare', component: UrbanDataCompare, name: 'Compare Urban Data'}
+      {
+        path: 'compare',
+        component: UrbanDataCompare,
+        name: 'Compare Urban Data'
+      }
     ]
   },
   {
