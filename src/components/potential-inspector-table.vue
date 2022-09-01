@@ -32,7 +32,6 @@
           selectable: showAggregationOnly ? false : showSelected
         }"
         :value="selectedFeaturesData"
-        @input="onSelectedFeaturesDataChange"
         :headers="shownTableHeaders"
         :items="selectedFeaturesData"
         :item-key="adminLayers[adminLayerType].dataId"
@@ -41,6 +40,27 @@
         :fixed-header="true"
         hide-default-footer
       >
+        <template v-slot:[`header.data-table-select`]>
+          <v-btn
+            text
+            icon
+            :disabled="!selectedFeaturesData.length"
+            @click="onDeselectAllFeatures"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </template>
+
+        <template v-slot:[`item.data-table-select`]="{item}">
+          <v-btn
+            text
+            icon
+            @click="onDeselectFeature(item[shownTableHeaders[0].value])"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </template>
+
         <template
           v-for="(header, index) in shownTableHeaders"
           v-slot:[`item.${header.value}`]="{item}"
@@ -231,23 +251,26 @@ export default Vue.extend({
       const container = this.$refs.tableContainer as Element;
       this.tableHeight = container?.getBoundingClientRect().height || 0;
     },
-    onSelectedFeaturesDataChange(
-      newSelectedFeaturesData: Array<AdminLayerFeatureData>
-    ) {
+    onDeselectFeature(featureIdToRemove: string) {
       if (!this.adminLayerType) {
         return;
       }
 
-      const {dataId} = adminLayers[this.adminLayerType];
-
       this.setSelectedFeatureIdsOfAdminLayer({
         adminLayerType: this.adminLayerType,
         featureIds: this.currentLayerSelectedFeatureIds.filter(
-          (featureId: string) =>
-            newSelectedFeaturesData
-              .map(data => String(data[dataId]))
-              .includes(featureId)
+          (featureId: string) => featureId !== featureIdToRemove
         )
+      });
+    },
+    onDeselectAllFeatures() {
+      if (!this.adminLayerType) {
+        return;
+      }
+
+      this.setSelectedFeatureIdsOfAdminLayer({
+        adminLayerType: this.adminLayerType,
+        featureIds: []
       });
     },
     setSelectedTableHeaders(tableHeaders: Array<DataTableHeader>) {

@@ -71,12 +71,13 @@ export default Vue.extend({
 
 .potential-table.selectable table th:nth-child(1),
 .potential-table.selectable table td:nth-child(1) {
+  padding-left: 4px;
   padding-right: 0;
 }
 
 .potential-table.selectable table th:nth-child(2),
 .potential-table.selectable table td:nth-child(2) {
-  left: 48px;
+  left: 40px;
 }
 
 .potential-table:not(.selectable) table th:nth-child(1),
