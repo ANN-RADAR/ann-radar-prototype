@@ -1,14 +1,16 @@
 import Vue from 'vue';
 import Router, {Route} from 'vue-router';
 
+import i18n from './plugins/i18n';
+
 import store from './store';
 
+import Map from './components/map-component.vue';
 import Laboratories from './views/real-laboratories.vue';
 import EditLaboratory from './components/laboratories-edit.vue';
 import ListLaboratories from './components/laboratories-list.vue';
 import Potential from './views/category-potential.vue';
-import SolarPotential from './components/solar-potential.vue';
-import EnergyPotential from './components/energy-potential.vue';
+import PotentialInspectorTable from './components/potential-inspector-table.vue';
 import Plans from './views/category-plans.vue';
 import PlansRate from './components/plans-rate.vue';
 import PlansCompare from './components/plans-compare.vue';
@@ -38,12 +40,24 @@ const routes = [
     path: '/potential',
     redirect: '/potential/solar',
     component: Potential,
-    name: 'Potential',
     children: [
       {
         path: 'solar',
-        component: SolarPotential,
-        name: 'Solar Potential'
+        components: {map: Map, table: PotentialInspectorTable},
+        name: 'Solar Potential',
+        props: {
+          map: {
+            hasMultipleFeatureSelection: true,
+            thematicLayerOptions: solarPotentialLayersOptions,
+            showLayerSwitcher: true,
+            layerSwitcherProps: {
+              thematicLayersTitle: i18n.t('layerOptions.solarLayers')
+            },
+            showStyleSwitcher: true,
+            showLegends: true
+          },
+          table: {category: 'solar'}
+        }
       },
       {
         path: 'solar/results',
@@ -53,14 +67,27 @@ const routes = [
           category: 'solar',
           returnTo: '/potential/solar',
           thematicLayers: solarPotentialLayersOptions,
-          thematicLayersTitleKey: 'layerOptions.solarLayers'
+          thematicLayersTitle: i18n.t('layerOptions.solarLayers')
         }
       },
       {path: 'solar/*', redirect: '/potential/solar'},
       {
         path: 'energy-efficiency',
-        component: EnergyPotential,
-        name: 'Energy Potential'
+        components: {map: Map, table: PotentialInspectorTable},
+        name: 'Energy Potential',
+        props: {
+          map: {
+            hasMultipleFeatureSelection: true,
+            thematicLayerOptions: energyPotentialLayersOptions,
+            showLayerSwitcher: true,
+            layerSwitcherProps: {
+              thematicLayersTitle: i18n.t('layerOptions.energyLayers')
+            },
+            showStyleSwitcher: true,
+            showLegends: true
+          },
+          table: {category: 'energyEfficiency'}
+        }
       },
       {
         path: 'energy-efficiency/results',
@@ -70,14 +97,29 @@ const routes = [
           category: 'energyEfficiency',
           returnTo: '/potential/energy-efficiency',
           thematicLayers: energyPotentialLayersOptions,
-          thematicLayersTitleKey: 'layerOptions.energyLayers'
+          thematicLayersTitle: i18n.t('layerOptions.energyLayers')
         }
       },
-      {path: 'energy-efficiency/*', redirect: '/potential/energy-efficiency'},
+      {
+        path: 'energy-efficiency/*',
+        redirect: '/potential/energy-efficiency'
+      },
       {
         path: 'mobility',
-        component: null,
-        name: 'Mobility Potential'
+        components: {map: Map, table: null},
+        name: 'Mobility Potential',
+        props: {
+          map: {
+            hasMultipleFeatureSelection: true,
+            thematicLayerOptions: mobilityPotentialLayersOptions,
+            showLayerSwitcher: true,
+            layerSwitcherProps: {
+              thematicLayersTitle: i18n.t('layerOptions.mobilityLayers')
+            },
+            showStyleSwitcher: true,
+            showLegends: true
+          }
+        }
       },
       {
         path: 'mobility/results',
@@ -87,7 +129,7 @@ const routes = [
           category: 'mobility',
           returnTo: '/potential/mobility',
           thematicLayers: mobilityPotentialLayersOptions,
-          thematicLayersTitleKey: 'layerOptions.mobilityLayers'
+          thematicLayersTitle: i18n.t('layerOptions.mobilityLayers')
         }
       },
       {
@@ -123,7 +165,11 @@ const routes = [
     component: Stakeholders,
     name: 'Stakeholders',
     children: [
-      {path: 'rate', component: StakeholdersRate, name: 'Rate Stakeholders'},
+      {
+        path: 'rate',
+        component: StakeholdersRate,
+        name: 'Rate Stakeholders'
+      },
       {
         path: 'compare',
         component: StakeholdersCompare,
@@ -138,7 +184,11 @@ const routes = [
     name: 'Urban Data',
     children: [
       {path: 'rate', component: UrbanDataRate, name: 'Rate Urban Data'},
-      {path: 'compare', component: UrbanDataCompare, name: 'Compare Urban Data'}
+      {
+        path: 'compare',
+        component: UrbanDataCompare,
+        name: 'Compare Urban Data'
+      }
     ]
   },
   {

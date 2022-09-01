@@ -9,8 +9,10 @@
         <v-tab to="mobility">{{ $t('navigation.mobility') }}</v-tab>
       </v-tabs>
     </div>
-
-    <router-view />
+    <div class="potential">
+      <router-view name="map" />
+      <router-view name="table" />
+    </div>
   </div>
 </template>
 
@@ -46,6 +48,19 @@ export default Vue.extend({
   grid-template-columns: 1fr auto;
   align-items: center;
   padding-right: 1rem;
+}
+.potential {
+  display: grid;
+  grid-template-columns: calc(50% - 0.5rem) calc(50% - 0.5rem);
+  grid-template-rows: 100%;
+  gap: 1rem;
+  height: 100%;
+  padding: 1rem;
+}
+
+.potential > * {
+  position: relative;
+  display: grid;
 }
 </style>
 
