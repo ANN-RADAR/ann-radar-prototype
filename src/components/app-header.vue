@@ -100,6 +100,7 @@
       <img class="iclei-logo" :src="`assets/iclei-logo.png`" />
       <img class="iclei-logo" :src="`assets/hcu-logo.svg`" />
     </div>
+
     <template v-slot:extension>
       <v-tabs v-model="tab" optional>
         <v-tab to="/potential">{{ $t('navigation.potential') }}</v-tab>
@@ -159,6 +160,13 @@
           </v-list>
         </v-menu>
       </v-tabs>
+
+      <div
+        class="admin-area-selection"
+        v-if="!$route.path.startsWith('/urban-testbeds')"
+      >
+        <AdminAreaSelector />
+      </div>
     </template>
   </v-app-bar>
 </template>
@@ -174,7 +182,8 @@ import {
 } from '@/types/store';
 
 import ScenarioCreateDialog from './create-scenario-dialog.vue';
-import ScenarioLoadDialog from '../components/scenario-load-dialog.vue';
+import ScenarioLoadDialog from './scenario-load-dialog.vue';
+import AdminAreaSelector from './admin-area-selector.vue';
 
 interface Data {
   tab: number;
@@ -191,7 +200,8 @@ export default Vue.extend({
   },
   components: {
     ScenarioCreateDialog,
-    ScenarioLoadDialog
+    ScenarioLoadDialog,
+    AdminAreaSelector
   },
   data(): Data {
     return {
@@ -280,5 +290,13 @@ export default Vue.extend({
   justify-content: flex-end;
   margin: 0.5rem -0.5rem 0 0;
   flex-direction: column;
+}
+
+.admin-area-selection {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  padding: 0.5rem 1rem;
+  width: 16rem;
 }
 </style>
