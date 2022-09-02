@@ -13,6 +13,7 @@ const state: RootState = {
   baseLayerTypes: [],
   adminLayerType: null,
   selectedFeatureIds: {} as Record<AdminLayerType, Array<string>>,
+  highlightedFeatureIds: [],
   balancedScorecards: Object.values(ScorecardType).reduce(
     (scorecards, scorecardType) => ({...scorecards, [scorecardType]: []}),
     {} as Record<ScorecardType, Scorecard>

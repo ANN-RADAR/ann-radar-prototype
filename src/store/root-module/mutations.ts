@@ -77,6 +77,12 @@ const mutations = {
   ) {
     state.selectedFeatureIds = newSelectedFeatureIds;
   },
+  setHighlightedFeatureIds(
+    state: RootState,
+    newSelectedFeatureIds: RootState['highlightedFeatureIds']
+  ) {
+    state.highlightedFeatureIds = newSelectedFeatureIds;
+  },
   setSelectedFeatureIdsOfAdminLayer(
     state: RootState,
     payload: {adminLayerType: AdminLayerType; featureIds: Array<string>}

@@ -1,43 +1,27 @@
 <template>
-  <div>
-    <div class="potential-header">
-      <v-tabs>
-        <v-tab to="solar">{{ $t('navigation.solar') }}</v-tab>
-        <v-tab to="energy-efficiency" id="tour-sustainability-themes">
-          {{ $t('navigation.energyEfficiency') }}
-        </v-tab>
-        <v-tab to="mobility">{{ $t('navigation.mobility') }}</v-tab>
-      </v-tabs>
-    </div>
-    <div class="potential">
-      <router-view name="map" />
-      <router-view name="table" />
-    </div>
+  <div class="potential-header">
+    <v-tabs>
+      <v-tab to="solar">{{ $t('navigation.solar') }}</v-tab>
+      <v-tab to="energy-efficiency" id="tour-sustainability-themes">
+        {{ $t('navigation.energyEfficiency') }}
+      </v-tab>
+      <v-tab to="mobility">{{ $t('navigation.mobility') }}</v-tab>
+    </v-tabs>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import {mapActions, mapMutations} from 'vuex';
+import {mapActions} from 'vuex';
 
-import {MapActionsToMethods, MapMutationsToMethods} from '@/types/store';
-import {AdminLayerType} from '@/types/admin-layers';
+import {MapActionsToMethods} from '@/types/store';
 
 export default Vue.extend({
   methods: {
-    ...(mapMutations as MapMutationsToMethods)('root', [
-      'setAdminLayerType',
-      'setSelectedFeatureIds'
-    ]),
     ...(mapActions as MapActionsToMethods)('root', ['fetchPotentialConfig'])
   },
   created() {
     this.fetchPotentialConfig();
-  },
-  destroyed() {
-    // Reset selections on destroy
-    this.setAdminLayerType(null);
-    this.setSelectedFeatureIds({} as Record<AdminLayerType, Array<string>>);
   }
 });
 </script>
@@ -49,22 +33,6 @@ export default Vue.extend({
   align-items: center;
   padding-right: 1rem;
 }
-.potential {
-  display: grid;
-  grid-template-columns: calc(50% - 0.5rem) calc(50% - 0.5rem);
-  grid-template-rows: 100%;
-  gap: 1rem;
-  height: 100%;
-  padding: 1rem;
-}
-
-.potential > * {
-  position: relative;
-  display: grid;
-}
-</style>
-
-<style>
 .potential-table.v-data-table--fixed-header
   > .v-data-table__wrapper
   > table

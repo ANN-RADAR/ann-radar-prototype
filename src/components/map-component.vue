@@ -241,6 +241,9 @@ export default Vue.extend({
     currentLayerSelectedFeatureIds() {
       this.handleAdminAreaSelectionAndHighlighting();
     },
+    highlightedFeatureIds() {
+      this.handleAdminAreaSelectionAndHighlighting();
+    },
     laboratories() {
       this.updateLaboratoriesFeatures();
     },
