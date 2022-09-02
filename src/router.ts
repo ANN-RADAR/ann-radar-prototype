@@ -71,12 +71,6 @@ const routes = [
   {
     path: '*',
     component: Category,
-    props: {
-      thematicLayerOptions: solarPotentialLayersOptions,
-      layerSwitcherProps: {
-        thematicLayersTitle: i18n.t('layerOptions.solarLayers')
-      }
-    },
     children: [
       {
         path: '/potential',

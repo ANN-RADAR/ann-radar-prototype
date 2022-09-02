@@ -11,11 +11,10 @@
               ? {
                   showLegends: true,
                   hasMultipleFeatureSelection: true,
-                  thematicLayerOptions: this.thematicLayerOptions,
+                  thematicLayerOptions: this.potentialLayers.layerOptions,
                   showLayerSwitcher: true,
                   layerSwitcherProps: {
-                    thematicLayersTitle:
-                      this.layerSwitcherProps.thematicLayersTitle
+                    thematicLayersTitle: this.potentialLayers.title
                   }
                 }
               : {highlightedFeatureIds: this.highlightedFeatureIds}
@@ -27,26 +26,47 @@
 </template>
 
 <script lang="ts">
-import Vue, {PropType} from 'vue';
+import Vue from 'vue';
+
+import i18n from '../plugins/i18n';
 
 import {LayerOptions} from '@/types/layers';
 
 import Map from '../components/map-component.vue';
 import {mapState} from 'vuex';
 import {MapStateToComputed} from '@/types/store';
+import {
+  energyPotentialLayersOptions,
+  solarPotentialLayersOptions
+} from '@/constants/layers';
+
+function getPotentialLayers(path: string) {
+  let layerOptions: Array<LayerOptions> = [];
+  let title = '';
+  if (path.startsWith('/potential/solar')) {
+    title = i18n.t('layerOptions.solarLayers');
+    layerOptions = solarPotentialLayersOptions;
+  } else if (path.startsWith('/potential/energy-efficiency')) {
+    title = i18n.t('layerOptions.energyLayers');
+    layerOptions = energyPotentialLayersOptions;
+  }
+  return {title, layerOptions};
+}
+
+interface Data {
+  potentialLayers: {title: string; layerOptions: Array<LayerOptions>};
+}
 
 export default Vue.extend({
   components: {
     Map
   },
-  props: {
-    thematicLayerOptions: {
-      type: Array as PropType<Array<LayerOptions>>,
-      required: true
-    },
-    layerSwitcherProps: {
-      type: Object as PropType<{thematicLayersTitle: string}>,
-      required: true
+  data(): Data {
+    return {potentialLayers: getPotentialLayers(this.$route.path)};
+  },
+  watch: {
+    $route(to, _) {
+      this.potentialLayers = getPotentialLayers(to.path);
     }
   },
   computed: {
