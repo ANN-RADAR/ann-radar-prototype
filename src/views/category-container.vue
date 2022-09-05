@@ -17,10 +17,19 @@
                     thematicLayersTitle: potentialLayers.title
                   }
                 }
-              : {highlightedFeatureIds}
+              : {
+                  highlightedFeatureIds,
+                  disableAdminLayers: !isAdminLayerOfBalacedScorecardType()
+                }
           "
       /></keep-alive>
-      <router-view name="content" />
+      <router-view
+        name="content"
+        v-if="
+          $route.path.startsWith('/potential') ||
+          isAdminLayerOfBalacedScorecardType()
+        "
+      />
     </div>
   </div>
 </template>
@@ -30,6 +39,7 @@ import Vue from 'vue';
 
 import i18n from '../plugins/i18n';
 
+import {BalancedScorecardAdminLayerType} from '@/types/admin-layers';
 import {LayerOptions} from '@/types/layers';
 
 import Map from '../components/map-component.vue';
@@ -72,7 +82,20 @@ export default Vue.extend({
     }
   },
   computed: {
-    ...(mapState as MapStateToComputed)('root', ['highlightedFeatureIds'])
+    ...(mapState as MapStateToComputed)('root', [
+      'highlightedFeatureIds',
+      'adminLayerType'
+    ])
+  },
+  methods: {
+    isAdminLayerOfBalacedScorecardType: function () {
+      return (
+        this.adminLayerType &&
+        Object.values(BalancedScorecardAdminLayerType).includes(
+          this.adminLayerType
+        )
+      );
+    }
   }
 });
 </script>

@@ -19,10 +19,6 @@ import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 import {ScorecardType} from '@/types/scorecards';
 
 import BalancedScorecard from './balanced-scorecard.vue';
-import {
-  AdminLayerType,
-  BalancedScorecardAdminLayerType
-} from '@/types/admin-layers';
 
 export default Vue.extend({
   components: {
@@ -49,16 +45,6 @@ export default Vue.extend({
       }
 
       return this.selectedFeatureIds[this.adminLayerType][0];
-    }
-  },
-  created() {
-    if (
-      !Object.values(BalancedScorecardAdminLayerType).includes(
-        this.adminLayerType as string
-      )
-    ) {
-      this.setAdminLayerType(null);
-      this.setSelectedFeatureIds({} as Record<AdminLayerType, Array<string>>);
     }
   },
   watch: {
