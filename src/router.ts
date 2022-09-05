@@ -162,12 +162,12 @@ const routes = [
       },
       {
         path: '/stakeholders/organizations',
-        components: {navigation: StakeholdersOrganizations},
+        components: {content: StakeholdersOrganizations},
         name: 'Stakeholders Organizations'
       },
       {
         path: '/stakeholders/citizens',
-        components: {navigation: StakeholdersCitizens},
+        components: {content: StakeholdersCitizens},
         name: 'Stakeholders Citizens'
       },
       {

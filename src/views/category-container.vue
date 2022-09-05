@@ -1,7 +1,7 @@
 <template>
   <div>
     <router-view name="navigation" />
-    <div class="wrapper">
+    <div :class="{wrapper: !$route.path.endsWith('/compare')}">
       <keep-alive>
         <Map
           v-if="!$route.path.endsWith('/compare')"
@@ -27,6 +27,8 @@
         name="content"
         v-if="
           $route.path.startsWith('/potential') ||
+          $route.path.startsWith('/stakeholders/organizations') ||
+          $route.path.startsWith('/stakeholders/citizens') ||
           isAdminLayerOfBalacedScorecardType()
         "
       />
