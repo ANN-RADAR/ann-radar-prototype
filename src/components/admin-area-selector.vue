@@ -12,13 +12,11 @@
     <template #selection="{item}">
       <v-tooltip v-if="item.disabled" bottom>
         <template v-slot:activator="{on, attrs}">
-          <v-avatar left v-bind="attrs" v-on="on">
-            <v-icon>mdi-information</v-icon>
-          </v-avatar>
+          <v-icon v-bind="attrs" v-on="on">mdi-information</v-icon>
         </template>
         <span>{{ $t('adminAreaSelector.areaNotAvailable') }}</span>
       </v-tooltip>
-      {{ item.text }}
+      <v-list-item :disabled="item.disabled">{{ item.text }}</v-list-item>
     </template></v-select
   >
 </template>
