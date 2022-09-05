@@ -4,20 +4,20 @@
     <div class="wrapper">
       <keep-alive>
         <Map
-          v-if="!this.$route.path.endsWith('/compare')"
+          v-if="!$route.path.endsWith('/compare')"
           showStyleSwitcher
           v-bind="
-            this.$route.path.startsWith('/potential')
+            $route.path.startsWith('/potential')
               ? {
                   showLegends: true,
                   hasMultipleFeatureSelection: true,
-                  thematicLayerOptions: this.potentialLayers.layerOptions,
+                  thematicLayerOptions: potentialLayers.layerOptions,
                   showLayerSwitcher: true,
                   layerSwitcherProps: {
-                    thematicLayersTitle: this.potentialLayers.title
+                    thematicLayersTitle: potentialLayers.title
                   }
                 }
-              : {highlightedFeatureIds: this.highlightedFeatureIds}
+              : {highlightedFeatureIds}
           "
       /></keep-alive>
       <router-view name="content" />
@@ -41,16 +41,18 @@ import {
 } from '@/constants/layers';
 
 function getPotentialLayers(path: string) {
-  let layerOptions: Array<LayerOptions> = [];
-  let title = '';
   if (path.startsWith('/potential/solar')) {
-    title = i18n.t('layerOptions.solarLayers');
-    layerOptions = solarPotentialLayersOptions;
+    return {
+      title: i18n.t('layerOptions.solarLayers'),
+      layerOptions: solarPotentialLayersOptions
+    };
   } else if (path.startsWith('/potential/energy-efficiency')) {
-    title = i18n.t('layerOptions.energyLayers');
-    layerOptions = energyPotentialLayersOptions;
+    return {
+      title: i18n.t('layerOptions.energyLayers'),
+      layerOptions: energyPotentialLayersOptions
+    };
   }
-  return {title, layerOptions};
+  return {title: '', layerOptions: []};
 }
 
 interface Data {
