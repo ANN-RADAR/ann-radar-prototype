@@ -11,27 +11,17 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {mapActions, mapMutations} from 'vuex';
+import {mapActions} from 'vuex';
 
-import {MapActionsToMethods, MapMutationsToMethods} from '@/types/store';
-import {AdminLayerType} from '@/types/admin-layers';
+import {MapActionsToMethods} from '@/types/store';
 import {ScorecardType} from '@/types/scorecards';
 
 export default Vue.extend({
   methods: {
-    ...(mapActions as MapActionsToMethods)('root', ['fetchBalancedScorecard']),
-    ...(mapMutations as MapMutationsToMethods)('root', [
-      'setAdminLayerType',
-      'setSelectedFeatureIds'
-    ])
+    ...(mapActions as MapActionsToMethods)('root', ['fetchBalancedScorecard'])
   },
   created() {
     this.fetchBalancedScorecard(ScorecardType.GOVERNANCE);
-  },
-  destroyed() {
-    // Reset selections on destroy
-    this.setAdminLayerType(null);
-    this.setSelectedFeatureIds({} as Record<AdminLayerType, Array<string>>);
   }
 });
 </script>

@@ -1,6 +1,11 @@
 <template>
   <div class="laboratory">
-    <Map :drawingSource="source" showStyleSwitcher showDrawingTools />
+    <Map
+      :drawingSource="source"
+      showStyleSwitcher
+      showDrawingTools
+      disableAdminLayers
+    />
     <v-card class="laboratories-data">
       <v-card-title>
         {{

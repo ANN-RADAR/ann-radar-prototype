@@ -192,5 +192,8 @@
       "title": "5 – View & Discuss Results",
       "content": "Select data layers<br/>Balanced Scorecards per area<br/>Sustainability thematic potentials"
     }
+  },
+  "adminAreaSelector": {
+    "areaNotAvailable": "The current admin area selection is not available. Please select another admin area."
   }
 }

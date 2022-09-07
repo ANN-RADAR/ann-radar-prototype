@@ -1,7 +1,6 @@
 <template>
-  <div class="wrapper">
-    <Map :highlightedFeatureIds="highlightedFeatureIds" showStyleSwitcher />
-    <v-card class="rate">
+  <v-card class="rate">
+    <div v-if="!adminLayerType || isAdminLayerOfBalacedScorecardType()">
       <v-card-title>{{ $t('balancedScorecards.rate.title') }}</v-card-title>
       <v-card-text class="rate-content">
         <BalancedScorecard
@@ -10,23 +9,22 @@
           isEditable
         />
       </v-card-text>
-    </v-card>
-  </div>
+    </div>
+  </v-card>
 </template>
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
-import {mapState} from 'vuex';
+import {mapMutations, mapState} from 'vuex';
 
-import {MapStateToComputed} from '@/types/store';
+import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
+import {BalancedScorecardAdminLayerType} from '@/types/admin-layers';
 import {ScorecardType} from '@/types/scorecards';
 
-import Map from './map-component.vue';
 import BalancedScorecard from './balanced-scorecard.vue';
 
 export default Vue.extend({
   components: {
-    Map,
     BalancedScorecard
   },
   props: {
@@ -50,18 +48,37 @@ export default Vue.extend({
       }
 
       return this.selectedFeatureIds[this.adminLayerType][0];
-    },
-    highlightedFeatureIds(): Array<string> {
+    }
+  },
+  watch: {
+    balancedScorecardRatings(newBalancedScorecardRatings) {
       if (
         !this.adminLayerType ||
-        !this.balancedScorecardRatings[this.scorecardType] ||
-        !this.balancedScorecardRatings[this.scorecardType][this.adminLayerType]
+        !newBalancedScorecardRatings[this.scorecardType] ||
+        !newBalancedScorecardRatings[this.scorecardType][this.adminLayerType]
       ) {
-        return [];
+        this.setHighlightedFeatureIds([]);
+      } else {
+        this.setHighlightedFeatureIds(
+          Object.keys(
+            newBalancedScorecardRatings[this.scorecardType][this.adminLayerType]
+          )
+        );
       }
-
-      return Object.keys(
-        this.balancedScorecardRatings[this.scorecardType][this.adminLayerType]
+    }
+  },
+  methods: {
+    ...(mapMutations as MapMutationsToMethods)('root', [
+      'setAdminLayerType',
+      'setSelectedFeatureIds',
+      'setHighlightedFeatureIds'
+    ]),
+    isAdminLayerOfBalacedScorecardType: function () {
+      return (
+        this.adminLayerType &&
+        Object.values(BalancedScorecardAdminLayerType).includes(
+          this.adminLayerType
+        )
       );
     }
   }
@@ -69,19 +86,6 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.wrapper {
-  display: grid;
-  grid-template-columns: calc(50% - 0.5rem) calc(50% - 0.5rem);
-  grid-template-rows: 100%;
-  gap: 1rem;
-  min-height: 0;
-  padding: 1rem;
-}
-
-.wrapper > * {
-  position: relative;
-}
-
 .rate {
   display: grid;
   grid-template-rows: auto 1fr;

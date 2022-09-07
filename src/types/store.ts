@@ -21,6 +21,7 @@ export interface RootState {
   baseLayerTypes: Array<string>;
   adminLayerType: AdminLayerType | null;
   selectedFeatureIds: Record<AdminLayerType, Array<string>>;
+  highlightedFeatureIds: Array<string>;
   balancedScorecards: Record<ScorecardType, Scorecard>;
   balancedScorecardRatings: Record<ScorecardType, ScorecardRatings>;
   notes: Record<string /* path */, string /* note */>;
