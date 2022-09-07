@@ -1,16 +1,14 @@
 <template>
-  <v-card class="rate">
-    <div v-if="!adminLayerType || isAdminLayerOfBalacedScorecardType()">
-      <v-card-title>{{ $t('balancedScorecards.rate.title') }}</v-card-title>
-      <v-card-text class="rate-content">
-        <BalancedScorecard
-          :selectedFeatures="selectedFeatureId ? [selectedFeatureId] : []"
-          :scorecardType="scorecardType"
-          isEditable
-        />
-      </v-card-text>
-    </div>
-  </v-card>
+  <div v-if="!adminLayerType || isAdminLayerOfBalacedScorecardType()">
+    <v-card-title>{{ $t('balancedScorecards.rate.title') }}</v-card-title>
+    <v-card-text class="rate-content">
+      <BalancedScorecard
+        :selectedFeatures="selectedFeatureId ? [selectedFeatureId] : []"
+        :scorecardType="scorecardType"
+        isEditable
+      />
+    </v-card-text>
+  </div>
 </template>
 
 <script lang="ts">
@@ -86,11 +84,6 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.rate {
-  display: grid;
-  grid-template-rows: auto 1fr;
-}
-
 .rate-content {
   overflow: auto;
 }

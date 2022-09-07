@@ -1,10 +1,9 @@
 <template>
   <div>
     <router-view name="navigation" />
-    <div :class="{wrapper: !$route.path.endsWith('/compare')}">
+    <div class="wrapper" v-if="!$route.path.endsWith('/compare')">
       <keep-alive>
         <Map
-          v-if="!$route.path.endsWith('/compare')"
           showStyleSwitcher
           v-bind="
             $route.path.startsWith('/potential')
@@ -23,8 +22,13 @@
                 }
           "
       /></keep-alive>
-      <router-view name="content" />
+      <v-card>
+        <v-card-text class="content-card-text"
+          ><router-view name="content"
+        /></v-card-text>
+      </v-card>
     </div>
+    <router-view v-if="$route.path.endsWith('/compare')" name="content" />
   </div>
 </template>
 
@@ -107,5 +111,9 @@ export default Vue.extend({
 .wrapper > * {
   position: relative;
   display: grid;
+}
+
+.content-card-text {
+  overflow-x: auto;
 }
 </style>

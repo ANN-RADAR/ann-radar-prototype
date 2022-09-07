@@ -69,6 +69,39 @@ const routes = [
     ]
   },
   {
+    path: '/potential/solar/results',
+    component: Results,
+    name: 'Solar Potential Results',
+    props: {
+      category: 'solar',
+      returnTo: '/potential/solar',
+      thematicLayers: solarPotentialLayersOptions,
+      thematicLayersTitle: i18n.t('layerOptions.solarLayers')
+    }
+  },
+  {
+    path: '/potential/energy-efficiency/results',
+    component: Results,
+    name: 'Energy Potential Results',
+    props: {
+      category: 'energyEfficiency',
+      returnTo: '/potential/energy-efficiency',
+      thematicLayers: energyPotentialLayersOptions,
+      thematicLayersTitle: i18n.t('layerOptions.energyLayers')
+    }
+  },
+  {
+    path: '/potential/mobility/results',
+    component: Results,
+    name: 'Mobility Potential Results',
+    props: {
+      category: 'mobility',
+      returnTo: '/potential/mobility',
+      thematicLayers: mobilityPotentialLayersOptions,
+      thematicLayersTitle: i18n.t('layerOptions.mobilityLayers')
+    }
+  },
+  {
     path: '*',
     component: Category,
     children: [
@@ -84,17 +117,6 @@ const routes = [
           content: {category: 'solar'}
         }
       },
-      {
-        path: '/potential/solar/results',
-        component: Results,
-        name: 'Solar Potential Results',
-        props: {
-          category: 'solar',
-          returnTo: '/potential/solar',
-          thematicLayers: solarPotentialLayersOptions,
-          thematicLayersTitle: i18n.t('layerOptions.solarLayers')
-        }
-      },
       {path: 'solar/*', redirect: '/potential/solar'},
       {
         path: '/potential/energy-efficiency',
@@ -105,17 +127,6 @@ const routes = [
         }
       },
       {
-        path: '/potential/energy-efficiency/results',
-        component: Results,
-        name: 'Energy Potential Results',
-        props: {
-          category: 'energyEfficiency',
-          returnTo: '/potential/energy-efficiency',
-          thematicLayers: energyPotentialLayersOptions,
-          thematicLayersTitle: i18n.t('layerOptions.energyLayers')
-        }
-      },
-      {
         path: '/potential/energy-efficiency/*',
         redirect: '/potential/energy-efficiency'
       },
@@ -123,17 +134,6 @@ const routes = [
         path: '/potential/mobility',
         components: {navigation: Potential, content: null},
         name: 'Mobility Potential'
-      },
-      {
-        path: '/potential/mobility/results',
-        component: Results,
-        name: 'Mobility Potential Results',
-        props: {
-          category: 'mobility',
-          returnTo: '/potential/mobility',
-          thematicLayers: mobilityPotentialLayersOptions,
-          thematicLayersTitle: i18n.t('layerOptions.mobilityLayers')
-        }
       },
       {
         path: '/potential/mobility/*',
