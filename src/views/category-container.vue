@@ -29,6 +29,7 @@
           $route.path.startsWith('/potential') ||
           $route.path.startsWith('/stakeholders/organizations') ||
           $route.path.startsWith('/stakeholders/citizens') ||
+          !adminLayerType ||
           isAdminLayerOfBalacedScorecardType()
         "
       />
