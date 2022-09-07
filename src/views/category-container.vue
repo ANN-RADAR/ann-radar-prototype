@@ -23,16 +23,7 @@
                 }
           "
       /></keep-alive>
-      <router-view
-        name="content"
-        v-if="
-          $route.path.startsWith('/potential') ||
-          $route.path.startsWith('/stakeholders/organizations') ||
-          $route.path.startsWith('/stakeholders/citizens') ||
-          !adminLayerType ||
-          isAdminLayerOfBalacedScorecardType()
-        "
-      />
+      <router-view name="content" />
     </div>
   </div>
 </template>

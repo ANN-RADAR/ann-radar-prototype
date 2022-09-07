@@ -1,13 +1,15 @@
 <template>
   <v-card class="rate">
-    <v-card-title>{{ $t('balancedScorecards.rate.title') }}</v-card-title>
-    <v-card-text class="rate-content">
-      <BalancedScorecard
-        :selectedFeatures="selectedFeatureId ? [selectedFeatureId] : []"
-        :scorecardType="scorecardType"
-        isEditable
-      />
-    </v-card-text>
+    <div v-if="!adminLayerType || isAdminLayerOfBalacedScorecardType()">
+      <v-card-title>{{ $t('balancedScorecards.rate.title') }}</v-card-title>
+      <v-card-text class="rate-content">
+        <BalancedScorecard
+          :selectedFeatures="selectedFeatureId ? [selectedFeatureId] : []"
+          :scorecardType="scorecardType"
+          isEditable
+        />
+      </v-card-text>
+    </div>
   </v-card>
 </template>
 
@@ -16,6 +18,7 @@ import Vue, {PropType} from 'vue';
 import {mapMutations, mapState} from 'vuex';
 
 import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
+import {BalancedScorecardAdminLayerType} from '@/types/admin-layers';
 import {ScorecardType} from '@/types/scorecards';
 
 import BalancedScorecard from './balanced-scorecard.vue';
@@ -69,7 +72,15 @@ export default Vue.extend({
       'setAdminLayerType',
       'setSelectedFeatureIds',
       'setHighlightedFeatureIds'
-    ])
+    ]),
+    isAdminLayerOfBalacedScorecardType: function () {
+      return (
+        this.adminLayerType &&
+        Object.values(BalancedScorecardAdminLayerType).includes(
+          this.adminLayerType
+        )
+      );
+    }
   }
 });
 </script>
