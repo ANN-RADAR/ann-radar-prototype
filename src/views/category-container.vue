@@ -28,7 +28,7 @@
         /></v-card-text>
       </v-card>
     </div>
-    <router-view v-if="$route.path.endsWith('/compare')" name="content" />
+    <router-view v-else name="content" />
   </div>
 </template>
 
