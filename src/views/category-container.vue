@@ -1,10 +1,9 @@
 <template>
   <div>
     <router-view name="navigation" />
-    <div :class="{wrapper: !$route.path.endsWith('/compare')}">
+    <div class="wrapper" v-if="!$route.path.endsWith('/compare')">
       <keep-alive>
         <Map
-          v-if="!$route.path.endsWith('/compare')"
           showStyleSwitcher
           v-bind="
             $route.path.startsWith('/potential')
@@ -23,8 +22,9 @@
                 }
           "
       /></keep-alive>
-      <router-view name="content" />
+      <v-card><router-view name="content" /></v-card>
     </div>
+    <router-view v-else name="content" />
   </div>
 </template>
 
