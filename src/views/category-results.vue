@@ -250,6 +250,7 @@ export default Vue.extend({
 }
 
 .potential-table-wrapper {
+  flex: 1;
   padding: 16px;
   overflow: hidden;
 }

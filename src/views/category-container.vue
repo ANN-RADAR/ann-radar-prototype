@@ -22,11 +22,7 @@
                 }
           "
       /></keep-alive>
-      <v-card>
-        <v-card-text class="content-card-text"
-          ><router-view name="content"
-        /></v-card-text>
-      </v-card>
+      <v-card><router-view name="content" /></v-card>
     </div>
     <router-view v-else name="content" />
   </div>
@@ -111,9 +107,5 @@ export default Vue.extend({
 .wrapper > * {
   position: relative;
   display: grid;
-}
-
-.content-card-text {
-  overflow-x: auto;
 }
 </style>
