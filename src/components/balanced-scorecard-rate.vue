@@ -52,20 +52,14 @@ export default Vue.extend({
     }
   },
   watch: {
-    balancedScorecardRatings(newBalancedScorecardRatings) {
-      if (
-        !this.adminLayerType ||
-        !newBalancedScorecardRatings[this.scorecardType] ||
-        !newBalancedScorecardRatings[this.scorecardType][this.adminLayerType]
-      ) {
-        this.setHighlightedFeatureIds([]);
-      } else {
-        this.setHighlightedFeatureIds(
-          Object.keys(
-            newBalancedScorecardRatings[this.scorecardType][this.adminLayerType]
-          )
-        );
-      }
+    adminLayerType() {
+      this.updateHighlightedFeatureIds();
+    },
+    scorecardType() {
+      this.updateHighlightedFeatureIds();
+    },
+    balancedScorecardRatings() {
+      this.updateHighlightedFeatureIds();
     }
   },
   methods: {
@@ -81,7 +75,27 @@ export default Vue.extend({
           this.adminLayerType
         )
       );
+    },
+    updateHighlightedFeatureIds() {
+      if (
+        !this.adminLayerType ||
+        !this.balancedScorecardRatings[this.scorecardType] ||
+        !this.balancedScorecardRatings[this.scorecardType][this.adminLayerType]
+      ) {
+        this.setHighlightedFeatureIds([]);
+      } else {
+        this.setHighlightedFeatureIds(
+          Object.keys(
+            this.balancedScorecardRatings[this.scorecardType][
+              this.adminLayerType
+            ]
+          )
+        );
+      }
     }
+  },
+  created() {
+    this.updateHighlightedFeatureIds();
   }
 });
 </script>
