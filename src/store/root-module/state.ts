@@ -3,6 +3,10 @@ import {MapStyle} from '@/types/map-styles';
 import {AdminLayerType} from '@/types/admin-layers';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {Laboratory, LaboratoryId} from '@/types/laboratories';
+import {
+  StakeholdersEngagementRatings,
+  StakeholdersEngagementType
+} from '@/types/stakeholders';
 
 const state: RootState = {
   scenarioMetaData: null,
@@ -27,7 +31,14 @@ const state: RootState = {
   ),
   notes: {},
   laboratories: {} as Record<LaboratoryId, Laboratory>,
-  hoveredLaboratoryId: null
+  hoveredLaboratoryId: null,
+  stakeholdersEngagementRatings: Object.values(ScorecardType).reduce(
+    (ratings, stakeholdersEngagementType) => ({
+      ...ratings,
+      [stakeholdersEngagementType]: {} as StakeholdersEngagementRatings
+    }),
+    {} as Record<StakeholdersEngagementType, StakeholdersEngagementRatings>
+  )
 };
 
 export default state;

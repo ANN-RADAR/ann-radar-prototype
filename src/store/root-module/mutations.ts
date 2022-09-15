@@ -5,6 +5,10 @@ import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {ScenarioMetaData} from '@/types/scenarios';
 import {PotentialConfig} from '@/types/potential-config';
 import {Laboratory, LaboratoryId} from '@/types/laboratories';
+import {
+  StakeholdersEngagementRatings,
+  StakeholdersEngagementType
+} from '@/types/stakeholders';
 
 const mutations = {
   setLayersConfig(
@@ -109,6 +113,15 @@ const mutations = {
   },
   setLaboratories(state: RootState, laboratories: RootState['laboratories']) {
     state.laboratories = laboratories;
+  },
+  setStakeholdersEngagementRatings(
+    state: RootState,
+    newStakeholdersEngagementRatings: Record<
+      StakeholdersEngagementType,
+      StakeholdersEngagementRatings
+    >
+  ) {
+    state.stakeholdersEngagementRatings = newStakeholdersEngagementRatings;
   }
 };
 

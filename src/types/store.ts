@@ -8,6 +8,10 @@ import {Scorecard, ScorecardRatings, ScorecardType} from './scorecards';
 import {ActionContext} from 'vuex';
 import {PotentialConfig} from './potential-config';
 import {Laboratory, LaboratoryId} from './laboratories';
+import {
+  StakeholdersEngagementRatings,
+  StakeholdersEngagementType
+} from './stakeholders';
 
 export interface RootState {
   scenarioMetaData: ScenarioMetaData | null;
@@ -27,6 +31,10 @@ export interface RootState {
   notes: Record<string /* path */, string /* note */>;
   laboratories: Record<LaboratoryId, Laboratory>;
   hoveredLaboratoryId: LaboratoryId | null;
+  stakeholdersEngagementRatings: Record<
+    StakeholdersEngagementType,
+    StakeholdersEngagementRatings
+  >;
 }
 
 export interface UserState {

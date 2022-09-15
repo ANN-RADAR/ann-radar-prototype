@@ -42,6 +42,7 @@ const actions = {
   ) {
     const {
       balancedScorecardsRef,
+      stakeholdersEngagementsRef,
       notesRef,
       baseLayerTypes,
       ...scenarioMetaData
@@ -52,16 +53,32 @@ const actions = {
     );
     const balancedScorecardRatings = balancedScorecardRatingsSnapshot.data();
 
+    let stakeholdersEngagementRatingsSnapshot;
+    let stakeholdersEngagementRatings;
+    if (stakeholdersEngagementsRef) {
+      stakeholdersEngagementRatingsSnapshot = await getDoc(
+        stakeholdersEngagementsRef
+      );
+      stakeholdersEngagementRatings =
+        stakeholdersEngagementRatingsSnapshot.data();
+    }
+
     const notesSnapshot = await getDoc(notesRef);
     const notes = notesSnapshot.data();
 
     commit('setScenarioMetaData', {
       balancedScorecardsId: balancedScorecardRatingsSnapshot.id,
+      ...(stakeholdersEngagementRatingsSnapshot && {
+        stakeholdersEngagementsId: stakeholdersEngagementRatingsSnapshot.id
+      }),
       notesId: notesSnapshot.id,
       ...scenarioMetaData
     });
     commit('setBaseLayerTypes', baseLayerTypes);
     commit('setBalancedScorecardRatings', balancedScorecardRatings);
+    if (stakeholdersEngagementRatings) {
+      commit('setStakeholdersEngagementRatings', stakeholdersEngagementRatings);
+    }
     commit('setNotes', notes);
   },
   fetchLayersConfig({commit}: ActionContext<RootState, StoreState>) {
@@ -161,8 +178,13 @@ const actions = {
     }
 
     try {
-      const {id, balancedScorecardsId, notesId, ...scenarioMetaData} =
-        state.scenarioMetaData;
+      const {
+        id,
+        balancedScorecardsId,
+        stakeholdersEngagementsId,
+        notesId,
+        ...scenarioMetaData
+      } = state.scenarioMetaData;
 
       const scenarioRef = doc(database, ANNRadarCollection.SCENARIOS, id);
       await updateDoc(scenarioRef, {
@@ -179,6 +201,18 @@ const actions = {
         balancedScorecardsRatingsRef,
         state.balancedScorecardRatings
       );
+
+      if (stakeholdersEngagementsId) {
+        const stakeholdersEngagementRatingsRef = doc(
+          database,
+          ANNRadarCollection.STAKEHOLDERS_ENGAGEMENTS,
+          stakeholdersEngagementsId
+        );
+        await updateDoc(
+          stakeholdersEngagementRatingsRef,
+          state.stakeholdersEngagementRatings
+        );
+      }
 
       const notesRef = doc(database, ANNRadarCollection.NOTES, notesId);
       await updateDoc(notesRef, state.notes);
