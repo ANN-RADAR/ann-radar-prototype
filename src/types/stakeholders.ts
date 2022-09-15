@@ -5,6 +5,11 @@ export enum StakeholdersEngagementType {
   CITIZENS = 'citizens'
 }
 
+export type StakeholdersEngagementTemplate = Array<{
+  objective?: string;
+  measures: Array<{id: StakeholdersEngagementMeasureId; description: string}>;
+}>;
+
 export interface StakeholdersEngagementRating {
   value?: boolean | undefined;
   comment?: string;

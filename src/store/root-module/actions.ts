@@ -5,6 +5,14 @@ import {
   ScorecardType
 } from '@/types/scorecards';
 import {RootState, StoreState} from '@/types/store';
+import {Scenario} from '@/types/scenarios';
+import {Laboratory, LaboratoryId} from '@/types/laboratories';
+import {
+  StakeholdersEngagementMeasureId,
+  StakeholdersEngagementRating,
+  StakeholdersEngagementType
+} from '@/types/stakeholders';
+import {ANNRadarCollection} from '@/types/firestore';
 
 import {ActionContext} from 'vuex';
 
@@ -17,12 +25,8 @@ import {
   getDocs
 } from 'firebase/firestore';
 import {database} from '../../libs/firebase';
-import {ANNRadarCollection} from '@/types/firestore';
-
-import {Scenario} from '@/types/scenarios';
 
 import GeoJSON from 'ol/format/GeoJSON';
-import {Laboratory, LaboratoryId} from '@/types/laboratories';
 
 const scorecardURLs = {
   [ScorecardType.PLANS]:
@@ -33,6 +37,13 @@ const scorecardURLs = {
     'https://storage.googleapis.com/ann-radar-data/urban_data_scorecard.json',
   [ScorecardType.GOVERNANCE]:
     'https://storage.googleapis.com/ann-radar-data/governance_scorecard.json'
+};
+
+const stakeholdersEngagementURLs = {
+  [StakeholdersEngagementType.ORGANIZATIONS]:
+    'https://storage.googleapis.com/ann-radar-data/stakeholders_organizations_engagement.json',
+  [StakeholdersEngagementType.CITIZENS]:
+    'https://storage.googleapis.com/ann-radar-data/stakeholders_citizens_engagement.json'
 };
 
 const actions = {
@@ -109,6 +120,17 @@ const actions = {
       .then(response => response.json())
       .then(scorecard => {
         commit('setBalancedScorecard', {type, scorecard});
+      })
+      .catch(error => console.error(error));
+  },
+  fetchStakeholdersEngagementTemplate(
+    {commit}: ActionContext<RootState, StoreState>,
+    type: StakeholdersEngagementType
+  ) {
+    return fetch(stakeholdersEngagementURLs[type])
+      .then(response => response.json())
+      .then(template => {
+        commit('setStakeholdersEngagementTemplates', {type, template});
       })
       .catch(error => console.error(error));
   },
@@ -250,6 +272,60 @@ const actions = {
     }
 
     commit('setBalancedScorecardRatings', ratings);
+  },
+  updateStakeholdersEngagementRatings(
+    {commit, state}: ActionContext<RootState, StoreState>,
+    payload: {
+      stakeholdersEngagementType: StakeholdersEngagementType;
+      adminLayerType: AdminLayerType;
+      featureId: string;
+      measureId?: StakeholdersEngagementMeasureId;
+      rating?: StakeholdersEngagementRating;
+      links?: string;
+    }
+  ) {
+    const ratings = {...state.stakeholdersEngagementRatings};
+    ratings[payload.stakeholdersEngagementType] =
+      ratings[payload.stakeholdersEngagementType] || {};
+    ratings[payload.stakeholdersEngagementType][payload.adminLayerType] =
+      ratings[payload.stakeholdersEngagementType][payload.adminLayerType] || {};
+    ratings[payload.stakeholdersEngagementType][payload.adminLayerType][
+      payload.featureId
+    ] =
+      ratings[payload.stakeholdersEngagementType][payload.adminLayerType][
+        payload.featureId
+      ] || {};
+    ratings[payload.stakeholdersEngagementType][payload.adminLayerType][
+      payload.featureId
+    ].ratings =
+      ratings[payload.stakeholdersEngagementType][payload.adminLayerType][
+        payload.featureId
+      ].ratings || {};
+
+    // Update ratings
+    if (payload.measureId && payload.rating) {
+      if (payload.rating.value === undefined && !payload.rating.comment) {
+        delete ratings[payload.stakeholdersEngagementType][
+          payload.adminLayerType
+        ][payload.featureId].ratings[payload.measureId];
+      } else {
+        ratings[payload.stakeholdersEngagementType][payload.adminLayerType][
+          payload.featureId
+        ].ratings[payload.measureId] = payload.rating;
+      }
+    }
+
+    // Update links
+    ratings[payload.stakeholdersEngagementType][payload.adminLayerType][
+      payload.featureId
+    ].links =
+      payload.links ||
+      ratings[payload.stakeholdersEngagementType][payload.adminLayerType][
+        payload.featureId
+      ].links ||
+      '';
+
+    commit('setStakeholdersEngagementRatings', ratings);
   }
 };
 

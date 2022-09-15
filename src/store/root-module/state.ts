@@ -5,6 +5,7 @@ import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {Laboratory, LaboratoryId} from '@/types/laboratories';
 import {
   StakeholdersEngagementRatings,
+  StakeholdersEngagementTemplate,
   StakeholdersEngagementType
 } from '@/types/stakeholders';
 
@@ -32,6 +33,15 @@ const state: RootState = {
   notes: {},
   laboratories: {} as Record<LaboratoryId, Laboratory>,
   hoveredLaboratoryId: null,
+  stakeholdersEngagementTemplates: Object.values(
+    StakeholdersEngagementType
+  ).reduce(
+    (templates, stakeholdersEngagementType) => ({
+      ...templates,
+      [stakeholdersEngagementType]: []
+    }),
+    {} as Record<StakeholdersEngagementType, StakeholdersEngagementTemplate>
+  ),
   stakeholdersEngagementRatings: Object.values(ScorecardType).reduce(
     (ratings, stakeholdersEngagementType) => ({
       ...ratings,

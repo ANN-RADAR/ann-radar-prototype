@@ -101,6 +101,7 @@ export default Vue.extend({
   grid-template-rows: 100%;
   gap: 1rem;
   height: 100%;
+  min-height: 0;
   padding: 1rem;
 }
 

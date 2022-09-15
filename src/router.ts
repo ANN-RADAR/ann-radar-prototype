@@ -13,8 +13,7 @@ import Potential from './views/category-potential.vue';
 import PotentialInspectorTable from './components/potential-inspector-table.vue';
 import Plans from './views/category-plans.vue';
 import Stakeholders from './views/category-stakeholders.vue';
-import StakeholdersOrganizations from './components/stakeholders-organizations.vue';
-import StakeholdersCitizens from './components/stakeholders-citizens.vue';
+import StakeholdersEngagement from './components/stakeholders-engagement.vue';
 import UrbanData from './views/category-urban-data.vue';
 import Governance from './views/category-governance.vue';
 import Results from './views/category-results.vue';
@@ -28,6 +27,7 @@ import {
   mobilityPotentialLayersOptions
 } from './constants/layers';
 import {ScorecardType} from './types/scorecards';
+import {StakeholdersEngagementType} from './types/stakeholders';
 
 const routes = [
   {path: '/', redirect: '/potential/solar', name: 'Root'},
@@ -162,13 +162,23 @@ const routes = [
       },
       {
         path: '/stakeholders/organizations',
-        components: {content: StakeholdersOrganizations},
-        name: 'Stakeholders Organizations'
+        components: {content: StakeholdersEngagement},
+        name: 'Stakeholders Organizations',
+        props: {
+          content: {
+            stakeholdersEngagementType: StakeholdersEngagementType.ORGANIZATIONS
+          }
+        }
       },
       {
         path: '/stakeholders/citizens',
-        components: {content: StakeholdersCitizens},
-        name: 'Stakeholders Citizens'
+        components: {content: StakeholdersEngagement},
+        name: 'Stakeholders Citizens',
+        props: {
+          content: {
+            stakeholdersEngagementType: StakeholdersEngagementType.CITIZENS
+          }
+        }
       },
       {
         path: '/stakeholders/',

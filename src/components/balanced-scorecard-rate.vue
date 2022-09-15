@@ -1,5 +1,8 @@
 <template>
-  <div v-if="!adminLayerType || isAdminLayerOfBalacedScorecardType()">
+  <div
+    v-if="!adminLayerType || isAdminLayerOfBalacedScorecardType()"
+    class="rate-wrapper"
+  >
     <v-card-title>{{ $t('balancedScorecards.rate.title') }}</v-card-title>
     <v-card-text class="rate-content">
       <BalancedScorecard
@@ -84,6 +87,12 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+.rate-wrapper {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 0;
+}
+
 .rate-content {
   overflow: auto;
 }
