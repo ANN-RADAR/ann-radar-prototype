@@ -284,46 +284,36 @@ const actions = {
       links?: string;
     }
   ) {
+    const {
+      stakeholdersEngagementType: type,
+      adminLayerType,
+      featureId,
+      measureId,
+      rating,
+      links
+    } = payload;
     const ratings = {...state.stakeholdersEngagementRatings};
-    ratings[payload.stakeholdersEngagementType] =
-      ratings[payload.stakeholdersEngagementType] || {};
-    ratings[payload.stakeholdersEngagementType][payload.adminLayerType] =
-      ratings[payload.stakeholdersEngagementType][payload.adminLayerType] || {};
-    ratings[payload.stakeholdersEngagementType][payload.adminLayerType][
-      payload.featureId
-    ] =
-      ratings[payload.stakeholdersEngagementType][payload.adminLayerType][
-        payload.featureId
-      ] || {};
-    ratings[payload.stakeholdersEngagementType][payload.adminLayerType][
-      payload.featureId
-    ].ratings =
-      ratings[payload.stakeholdersEngagementType][payload.adminLayerType][
-        payload.featureId
-      ].ratings || {};
+
+    // Start new ratings object for the given feature if necessary
+    ratings[type] = ratings[type] || {};
+    ratings[type][adminLayerType] = ratings[type][adminLayerType] || {};
+    ratings[type][adminLayerType][featureId] =
+      ratings[type][adminLayerType][featureId] || {};
+    ratings[type][adminLayerType][featureId].ratings =
+      ratings[type][adminLayerType][featureId].ratings || {};
 
     // Update ratings
-    if (payload.measureId && payload.rating) {
-      if (payload.rating.value === undefined && !payload.rating.comment) {
-        delete ratings[payload.stakeholdersEngagementType][
-          payload.adminLayerType
-        ][payload.featureId].ratings[payload.measureId];
+    if (measureId && rating) {
+      if (rating.value === undefined && !rating.comment) {
+        delete ratings[type][adminLayerType][featureId].ratings[measureId];
       } else {
-        ratings[payload.stakeholdersEngagementType][payload.adminLayerType][
-          payload.featureId
-        ].ratings[payload.measureId] = payload.rating;
+        ratings[type][adminLayerType][featureId].ratings[measureId] = rating;
       }
     }
 
     // Update links
-    ratings[payload.stakeholdersEngagementType][payload.adminLayerType][
-      payload.featureId
-    ].links =
-      payload.links ||
-      ratings[payload.stakeholdersEngagementType][payload.adminLayerType][
-        payload.featureId
-      ].links ||
-      '';
+    ratings[type][adminLayerType][featureId].links =
+      links || ratings[type][adminLayerType][featureId].links || '';
 
     commit('setStakeholdersEngagementRatings', ratings);
   }
