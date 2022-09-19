@@ -1,4 +1,4 @@
-import {AdminLayerType} from './admin-layers';
+import {AdminLayerType, AdminLayerFeatureId} from './admin-layers';
 
 export enum StakeholdersEngagementType {
   ORGANIZATIONS = 'organizations',
@@ -22,5 +22,5 @@ export type StakeholdersEngagement = {
 
 export type StakeholdersEngagementRatings = Record<
   AdminLayerType,
-  Record<string /* feature id */, StakeholdersEngagement>
+  Record<AdminLayerFeatureId, StakeholdersEngagement>
 >;

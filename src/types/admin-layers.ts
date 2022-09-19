@@ -12,6 +12,8 @@ export enum BalancedScorecardAdminLayerType {
   STATISTICAL_AREA = AdminLayerType.STATISTICAL_AREA
 }
 
+export type AdminLayerFeatureId = string;
+
 export interface AdminLayerFeatureData
   extends Record<string, string | number | undefined> {
   Shape_Area: number; // Fläche in Quadratmeter

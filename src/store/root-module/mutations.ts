@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import {AdminLayerType} from '@/types/admin-layers';
+import {AdminLayerFeatureId, AdminLayerType} from '@/types/admin-layers';
 import {RootState} from '@/types/store';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {ScenarioMetaData} from '@/types/scenarios';
@@ -89,7 +89,10 @@ const mutations = {
   },
   setSelectedFeatureIdsOfAdminLayer(
     state: RootState,
-    payload: {adminLayerType: AdminLayerType; featureIds: Array<string>}
+    payload: {
+      adminLayerType: AdminLayerType;
+      featureIds: Array<AdminLayerFeatureId>;
+    }
   ) {
     state.selectedFeatureIds = {
       ...state.selectedFeatureIds,

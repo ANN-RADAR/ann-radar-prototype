@@ -1,6 +1,6 @@
 import {RootState} from '@/types/store';
 import {MapStyle} from '@/types/map-styles';
-import {AdminLayerType} from '@/types/admin-layers';
+import {AdminLayerType, AdminLayerFeatureId} from '@/types/admin-layers';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {Laboratory, LaboratoryId} from '@/types/laboratories';
 import {
@@ -16,7 +16,7 @@ const state: RootState = {
   mapStyle: MapStyle.COLORED,
   baseLayerTypes: [],
   adminLayerType: null,
-  selectedFeatureIds: {} as Record<AdminLayerType, Array<string>>,
+  selectedFeatureIds: {} as Record<AdminLayerType, Array<AdminLayerFeatureId>>,
   highlightedFeatureIds: [],
   balancedScorecards: Object.values(ScorecardType).reduce(
     (scorecards, scorecardType) => ({...scorecards, [scorecardType]: []}),

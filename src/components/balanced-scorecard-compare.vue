@@ -61,6 +61,7 @@ import {
   ScorecardRating,
   ScorecardType
 } from '@/types/scorecards';
+import {AdminLayerFeatureId} from '@/types/admin-layers';
 
 import BalancedScorecard from './balanced-scorecard.vue';
 
@@ -88,7 +89,10 @@ export default Vue.extend({
       'adminLayerType',
       'balancedScorecardRatings'
     ]),
-    ratings(): Record<string, Record<ScorecardMeasureId, ScorecardRating>> {
+    ratings(): Record<
+      AdminLayerFeatureId,
+      Record<ScorecardMeasureId, ScorecardRating>
+    > {
       if (
         !this.adminLayerType ||
         !this.balancedScorecardRatings[this.scorecardType] ||

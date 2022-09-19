@@ -1,4 +1,8 @@
-import {AdminLayerType, AdminLayerFeatureData} from '@/types/admin-layers';
+import {
+  AdminLayerType,
+  AdminLayerFeatureData,
+  AdminLayerFeatureId
+} from '@/types/admin-layers';
 
 import buildingBlockData from '../../public/data/baublöcke.json';
 import districtData from '../../public/data/bezirke.json';
@@ -8,7 +12,7 @@ import cityData from '../../public/data/city.json';
 
 export const adminLayers: {
   [key in AdminLayerType]: {
-    featureId: string; // the name of the property used as label for the geometry on the map and to match geometry and data
+    featureId: AdminLayerFeatureId; // the name of the property used as label for the geometry on the map and to match geometry and data
     data?: AdminLayerFeatureData[];
     dataId: string; // the name of the id property in the data json to match geometry and data
   };

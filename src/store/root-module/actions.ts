@@ -1,4 +1,4 @@
-import {AdminLayerType} from '@/types/admin-layers';
+import {AdminLayerFeatureId, AdminLayerType} from '@/types/admin-layers';
 import {
   ScorecardMeasureId,
   ScorecardRating,
@@ -225,7 +225,7 @@ const actions = {
     payload: {
       scorecardType: ScorecardType;
       adminLayerType: AdminLayerType;
-      featureId: string;
+      featureId: AdminLayerFeatureId;
       measureId: ScorecardMeasureId;
       rating: ScorecardRating;
     }

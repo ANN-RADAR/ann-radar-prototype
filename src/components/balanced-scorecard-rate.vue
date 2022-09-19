@@ -16,7 +16,10 @@ import Vue, {PropType} from 'vue';
 import {mapMutations, mapState} from 'vuex';
 
 import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
-import {BalancedScorecardAdminLayerType} from '@/types/admin-layers';
+import {
+  AdminLayerFeatureId,
+  BalancedScorecardAdminLayerType
+} from '@/types/admin-layers';
 import {ScorecardType} from '@/types/scorecards';
 
 import BalancedScorecard from './balanced-scorecard.vue';
@@ -37,7 +40,7 @@ export default Vue.extend({
       'selectedFeatureIds',
       'balancedScorecardRatings'
     ]),
-    selectedFeatureId(): string | null {
+    selectedFeatureId(): AdminLayerFeatureId | null {
       if (
         !this.adminLayerType ||
         !this.selectedFeatureIds[this.adminLayerType]?.length
