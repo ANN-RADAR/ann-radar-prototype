@@ -195,5 +195,10 @@
   },
   "adminAreaSelector": {
     "areaNotAvailable": "The current admin area selection is not available. Please select another admin area."
+  },
+  "stakeholdersEngagement": {
+    "organizations": "Stakeholders Engagement",
+    "citizens": "Citizens Engagement",
+    "links": "Links to Evidence"
   }
 }

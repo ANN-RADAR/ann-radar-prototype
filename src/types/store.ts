@@ -9,6 +9,7 @@ import {ActionContext} from 'vuex';
 import {PotentialConfig} from './potential-config';
 import {Laboratory, LaboratoryId} from './laboratories';
 import {
+  StakeholdersEngagementTemplate,
   StakeholdersEngagementRatings,
   StakeholdersEngagementType
 } from './stakeholders';
@@ -31,6 +32,10 @@ export interface RootState {
   notes: Record<string /* path */, string /* note */>;
   laboratories: Record<LaboratoryId, Laboratory>;
   hoveredLaboratoryId: LaboratoryId | null;
+  stakeholdersEngagementTemplates: Record<
+    StakeholdersEngagementType,
+    StakeholdersEngagementTemplate
+  >;
   stakeholdersEngagementRatings: Record<
     StakeholdersEngagementType,
     StakeholdersEngagementRatings

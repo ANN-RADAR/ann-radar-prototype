@@ -7,6 +7,7 @@ import {PotentialConfig} from '@/types/potential-config';
 import {Laboratory, LaboratoryId} from '@/types/laboratories';
 import {
   StakeholdersEngagementRatings,
+  StakeholdersEngagementTemplate,
   StakeholdersEngagementType
 } from '@/types/stakeholders';
 
@@ -116,6 +117,18 @@ const mutations = {
   },
   setLaboratories(state: RootState, laboratories: RootState['laboratories']) {
     state.laboratories = laboratories;
+  },
+  setStakeholdersEngagementTemplates(
+    state: RootState,
+    payload: {
+      type: StakeholdersEngagementType;
+      template: StakeholdersEngagementTemplate;
+    }
+  ) {
+    state.stakeholdersEngagementTemplates = {
+      ...state.stakeholdersEngagementTemplates,
+      [payload.type]: payload.template
+    };
   },
   setStakeholdersEngagementRatings(
     state: RootState,

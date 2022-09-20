@@ -90,7 +90,7 @@ body {
 
 .route-wrapper > div {
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: 48px 1fr;
   height: 100%;
 }
 
