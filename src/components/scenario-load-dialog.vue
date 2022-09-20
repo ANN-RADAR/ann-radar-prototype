@@ -114,13 +114,19 @@ export default Vue.extend({
         const scenarioSnapshot = await getDocs(scenarioRef);
 
         return scenarioSnapshot.docs.map(doc => {
-          const {name, baseLayerTypes, balancedScorecardsRef, notesRef} =
-            doc.data();
+          const {
+            name,
+            baseLayerTypes,
+            balancedScorecardsRef,
+            stakeholdersEngagementsRef,
+            notesRef
+          } = doc.data();
           return {
             id: doc.id,
             baseLayerTypes,
             name,
             balancedScorecardsRef,
+            stakeholdersEngagementsRef,
             notesRef
           };
         });

@@ -1,10 +1,14 @@
 import Vue from 'vue';
-import {AdminLayerType} from '@/types/admin-layers';
+import {AdminLayerFeatureId, AdminLayerType} from '@/types/admin-layers';
 import {RootState} from '@/types/store';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {ScenarioMetaData} from '@/types/scenarios';
 import {PotentialConfig} from '@/types/potential-config';
 import {Laboratory, LaboratoryId} from '@/types/laboratories';
+import {
+  StakeholdersEngagementRatings,
+  StakeholdersEngagementType
+} from '@/types/stakeholders';
 
 const mutations = {
   setLayersConfig(
@@ -85,7 +89,10 @@ const mutations = {
   },
   setSelectedFeatureIdsOfAdminLayer(
     state: RootState,
-    payload: {adminLayerType: AdminLayerType; featureIds: Array<string>}
+    payload: {
+      adminLayerType: AdminLayerType;
+      featureIds: Array<AdminLayerFeatureId>;
+    }
   ) {
     state.selectedFeatureIds = {
       ...state.selectedFeatureIds,
@@ -109,6 +116,15 @@ const mutations = {
   },
   setLaboratories(state: RootState, laboratories: RootState['laboratories']) {
     state.laboratories = laboratories;
+  },
+  setStakeholdersEngagementRatings(
+    state: RootState,
+    newStakeholdersEngagementRatings: Record<
+      StakeholdersEngagementType,
+      StakeholdersEngagementRatings
+    >
+  ) {
+    state.stakeholdersEngagementRatings = newStakeholdersEngagementRatings;
   }
 };
 

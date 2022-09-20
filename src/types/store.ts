@@ -1,6 +1,6 @@
 import {Accessors} from 'vue/types/options';
 import {MapStyle} from './map-styles';
-import {AdminLayerType} from './admin-layers';
+import {AdminLayerType, AdminLayerFeatureId} from './admin-layers';
 import {modules} from '../store/index';
 import {LayerConfig} from './layers';
 import {ScenarioMetaData} from './scenarios';
@@ -8,6 +8,10 @@ import {Scorecard, ScorecardRatings, ScorecardType} from './scorecards';
 import {ActionContext} from 'vuex';
 import {PotentialConfig} from './potential-config';
 import {Laboratory, LaboratoryId} from './laboratories';
+import {
+  StakeholdersEngagementRatings,
+  StakeholdersEngagementType
+} from './stakeholders';
 
 export interface RootState {
   scenarioMetaData: ScenarioMetaData | null;
@@ -20,13 +24,17 @@ export interface RootState {
   mapStyle: MapStyle;
   baseLayerTypes: Array<string>;
   adminLayerType: AdminLayerType | null;
-  selectedFeatureIds: Record<AdminLayerType, Array<string>>;
-  highlightedFeatureIds: Array<string>;
+  selectedFeatureIds: Record<AdminLayerType, Array<AdminLayerFeatureId>>;
+  highlightedFeatureIds: Array<AdminLayerFeatureId>;
   balancedScorecards: Record<ScorecardType, Scorecard>;
   balancedScorecardRatings: Record<ScorecardType, ScorecardRatings>;
   notes: Record<string /* path */, string /* note */>;
   laboratories: Record<LaboratoryId, Laboratory>;
   hoveredLaboratoryId: LaboratoryId | null;
+  stakeholdersEngagementRatings: Record<
+    StakeholdersEngagementType,
+    StakeholdersEngagementRatings
+  >;
 }
 
 export interface UserState {

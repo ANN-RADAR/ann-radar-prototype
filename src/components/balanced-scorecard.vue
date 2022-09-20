@@ -86,7 +86,7 @@ import Vue, {PropType} from 'vue';
 import {mapActions, mapState} from 'vuex';
 
 import {MapActionsToMethods, MapStateToComputed} from '@/types/store';
-
+import {AdminLayerFeatureId} from '@/types/admin-layers';
 import {
   Scorecard,
   ScorecardMeasureId,
@@ -117,7 +117,7 @@ export default Vue.extend({
       'balancedScorecards',
       'balancedScorecardRatings'
     ]),
-    selectedFeatureId(): string | null {
+    selectedFeatureId(): AdminLayerFeatureId | null {
       if (
         !this.adminLayerType ||
         !this.selectedFeatureIds[this.adminLayerType]?.length
@@ -130,7 +130,10 @@ export default Vue.extend({
     balancedScorecard(): Scorecard {
       return this.balancedScorecards[this.scorecardType];
     },
-    ratings(): Record<string, Record<ScorecardMeasureId, ScorecardRating>> {
+    ratings(): Record<
+      AdminLayerFeatureId,
+      Record<ScorecardMeasureId, ScorecardRating>
+    > {
       if (
         !this.adminLayerType ||
         !this.balancedScorecardRatings[this.scorecardType] ||
@@ -191,13 +194,13 @@ export default Vue.extend({
       }
     },
     getFeatureMeasureValue(
-      featureId: string,
+      featureId: AdminLayerFeatureId,
       measureId: ScorecardMeasureId
     ): ScorecardRating['value'] {
       return ((this.ratings[featureId] || {})[measureId] || {}).value;
     },
     getFeatureMeasureComment(
-      featureId: string,
+      featureId: AdminLayerFeatureId,
       measureId: ScorecardMeasureId
     ): ScorecardRating['comment'] {
       return ((this.ratings[featureId] || {})[measureId] || {}).comment;
