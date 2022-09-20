@@ -88,7 +88,7 @@
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
-import {mapActions, mapState} from 'vuex';
+import {mapActions, mapMutations, mapState} from 'vuex';
 
 import {
   StakeholdersEngagement,
@@ -97,7 +97,11 @@ import {
   StakeholdersEngagementTemplate,
   StakeholdersEngagementType
 } from '@/types/stakeholders';
-import {MapActionsToMethods, MapStateToComputed} from '@/types/store';
+import {
+  MapActionsToMethods,
+  MapMutationsToMethods,
+  MapStateToComputed
+} from '@/types/store';
 
 export default Vue.extend({
   props: {
@@ -149,13 +153,23 @@ export default Vue.extend({
     }
   },
   watch: {
+    adminLayerType() {
+      this.updateHighlightedFeatureIds();
+    },
     stakeholdersEngagementType(
       newStakeholdersEngagementType: StakeholdersEngagementType
     ) {
       this.fetchStakeholdersEngagementTemplate(newStakeholdersEngagementType);
+      this.updateHighlightedFeatureIds();
+    },
+    stakeholdersEngagementRatings() {
+      this.updateHighlightedFeatureIds();
     }
   },
   methods: {
+    ...(mapMutations as MapMutationsToMethods)('root', [
+      'setHighlightedFeatureIds'
+    ]),
     ...(mapActions as MapActionsToMethods)('root', [
       'fetchStakeholdersEngagementTemplate',
       'updateStakeholdersEngagementRatings'
@@ -215,10 +229,30 @@ export default Vue.extend({
       measureId: StakeholdersEngagementMeasureId
     ): StakeholdersEngagementRating['comment'] {
       return (this.stakeholderEngagement.ratings[measureId] || {}).comment;
+    },
+    updateHighlightedFeatureIds() {
+      if (
+        !this.adminLayerType ||
+        !this.stakeholdersEngagementRatings[this.stakeholdersEngagementType] ||
+        !this.stakeholdersEngagementRatings[this.stakeholdersEngagementType][
+          this.adminLayerType
+        ]
+      ) {
+        this.setHighlightedFeatureIds([]);
+      } else {
+        this.setHighlightedFeatureIds(
+          Object.keys(
+            this.stakeholdersEngagementRatings[this.stakeholdersEngagementType][
+              this.adminLayerType
+            ]
+          )
+        );
+      }
     }
   },
   created() {
     this.fetchStakeholdersEngagementTemplate(this.stakeholdersEngagementType);
+    this.updateHighlightedFeatureIds();
   }
 });
 </script>
