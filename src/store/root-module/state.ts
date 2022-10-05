@@ -14,7 +14,7 @@ const state: RootState = {
   layersConfig: {},
   potentialConfig: null,
   layerClassificationSelection: {},
-  mapStyle: MapStyle.COLORED,
+  mapStyle: MapStyle.GRAY_BLUE,
   baseLayerTypes: [],
   adminLayerType: null,
   selectedFeatureIds: {} as Record<AdminLayerType, Array<AdminLayerFeatureId>>,
