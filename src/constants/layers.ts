@@ -145,18 +145,18 @@ export const mapStyleLayersOptions: Array<TileLayerOptions> = [
   {
     type: 'tile',
     properties: {
-      name: MapStyle.COLORED
-    },
-    visible: true,
-    source: tileSourcesOptions.HH_WMS_Geobasiskarten
-  },
-  {
-    type: 'tile',
-    properties: {
       name: MapStyle.GRAY_BLUE
     },
     visible: false,
     source: tileSourcesOptions.HH_WMS_Geobasiskarten_GB
+  },
+  {
+    type: 'tile',
+    properties: {
+      name: MapStyle.COLORED
+    },
+    visible: true,
+    source: tileSourcesOptions.HH_WMS_Geobasiskarten
   },
   {
     type: 'tile',
