@@ -115,6 +115,13 @@ export const tileSourcesOptions: Record<string, TileSourceOptions> = {
       LAYERS: 'rise_fg'
     },
     projection: 'EPSG:25832'
+  },
+  HH_WMS_Waermekataster_Stromverbrauch: {
+    url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_Stromverbrauch',
+    params: {
+      LAYERS: 'stromverbrauch'
+    },
+    projection: 'EPSG:25832'
   }
 };
 

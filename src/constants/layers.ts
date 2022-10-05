@@ -119,6 +119,12 @@ export const baseLayersOptions: Array<LayerOptions> = [
       });
     },
     zIndex: 6
+  },
+  {
+    type: 'tile',
+    properties: {name: 'powerConsumption'},
+    visible: false,
+    source: tileSourcesOptions.HH_WMS_Waermekataster_Stromverbrauch
   }
 ];
 
