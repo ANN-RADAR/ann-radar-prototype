@@ -16,6 +16,18 @@
       </v-card-title>
       <v-card-text class="laboratories-form">
         <form id="laboratories-form" @submit="onSave" ref="form" novalidate>
+          <label>{{ $t('laboratories.projectName') }}*</label>
+          <v-text-field
+            class="laboratory-input"
+            outlined
+            dense
+            hide-details
+            name="project-name"
+            type="text"
+            v-model="laboratoryData.projectName"
+            required
+          ></v-text-field>
+
           <label>{{ $t('laboratories.name') }}*</label>
           <v-text-field
             class="laboratory-input"
@@ -318,6 +330,7 @@ interface Data {
 }
 
 const EMPTY_LABORATORY_DATA = {
+  projectName: '',
   name: '',
   location: '',
   stakeholders: [{name: ''}],

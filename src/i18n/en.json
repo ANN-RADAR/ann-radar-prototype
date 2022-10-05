@@ -127,7 +127,8 @@
       "edit": "Edit Model Quarter \"{name}\""
     },
     "drawingHint": "Click on the map to draw in the corresponding area.",
-    "name": "Name",
+    "projectName": "Project Name",
+    "name": "Testbed Name",
     "runtime": "Runtime",
     "budget": "Budget",
     "location": "Location",

@@ -15,7 +15,13 @@
           @mouseout="setHoveredLaboratoryId(null)"
         >
           <v-list-item-content>
-            <v-list-item-title>{{ laboratory.name }}</v-list-item-title>
+            <v-list-item-title>
+              {{ laboratory.projectName }}
+              <template v-if="laboratory.projectName && laboratory.name">
+                |
+              </template>
+              {{ laboratory.name }}
+            </v-list-item-title>
             <v-list-item-subtitle>
               {{ laboratory.location }}
             </v-list-item-subtitle>
