@@ -13,6 +13,32 @@
     <div class="map-overlays bottom-right">
       <MapLegends v-if="showLegends" :thematicLayers="thematicLayerOptions" />
     </div>
+
+    <v-dialog
+      v-model="showNewDrawingConfirmationDialog"
+      persistent
+      max-width="500"
+    >
+      <v-card>
+        <v-card-title>Start a new drawing?</v-card-title>
+        <v-card-text>
+          Are you sure you want to start a new drawing on the map? Your current
+          drawing will be deleted. This can not be undone.
+        </v-card-text>
+        <v-card-actions class="confirmation-dialog-actions">
+          <v-btn
+            color="blue"
+            text
+            @click="showNewDrawingConfirmationDialog = false"
+          >
+            Keep current drawing
+          </v-btn>
+          <v-btn color="blue" text @click="resetDrawing">
+            Start new drawing
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -78,6 +104,7 @@ type Data = {
   baseLayers: LayerGroup;
   laboratoriesLayers: LayerGroup;
   laboratoriesStyles: Record<string, StyleFunction | Style>;
+  showNewDrawingConfirmationDialog: boolean;
 };
 
 export default Vue.extend({
@@ -166,7 +193,8 @@ export default Vue.extend({
           maxZoom: 18,
           center: [565811, 5933977]
         })
-      }
+      },
+      showNewDrawingConfirmationDialog: false
     };
   },
   computed: {
@@ -486,15 +514,23 @@ export default Vue.extend({
         });
 
         draw.on('drawstart', () => {
-          if (this.drawingSource) {
-            // TODO: ask if user wants to clear the drawing if there is already one
-            this.drawingSource.clear();
+          const hasFeatureDrawn = Boolean(
+            this.drawingSource?.getFeatures().length
+          );
+
+          if (hasFeatureDrawn) {
+            draw.abortDrawing();
+            this.showNewDrawingConfirmationDialog = true;
           }
         });
 
         this.map.addInteraction(draw);
         this.map.addLayer(vector);
       }
+    },
+    resetDrawing() {
+      this.drawingSource?.clear();
+      this.showNewDrawingConfirmationDialog = false;
     },
     toggleLaboratoriesLayers() {
       if (!this.map) {
@@ -589,5 +625,11 @@ export default Vue.extend({
 .map-overlays.bottom-right {
   bottom: 0;
   right: 0;
+}
+
+.confirmation-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
 }
 </style>
