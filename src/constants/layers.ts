@@ -17,6 +17,7 @@ import VectorSource from 'ol/source/Vector';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import Style from 'ol/style/Style';
+import RegularShape from 'ol/style/RegularShape';
 import {tileSourcesOptions, vectorSourcesOptions} from './sources';
 import {MapStyle} from '@/types/map-styles';
 import {adminLayers} from './admin-layers';
@@ -37,6 +38,24 @@ export const solarPotentialLayersOptions: Array<LayerOptions> = [
     properties: {name: 'solarCoverageRate'},
     visible: false,
     zIndex: 4
+  },
+  {
+    type: 'vector',
+    properties: {name: 'buildingSolarPotential'},
+    visible: false,
+    source: vectorSourcesOptions.HH_Gebaeude_Solarpotential,
+    style: () =>
+      new Style({
+        image: new RegularShape({
+          fill: new Fill({color: 'red'}),
+          stroke: new Stroke({color: 'black', width: 1}),
+          points: 4,
+          radius: 10,
+          angle: Math.PI / 4
+        })
+      }),
+    zIndex: 6,
+    minZoom: 13
   }
 ];
 

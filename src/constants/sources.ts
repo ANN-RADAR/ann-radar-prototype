@@ -153,5 +153,9 @@ export const vectorSourcesOptions: Record<string, VectorSourceOptions> = {
   Sozialmonitoring: {
     format: new GeoJSON(),
     url: 'https://storage.googleapis.com/ann-radar-data/social_monitoring.json'
+  },
+  HH_Gebaeude_Solarpotential: {
+    format: new GeoJSON(),
+    url: 'https://storage.googleapis.com/ann-radar-data/HH_Gebaeude_Solarpotential.geojson'
   }
 };
