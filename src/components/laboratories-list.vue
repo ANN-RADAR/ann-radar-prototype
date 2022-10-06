@@ -15,7 +15,13 @@
           @mouseout="setHoveredLaboratoryId(null)"
         >
           <v-list-item-content>
-            <v-list-item-title>{{ laboratory.name }}</v-list-item-title>
+            <v-list-item-title>
+              {{ laboratory.projectName }}
+              <template v-if="laboratory.projectName && laboratory.name">
+                |
+              </template>
+              {{ laboratory.name }}
+            </v-list-item-title>
             <v-list-item-subtitle>
               {{ laboratory.location }}
             </v-list-item-subtitle>
@@ -74,9 +80,13 @@ export default Vue.extend({
       'hoveredLaboratoryId'
     ]),
     laboratoryEntries(): Array<[LaboratoryId, Laboratory]> {
-      return Object.entries(this.laboratories).filter(
-        ([, {type}]) => type === this.laboratoryType
-      );
+      return Object.entries(this.laboratories)
+        .filter(([, {type}]) => type === this.laboratoryType)
+        .sort(([, laboratoryA], [, laboratoryB]) =>
+          laboratoryA.projectName === laboratoryB.projectName
+            ? laboratoryA.name.localeCompare(laboratoryB.name)
+            : laboratoryA.projectName.localeCompare(laboratoryB.projectName)
+        );
     }
   },
   methods: {

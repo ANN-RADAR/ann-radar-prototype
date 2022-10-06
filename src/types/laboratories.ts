@@ -35,6 +35,7 @@ export enum LaboratoryExperimentalGovernance {
 export type Laboratory = {
   id?: LaboratoryId;
   type: LaboratoryType;
+  projectName: string;
   name: string;
   runtime?: string;
   budget?: string;
