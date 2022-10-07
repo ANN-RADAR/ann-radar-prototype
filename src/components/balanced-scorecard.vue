@@ -83,9 +83,14 @@
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
-import {mapActions, mapState} from 'vuex';
+import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
 
-import {MapActionsToMethods, MapStateToComputed} from '@/types/store';
+import {
+  MapActionsToMethods,
+  MapGettersToComputed,
+  MapMutationsToMethods,
+  MapStateToComputed
+} from '@/types/store';
 import {AdminLayerFeatureId} from '@/types/admin-layers';
 import {
   Scorecard,
@@ -116,6 +121,9 @@ export default Vue.extend({
       'selectedFeatureIds',
       'balancedScorecards',
       'balancedScorecardRatings'
+    ]),
+    ...(mapGetters as MapGettersToComputed)('root', [
+      'currentLayerSelectedFeatureIds'
     ]),
     selectedFeatureId(): AdminLayerFeatureId | null {
       if (
@@ -150,6 +158,9 @@ export default Vue.extend({
   methods: {
     ...(mapActions as MapActionsToMethods)('root', [
       'updateBalancedScorecardRatings'
+    ]),
+    ...(mapMutations as MapMutationsToMethods)('root', [
+      'setSelectedFeatureIdsOfAdminLayer'
     ]),
     onChangeRatingValue(measureId: ScorecardMeasureId) {
       if (this.adminLayerType && this.selectedFeatureId) {
@@ -204,6 +215,15 @@ export default Vue.extend({
       measureId: ScorecardMeasureId
     ): ScorecardRating['comment'] {
       return ((this.ratings[featureId] || {})[measureId] || {}).comment;
+    }
+  },
+  created() {
+    // Reset feature selection if more than one feature is selected
+    if (this.adminLayerType && this.currentLayerSelectedFeatureIds.length > 1) {
+      this.setSelectedFeatureIdsOfAdminLayer({
+        adminLayerType: this.adminLayerType,
+        featureIds: []
+      });
     }
   }
 });
