@@ -64,19 +64,27 @@ export default Vue.extend({
       tab: 0,
       path: null,
       nameByPath: {
-        potential_solar: `${this.$t('navigation.potential')} / ${this.$t(
-          'navigation.solar'
-        )}`,
+        potential_solar: `${this.$t(
+          'navigation.sustainabilityDomains'
+        )} / ${this.$t('navigation.solar')}`,
         'potential_energy-efficiency': `${this.$t(
-          'navigation.potential'
+          'navigation.sustainabilityDomains'
         )} / ${this.$t('navigation.energyEfficiency')}`,
-        potential_mobility: `${this.$t('navigation.potential')} / ${this.$t(
-          'navigation.mobility'
+        potential_mobility: `${this.$t(
+          'navigation.sustainabilityDomains'
+        )} / ${this.$t('navigation.mobility')}`,
+        assessment_plans: `${this.$t('navigation.assessment')} / ${this.$t(
+          'navigation.plans'
         )}`,
-        plans: this.$t('navigation.plans'),
-        stakeholders: this.$t('navigation.stakeholders'),
-        'urban-data': this.$t('navigation.urbanData'),
-        governance: this.$t('navigation.governance')
+        assessment_stakeholders_: `${this.$t(
+          'navigation.assessment'
+        )} / ${this.$t('navigation.stakeholders')}`,
+        'assessment_urban-data': `${this.$t(
+          'navigation.assessment'
+        )} / ${this.$t('navigation.urbanData')}`,
+        assessment_governance: `${this.$t('navigation.assessment')} / ${this.$t(
+          'navigation.governance'
+        )}`
       }
     };
   },
@@ -109,17 +117,17 @@ export default Vue.extend({
     }
   },
   created() {
-    const matchedRoute = this.$route.matched.find((match: Route) =>
-      Object.keys(this.nameByPath).includes(
-        match.path.slice(1).replace('/', '_')
+    const matchedPath = Object.keys(this.nameByPath).find(path =>
+      this.$route.matched.some((match: Route) =>
+        match.path.replaceAll('/', '_').includes(path)
       )
     );
 
-    if (matchedRoute) {
-      this.path = matchedRoute.path.slice(1).replace('/', '_');
+    if (matchedPath) {
+      this.path = matchedPath;
     }
 
-    this.tab = Number(Boolean(matchedRoute));
+    this.tab = Number(Boolean(matchedPath));
   }
 });
 </script>

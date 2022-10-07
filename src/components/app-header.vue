@@ -159,7 +159,7 @@
           </template>
 
           <v-list>
-            <v-list-item color="primary" to="/plans">
+            <v-list-item color="primary" to="/assessment/plans">
               <v-list-item-title>
                 {{ $t('navigation.plans') }}
               </v-list-item-title>
@@ -172,29 +172,29 @@
                 </v-list-item-title>
               </template>
 
-              <v-list-item to="/stakeholders">
+              <v-list-item to="/assessment/stakeholders">
                 <v-list-item-title>
                   {{ $t('navigation.stakeholders') }}
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item to="/stakeholders/organizations">
+              <v-list-item to="/assessment/stakeholders-organizations">
                 <v-list-item-title>
                   {{ $t('navigation.stakeholdersOrganizations') }}
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item to="/stakeholders/citizens">
+              <v-list-item to="/assessment/stakeholders-citizens">
                 <v-list-item-title>
                   {{ $t('navigation.citizens') }}
                 </v-list-item-title>
               </v-list-item>
             </v-list-group>
 
-            <v-list-item color="primary" to="/urban-data">
+            <v-list-item color="primary" to="/assessment/urban-data">
               <v-list-item-title>
                 {{ $t('navigation.urbanData') }}
               </v-list-item-title>
             </v-list-item>
-            <v-list-item color="primary" to="/governance">
+            <v-list-item color="primary" to="/assessment/governance">
               <v-list-item-title>
                 {{ $t('navigation.governance') }}
               </v-list-item-title>
@@ -286,11 +286,10 @@ export default Vue.extend({
   },
   watch: {
     $route(to) {
-      this.tab = to.path.startsWith('/urban-testbeds')
-        ? 2
-        : to.path.startsWith('/potential')
-        ? 0
-        : 1;
+      this.tab =
+        (to.path.startsWith('/urban-testbeds') && 2) ||
+        (to.path.startsWith('/assessment') && 1) ||
+        0;
     }
   },
   computed: {

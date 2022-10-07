@@ -139,12 +139,12 @@ const routes = [
         redirect: '/potential/mobility'
       },
       {
-        path: '/plans',
-        redirect: '/plans/rate',
+        path: '/assessment/plans',
+        redirect: '/assessment/plans/rate',
         name: 'Plans'
       },
       {
-        path: '/plans/rate',
+        path: '/assessment/plans/rate',
         components: {navigation: Plans, content: BalancedScorecardRate},
         name: 'Rate Plans',
         props: {
@@ -152,7 +152,7 @@ const routes = [
         }
       },
       {
-        path: '/plans/compare',
+        path: '/assessment/plans/compare',
         components: {navigation: Plans, content: BalancedScorecardCompare},
         name: 'Compare Plans',
         props: {
@@ -160,7 +160,7 @@ const routes = [
         }
       },
       {
-        path: '/stakeholders/organizations',
+        path: '/assessment/stakeholders-organizations',
         components: {content: StakeholdersEngagement},
         name: 'Stakeholders Organizations',
         props: {
@@ -170,7 +170,7 @@ const routes = [
         }
       },
       {
-        path: '/stakeholders/citizens',
+        path: '/assessment/stakeholders-citizens',
         components: {content: StakeholdersEngagement},
         name: 'Stakeholders Citizens',
         props: {
@@ -180,12 +180,12 @@ const routes = [
         }
       },
       {
-        path: '/stakeholders/',
-        redirect: '/stakeholders/rate',
+        path: '/assessment/stakeholders/',
+        redirect: '/assessment/stakeholders/rate',
         name: 'Stakeholders'
       },
       {
-        path: '/stakeholders/rate',
+        path: '/assessment/stakeholders/rate',
         components: {navigation: Stakeholders, content: BalancedScorecardRate},
         name: 'Rate Stakeholders',
         props: {
@@ -193,7 +193,7 @@ const routes = [
         }
       },
       {
-        path: '/stakeholders/compare',
+        path: '/assessment/stakeholders/compare',
         components: {
           navigation: Stakeholders,
           content: BalancedScorecardCompare
@@ -204,35 +204,35 @@ const routes = [
         }
       },
       {
-        path: '/urban-data',
-        redirect: '/urban-data/rate',
+        path: '/assessment/urban-data',
+        redirect: '/assessment/urban-data/rate',
         name: 'Urban Data'
       },
       {
-        path: '/urban-data/rate',
+        path: '/assessment/urban-data/rate',
         components: {navigation: UrbanData, content: BalancedScorecardRate},
         name: 'Rate Urban Data',
         props: {content: {scorecardType: ScorecardType.URBAN_DATA}}
       },
       {
-        path: '/urban-data/compare',
+        path: '/assessment/urban-data/compare',
         components: {navigation: UrbanData, content: BalancedScorecardCompare},
         name: 'Compare Urban Data',
         props: {content: {scorecardType: ScorecardType.URBAN_DATA}}
       },
       {
-        path: '/governance',
-        redirect: '/governance/rate',
+        path: '/assessment/governance',
+        redirect: '/assessment/governance/rate',
         name: 'Governance'
       },
       {
-        path: '/governance/rate',
+        path: '/assessment/governance/rate',
         components: {navigation: Governance, content: BalancedScorecardRate},
         name: 'Rate Governance',
         props: {content: {scorecardType: ScorecardType.GOVERNANCE}}
       },
       {
-        path: '/governance/compare',
+        path: '/assessment/governance/compare',
         components: {navigation: Governance, content: BalancedScorecardCompare},
         name: 'Compare Governance',
         props: {content: {scorecardType: ScorecardType.GOVERNANCE}}
