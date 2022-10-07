@@ -68,7 +68,6 @@ export default Vue.extend({
   methods: {
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setAdminLayerType',
-      'setSelectedFeatureIds',
       'setHighlightedFeatureIds'
     ]),
     isAdminLayerOfBalacedScorecardType: function () {
