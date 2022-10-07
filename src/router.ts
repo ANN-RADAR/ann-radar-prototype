@@ -63,6 +63,7 @@ const routes = [
         props: (route: Route) => ({
           laboratoryType: route.params.laboratoryType,
           laboratoryId: route.params.laboratoryId,
+          basePath: `/urban-testbeds/${route.params.laboratoryType}`,
           returnTo: `/urban-testbeds/${route.params.laboratoryType}/list`
         })
       }

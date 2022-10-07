@@ -285,6 +285,7 @@
       </v-card-text>
       <v-card-actions>
         <v-btn type="submit" form="laboratories-form">{{ $t('save') }}</v-btn>
+        <v-btn v-if="laboratoryId" @click="createCopy">{{ $t('copy') }}</v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -294,7 +295,6 @@
 import {
   Laboratory,
   LaboratoryExperimentalGovernance,
-  LaboratoryId,
   LaboratorySector,
   LaboratoryStakeholderCategory,
   LaboratoryStakeholderType,
@@ -354,6 +354,10 @@ export default Vue.extend({
       type: String,
       required: false
     },
+    basePath: {
+      type: String,
+      required: false
+    },
     returnTo: {
       type: String,
       required: true
@@ -381,18 +385,30 @@ export default Vue.extend({
   computed: {
     ...(mapState as MapStateToComputed)('root', ['laboratories']),
     laboratory(): Laboratory | null {
-      return (
-        (this.laboratoryId && this.laboratories[this.laboratoryId]) || null
-      );
+      const id = this.laboratoryId || (this.$route.query.id as string) || null;
+      const lab = (id && this.laboratories[id]) || null;
+
+      if (lab && this.$route.query.id) {
+        // Remove location information of copied laboratory
+        lab.location = '';
+      }
+
+      return lab;
     }
   },
   watch: {
-    laboratoryId(newLaboratoryId: LaboratoryId) {
-      if (newLaboratoryId && !this.laboratories[newLaboratoryId]) {
+    laboratory(newLaboratory) {
+      if (newLaboratory) {
+        // Fill form with laboratory data
+        this.updateLaboratoryData(newLaboratory);
+      } else if (this.laboratoryId) {
+        // Return to laboratories list if there's no laboratory with the given id found
         this.$router.push(this.returnTo);
-      } else {
-        this.updateLaboratoryData(this.laboratories[newLaboratoryId]);
       }
+    },
+    $route() {
+      // Reset drawing source on route change
+      this.source.clear();
     },
     addCustomSector(newAddCustomSector: boolean) {
       if (!newAddCustomSector) {
@@ -567,6 +583,12 @@ export default Vue.extend({
       if (category !== 'other') {
         this.customStakeholderCategory[index] = '';
       }
+    },
+    createCopy() {
+      this.$router.push({
+        path: `${this.basePath}/new`,
+        query: {id: this.laboratoryId}
+      });
     }
   },
   created() {
@@ -582,11 +604,6 @@ export default Vue.extend({
     this.source.on('clear', () => {
       this.hasFeature = false;
     });
-
-    // Set laboratory data for the current route
-    if (this.laboratory) {
-      this.updateLaboratoryData(this.laboratory);
-    }
   },
   destroyed() {
     // Reset drawing source

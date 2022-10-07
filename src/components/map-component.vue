@@ -277,6 +277,9 @@ export default Vue.extend({
     highlightedFeatureIds() {
       this.handleAdminAreaSelectionAndHighlighting();
     },
+    $route() {
+      this.updateLaboratoriesFeatures();
+    },
     laboratories() {
       this.updateLaboratoriesFeatures();
     },
