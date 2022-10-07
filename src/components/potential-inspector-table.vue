@@ -130,10 +130,11 @@
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
-import {mapState, mapMutations, mapGetters} from 'vuex';
+import {mapState, mapMutations, mapGetters, mapActions} from 'vuex';
 
 import {AdminLayerFeatureData, AdminLayerType} from '@/types/admin-layers';
 import {
+  MapActionsToMethods,
   MapGettersToComputed,
   MapMutationsToMethods,
   MapStateToComputed
@@ -177,6 +178,7 @@ export default Vue.extend({
     };
   },
   created() {
+    this.fetchPotentialConfig();
     this.setSelectedTableHeaders(this.tableHeaders);
   },
   computed: {
@@ -248,6 +250,7 @@ export default Vue.extend({
     }
   },
   methods: {
+    ...(mapActions as MapActionsToMethods)('root', ['fetchPotentialConfig']),
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setSelectedFeatureIdsOfAdminLayer'
     ]),

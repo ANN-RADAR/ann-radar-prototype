@@ -13,10 +13,11 @@
     "logout": "Logout"
   },
   "navigation": {
-    "potential": "Potential",
+    "sustainabilityDomains": "Sustainability Domains",
     "solar": "Solar",
     "energyEfficiency": "Energy Efficiency",
     "mobility": "Mobility",
+    "assessment": "Assessment",
     "plans": "Plans",
     "rate": "Select",
     "compare": "View",

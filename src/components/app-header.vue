@@ -102,43 +102,117 @@
     </div>
 
     <template v-slot:extension>
-      <v-tabs v-model="tab" optional>
-        <v-tab to="/potential">{{ $t('navigation.potential') }}</v-tab>
-        <v-tab to="/plans">{{ $t('navigation.plans') }}</v-tab>
-
-        <v-menu open-on-hover bottom offset-y content-class="stakeholders-menu">
+      <v-tabs :value="tab" optional>
+        <v-menu
+          open-on-hover
+          bottom
+          offset-y
+          :close-on-content-click="false"
+          content-class="navigation-menu"
+        >
           <template v-slot:activator="{on, attrs}">
-            <v-tab to="/stakeholders" v-bind="attrs" v-on="on">
-              {{ $t('navigation.stakeholders') }}
-            </v-tab>
+            <span
+              :class="{'v-tab': true, 'v-tab--active': tab === 0}"
+              v-bind="attrs"
+              v-on="on"
+            >
+              {{ $t('navigation.sustainabilityDomains') }}
+            </span>
           </template>
 
           <v-list>
-            <v-list-item to="/stakeholders/organizations">
+            <v-list-item color="primary" to="/potential/solar">
               <v-list-item-title>
-                {{ $t('navigation.stakeholdersOrganizations') }}
+                {{ $t('navigation.solar') }}
               </v-list-item-title>
             </v-list-item>
-            <v-list-item to="/stakeholders/citizens">
+            <v-list-item color="primary" to="/potential/energy-efficiency">
               <v-list-item-title>
-                {{ $t('navigation.citizens') }}
+                {{ $t('navigation.energyEfficiency') }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item color="primary" to="/potential/mobility">
+              <v-list-item-title>
+                {{ $t('navigation.mobility') }}
               </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
 
-        <v-tab to="/urban-data">{{ $t('navigation.urbanData') }}</v-tab>
-        <v-tab to="/governance">{{ $t('navigation.governance') }}</v-tab>
+        <!-- Visible assessment tab -->
+        <v-menu
+          open-on-hover
+          bottom
+          offset-y
+          :close-on-content-click="false"
+          min-width="300"
+          content-class="navigation-menu"
+        >
+          <template v-slot:activator="{on, attrs}">
+            <span
+              :class="{'v-tab': true, 'v-tab--active': tab === 1}"
+              v-bind="attrs"
+              v-on="on"
+            >
+              {{ $t('navigation.assessment') }}
+            </span>
+          </template>
+
+          <v-list>
+            <v-list-item color="primary" to="/plans">
+              <v-list-item-title>
+                {{ $t('navigation.plans') }}
+              </v-list-item-title>
+            </v-list-item>
+
+            <v-list-group :value="true" no-action prepend-icon>
+              <template v-slot:activator>
+                <v-list-item-title>
+                  {{ $t('navigation.stakeholders') }}
+                </v-list-item-title>
+              </template>
+
+              <v-list-item to="/stakeholders">
+                <v-list-item-title>
+                  {{ $t('navigation.stakeholders') }}
+                </v-list-item-title>
+              </v-list-item>
+              <v-list-item to="/stakeholders/organizations">
+                <v-list-item-title>
+                  {{ $t('navigation.stakeholdersOrganizations') }}
+                </v-list-item-title>
+              </v-list-item>
+              <v-list-item to="/stakeholders/citizens">
+                <v-list-item-title>
+                  {{ $t('navigation.citizens') }}
+                </v-list-item-title>
+              </v-list-item>
+            </v-list-group>
+
+            <v-list-item color="primary" to="/urban-data">
+              <v-list-item-title>
+                {{ $t('navigation.urbanData') }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item color="primary" to="/governance">
+              <v-list-item-title>
+                {{ $t('navigation.governance') }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
 
         <!-- Visible laboratories tab -->
-        <v-tab to="/urban-testbeds">
-          {{ $t('navigation.urbanTestbeds') }}
-        </v-tab>
-        <v-menu open-on-hover bottom offset-y content-class="laboratories-menu">
+        <v-menu
+          open-on-hover
+          bottom
+          offset-y
+          :close-on-content-click="false"
+          content-class="navigation-menu"
+        >
           <template v-slot:activator="{on, attrs}">
-            <!-- Invisible laboratories menu button to show menu on hover and overlap tab to make it not clickable -->
             <span
-              class="laboratories-menu-button v-tab"
+              :class="{'v-tab': true, 'v-tab--active': tab === 2}"
               v-bind="attrs"
               v-on="on"
             >
@@ -147,12 +221,12 @@
           </template>
 
           <v-list>
-            <v-list-item to="/urban-testbeds/model-quarters">
+            <v-list-item color="primary" to="/urban-testbeds/model-quarters">
               <v-list-item-title>
                 {{ $t('navigation.modelQuarters') }}
               </v-list-item-title>
             </v-list-item>
-            <v-list-item to="/urban-testbeds/urban-testbeds">
+            <v-list-item color="primary" to="/urban-testbeds/urban-testbeds">
               <v-list-item-title>
                 {{ $t('navigation.urbanTestbeds') }}
               </v-list-item-title>
@@ -210,6 +284,15 @@ export default Vue.extend({
       showScenarioLoadDialog: false
     };
   },
+  watch: {
+    $route(to) {
+      this.tab = to.path.startsWith('/urban-testbeds')
+        ? 2
+        : to.path.startsWith('/potential')
+        ? 0
+        : 1;
+    }
+  },
   computed: {
     ...(mapState as MapStateToComputed)('root', ['scenarioMetaData']),
     ...(mapState as MapStateToComputed)('user', ['roles']),
@@ -265,12 +348,11 @@ export default Vue.extend({
   padding: 0 32px;
 }
 
-.stakeholders-menu,
-.laboratories-menu {
+.navigation-menu {
   margin-top: -2px;
 }
 
-.laboratories-menu-button {
+.navigation-menu-button {
   transform: translateX(-100%);
   opacity: 0;
 }

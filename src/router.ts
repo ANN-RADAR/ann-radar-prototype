@@ -9,7 +9,6 @@ import Laboratories from './views/real-laboratories.vue';
 import EditLaboratory from './components/laboratories-edit.vue';
 import ListLaboratories from './components/laboratories-list.vue';
 import Category from './views/category-container.vue';
-import Potential from './views/category-potential.vue';
 import PotentialInspectorTable from './components/potential-inspector-table.vue';
 import Plans from './views/category-plans.vue';
 import Stakeholders from './views/category-stakeholders.vue';
@@ -111,7 +110,7 @@ const routes = [
       },
       {
         path: '/potential/solar',
-        components: {navigation: Potential, content: PotentialInspectorTable},
+        components: {content: PotentialInspectorTable},
         name: 'Solar Potential',
         props: {
           content: {category: 'solar'}
@@ -120,7 +119,7 @@ const routes = [
       {path: 'solar/*', redirect: '/potential/solar'},
       {
         path: '/potential/energy-efficiency',
-        components: {navigation: Potential, content: PotentialInspectorTable},
+        components: {content: PotentialInspectorTable},
         name: 'Energy Potential',
         props: {
           content: {category: 'energyEfficiency'}
@@ -132,7 +131,7 @@ const routes = [
       },
       {
         path: '/potential/mobility',
-        components: {navigation: Potential, content: null},
+        components: {content: null},
         name: 'Mobility Potential'
       },
       {
