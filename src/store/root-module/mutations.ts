@@ -35,9 +35,12 @@ const mutations = {
   },
   setBalancedScorecardRatings(
     state: RootState,
-    newScorecardRatings: Record<ScorecardType, ScorecardRatings>
+    payload: {type: ScorecardType; ratings: ScorecardRatings}
   ) {
-    state.balancedScorecardRatings = newScorecardRatings;
+    state.balancedScorecardRatings = {
+      ...state.balancedScorecardRatings,
+      [payload.type]: payload.ratings
+    };
   },
   setLayerClassificationSelection(
     state: RootState,
