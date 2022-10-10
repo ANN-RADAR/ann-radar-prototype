@@ -3,7 +3,7 @@
     v-if="!adminLayerType || isAdminLayerOfBalacedScorecardType()"
     class="rate-wrapper"
   >
-    <v-card-title>{{ $t('balancedScorecards.rate.title') }}</v-card-title>
+    <v-card-title>{{ title }}</v-card-title>
     <v-card-text class="rate-content">
       <BalancedScorecard
         :selectedFeatures="selectedFeatureId ? [selectedFeatureId] : []"
@@ -52,6 +52,14 @@ export default Vue.extend({
       }
 
       return this.selectedFeatureIds[this.adminLayerType][0];
+    },
+    title(): string {
+      // Get translations key by converting the scorecard type from kebab case to camel case
+      const scorecardTranslationKey = this.scorecardType.replace(/-./g, str =>
+        str[1].toUpperCase()
+      );
+      const scorecardName = this.$t(`navigation.${scorecardTranslationKey}`);
+      return `${scorecardName} | ${this.$t('balancedScorecards.rate.title')}`;
     }
   },
   watch: {

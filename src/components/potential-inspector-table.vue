@@ -1,139 +1,148 @@
 <template>
-  <v-card-text>
-    <div class="wrapper" v-if="adminLayerType">
-      <v-select
-        class="inspector-column-select"
-        v-model="selectedTableHeaders"
-        :items="tableHeaders.slice(1)"
-        :label="$t('selectColumns')"
-        multiple
-        return-object
-        hide-details
-      >
-        <template v-slot:selection="{item, index}">
-          <v-chip v-if="index === 0">
-            <span>{{ item.text }}</span>
-          </v-chip>
-          <span
-            v-if="index === 1 && selectedTableHeaders.length > 1"
-            class="grey--text caption"
-            >{{ $t('others', {count: selectedTableHeaders.length - 1}) }}</span
-          >
-        </template>
-      </v-select>
-
-      <div
-        class="potential-table-container"
-        ref="tableContainer"
-        v-resize="onResize"
-      >
-        <v-data-table
-          class="potential-table"
-          :class="{
-            selectable: showAggregationOnly ? false : showSelected
-          }"
-          :value="selectedFeaturesData"
-          :headers="shownTableHeaders"
-          :items="selectedFeaturesData"
-          :item-key="adminLayers[adminLayerType].dataId"
-          :show-select="showAggregationOnly ? false : showSelected"
-          :height="tableHeight"
-          :fixed-header="true"
-          hide-default-footer
+  <div class="potential-wrapper">
+    <v-card-title>
+      {{ $t(`navigation.${category}`) }}
+    </v-card-title>
+    <v-card-text>
+      <div class="potential-wrapper" v-if="adminLayerType">
+        <v-select
+          class="inspector-column-select"
+          v-model="selectedTableHeaders"
+          :items="tableHeaders.slice(1)"
+          :label="$t('selectColumns')"
+          multiple
+          return-object
+          hide-details
         >
-          <template v-slot:[`header.data-table-select`]>
-            <v-btn
-              text
-              icon
-              :disabled="!selectedFeaturesData.length"
-              @click="onDeselectAllFeatures"
+          <template v-slot:selection="{item, index}">
+            <v-chip v-if="index === 0">
+              <span>{{ item.text }}</span>
+            </v-chip>
+            <span
+              v-if="index === 1 && selectedTableHeaders.length > 1"
+              class="grey--text caption"
+              >{{
+                $t('others', {count: selectedTableHeaders.length - 1})
+              }}</span
             >
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
           </template>
+        </v-select>
 
-          <template v-slot:[`item.data-table-select`]="{item}">
-            <v-btn
-              text
-              icon
-              @click="onDeselectFeature(item[shownTableHeaders[0].value])"
-            >
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </template>
-
-          <template
-            v-for="(header, index) in shownTableHeaders"
-            v-slot:[`item.${header.value}`]="{item}"
+        <div
+          class="potential-table-container"
+          ref="tableContainer"
+          v-resize="onResize"
+        >
+          <v-data-table
+            class="potential-table"
+            :class="{
+              selectable: showAggregationOnly ? false : showSelected
+            }"
+            :value="selectedFeaturesData"
+            :headers="shownTableHeaders"
+            :items="selectedFeaturesData"
+            :item-key="adminLayers[adminLayerType].dataId"
+            :show-select="showAggregationOnly ? false : showSelected"
+            :height="tableHeight"
+            :fixed-header="true"
+            hide-default-footer
           >
-            <slot :name="[`item.${header.value}`]" :item="item">
-              <span
-                v-if="
-                  item[header.value] !== undefined && item[header.value] !== ''
-                "
-                v-bind:key="header.value"
+            <template v-slot:[`header.data-table-select`]>
+              <v-btn
+                text
+                icon
+                :disabled="!selectedFeaturesData.length"
+                @click="onDeselectAllFeatures"
               >
-                <span v-if="index === 0 || isNaN(item[header.value])">
-                  {{ item[header.value] }}
-                </span>
-                <span
-                  v-else-if="
-                    ['mittlFlur', 'BGF', 'Wohnfl_WK'].includes(header.value)
-                  "
-                >
-                  {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²
-                </span>
-                <span
-                  v-else-if="
-                    ['SP_GebWB15', 'NW_absdiff'].includes(header.value)
-                  "
-                >
-                  {{ formatNumber(item[header.value]) }}&nbsp;MWh/a
-                </span>
-                <span
-                  v-else-if="
-                    ['tatNu_WB_P', 'spezWBd_dP'].includes(header.value)
-                  "
-                >
-                  {{ formatNumber(item[header.value]) }}&nbsp;%
-                </span>
-                <span v-else>
-                  {{ formatNumber(Math.round(item[header.value])) }}
-                </span>
-              </span>
-              <span v-else v-bind:key="header.value">
-                {{ $t('notAvailable') }}
-              </span>
-            </slot>
-          </template>
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </template>
 
-          <template v-slot:[`body.append`] v-if="!showAggregationOnly">
-            <AggregatedValues
-              :tableHeaders="shownTableHeaders"
-              :showSelect="showSelected"
-            />
-          </template>
+            <template v-slot:[`item.data-table-select`]="{item}">
+              <v-btn
+                text
+                icon
+                @click="onDeselectFeature(item[shownTableHeaders[0].value])"
+              >
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </template>
 
-          <template v-slot:[`body`] v-else>
-            <tbody>
+            <template
+              v-for="(header, index) in shownTableHeaders"
+              v-slot:[`item.${header.value}`]="{item}"
+            >
+              <slot :name="[`item.${header.value}`]" :item="item">
+                <span
+                  v-if="
+                    item[header.value] !== undefined &&
+                    item[header.value] !== ''
+                  "
+                  v-bind:key="header.value"
+                >
+                  <span v-if="index === 0 || isNaN(item[header.value])">
+                    {{ item[header.value] }}
+                  </span>
+                  <span
+                    v-else-if="
+                      ['mittlFlur', 'BGF', 'Wohnfl_WK'].includes(header.value)
+                    "
+                  >
+                    {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²
+                  </span>
+                  <span
+                    v-else-if="
+                      ['SP_GebWB15', 'NW_absdiff'].includes(header.value)
+                    "
+                  >
+                    {{ formatNumber(item[header.value]) }}&nbsp;MWh/a
+                  </span>
+                  <span
+                    v-else-if="
+                      ['tatNu_WB_P', 'spezWBd_dP'].includes(header.value)
+                    "
+                  >
+                    {{ formatNumber(item[header.value]) }}&nbsp;%
+                  </span>
+                  <span v-else>
+                    {{ formatNumber(Math.round(item[header.value])) }}
+                  </span>
+                </span>
+                <span v-else v-bind:key="header.value">
+                  {{ $t('notAvailable') }}
+                </span>
+              </slot>
+            </template>
+
+            <template v-slot:[`body.append`] v-if="!showAggregationOnly">
               <AggregatedValues
                 :tableHeaders="shownTableHeaders"
-                :showSelect="false"
+                :showSelect="showSelected"
               />
-            </tbody>
-          </template>
-        </v-data-table>
+            </template>
+
+            <template v-slot:[`body`] v-else>
+              <tbody>
+                <AggregatedValues
+                  :tableHeaders="shownTableHeaders"
+                  :showSelect="false"
+                />
+              </tbody>
+            </template>
+          </v-data-table>
+        </div>
       </div>
-    </div>
-  </v-card-text>
+    </v-card-text>
+  </div>
 </template>
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
-import {mapState, mapMutations, mapGetters} from 'vuex';
+import {mapState, mapMutations, mapGetters, mapActions} from 'vuex';
 
 import {AdminLayerFeatureData, AdminLayerType} from '@/types/admin-layers';
 import {
+  MapActionsToMethods,
   MapGettersToComputed,
   MapMutationsToMethods,
   MapStateToComputed
@@ -177,6 +186,7 @@ export default Vue.extend({
     };
   },
   created() {
+    this.fetchPotentialConfig();
     this.setSelectedTableHeaders(this.tableHeaders);
   },
   computed: {
@@ -248,6 +258,7 @@ export default Vue.extend({
     }
   },
   methods: {
+    ...(mapActions as MapActionsToMethods)('root', ['fetchPotentialConfig']),
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setSelectedFeatureIdsOfAdminLayer'
     ]),
@@ -296,12 +307,13 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.wrapper {
+.potential-wrapper {
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100%;
   overflow-x: auto;
 }
+
 .potential-table-container {
   overflow-x: auto;
 }

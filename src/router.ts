@@ -9,7 +9,6 @@ import Laboratories from './views/real-laboratories.vue';
 import EditLaboratory from './components/laboratories-edit.vue';
 import ListLaboratories from './components/laboratories-list.vue';
 import Category from './views/category-container.vue';
-import Potential from './views/category-potential.vue';
 import PotentialInspectorTable from './components/potential-inspector-table.vue';
 import Plans from './views/category-plans.vue';
 import Stakeholders from './views/category-stakeholders.vue';
@@ -111,7 +110,7 @@ const routes = [
       },
       {
         path: '/potential/solar',
-        components: {navigation: Potential, content: PotentialInspectorTable},
+        components: {content: PotentialInspectorTable},
         name: 'Solar Potential',
         props: {
           content: {category: 'solar'}
@@ -120,7 +119,7 @@ const routes = [
       {path: 'solar/*', redirect: '/potential/solar'},
       {
         path: '/potential/energy-efficiency',
-        components: {navigation: Potential, content: PotentialInspectorTable},
+        components: {content: PotentialInspectorTable},
         name: 'Energy Potential',
         props: {
           content: {category: 'energyEfficiency'}
@@ -132,7 +131,7 @@ const routes = [
       },
       {
         path: '/potential/mobility',
-        components: {navigation: Potential, content: null},
+        components: {content: null},
         name: 'Mobility Potential'
       },
       {
@@ -140,12 +139,12 @@ const routes = [
         redirect: '/potential/mobility'
       },
       {
-        path: '/plans',
-        redirect: '/plans/rate',
+        path: '/assessment/plans',
+        redirect: '/assessment/plans/rate',
         name: 'Plans'
       },
       {
-        path: '/plans/rate',
+        path: '/assessment/plans/rate',
         components: {navigation: Plans, content: BalancedScorecardRate},
         name: 'Rate Plans',
         props: {
@@ -153,7 +152,7 @@ const routes = [
         }
       },
       {
-        path: '/plans/compare',
+        path: '/assessment/plans/compare',
         components: {navigation: Plans, content: BalancedScorecardCompare},
         name: 'Compare Plans',
         props: {
@@ -161,7 +160,7 @@ const routes = [
         }
       },
       {
-        path: '/stakeholders/organizations',
+        path: '/assessment/stakeholders-organizations',
         components: {content: StakeholdersEngagement},
         name: 'Stakeholders Organizations',
         props: {
@@ -171,7 +170,7 @@ const routes = [
         }
       },
       {
-        path: '/stakeholders/citizens',
+        path: '/assessment/stakeholders-citizens',
         components: {content: StakeholdersEngagement},
         name: 'Stakeholders Citizens',
         props: {
@@ -181,12 +180,12 @@ const routes = [
         }
       },
       {
-        path: '/stakeholders/',
-        redirect: '/stakeholders/rate',
+        path: '/assessment/stakeholders/',
+        redirect: '/assessment/stakeholders/rate',
         name: 'Stakeholders'
       },
       {
-        path: '/stakeholders/rate',
+        path: '/assessment/stakeholders/rate',
         components: {navigation: Stakeholders, content: BalancedScorecardRate},
         name: 'Rate Stakeholders',
         props: {
@@ -194,7 +193,7 @@ const routes = [
         }
       },
       {
-        path: '/stakeholders/compare',
+        path: '/assessment/stakeholders/compare',
         components: {
           navigation: Stakeholders,
           content: BalancedScorecardCompare
@@ -205,35 +204,35 @@ const routes = [
         }
       },
       {
-        path: '/urban-data',
-        redirect: '/urban-data/rate',
+        path: '/assessment/urban-data',
+        redirect: '/assessment/urban-data/rate',
         name: 'Urban Data'
       },
       {
-        path: '/urban-data/rate',
+        path: '/assessment/urban-data/rate',
         components: {navigation: UrbanData, content: BalancedScorecardRate},
         name: 'Rate Urban Data',
         props: {content: {scorecardType: ScorecardType.URBAN_DATA}}
       },
       {
-        path: '/urban-data/compare',
+        path: '/assessment/urban-data/compare',
         components: {navigation: UrbanData, content: BalancedScorecardCompare},
         name: 'Compare Urban Data',
         props: {content: {scorecardType: ScorecardType.URBAN_DATA}}
       },
       {
-        path: '/governance',
-        redirect: '/governance/rate',
+        path: '/assessment/governance',
+        redirect: '/assessment/governance/rate',
         name: 'Governance'
       },
       {
-        path: '/governance/rate',
+        path: '/assessment/governance/rate',
         components: {navigation: Governance, content: BalancedScorecardRate},
         name: 'Rate Governance',
         props: {content: {scorecardType: ScorecardType.GOVERNANCE}}
       },
       {
-        path: '/governance/compare',
+        path: '/assessment/governance/compare',
         components: {navigation: Governance, content: BalancedScorecardCompare},
         name: 'Compare Governance',
         props: {content: {scorecardType: ScorecardType.GOVERNANCE}}
