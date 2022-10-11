@@ -354,6 +354,10 @@ export default Vue.extend({
       type: String,
       required: false
     },
+    copiedLaboratoryId: {
+      type: String,
+      required: false
+    },
     basePath: {
       type: String,
       required: false
@@ -385,10 +389,10 @@ export default Vue.extend({
   computed: {
     ...(mapState as MapStateToComputed)('root', ['laboratories']),
     laboratory(): Laboratory | null {
-      const id = this.laboratoryId || (this.$route.query.id as string) || null;
+      const id = this.laboratoryId || this.copiedLaboratoryId || null;
       const lab = (id && this.laboratories[id]) || null;
 
-      if (lab && this.$route.query.id) {
+      if (lab && this.copiedLaboratoryId) {
         // Remove location information of copied laboratory
         lab.location = '';
       }
@@ -585,10 +589,7 @@ export default Vue.extend({
       }
     },
     createCopy() {
-      this.$router.push({
-        path: `${this.basePath}/new`,
-        query: {id: this.laboratoryId}
-      });
+      this.$router.push(`${this.basePath}/copy/${this.laboratoryId}`);
     }
   },
   created() {

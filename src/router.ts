@@ -6,7 +6,7 @@ import i18n from './plugins/i18n';
 import store from './store';
 
 import Laboratories from './views/real-laboratories.vue';
-import EditLaboratory from './components/laboratories-edit.vue';
+import LaboratoryForm from './components/laboratories-form.vue';
 import ListLaboratories from './components/laboratories-list.vue';
 import Category from './views/category-container.vue';
 import Potential from './views/category-potential.vue';
@@ -49,7 +49,7 @@ const routes = [
       },
       {
         path: 'new',
-        component: EditLaboratory,
+        component: LaboratoryForm,
         name: 'Add Urban Testbed',
         props: (route: Route) => ({
           laboratoryType: route.params.laboratoryType,
@@ -57,8 +57,18 @@ const routes = [
         })
       },
       {
+        path: 'copy/:copiedLaboratoryId',
+        component: LaboratoryForm,
+        name: 'Copy Urban Testbed',
+        props: (route: Route) => ({
+          laboratoryType: route.params.laboratoryType,
+          copiedLaboratoryId: route.params.copiedLaboratoryId,
+          returnTo: `/urban-testbeds/${route.params.laboratoryType}/list`
+        })
+      },
+      {
         path: ':laboratoryId',
-        component: EditLaboratory,
+        component: LaboratoryForm,
         name: 'Edit Urban Testbed',
         props: (route: Route) => ({
           laboratoryType: route.params.laboratoryType,
