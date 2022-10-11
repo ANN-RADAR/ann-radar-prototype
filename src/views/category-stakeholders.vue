@@ -14,10 +14,14 @@ import {ScorecardType} from '@/types/scorecards';
 
 export default Vue.extend({
   methods: {
-    ...(mapActions as MapActionsToMethods)('root', ['fetchBalancedScorecard'])
+    ...(mapActions as MapActionsToMethods)('root', [
+      'fetchBalancedScorecard',
+      'fetchBalancedScorecardRatings'
+    ])
   },
   created() {
     this.fetchBalancedScorecard(ScorecardType.STAKEHOLDERS);
+    this.fetchBalancedScorecardRatings(ScorecardType.STAKEHOLDERS);
   }
 });
 </script>

@@ -50,11 +50,15 @@ export default Vue.extend({
     };
   },
   methods: {
-    ...(mapActions as MapActionsToMethods)('root', ['fetchBalancedScorecard'])
+    ...(mapActions as MapActionsToMethods)('root', [
+      'fetchBalancedScorecard',
+      'fetchBalancedScorecardRatings'
+    ])
   },
   created() {
     Object.values(ScorecardType).forEach(scorecardType => {
       this.fetchBalancedScorecard(scorecardType);
+      this.fetchBalancedScorecardRatings(scorecardType);
     });
   }
 });
