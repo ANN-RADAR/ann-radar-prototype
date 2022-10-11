@@ -82,11 +82,16 @@ export default Vue.extend({
     laboratoryEntries(): Array<[LaboratoryId, Laboratory]> {
       return Object.entries(this.laboratories)
         .filter(([, {type}]) => type === this.laboratoryType)
-        .sort(([, laboratoryA], [, laboratoryB]) =>
-          laboratoryA.projectName === laboratoryB.projectName
-            ? laboratoryA.name.localeCompare(laboratoryB.name)
-            : laboratoryA.projectName.localeCompare(laboratoryB.projectName)
-        );
+        .sort(([, laboratoryA], [, laboratoryB]) => {
+          const {projectName: projectNameA = '', name: nameA = ''} =
+            laboratoryA;
+          const {projectName: projectNameB = '', name: nameB = ''} =
+            laboratoryB;
+
+          return projectNameA === projectNameB
+            ? nameA.localeCompare(nameB)
+            : projectNameA.localeCompare(projectNameB);
+        });
     }
   },
   methods: {
