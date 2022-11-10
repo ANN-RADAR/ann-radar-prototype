@@ -414,8 +414,7 @@ export default Vue.extend({
               const id = feature.get(featureId);
 
               const isSelected = !this.disableFeatureSelection
-                ? this.currentLayerSelectedFeatureIds.includes(id)
-                : false;
+                && this.currentLayerSelectedFeatureIds.includes(id);
               feature.set('selected', isSelected);
 
               const isHighlighted = this.highlightedFeatureIds?.includes(id);
