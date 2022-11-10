@@ -5,8 +5,12 @@
       <MapLayerSwitcher
         v-if="showLayerSwitcher"
         :thematicLayers="thematicLayerOptions"
-        :thematicLayersTitle="layerSwitcherProps.thematicLayersTitle"
-        :alwaysVisibleLayers="layerSwitcherProps.alwaysVisibleLayers"
+        :thematicLayersTitle="
+          layerSwitcherProps && layerSwitcherProps.thematicLayersTitle
+        "
+        :alwaysVisibleLayers="
+          layerSwitcherProps && layerSwitcherProps.alwaysVisibleLayers
+        "
       />
       <MapStyleSwitcher v-if="showStyleSwitcher" />
     </div>
@@ -127,7 +131,8 @@ export default Vue.extend({
       type: Object as PropType<{
         thematicLayersTitle?: string;
         alwaysVisibleLayers?: Array<string>;
-      }>
+      }>,
+      required: false
     },
     showStyleSwitcher: {
       type: Boolean,
@@ -386,15 +391,8 @@ export default Vue.extend({
       }
     },
     toggleBaseLayers() {
-      const baseLayersAreVisible = Boolean(
-        this.$route.path.startsWith('/potential')
-      );
-
       for (const layer of this.allBaseLayers) {
-        if (
-          baseLayersAreVisible &&
-          this.baseLayerTypes.includes(layer.get('name'))
-        ) {
+        if (this.baseLayerTypes.includes(layer.get('name'))) {
           layer.setVisible(true);
 
           // Update source and style of data layers
@@ -543,7 +541,7 @@ export default Vue.extend({
       for (const layer of this.allLaboratoriesLayers) {
         const layerIsVisible =
           this.$route.params.laboratoryType === layer.get('name') ||
-          (this.$route.path.startsWith('/potential') &&
+          (!this.$route.path.startsWith('/urban-testbeds') &&
             this.baseLayerTypes.includes(layer.get('name')));
 
         layer.setVisible(layerIsVisible);

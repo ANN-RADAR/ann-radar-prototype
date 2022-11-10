@@ -1,6 +1,6 @@
 <template>
   <div class="laboratories">
-    <Map showStyleSwitcher disableAdminLayers />
+    <Map showLayerSwitcher showStyleSwitcher disableAdminLayers />
     <v-card class="laboratories-data">
       <v-card-title>{{
         $t(`laboratories.${laboratoryType}.title`)
