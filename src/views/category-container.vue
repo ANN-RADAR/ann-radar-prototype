@@ -17,6 +17,7 @@
                   }
                 }
               : {
+                  showLayerSwitcher: true,
                   highlightedFeatureIds,
                   disableAdminLayers: !isAdminLayerOfBalacedScorecardType()
                 }
@@ -71,7 +72,7 @@ export default Vue.extend({
     return {potentialLayers: getPotentialLayers(this.$route.path)};
   },
   watch: {
-    $route(to, _) {
+    $route(to) {
       this.potentialLayers = getPotentialLayers(to.path);
     }
   },
