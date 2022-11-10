@@ -2,6 +2,7 @@
   <div class="laboratory">
     <Map
       :drawingSource="source"
+      showLayerSwitcher
       showStyleSwitcher
       showDrawingTools
       disableAdminLayers
