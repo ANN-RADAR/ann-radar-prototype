@@ -5,7 +5,7 @@
       showLayerSwitcher
       showStyleSwitcher
       showDrawingTools
-      disableAdminLayers
+      disableFeatureSelection
     />
     <v-card class="laboratories-data">
       <v-card-title>

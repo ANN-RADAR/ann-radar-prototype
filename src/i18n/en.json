@@ -34,7 +34,9 @@
     "baseLayers": "Base Layers",
     "solarLayers": "Solar Layers",
     "energyLayers": "Energy Efficiency Layers",
-    "mobilityLayers": "Mobility Layers"
+    "mobilityLayers": "Mobility Layers",
+    "administrativeBorders": "Administrative Borders",
+    "none": "None"
   },
   "mapStyles": "Map Style",
   "notes": "Notes",
