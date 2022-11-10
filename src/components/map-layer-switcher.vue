@@ -73,6 +73,32 @@
               hide-details
             ></v-checkbox>
           </section>
+
+          <section v-if="$route.path.startsWith('/urban-testbeds')">
+            <h4 v-if="!showReducedList" class="overline">
+              {{ $t('layerOptions.administrativeBorders') }}
+            </h4>
+            <v-radio-group
+              :value="adminLayerType"
+              @change="onAdminAreaLayerChange($event)"
+              class="radio-group"
+              dense
+              hide-details
+            >
+              <v-radio
+                :label="$t('layerOptions.none')"
+                :value="null"
+                class="radio"
+              ></v-radio>
+              <v-radio
+                v-for="adminLayer in allAdminLayerTypes"
+                :key="adminLayer"
+                :label="$t(`adminLayer.${adminLayer}`)"
+                :value="adminLayer"
+                class="radio"
+              ></v-radio>
+            </v-radio-group>
+          </section>
         </div>
 
         <v-btn
@@ -100,6 +126,7 @@
 import Vue, {PropType} from 'vue';
 import {mapMutations, mapState} from 'vuex';
 
+import {AdminLayerType} from '@/types/admin-layers';
 import {LayerOptions} from '@/types/layers';
 import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 import {
@@ -112,6 +139,7 @@ interface Data {
   showReducedList: boolean;
   baseLayers: Array<LayerOptions>;
   laboratoriesLayers: Array<LayerOptions>;
+  allAdminLayerTypes: Array<AdminLayerType>;
 }
 
 export default Vue.extend({
@@ -137,11 +165,15 @@ export default Vue.extend({
       isOpen: hasAlwaysVisibleLayers,
       showReducedList: hasAlwaysVisibleLayers,
       baseLayers: baseLayersOptions,
-      laboratoriesLayers: laboratoriesLayersOptions
+      laboratoriesLayers: laboratoriesLayersOptions,
+      allAdminLayerTypes: Object.values(AdminLayerType)
     };
   },
   computed: {
-    ...(mapState as MapStateToComputed)('root', ['baseLayerTypes']),
+    ...(mapState as MapStateToComputed)('root', [
+      'adminLayerType',
+      'baseLayerTypes'
+    ]),
     visibleThematicLayers(): Array<LayerOptions> {
       if (!this.showReducedList) {
         return this.thematicLayers || [];
@@ -160,10 +192,16 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...(mapMutations as MapMutationsToMethods)('root', ['toggleBaseLayerType']),
+    ...(mapMutations as MapMutationsToMethods)('root', [
+      'toggleBaseLayerType',
+      'setAdminLayerType'
+    ]),
     onLayerChange(layer: LayerOptions, visible: boolean) {
       layer.visible = visible;
       this.toggleBaseLayerType(layer.properties.name);
+    },
+    onAdminAreaLayerChange(newSelectedAdminLayer: AdminLayerType | null) {
+      this.setAdminLayerType(newSelectedAdminLayer);
     },
     toggleReducedList() {
       this.showReducedList = !this.showReducedList;
@@ -191,6 +229,14 @@ export default Vue.extend({
 
 .list .checkbox {
   margin-top: -4px;
+}
+
+.list .radio-group {
+  margin-top: 0;
+}
+
+.list .radio {
+  margin-top: -8px;
 }
 
 .reduced {

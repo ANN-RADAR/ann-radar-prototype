@@ -167,11 +167,6 @@ export default Vue.extend({
       type: Boolean,
       required: false,
       default: false
-    },
-    disableAdminLayers: {
-      type: Boolean,
-      required: false,
-      default: false
     }
   },
   data(): Data {
@@ -295,9 +290,6 @@ export default Vue.extend({
         const isHovered = feature.get('id') === newHoveredLaboratoryId;
         feature.set('hovered', isLaboratoriesView && isHovered);
       });
-    },
-    disableAdminLayers() {
-      this.toggleAdminLayers();
     }
   },
   methods: {
@@ -310,7 +302,7 @@ export default Vue.extend({
       'setHoveredLaboratoryId'
     ]),
     handleClickOnMap(event: MapBrowserEvent<UIEvent>) {
-      if (this.disableFeatureSelection || this.disableAdminLayers) {
+      if (this.disableFeatureSelection) {
         return;
       }
 
@@ -380,10 +372,7 @@ export default Vue.extend({
     },
     toggleAdminLayers() {
       for (const layer of this.allAdminLayers) {
-        if (
-          layer.get('name') === this.adminLayerType &&
-          !this.disableAdminLayers
-        ) {
+        if (layer.get('name') === this.adminLayerType) {
           layer.setVisible(true);
         } else {
           layer.setVisible(false);
@@ -424,10 +413,9 @@ export default Vue.extend({
             features.forEach(feature => {
               const id = feature.get(featureId);
 
-              const isSelected =
-                !this.disableFeatureSelection || !this.disableAdminLayers
-                  ? this.currentLayerSelectedFeatureIds.includes(id)
-                  : false;
+              const isSelected = !this.disableFeatureSelection
+                ? this.currentLayerSelectedFeatureIds.includes(id)
+                : false;
               feature.set('selected', isSelected);
 
               const isHighlighted = this.highlightedFeatureIds?.includes(id);
