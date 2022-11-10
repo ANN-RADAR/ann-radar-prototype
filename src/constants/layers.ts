@@ -11,12 +11,16 @@ import Geometry from 'ol/geom/Geometry';
 import LayerGroup from 'ol/layer/Group';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
+import {Options as VectorTileSourceOptions} from 'ol/source/VectorTile';
+import VectorTileSource from 'ol/source/VectorTile';
+import VectorTileLayer from 'ol/layer/VectorTile';
 import RenderFeature from 'ol/render/Feature';
 import {TileWMS} from 'ol/source';
 import VectorSource from 'ol/source/Vector';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import Style from 'ol/style/Style';
+import {MVT} from 'ol/format';
 import RegularShape from 'ol/style/RegularShape';
 import {tileSourcesOptions, vectorSourcesOptions} from './sources';
 import {MapStyle} from '@/types/map-styles';
@@ -44,16 +48,6 @@ export const solarPotentialLayersOptions: Array<LayerOptions> = [
     properties: {name: 'buildingSolarPotential'},
     visible: false,
     source: vectorSourcesOptions.HH_Gebaeude_Solarpotential,
-    style: () =>
-      new Style({
-        image: new RegularShape({
-          fill: new Fill({color: 'red'}),
-          stroke: new Stroke({color: 'black', width: 1}),
-          points: 4,
-          radius: 10,
-          angle: Math.PI / 4
-        })
-      }),
     zIndex: 6,
     minZoom: 13
   }
@@ -259,6 +253,9 @@ const adminAreaLayersOptions: Array<VectorLayerOptions> = [
   }
 ];
 
+const isVectorTileSource = (source: VectorSourceOptions) =>
+  'format' in source && source?.format instanceof MVT;
+
 const getLayerWithSource = (
   type: 'vector' | 'tile',
   {
@@ -267,16 +264,24 @@ const getLayerWithSource = (
   }: Omit<LayerOptions, 'type' | 'source'> & {
     source?: TileSourceOptions | VectorSourceOptions;
   }
-) =>
-  type === 'vector'
-    ? new VectorLayer({
-        ...layerOptions,
-        source: new VectorSource(source)
-      })
-    : new TileLayer({
-        ...layerOptions,
-        source: new TileWMS(source as TileSourceOptions)
-      });
+) => {
+  if (type === 'vector') {
+    return source && isVectorTileSource(source)
+      ? new VectorTileLayer({
+          ...layerOptions,
+          source: new VectorTileSource(source as VectorTileSourceOptions)
+        })
+      : new VectorLayer({
+          ...layerOptions,
+          source: new VectorSource(source)
+        });
+  } else {
+    return new TileLayer({
+      ...layerOptions,
+      source: new TileWMS(source as TileSourceOptions)
+    });
+  }
+};
 
 const getLayerWithOptions = ({type, ...layerOptions}: LayerOptions) => {
   const sources = Array.isArray(layerOptions.source)
