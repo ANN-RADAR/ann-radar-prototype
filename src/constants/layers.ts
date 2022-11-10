@@ -20,8 +20,8 @@ import VectorSource from 'ol/source/Vector';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import Style from 'ol/style/Style';
+import Text from 'ol/style/Text';
 import {MVT} from 'ol/format';
-import RegularShape from 'ol/style/RegularShape';
 import {tileSourcesOptions, vectorSourcesOptions} from './sources';
 import {MapStyle} from '@/types/map-styles';
 import {adminLayers} from './admin-layers';
@@ -48,6 +48,20 @@ export const solarPotentialLayersOptions: Array<LayerOptions> = [
     properties: {name: 'buildingSolarPotential'},
     visible: false,
     source: vectorSourcesOptions.HH_Gebaeude_Solarpotential,
+    style: feature =>
+      new Style({
+        stroke: new Stroke({
+          color: '#3399CC',
+          width: 1.25
+        }),
+        text: new Text({
+          font: '12px Calibri,sans-serif',
+          text: String(feature.getProperties()['p_st_mwha']),
+          fill: new Fill({
+            color: '#000'
+          })
+        })
+      }),
     zIndex: 6,
     minZoom: 13
   }
