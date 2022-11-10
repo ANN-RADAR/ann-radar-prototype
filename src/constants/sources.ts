@@ -1,7 +1,8 @@
-import {GeoJSON} from 'ol/format';
+import {GeoJSON, MVT} from 'ol/format';
 import GML3 from 'ol/format/GML3';
 import {Options as TileSourceOptions} from 'ol/source/TileWMS';
 import {Options as VectorSourceOptions} from 'ol/source/Vector';
+import {Options as VectorTileSourceOptions} from 'ol/source/VectorTile';
 
 export const tileSourcesOptions: Record<string, TileSourceOptions> = {
   HH_WMS_Waermekataster_Waermebedarf: {
@@ -125,7 +126,10 @@ export const tileSourcesOptions: Record<string, TileSourceOptions> = {
   }
 };
 
-export const vectorSourcesOptions: Record<string, VectorSourceOptions> = {
+export const vectorSourcesOptions: Record<
+  string,
+  VectorSourceOptions | VectorTileSourceOptions
+> = {
   CITY: {
     format: new GML3(),
     url: 'https://geodienste.hamburg.de/HH_WFS_Verwaltungsgrenzen?service=WFS&version=1.1.0&request=GetFeature&srsname=EPSG:25832&typename=landesgrenze'
@@ -153,5 +157,9 @@ export const vectorSourcesOptions: Record<string, VectorSourceOptions> = {
   Sozialmonitoring: {
     format: new GeoJSON(),
     url: 'https://storage.googleapis.com/ann-radar-data/social_monitoring.json'
+  },
+  HH_Gebaeude_Solarpotential: {
+    format: new MVT(),
+    url: 'https://storage.googleapis.com/ann-radar-data/MVT_Wohngeb_SP_2015/{z}/{x}/{y}.mvt'
   }
 };

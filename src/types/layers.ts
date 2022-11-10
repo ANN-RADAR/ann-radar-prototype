@@ -5,6 +5,7 @@ import VectorSource from 'ol/source/Vector';
 import {StyleFunction} from 'ol/style/Style';
 import {Options as TileSourceOptions} from 'ol/source/TileWMS';
 import {Options as VectorSourceOptions} from 'ol/source/Vector';
+import {Options as VectorTileSourceOptions} from 'ol/source/VectorTile';
 import {AdminLayerFeatureData, AdminLayerType} from './admin-layers';
 
 export interface LayerBaseOptions<T = TileSourceOptions | VectorSourceOptions>
@@ -21,7 +22,7 @@ export interface TileLayerOptions extends LayerBaseOptions<TileSourceOptions> {
 }
 
 export interface VectorLayerOptions
-  extends LayerBaseOptions<VectorSourceOptions> {
+  extends LayerBaseOptions<VectorSourceOptions | VectorTileSourceOptions> {
   type: 'vector';
   style?: StyleFunction;
 }

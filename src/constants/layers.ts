@@ -11,12 +11,17 @@ import Geometry from 'ol/geom/Geometry';
 import LayerGroup from 'ol/layer/Group';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
+import {Options as VectorTileSourceOptions} from 'ol/source/VectorTile';
+import VectorTileSource from 'ol/source/VectorTile';
+import VectorTileLayer from 'ol/layer/VectorTile';
 import RenderFeature from 'ol/render/Feature';
 import {TileWMS} from 'ol/source';
 import VectorSource from 'ol/source/Vector';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import Style from 'ol/style/Style';
+import Text from 'ol/style/Text';
+import {MVT} from 'ol/format';
 import {tileSourcesOptions, vectorSourcesOptions} from './sources';
 import {MapStyle} from '@/types/map-styles';
 import {adminLayers} from './admin-layers';
@@ -37,6 +42,28 @@ export const solarPotentialLayersOptions: Array<LayerOptions> = [
     properties: {name: 'solarCoverageRate'},
     visible: false,
     zIndex: 4
+  },
+  {
+    type: 'vector',
+    properties: {name: 'buildingSolarPotential'},
+    visible: false,
+    source: vectorSourcesOptions.HH_Gebaeude_Solarpotential,
+    style: feature =>
+      new Style({
+        stroke: new Stroke({
+          color: '#3399CC',
+          width: 1.25
+        }),
+        text: new Text({
+          font: '12px Calibri,sans-serif',
+          text: String(feature.getProperties()['p_st_mwha']),
+          fill: new Fill({
+            color: '#000'
+          })
+        })
+      }),
+    zIndex: 6,
+    minZoom: 13
   }
 ];
 
@@ -240,6 +267,9 @@ const adminAreaLayersOptions: Array<VectorLayerOptions> = [
   }
 ];
 
+const isVectorTileSource = (source: VectorSourceOptions) =>
+  'format' in source && source?.format instanceof MVT;
+
 const getLayerWithSource = (
   type: 'vector' | 'tile',
   {
@@ -248,16 +278,24 @@ const getLayerWithSource = (
   }: Omit<LayerOptions, 'type' | 'source'> & {
     source?: TileSourceOptions | VectorSourceOptions;
   }
-) =>
-  type === 'vector'
-    ? new VectorLayer({
-        ...layerOptions,
-        source: new VectorSource(source)
-      })
-    : new TileLayer({
-        ...layerOptions,
-        source: new TileWMS(source as TileSourceOptions)
-      });
+) => {
+  if (type === 'vector') {
+    return source && isVectorTileSource(source)
+      ? new VectorTileLayer({
+          ...layerOptions,
+          source: new VectorTileSource(source as VectorTileSourceOptions)
+        })
+      : new VectorLayer({
+          ...layerOptions,
+          source: new VectorSource(source)
+        });
+  } else {
+    return new TileLayer({
+      ...layerOptions,
+      source: new TileWMS(source as TileSourceOptions)
+    });
+  }
+};
 
 const getLayerWithOptions = ({type, ...layerOptions}: LayerOptions) => {
   const sources = Array.isArray(layerOptions.source)
