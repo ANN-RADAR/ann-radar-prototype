@@ -58,7 +58,7 @@
             ></v-checkbox>
           </section>
 
-          <section>
+          <section v-if="!$route.path.startsWith('/urban-testbeds')">
             <h4 v-if="!showReducedList" class="overline">
               {{ $t('navigation.urbanTestbeds') }}
             </h4>
@@ -144,9 +144,9 @@ export default Vue.extend({
     ...(mapState as MapStateToComputed)('root', ['baseLayerTypes']),
     visibleThematicLayers(): Array<LayerOptions> {
       if (!this.showReducedList) {
-        return this.thematicLayers;
+        return this.thematicLayers || [];
       }
-      return this.thematicLayers.filter((layer: LayerOptions) =>
+      return (this.thematicLayers || []).filter((layer: LayerOptions) =>
         this.alwaysVisibleLayers.includes(layer.properties.name)
       );
     },

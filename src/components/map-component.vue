@@ -5,8 +5,12 @@
       <MapLayerSwitcher
         v-if="showLayerSwitcher"
         :thematicLayers="thematicLayerOptions"
-        :thematicLayersTitle="layerSwitcherProps.thematicLayersTitle"
-        :alwaysVisibleLayers="layerSwitcherProps.alwaysVisibleLayers"
+        :thematicLayersTitle="
+          layerSwitcherProps && layerSwitcherProps.thematicLayersTitle
+        "
+        :alwaysVisibleLayers="
+          layerSwitcherProps && layerSwitcherProps.alwaysVisibleLayers
+        "
       />
       <MapStyleSwitcher v-if="showStyleSwitcher" />
     </div>
@@ -127,7 +131,8 @@ export default Vue.extend({
       type: Object as PropType<{
         thematicLayersTitle?: string;
         alwaysVisibleLayers?: Array<string>;
-      }>
+      }>,
+      required: false
     },
     showStyleSwitcher: {
       type: Boolean,
@@ -387,7 +392,8 @@ export default Vue.extend({
     },
     toggleBaseLayers() {
       const baseLayersAreVisible = Boolean(
-        this.$route.path.startsWith('/potential')
+        this.$route.path.startsWith('/potential') ||
+          this.$route.path.startsWith('/urban-testbeds')
       );
 
       for (const layer of this.allBaseLayers) {
