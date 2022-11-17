@@ -187,11 +187,11 @@ export default Vue.extend({
         controls: defaultControls().extend([new ScaleLine({units: 'metric'})]),
         layers: [mapStyleLayers, adminLayers, baseLayers, laboratoriesLayers],
         view: new View({
-          projection: 'EPSG:3857',
+          projection: 'EPSG:25832',
           zoom: 12,
           minZoom: 9,
           maxZoom: 18,
-          center: [1113052.5963, 7084613.6599]
+          center: [565811, 5933977]
         })
       },
       showNewDrawingConfirmationDialog: false
