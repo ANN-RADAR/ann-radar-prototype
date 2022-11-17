@@ -161,5 +161,9 @@ export const vectorSourcesOptions: Record<
   HH_Gebaeude_Solarpotential: {
     format: new MVT(),
     url: 'https://storage.googleapis.com/ann-radar-data/MVT_Wohngeb_SP_2015/{z}/{x}/{y}.mvt'
+  },
+  HH_Gebaeude_spezifischer_Nutzwaermebedarf: {
+    format: new MVT(),
+    url: 'https://storage.googleapis.com/ann-radar-data/MVT_NW_spez_Gebaeude2018/{z}/{x}/{y}.mvt'
   }
 };
