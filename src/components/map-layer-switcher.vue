@@ -30,16 +30,42 @@
             <h4 v-if="!showReducedList && thematicLayersTitle" class="overline">
               {{ thematicLayersTitle }}
             </h4>
-            <v-checkbox
+            <div
               v-for="layer in visibleThematicLayers"
               :key="layer.properties.name"
-              :input-value="baseLayerTypes.includes(layer.properties.name)"
-              :label="$t(`layer.${layer.properties.name}`)"
-              class="checkbox"
-              @change="onLayerChange(layer, $event)"
-              dense
-              hide-details
-            ></v-checkbox>
+            >
+              <v-checkbox
+                :input-value="baseLayerTypes.includes(layer.properties.name)"
+                :label="$t(`layer.${layer.properties.name}`)"
+                class="checkbox"
+                @change="onLayerChange(layer, $event)"
+                dense
+                hide-details
+              ></v-checkbox>
+              <v-radio-group
+                v-if="
+                  baseLayerTypes.includes(layer.properties.name) &&
+                  layer.properties.featureProperties &&
+                  layer.properties.featureProperties.length
+                "
+                :value="
+                  baseLayerFeatureProperties[layer.properties.name] ||
+                  layer.properties.featureProperties[0].id
+                "
+                dense
+                hide-details
+                class="sub-radio-group"
+              >
+                <v-radio
+                  v-for="property in layer.properties.featureProperties"
+                  :key="property.id"
+                  :label="property.name"
+                  :value="property.id"
+                  class="radio"
+                  @change="onLayerFeatureChange(layer, property.id)"
+                ></v-radio>
+              </v-radio-group>
+            </div>
           </section>
 
           <section v-if="visibleBaseLayers.length">
@@ -172,7 +198,8 @@ export default Vue.extend({
   computed: {
     ...(mapState as MapStateToComputed)('root', [
       'adminLayerType',
-      'baseLayerTypes'
+      'baseLayerTypes',
+      'baseLayerFeatureProperties'
     ]),
     visibleThematicLayers(): Array<LayerOptions> {
       if (!this.showReducedList) {
@@ -194,11 +221,21 @@ export default Vue.extend({
   methods: {
     ...(mapMutations as MapMutationsToMethods)('root', [
       'toggleBaseLayerType',
+      'setBaseLayerFeatureProperty',
       'setAdminLayerType'
     ]),
     onLayerChange(layer: LayerOptions, visible: boolean) {
       layer.visible = visible;
       this.toggleBaseLayerType(layer.properties.name);
+    },
+    onLayerFeatureChange(
+      layer: LayerOptions,
+      baseLayerFeatureProperty: string
+    ) {
+      this.setBaseLayerFeatureProperty({
+        baseLayerType: layer.properties.name,
+        baseLayerFeatureProperty
+      });
     },
     onAdminAreaLayerChange(newSelectedAdminLayer: AdminLayerType | null) {
       this.setAdminLayerType(newSelectedAdminLayer);
@@ -233,6 +270,11 @@ export default Vue.extend({
 
 .list .radio-group {
   margin-top: 0;
+}
+
+.list .sub-radio-group {
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 .list .radio {

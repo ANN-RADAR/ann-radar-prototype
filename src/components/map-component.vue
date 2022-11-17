@@ -71,6 +71,7 @@ import VectorLayer from 'ol/layer/Vector';
 import Geometry from 'ol/geom/Geometry';
 import TileSource from 'ol/source/Tile';
 import VectorSource from 'ol/source/Vector';
+import VectorTileLayer from 'ol/layer/VectorTile';
 import {Draw, Modify} from 'ol/interaction';
 import {register} from 'ol/proj/proj4';
 import proj4 from 'proj4';
@@ -79,7 +80,8 @@ import {
   getMapStyleLayers,
   getAdminAreaLayers,
   getBaseLayers,
-  getLabortoriesLayers
+  getLabortoriesLayers,
+  createBuildingLayerStyle
 } from '@/constants/layers';
 import {dataLayerIds, dataLayerOptions} from '@/constants/data-layers';
 import {adminLayers} from '@/constants/admin-layers';
@@ -202,6 +204,7 @@ export default Vue.extend({
       'adminLayerType',
       'mapStyle',
       'baseLayerTypes',
+      'baseLayerFeatureProperties',
       'layersConfig',
       'layerClassificationSelection',
       'laboratories',
@@ -257,6 +260,19 @@ export default Vue.extend({
     baseLayerTypes() {
       this.toggleBaseLayers();
       this.toggleLaboratoriesLayers();
+    },
+    baseLayerFeatureProperties(
+      newBaseLayerFeatureProperties: Record<string, string>
+    ) {
+      this.allBaseLayers.forEach(layer => {
+        if (newBaseLayerFeatureProperties[layer.get('name')]) {
+          (layer as VectorTileLayer).setStyle(
+            createBuildingLayerStyle(
+              newBaseLayerFeatureProperties[layer.get('name')]
+            )
+          );
+        }
+      });
     },
     layerClassificationSelection() {
       // Update style of data layers

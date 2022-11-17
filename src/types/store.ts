@@ -24,6 +24,7 @@ export interface RootState {
   potentialConfig: PotentialConfig | null;
   mapStyle: MapStyle;
   baseLayerTypes: Array<string>;
+  baseLayerFeatureProperties: Record<string, string>;
   adminLayerType: AdminLayerType | null;
   selectedFeatureIds: Record<AdminLayerType, Array<AdminLayerFeatureId>>;
   highlightedFeatureIds: Array<AdminLayerFeatureId>;
