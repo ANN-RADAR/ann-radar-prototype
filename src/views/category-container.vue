@@ -104,7 +104,8 @@ export default Vue.extend({
               source: this.mobilityDrawingSource,
               type: 'Point',
               style: this.mobilityDrawPointStyle
-            }
+            },
+            disableFeatureSelection: this.mobilityDrawingActive
           })
         };
       }
