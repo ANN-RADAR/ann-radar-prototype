@@ -4,6 +4,40 @@ import Stroke from 'ol/style/Stroke';
 import Style, {StyleFunction} from 'ol/style/Style';
 import Text from 'ol/style/Text';
 
+// Drawing styles
+export const drawHandleStyle = new Style({
+  fill: new Fill({
+    color: 'rgba(255, 0, 0, 0.3)'
+  }),
+  stroke: new Stroke({
+    color: '#f00',
+    width: 2
+  }),
+  image: new Circle({
+    radius: 5,
+    fill: new Fill({color: '#f00'}),
+    stroke: new Stroke({color: '#fff', width: 2})
+  })
+});
+
+export const modifyHandleStyle = new Style({
+  image: new Circle({
+    radius: 7,
+    fill: new Fill({color: '#f00'}),
+    stroke: new Stroke({color: '#fff', width: 2})
+  })
+});
+
+// Mobility styles
+export const mobilityDrawPointStyle = new Style({
+  image: new Circle({
+    radius: 7,
+    fill: new Fill({color: '#ff9800'}),
+    stroke: new Stroke({color: '#fff', width: 2})
+  })
+});
+
+// Laboratories styles
 export const laboratoriesStyle: StyleFunction = feature => {
   const isHidden = feature.get('hidden');
   const isHovered = feature.get('hovered');
@@ -31,7 +65,7 @@ export const laboratoriesStyle: StyleFunction = feature => {
   });
 };
 
-const laboratoriesDrawAreaStyle = new Style({
+export const laboratoriesDrawAreaStyle = new Style({
   fill: new Fill({
     color: 'rgba(255, 0, 0, 0.3)'
   }),
@@ -40,32 +74,3 @@ const laboratoriesDrawAreaStyle = new Style({
     width: 2
   })
 });
-
-const laboratoriesDrawHandleStyle = new Style({
-  fill: new Fill({
-    color: 'rgba(255, 0, 0, 0.3)'
-  }),
-  stroke: new Stroke({
-    color: '#f00',
-    width: 2
-  }),
-  image: new Circle({
-    radius: 5,
-    fill: new Fill({color: '#f00'}),
-    stroke: new Stroke({color: '#fff', width: 2})
-  })
-});
-
-const laboratoriesModifyHandleStyle = new Style({
-  image: new Circle({
-    radius: 7,
-    fill: new Fill({color: '#f00'}),
-    stroke: new Stroke({color: '#fff', width: 2})
-  })
-});
-
-export const laboratoriesStyles = {
-  laboratoriesDrawAreaStyle,
-  laboratoriesDrawHandleStyle,
-  laboratoriesModifyHandleStyle
-};
