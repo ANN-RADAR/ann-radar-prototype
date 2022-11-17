@@ -80,6 +80,28 @@ export const energyPotentialLayersOptions: Array<LayerOptions> = [
     properties: {name: 'heatDemand'},
     visible: false,
     zIndex: 4
+  },
+  {
+    type: 'vector',
+    properties: {name: 'buildingSpecificHeatDemand'},
+    visible: false,
+    source: vectorSourcesOptions.HH_Gebaeude_spezifischer_Nutzwaermebedarf,
+    style: feature =>
+      new Style({
+        stroke: new Stroke({
+          color: '#3399CC',
+          width: 1.25
+        }),
+        text: new Text({
+          font: '12px Calibri,sans-serif',
+          text: String(feature.getProperties()['Diff_WBd_P']),
+          fill: new Fill({
+            color: '#000'
+          })
+        })
+      }),
+    zIndex: 6,
+    minZoom: 13
   }
 ];
 

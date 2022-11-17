@@ -65,6 +65,7 @@
     "buildingSolarPotential": "Building Solar Potential",
     "heatAtlas": "Specific Heat Demand",
     "heatDemand": "Potential of Renovation",
+    "buildingSpecificHeatDemand": "Building Specific Heat Demand",
     "schools": "Schools",
     "quarterCulture": "Suburban Culture",
     "socialInfrastructure": "Social Infrastructure",
