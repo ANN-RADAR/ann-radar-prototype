@@ -16,7 +16,7 @@ export interface PotentialConfig {
 }
 
 export interface MobilityLocation {
-  id: number;
+  id: string;
   x: number;
   y: number;
 }
