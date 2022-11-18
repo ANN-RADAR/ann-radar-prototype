@@ -309,17 +309,13 @@ import {
   LaboratoryStakeholderType,
   LaboratoryType
 } from '@/types/laboratories';
-import {
-  MapActionsToMethods,
-  MapMutationsToMethods,
-  MapStateToComputed
-} from '@/types/store';
+import {MapActionsToMethods, MapStateToComputed} from '@/types/store';
 
 import Style, {StyleFunction} from 'ol/style/Style';
 import Geometry from 'ol/geom/Geometry';
 import VectorSource from 'ol/source/Vector';
 import Vue, {PropType} from 'vue';
-import {mapActions, mapMutations, mapState} from 'vuex';
+import {mapActions, mapState} from 'vuex';
 
 import {laboratoriesDrawAreaStyle} from '@/constants/map-layer-styles';
 
@@ -442,7 +438,6 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...(mapMutations as MapMutationsToMethods)('root', ['setLaboratory']),
     ...(mapActions as MapActionsToMethods)('root', ['saveLaboratory']),
     updateLaboratoryData(newLaboratory: Laboratory | null | undefined) {
       if (newLaboratory) {
