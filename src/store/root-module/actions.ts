@@ -54,6 +54,7 @@ const actions = {
     const {
       stakeholdersEngagementsRef,
       notesRef,
+      mobilityLocationsRef,
       baseLayerTypes,
       ...scenarioMetaData
     } = scenario;
@@ -71,11 +72,21 @@ const actions = {
     const notesSnapshot = await getDoc(notesRef);
     const notes = notesSnapshot.data();
 
+    let mobilityLocationsSnapshot;
+    let mobilityLocations;
+    if (mobilityLocationsRef) {
+      mobilityLocationsSnapshot = await getDoc(mobilityLocationsRef);
+      mobilityLocations = mobilityLocationsSnapshot.data()?.locations || [];
+    }
+
     commit('setScenarioMetaData', {
       ...(stakeholdersEngagementRatingsSnapshot && {
         stakeholdersEngagementsId: stakeholdersEngagementRatingsSnapshot.id
       }),
       notesId: notesSnapshot.id,
+      ...(mobilityLocationsSnapshot && {
+        mobilityLocationsId: mobilityLocationsSnapshot.id
+      }),
       ...scenarioMetaData
     });
     commit('setBaseLayerTypes', baseLayerTypes);
@@ -85,6 +96,11 @@ const actions = {
       commit('resetStakeholdersEngagementRatings');
     }
     commit('setNotes', notes);
+    if (mobilityLocations) {
+      commit('setMobilityLocations', mobilityLocations);
+    } else {
+      commit('resetMobilityLocations');
+    }
   },
   fetchLayersConfig({commit}: ActionContext<RootState, StoreState>) {
     return fetch(
@@ -209,8 +225,13 @@ const actions = {
     }
 
     try {
-      const {id, stakeholdersEngagementsId, notesId, ...scenarioMetaData} =
-        state.scenarioMetaData;
+      const {
+        id,
+        stakeholdersEngagementsId,
+        notesId,
+        mobilityLocationsId,
+        ...scenarioMetaData
+      } = state.scenarioMetaData;
 
       const hasStakeholdersEngagementRatings = Object.values(
         state.stakeholdersEngagementRatings
@@ -243,13 +264,38 @@ const actions = {
       const notesRef = doc(database, ANNRadarCollection.NOTES, notesId);
       await updateDoc(notesRef, state.notes);
 
+      const hasMobilityLocations = state.mobilityLocations.length;
+      let mobilityLocationsRef;
+
+      if (mobilityLocationsId) {
+        // Update existing mobility locations
+        const mobilityLocationsRef = doc(
+          database,
+          ANNRadarCollection.MOBILITY_LOCATIONS,
+          mobilityLocationsId
+        );
+        await updateDoc(mobilityLocationsRef, {
+          locations: state.mobilityLocations
+        });
+      } else if (hasMobilityLocations) {
+        // Add mobility locations
+        const mobilityLocationsCollectionRef = collection(
+          database,
+          ANNRadarCollection.MOBILITY_LOCATIONS
+        );
+        mobilityLocationsRef = await addDoc(mobilityLocationsCollectionRef, {
+          locations: state.mobilityLocations
+        });
+      }
+
       const scenarioRef = doc(database, ANNRadarCollection.SCENARIOS, id);
       await updateDoc(scenarioRef, {
         ...scenarioMetaData,
         baseLayerTypes: state.baseLayerTypes,
         ...(stakeholdersEngagementRatingsRef && {
           stakeholdersEngagementRatingsRef
-        })
+        }),
+        ...(mobilityLocationsRef && {mobilityLocationsRef})
       });
     } catch (error) {
       console.error('Error saving scenario:', error);

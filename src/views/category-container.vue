@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {mapState} from 'vuex';
+import {mapMutations, mapState} from 'vuex';
 import VectorSource from 'ol/source/Vector';
 import Geometry from 'ol/geom/Geometry';
 import Style, {StyleFunction} from 'ol/style/Style';
@@ -32,7 +32,7 @@ import i18n from '../plugins/i18n';
 
 import {BalancedScorecardAdminLayerType} from '@/types/admin-layers';
 import {LayerOptions} from '@/types/layers';
-import {MapStateToComputed} from '@/types/store';
+import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 
 import {
   energyPotentialLayersOptions,
@@ -42,6 +42,9 @@ import {mobilityDrawPointStyle} from '@/constants/map-layer-styles';
 
 import Map from '../components/map-component.vue';
 import MapMobilityDrawingPanel from '../components/map-mobility-drawing-panel.vue';
+import {MobilityLocation} from '@/types/potential';
+import {Feature} from 'ol';
+import Point from 'ol/geom/Point';
 
 function getPotentialLayers(path: string) {
   if (path.startsWith('/potential/solar')) {
@@ -83,14 +86,54 @@ export default Vue.extend({
     };
   },
   watch: {
-    $route(to) {
+    $route(to, from) {
       this.potentialLayers = getPotentialLayers(to.path);
+
+      if (to.path.startsWith('/potential/mobility')) {
+        this.addMobilityLocationsToMap();
+      } else if (from.path.startsWith('/potential/mobility')) {
+        this.mobilityDrawingActive = false;
+        this.updateMobilityLocationsStore();
+        this.removeMobilityLocationsFromMap();
+      }
+    },
+    mobilityLocations() {
+      if (
+        this.$route.path.startsWith('/potential/mobility') &&
+        !this.mobilityDrawingSource.getFeatures().length
+      ) {
+        this.addMobilityLocationsToMap();
+      }
+    },
+    mobilityDrawingActive(newMobilityDrawingActive: boolean) {
+      const drawingChangeEventTypes: Array<
+        'addfeature' | 'changefeature' | 'removefeature'
+      > = ['addfeature', 'changefeature', 'removefeature'];
+
+      if (newMobilityDrawingActive) {
+        // Listen to mobility location drawing changes
+        drawingChangeEventTypes.forEach(eventType => {
+          this.mobilityDrawingSource.on(
+            eventType,
+            this.updateMobilityLocationsStore
+          );
+        });
+      } else {
+        // Clean up event listeners
+        drawingChangeEventTypes.forEach(eventType => {
+          this.mobilityDrawingSource.un(
+            eventType,
+            this.updateMobilityLocationsStore
+          );
+        });
+      }
     }
   },
   computed: {
     ...(mapState as MapStateToComputed)('root', [
       'highlightedFeatureIds',
-      'adminLayerType'
+      'adminLayerType',
+      'mobilityLocations'
     ]),
     mapProperties(): Record<string, unknown> {
       if (this.$route.path.startsWith('/potential')) {
@@ -121,6 +164,9 @@ export default Vue.extend({
     }
   },
   methods: {
+    ...(mapMutations as MapMutationsToMethods)('root', [
+      'setMobilityLocations'
+    ]),
     isAdminLayerOfBalacedScorecardType(): boolean {
       return Boolean(
         this.adminLayerType &&
@@ -128,7 +174,41 @@ export default Vue.extend({
             this.adminLayerType
           )
       );
+    },
+    addMobilityLocationsToMap() {
+      this.mobilityLocations.forEach(mobilityLocation => {
+        const feature = new Feature({
+          name: mobilityLocation.id,
+          geometry: new Point([mobilityLocation.lng, mobilityLocation.lat])
+        });
+        this.mobilityDrawingSource.addFeature(feature);
+      });
+    },
+    removeMobilityLocationsFromMap() {
+      this.mobilityDrawingSource.clear();
+    },
+    updateMobilityLocationsStore() {
+      const features = this.mobilityDrawingSource.getFeatures();
+      const newMobilityLocations: Array<MobilityLocation> = features
+        .map((feature, index) => {
+          const geometry = feature.getGeometry();
+          if (geometry instanceof Point) {
+            const [lng, lat] = geometry.getCoordinates();
+            return {id: index + 1, lat, lng};
+          }
+        })
+        .filter(Boolean as unknown as <T>(x: T | undefined) => x is T);
+
+      this.setMobilityLocations(newMobilityLocations);
     }
+  },
+  created() {
+    if (this.$route.path.startsWith('/potential/mobility')) {
+      this.addMobilityLocationsToMap();
+    }
+  },
+  destroyed() {
+    this.removeMobilityLocationsFromMap();
   }
 });
 </script>
