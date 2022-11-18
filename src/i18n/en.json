@@ -212,5 +212,15 @@
     "organizations": "Stakeholders Engagement",
     "citizens": "Citizens Engagement",
     "links": "Links to Evidence"
+  },
+  "mobility": {
+    "lastMileDelivery": "Last Mile Delivery",
+    "calculateIsochrones": "Calculate isochrones",
+    "travelType": {
+      "walk": "Walk",
+      "bike": "Bike",
+      "car": "Car",
+      "transit": "Transit"
+    }
   }
 }

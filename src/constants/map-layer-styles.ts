@@ -22,7 +22,7 @@ export const drawHandleStyle = new Style({
 
 export const modifyHandleStyle = new Style({
   image: new Circle({
-    radius: 7,
+    radius: 8,
     fill: new Fill({color: '#f00'}),
     stroke: new Stroke({color: '#fff', width: 2})
   })
@@ -31,11 +31,40 @@ export const modifyHandleStyle = new Style({
 // Mobility styles
 export const mobilityDrawPointStyle = new Style({
   image: new Circle({
-    radius: 7,
+    radius: 8,
     fill: new Fill({color: '#ff9800'}),
     stroke: new Stroke({color: '#fff', width: 2})
   })
 });
+
+export const mobilityIsochronesStyle: StyleFunction = feature => {
+  let color;
+
+  switch (feature.get('time')) {
+    case 300:
+      color = '34, 64, 0';
+      break;
+    case 600:
+      color = '78, 115, 36';
+      break;
+    case 900:
+      color = '124, 170, 73';
+      break;
+    default:
+      color = '175, 227, 113';
+      break;
+  }
+
+  return new Style({
+    stroke: new Stroke({
+      color: `rgb(${color})`,
+      width: 1
+    }),
+    fill: new Fill({
+      color: `rgba(${color}, 0.4)`
+    })
+  });
+};
 
 // Laboratories styles
 export const laboratoriesStyle: StyleFunction = feature => {

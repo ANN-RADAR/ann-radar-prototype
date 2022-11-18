@@ -10,6 +10,7 @@
     "test": "run-s types eslint"
   },
   "dependencies": {
+    "@targomo/core": "^0.7.2",
     "@types/firebase": "^3.2.1",
     "apexcharts": "^3.35.2",
     "firebase": "^9.6.7",

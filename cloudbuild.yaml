@@ -15,6 +15,7 @@ steps:
     waitFor: ['test']
     entrypoint: 'npm'
     args: ['run', 'build']
+    secretEnv: ['VUE_APP_TARGOMO_REGION', VUE_APP_TARGOMO_SERVICE_KEY]
 
   - id: deploy
     waitFor: ['build']
@@ -55,3 +56,7 @@ availableSecrets:
   secretManager:
     - versionName: projects/ann-radar-prototype-project/secrets/SLACK_BOT_TOKEN/versions/latest
       env: 'SLACK_BOT_TOKEN'
+    - versionName: projects/ann-radar-prototype-project/secrets/TARGOMO_REGION/versions/latest
+      env: 'VUE_APP_TARGOMO_REGION'
+    - versionName: projects/ann-radar-prototype-project/secrets/TARGOMO_SERVICE_KEY/versions/latest
+      env: 'VUE_APP_TARGOMO_SERVICE_KEY'
