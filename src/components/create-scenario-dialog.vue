@@ -81,15 +81,10 @@ export default Vue.extend({
         collection(database, ANNRadarCollection.BALANCED_SCORECARDS),
         {}
       );
-      const stakeholdersEngagements = await addDoc(
-        collection(database, ANNRadarCollection.STAKEHOLDERS_ENGAGEMENTS),
-        {}
-      );
       const scenario = {
         name: this.name,
         baseLayerTypes: [],
         balancedScorecardsRef: balanceScorecard,
-        stakeholdersEngagementsRef: stakeholdersEngagements,
         notesRef: note
       };
 
