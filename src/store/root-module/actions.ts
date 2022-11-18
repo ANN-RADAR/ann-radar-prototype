@@ -81,6 +81,8 @@ const actions = {
     commit('setBaseLayerTypes', baseLayerTypes);
     if (stakeholdersEngagementRatings) {
       commit('setStakeholdersEngagementRatings', stakeholdersEngagementRatings);
+    } else {
+      commit('resetStakeholdersEngagementRatings');
     }
     commit('setNotes', notes);
   },
