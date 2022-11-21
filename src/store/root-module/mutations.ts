@@ -135,6 +135,15 @@ const mutations = {
     >
   ) {
     state.stakeholdersEngagementRatings = newStakeholdersEngagementRatings;
+  },
+  resetStakeholdersEngagementRatings(state: RootState) {
+    state.stakeholdersEngagementRatings = Object.values(ScorecardType).reduce(
+      (ratings, stakeholdersEngagementType) => ({
+        ...ratings,
+        [stakeholdersEngagementType]: {}
+      }),
+      {} as Record<StakeholdersEngagementType, StakeholdersEngagementRatings>
+    );
   }
 };
 

@@ -81,6 +81,8 @@ const actions = {
     commit('setBaseLayerTypes', baseLayerTypes);
     if (stakeholdersEngagementRatings) {
       commit('setStakeholdersEngagementRatings', stakeholdersEngagementRatings);
+    } else {
+      commit('resetStakeholdersEngagementRatings');
     }
     commit('setNotes', notes);
   },
@@ -210,13 +212,13 @@ const actions = {
       const {id, stakeholdersEngagementsId, notesId, ...scenarioMetaData} =
         state.scenarioMetaData;
 
-      const scenarioRef = doc(database, ANNRadarCollection.SCENARIOS, id);
-      await updateDoc(scenarioRef, {
-        ...scenarioMetaData,
-        baseLayerTypes: state.baseLayerTypes
-      });
+      const hasStakeholdersEngagementRatings = Object.values(
+        state.stakeholdersEngagementRatings
+      ).some(ratings => Object.values(ratings).length);
+      let stakeholdersEngagementRatingsRef;
 
       if (stakeholdersEngagementsId) {
+        // Update existing stakeholders engagement ratings
         const stakeholdersEngagementRatingsRef = doc(
           database,
           ANNRadarCollection.STAKEHOLDERS_ENGAGEMENTS,
@@ -226,10 +228,29 @@ const actions = {
           stakeholdersEngagementRatingsRef,
           state.stakeholdersEngagementRatings
         );
+      } else if (hasStakeholdersEngagementRatings) {
+        // Add stakeholders engagement ratings
+        const stakeholdersEngagementCollectionRef = collection(
+          database,
+          ANNRadarCollection.STAKEHOLDERS_ENGAGEMENTS
+        );
+        stakeholdersEngagementRatingsRef = await addDoc(
+          stakeholdersEngagementCollectionRef,
+          state.stakeholdersEngagementRatings
+        );
       }
 
       const notesRef = doc(database, ANNRadarCollection.NOTES, notesId);
       await updateDoc(notesRef, state.notes);
+
+      const scenarioRef = doc(database, ANNRadarCollection.SCENARIOS, id);
+      await updateDoc(scenarioRef, {
+        ...scenarioMetaData,
+        baseLayerTypes: state.baseLayerTypes,
+        ...(stakeholdersEngagementRatingsRef && {
+          stakeholdersEngagementRatingsRef
+        })
+      });
     } catch (error) {
       console.error('Error saving scenario:', error);
     }
