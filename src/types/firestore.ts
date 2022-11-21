@@ -4,5 +4,6 @@ export enum ANNRadarCollection {
   STAKEHOLDERS_ENGAGEMENTS = 'stakeholdersEngagements',
   LABORATORIES = 'laboratories',
   NOTES = 'notes',
-  USERS = 'users'
+  USERS = 'users',
+  MOBILITY_LOCATIONS = 'mobilityLocations'
 }

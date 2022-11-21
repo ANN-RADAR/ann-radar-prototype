@@ -3,7 +3,7 @@ import {AdminLayerFeatureId, AdminLayerType} from '@/types/admin-layers';
 import {RootState} from '@/types/store';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {ScenarioMetaData} from '@/types/scenarios';
-import {PotentialConfig} from '@/types/potential-config';
+import {MobilityLocation, PotentialConfig} from '@/types/potential';
 import {Laboratory, LaboratoryId} from '@/types/laboratories';
 import {
   StakeholdersEngagementRatings,
@@ -144,6 +144,15 @@ const mutations = {
       }),
       {} as Record<StakeholdersEngagementType, StakeholdersEngagementRatings>
     );
+  },
+  setMobilityLocations(
+    state: RootState,
+    newMobilityLocations: Array<MobilityLocation>
+  ) {
+    state.mobilityLocations = newMobilityLocations;
+  },
+  resetMobilityLocations(state: RootState) {
+    state.mobilityLocations = [];
   }
 };
 

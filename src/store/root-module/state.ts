@@ -8,6 +8,7 @@ import {
   StakeholdersEngagementTemplate,
   StakeholdersEngagementType
 } from '@/types/stakeholders';
+import {MobilityLocation} from '@/types/potential';
 
 const state: RootState = {
   scenarioMetaData: null,
@@ -48,7 +49,8 @@ const state: RootState = {
       [stakeholdersEngagementType]: {} as StakeholdersEngagementRatings
     }),
     {} as Record<StakeholdersEngagementType, StakeholdersEngagementRatings>
-  )
+  ),
+  mobilityLocations: [] as Array<MobilityLocation>
 };
 
 export default state;

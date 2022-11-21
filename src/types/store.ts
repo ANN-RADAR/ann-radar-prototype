@@ -6,7 +6,7 @@ import {LayerConfig} from './layers';
 import {ScenarioMetaData} from './scenarios';
 import {Scorecard, ScorecardRatings, ScorecardType} from './scorecards';
 import {ActionContext} from 'vuex';
-import {PotentialConfig} from './potential-config';
+import {MobilityLocation, PotentialConfig} from './potential';
 import {Laboratory, LaboratoryId} from './laboratories';
 import {
   StakeholdersEngagementTemplate,
@@ -40,6 +40,7 @@ export interface RootState {
     StakeholdersEngagementType,
     StakeholdersEngagementRatings
   >;
+  mobilityLocations: Array<MobilityLocation>;
 }
 
 export interface UserState {
