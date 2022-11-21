@@ -113,6 +113,7 @@ type Data = {
   drawHandleStyle: StyleFunction | Style;
   modifyHandleStyle: StyleFunction | Style;
   drawingInteractions: Array<Interaction>;
+  drawingLayer: VectorLayer<VectorSource<Geometry>> | null;
 };
 
 export default Vue.extend({
@@ -213,7 +214,8 @@ export default Vue.extend({
       showNewDrawingConfirmationDialog: false,
       drawHandleStyle,
       modifyHandleStyle,
-      drawingInteractions: []
+      drawingInteractions: [],
+      drawingLayer: null
     };
   },
   computed: {
@@ -317,10 +319,15 @@ export default Vue.extend({
         this.removeDrawingTools();
       }
     },
+    'drawingOptions.source'() {
+      this.updateDrawingLayer();
+    },
     'drawingOptions.mode'() {
-      // Update drawing tools
-      this.removeDrawingTools();
-      this.addDrawingTools();
+      if (this.hasDrawingTools) {
+        // Update drawing tools
+        this.removeDrawingTools();
+        this.addDrawingTools();
+      }
     }
   },
   methods: {
@@ -514,14 +521,26 @@ export default Vue.extend({
         );
       }
     },
-    addDrawingTools() {
-      if (this.map && this.drawingOptions.source) {
-        const vector = new VectorLayer({
-          source: this.drawingOptions.source,
-          style: this.drawingOptions.style,
-          zIndex: 8
-        });
+    updateDrawingLayer() {
+      if (!this.map || (!this.drawingOptions.source && !this.drawingLayer)) {
+        return;
+      }
 
+      if (!this.drawingOptions.source && this.drawingLayer) {
+        this.map.removeLayer(this.drawingLayer);
+        return;
+      }
+
+      this.drawingLayer = new VectorLayer({
+        source: this.drawingOptions.source,
+        style: this.drawingOptions.style,
+        zIndex: 8
+      });
+
+      this.map.addLayer(this.drawingLayer);
+    },
+    addDrawingTools() {
+      if (this.map && this.drawingLayer) {
         if (this.drawingOptions.mode === 'draw') {
           // Add interactions to draw and modify features on the map
           const draw = new Draw({
@@ -560,7 +579,7 @@ export default Vue.extend({
           // Add interaction to select and delete drawn features on the map
           const select = new Select({
             condition: pointerMove,
-            layers: [vector],
+            layers: [this.drawingLayer],
             style: this.modifyHandleStyle
           });
           this.drawingInteractions.push(select);
@@ -568,8 +587,6 @@ export default Vue.extend({
 
           this.map?.on('click', this.handleDeleteDrawnFeature);
         }
-
-        this.map.addLayer(vector);
       }
     },
     removeDrawingTools() {
@@ -650,6 +667,9 @@ export default Vue.extend({
     this.toggleLaboratoriesLayers();
     this.updateLaboratoriesFeatures();
 
+    if (this.drawingOptions?.source) {
+      this.updateDrawingLayer();
+    }
     if (this.hasDrawingTools) {
       this.addDrawingTools();
     }
