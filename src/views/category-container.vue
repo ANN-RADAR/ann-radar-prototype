@@ -179,7 +179,7 @@ export default Vue.extend({
       this.mobilityLocations.forEach(mobilityLocation => {
         const feature = new Feature({
           name: mobilityLocation.id,
-          geometry: new Point([mobilityLocation.lng, mobilityLocation.lat])
+          geometry: new Point([mobilityLocation.x, mobilityLocation.y])
         });
         this.mobilityDrawingSource.addFeature(feature);
       });
@@ -193,8 +193,8 @@ export default Vue.extend({
         .map((feature, index) => {
           const geometry = feature.getGeometry();
           if (geometry instanceof Point) {
-            const [lng, lat] = geometry.getCoordinates();
-            return {id: index + 1, lat, lng};
+            const [x, y] = geometry.getCoordinates();
+            return {id: index + 1, x, y};
           }
         })
         .filter(Boolean as unknown as <T>(x: T | undefined) => x is T);

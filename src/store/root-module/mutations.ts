@@ -10,6 +10,7 @@ import {
   StakeholdersEngagementTemplate,
   StakeholdersEngagementType
 } from '@/types/stakeholders';
+import {GeoJSONFeature} from 'ol/format/GeoJSON';
 
 const mutations = {
   setLayersConfig(
@@ -153,6 +154,12 @@ const mutations = {
   },
   resetMobilityLocations(state: RootState) {
     state.mobilityLocations = [];
+  },
+  setMobilityIsochrones(
+    state: RootState,
+    isochrones: Record<string, Array<GeoJSONFeature>>
+  ) {
+    state.mobilityIsochrones = isochrones;
   }
 };
 

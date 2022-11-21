@@ -76,12 +76,14 @@ import {Draw, Interaction, Modify, Select} from 'ol/interaction';
 import {pointerMove} from 'ol/events/condition';
 import {register} from 'ol/proj/proj4';
 import proj4 from 'proj4';
+import GeoJSON from 'ol/format/GeoJSON';
 
 import {
   getMapStyleLayers,
   getAdminAreaLayers,
   getBaseLayers,
-  getLabortoriesLayers
+  getLabortoriesLayers,
+  getMobilityIsochronesLayer
 } from '@/constants/layers';
 import {dataLayerIds, dataLayerOptions} from '@/constants/data-layers';
 import {adminLayers} from '@/constants/admin-layers';
@@ -109,6 +111,7 @@ type Data = {
   adminLayers: LayerGroup;
   baseLayers: LayerGroup;
   laboratoriesLayers: LayerGroup;
+  mobilityIsochronesLayer: VectorLayer<VectorSource<Geometry>>;
   showNewDrawingConfirmationDialog: boolean;
   drawHandleStyle: StyleFunction | Style;
   modifyHandleStyle: StyleFunction | Style;
@@ -192,6 +195,7 @@ export default Vue.extend({
     const adminLayers = getAdminAreaLayers();
     const baseLayers = getBaseLayers();
     const laboratoriesLayers = getLabortoriesLayers();
+    const mobilityIsochronesLayer = getMobilityIsochronesLayer();
 
     return {
       map: null,
@@ -199,10 +203,17 @@ export default Vue.extend({
       adminLayers,
       baseLayers,
       laboratoriesLayers,
+      mobilityIsochronesLayer,
       mapOptions: {
         target: 'map',
         controls: defaultControls().extend([new ScaleLine({units: 'metric'})]),
-        layers: [mapStyleLayers, adminLayers, baseLayers, laboratoriesLayers],
+        layers: [
+          mapStyleLayers,
+          adminLayers,
+          baseLayers,
+          laboratoriesLayers,
+          mobilityIsochronesLayer
+        ],
         view: new View({
           projection: 'EPSG:25832',
           zoom: 12,
@@ -226,7 +237,8 @@ export default Vue.extend({
       'layersConfig',
       'layerClassificationSelection',
       'laboratories',
-      'hoveredLaboratoryId'
+      'hoveredLaboratoryId',
+      'mobilityIsochrones'
     ]),
     ...(mapGetters as MapGettersToComputed)('root', [
       'currentLayerSelectedFeatureIds'
@@ -300,6 +312,7 @@ export default Vue.extend({
     },
     $route() {
       this.updateLaboratoriesFeatures();
+      this.toggleMobilityIsochronesLayer();
     },
     laboratories() {
       this.updateLaboratoriesFeatures();
@@ -328,6 +341,9 @@ export default Vue.extend({
         this.removeDrawingTools();
         this.addDrawingTools();
       }
+    },
+    mobilityIsochrones() {
+      this.updateMobilityIsochronesFeatures();
     }
   },
   methods: {
@@ -613,6 +629,31 @@ export default Vue.extend({
       this.drawingOptions.source?.clear();
       this.showNewDrawingConfirmationDialog = false;
     },
+    toggleMobilityIsochronesLayer() {
+      if (!this.map) {
+        return;
+      }
+
+      const layerIsVisible = this.$route.path.startsWith('/potential/mobility');
+      this.mobilityIsochronesLayer.setVisible(layerIsVisible);
+    },
+    updateMobilityIsochronesFeatures() {
+      const source = this.mobilityIsochronesLayer.getSource();
+
+      // Remove old isochrones polygons
+      source.clear();
+
+      // Add isochrones polygons to the map
+      Object.values(this.mobilityIsochrones).forEach(locationFeatures => {
+        locationFeatures.forEach(feature => {
+          source.addFeature(
+            new GeoJSON().readFeature(feature, {
+              featureProjection: 'EPSG:25832'
+            })
+          );
+        });
+      });
+    },
     toggleLaboratoriesLayers() {
       if (!this.map) {
         return;
@@ -666,6 +707,8 @@ export default Vue.extend({
     this.handleAdminAreaSelectionAndHighlighting();
     this.toggleLaboratoriesLayers();
     this.updateLaboratoriesFeatures();
+    this.toggleMobilityIsochronesLayer();
+    this.updateMobilityIsochronesFeatures();
 
     if (this.drawingOptions?.source) {
       this.updateDrawingLayer();

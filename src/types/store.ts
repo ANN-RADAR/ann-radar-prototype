@@ -13,6 +13,7 @@ import {
   StakeholdersEngagementRatings,
   StakeholdersEngagementType
 } from './stakeholders';
+import {GeoJSONFeature} from 'ol/format/GeoJSON';
 
 export interface RootState {
   scenarioMetaData: ScenarioMetaData | null;
@@ -41,6 +42,7 @@ export interface RootState {
     StakeholdersEngagementRatings
   >;
   mobilityLocations: Array<MobilityLocation>;
+  mobilityIsochrones: Record<string, Array<GeoJSONFeature>>;
 }
 
 export interface UserState {

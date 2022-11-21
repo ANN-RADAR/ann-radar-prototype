@@ -27,7 +27,7 @@ import {MapStyle} from '@/types/map-styles';
 import {adminLayers} from './admin-layers';
 import {AdminLayerType} from '@/types/admin-layers';
 import {socialMonitoringColors} from './colors';
-import {laboratoriesStyle} from './map-layer-styles';
+import {laboratoriesStyle, mobilityIsochronesStyle} from './map-layer-styles';
 
 export const solarPotentialLayersOptions: Array<LayerOptions> = [
   {
@@ -196,6 +196,15 @@ export const laboratoriesLayersOptions: Array<VectorLayerOptions> = [
   }
 ];
 
+export const mobilityIsochronesLayerOptions: VectorLayerOptions = {
+  type: 'vector',
+  properties: {name: 'mobility-isochrones'},
+  visible: true,
+  source: {wrapX: false},
+  style: mobilityIsochronesStyle,
+  zIndex: 4
+};
+
 export const mapStyleLayersOptions: Array<TileLayerOptions> = [
   {
     type: 'tile',
@@ -357,6 +366,13 @@ export const getBaseLayers = (): LayerGroup =>
 
 export const getLabortoriesLayers = (): LayerGroup =>
   new LayerGroup({layers: laboratoriesLayersOptions.map(getLayerWithOptions)});
+
+export const getMobilityIsochronesLayer = (): VectorLayer<
+  VectorSource<Geometry>
+> =>
+  getLayerWithOptions(mobilityIsochronesLayerOptions) as VectorLayer<
+    VectorSource<Geometry>
+  >;
 
 export const getMapStyleLayers = (): LayerGroup =>
   new LayerGroup({
