@@ -189,15 +189,20 @@ export default Vue.extend({
     },
     updateMobilityLocationsStore() {
       const features = this.mobilityDrawingSource.getFeatures();
-      const newMobilityLocations: Array<MobilityLocation> = features
-        .map((feature, index) => {
-          const geometry = feature.getGeometry();
-          if (geometry instanceof Point) {
-            const [x, y] = geometry.getCoordinates();
-            return {id: index + 1, x, y};
-          }
-        })
-        .filter(Boolean as unknown as <T>(x: T | undefined) => x is T);
+      const newMobilityLocations: Array<MobilityLocation> = [];
+
+      features.forEach((feature, index) => {
+        const locationId = String(index + 1);
+
+        // Add name property to mobility location feature
+        feature.set('name', locationId);
+
+        const geometry = feature.getGeometry();
+        if (geometry instanceof Point) {
+          const [x, y] = geometry.getCoordinates();
+          newMobilityLocations.push({id: locationId, x, y});
+        }
+      });
 
       this.setMobilityLocations(newMobilityLocations);
     }

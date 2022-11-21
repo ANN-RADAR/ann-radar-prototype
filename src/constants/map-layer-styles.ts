@@ -29,13 +29,21 @@ export const modifyHandleStyle = new Style({
 });
 
 // Mobility styles
-export const mobilityDrawPointStyle = new Style({
-  image: new Circle({
-    radius: 8,
-    fill: new Fill({color: '#ff9800'}),
-    stroke: new Stroke({color: '#fff', width: 2})
-  })
-});
+export const mobilityDrawPointStyle: StyleFunction = feature =>
+  new Style({
+    image: new Circle({
+      radius: 8,
+      fill: new Fill({color: '#ff9800'}),
+      stroke: new Stroke({color: '#fff', width: 2})
+    }),
+    text: new Text({
+      font: '12px Avenir, Helvetica, Arial, sans-serif',
+      text: feature.get('name'),
+      fill: new Fill({color: 'black'}),
+      stroke: new Stroke({color: '#fff', width: 2}),
+      offsetY: 1
+    })
+  });
 
 export const mobilityIsochronesStyle: StyleFunction = feature => {
   let color;
@@ -85,7 +93,7 @@ export const laboratoriesStyle: StyleFunction = feature => {
     }),
     ...(isHovered && {
       text: new Text({
-        font: '16px Arial',
+        font: '16px Avenir, Helvetica, Arial, sans-serif',
         text: feature.get('name'),
         fill: new Fill({color: 'black'}),
         stroke: new Stroke({color: '#fff', width: 4})

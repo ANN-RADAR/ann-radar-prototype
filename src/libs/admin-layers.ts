@@ -27,7 +27,7 @@ export const getAdminLayerStyle =
         color: fillColor
       }),
       text: new Text({
-        font: '16px Arial',
+        font: '16px Avenir, Helvetica, Arial, sans-serif',
         text: feature.get(textAttr),
         fill: new Fill({color: 'black'}),
         stroke: new Stroke({color: '#fff', width: 4})
