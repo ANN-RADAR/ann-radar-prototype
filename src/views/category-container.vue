@@ -10,6 +10,7 @@
           >
             <MapMobilityDrawingPanel
               :drawingActive.sync="mobilityDrawingActive"
+              :drawingMode.sync="mobilityDrawingMode"
             />
           </template>
         </Map>
@@ -64,6 +65,7 @@ interface Data {
   mobilityDrawingSource: VectorSource<Geometry>;
   mobilityDrawPointStyle: StyleFunction | Style;
   mobilityDrawingActive: boolean;
+  mobilityDrawingMode: 'draw' | 'erase';
 }
 
 export default Vue.extend({
@@ -76,7 +78,8 @@ export default Vue.extend({
       potentialLayers: getPotentialLayers(this.$route.path),
       mobilityDrawingSource,
       mobilityDrawPointStyle,
-      mobilityDrawingActive: false
+      mobilityDrawingActive: false,
+      mobilityDrawingMode: 'draw'
     };
   },
   watch: {
@@ -101,6 +104,7 @@ export default Vue.extend({
           ...(this.$route.path.startsWith('/potential/mobility') && {
             hasDrawingTools: this.mobilityDrawingActive,
             drawingOptions: {
+              mode: this.mobilityDrawingMode,
               source: this.mobilityDrawingSource,
               type: 'Point',
               style: this.mobilityDrawPointStyle

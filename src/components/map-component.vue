@@ -72,7 +72,8 @@ import VectorLayer from 'ol/layer/Vector';
 import Geometry from 'ol/geom/Geometry';
 import TileSource from 'ol/source/Tile';
 import VectorSource from 'ol/source/Vector';
-import {Draw, Interaction, Modify} from 'ol/interaction';
+import {Draw, Interaction, Modify, Select} from 'ol/interaction';
+import {pointerMove} from 'ol/events/condition';
 import {register} from 'ol/proj/proj4';
 import proj4 from 'proj4';
 
@@ -160,6 +161,7 @@ export default Vue.extend({
     drawingOptions: {
       type: Object as PropType<{
         source: VectorSource<Geometry>;
+        mode: 'draw' | 'erase';
         type: string;
         style: StyleFunction | Style;
         maxNumberOfDrawings?: number;
@@ -168,6 +170,7 @@ export default Vue.extend({
       default: () =>
         ({} as {
           source: VectorSource<Geometry>;
+          mode: 'draw' | 'erase';
           type: string;
           style: StyleFunction | Style;
           maxNumberOfDrawings?: number;
@@ -313,6 +316,11 @@ export default Vue.extend({
       } else {
         this.removeDrawingTools();
       }
+    },
+    'drawingOptions.mode'() {
+      // Update drawing tools
+      this.removeDrawingTools();
+      this.addDrawingTools();
     }
   },
   methods: {
@@ -510,47 +518,78 @@ export default Vue.extend({
       if (this.map && this.drawingOptions.source) {
         const vector = new VectorLayer({
           source: this.drawingOptions.source,
-          style: this.drawingOptions.style
+          style: this.drawingOptions.style,
+          zIndex: 8
         });
 
-        const modify = new Modify({
-          source: this.drawingOptions.source,
-          style: this.modifyHandleStyle
-        });
-        this.drawingInteractions.push(modify);
-        this.map.addInteraction(modify);
-
-        const draw = new Draw({
-          source: this.drawingOptions.source,
-          type: this.drawingOptions.type,
-          style: this.drawHandleStyle
-        });
-
-        if (this.drawingOptions.maxNumberOfDrawings != null) {
-          draw.on('drawstart', () => {
-            const numberOfFeaturesDrawn =
-              this.drawingOptions.source.getFeatures().length;
-
-            if (
-              this.drawingOptions.maxNumberOfDrawings != null &&
-              numberOfFeaturesDrawn >= this.drawingOptions.maxNumberOfDrawings
-            ) {
-              if (this.drawingOptions.type !== 'Point') {
-                draw.abortDrawing();
-              }
-              this.showNewDrawingConfirmationDialog = true;
-            }
+        if (this.drawingOptions.mode === 'draw') {
+          // Add interactions to draw and modify features on the map
+          const draw = new Draw({
+            source: this.drawingOptions.source,
+            type: this.drawingOptions.type,
+            style: this.drawHandleStyle
           });
+
+          if (this.drawingOptions.maxNumberOfDrawings != null) {
+            draw.on('drawstart', () => {
+              const numberOfFeaturesDrawn =
+                this.drawingOptions.source.getFeatures().length;
+
+              if (
+                this.drawingOptions.maxNumberOfDrawings != null &&
+                numberOfFeaturesDrawn >= this.drawingOptions.maxNumberOfDrawings
+              ) {
+                if (this.drawingOptions.type !== 'Point') {
+                  draw.abortDrawing();
+                }
+                this.showNewDrawingConfirmationDialog = true;
+              }
+            });
+          }
+
+          this.drawingInteractions.push(draw);
+          this.map.addInteraction(draw);
+
+          const modify = new Modify({
+            source: this.drawingOptions.source,
+            style: this.modifyHandleStyle
+          });
+          this.drawingInteractions.push(modify);
+          this.map.addInteraction(modify);
+        } else {
+          // Add interaction to select and delete drawn features on the map
+          const select = new Select({
+            condition: pointerMove,
+            layers: [vector],
+            style: this.modifyHandleStyle
+          });
+          this.drawingInteractions.push(select);
+          this.map.addInteraction(select);
+
+          this.map?.on('click', this.handleDeleteDrawnFeature);
         }
 
-        this.drawingInteractions.push(draw);
-        this.map.addInteraction(draw);
         this.map.addLayer(vector);
       }
     },
     removeDrawingTools() {
+      // Remove drawing interactions from the map
       this.drawingInteractions.forEach(interaction => {
         this.map?.removeInteraction(interaction);
+      });
+
+      // Clean up event listeners
+      this.map?.un('click', this.handleDeleteDrawnFeature);
+    },
+    handleDeleteDrawnFeature() {
+      // Delete selected features from the drawing source
+      this.drawingInteractions.forEach(interaction => {
+        if (interaction instanceof Select) {
+          const selectedFeatures = interaction.getFeatures();
+          selectedFeatures.forEach(feature =>
+            this.drawingOptions.source.removeFeature(feature)
+          );
+        }
       });
     },
     resetDrawing() {

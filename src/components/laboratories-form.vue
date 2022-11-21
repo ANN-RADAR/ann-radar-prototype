@@ -6,6 +6,7 @@
       hasDrawingTools
       :drawingOptions="{
         source,
+        mode: 'draw',
         type: 'Polygon',
         style: laboratoriesDrawAreaStyle,
         maxNumberOfDrawings: 1

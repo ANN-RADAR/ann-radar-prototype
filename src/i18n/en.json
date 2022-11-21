@@ -39,6 +39,11 @@
     "none": "None"
   },
   "mapStyles": "Map Style",
+  "mobilityLocationDrawing": {
+    "title": "Mobility Location Drawing",
+    "draw": "Place location",
+    "erase": "Delete location"
+  },
   "notes": "Notes",
   "cockpit": "Cockpit",
   "selectAreas": "Select Areas",

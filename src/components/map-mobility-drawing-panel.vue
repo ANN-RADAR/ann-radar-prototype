@@ -22,24 +22,45 @@
             elevation="2"
             v-bind="attrs"
             v-on="on"
-            :title="$t('mapStyles')"
+            :title="$t('mobilityLocationDrawing.title')"
             :value="true"
           >
             <v-icon>mdi-vector-point-edit</v-icon>
           </v-btn>
         </v-btn-toggle>
       </template>
+
+      <v-sheet class="map-mobility-drawing-options">
+        <v-btn-toggle
+          tile
+          mandatory
+          class="drawing-panel-toggle"
+          :value="drawingMode"
+          @change="$emit('update:drawingMode', $event)"
+        >
+          <v-btn small value="draw">
+            {{ $t('mobilityLocationDrawing.draw') }}
+          </v-btn>
+          <v-btn small value="erase">
+            {{ $t('mobilityLocationDrawing.erase') }}
+          </v-btn>
+        </v-btn-toggle>
+      </v-sheet>
     </v-menu>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue, {PropType} from 'vue';
 
 export default Vue.extend({
   props: {
     drawingActive: {
       type: Boolean,
+      required: true
+    },
+    drawingMode: {
+      type: String as PropType<'draw' | 'erase'>,
       required: true
     }
   }
@@ -47,11 +68,13 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.map-mobility-drawing-panel .drawing-panel-toggle >>> .v-btn {
+.map-mobility-drawing-panel .drawing-panel-toggle >>> .v-btn,
+.map-mobility-drawing-options .drawing-panel-toggle >>> .v-btn {
   opacity: 1;
 }
 
-.map-mobility-drawing-panel .drawing-panel-toggle >>> .v-item--active {
+.map-mobility-drawing-panel .drawing-panel-toggle >>> .v-item--active,
+.map-mobility-drawing-options .drawing-panel-toggle >>> .v-item--active {
   background-color: #1976d1;
   color: white;
 }
@@ -59,7 +82,21 @@ export default Vue.extend({
 .map-mobility-drawing-panel
   .drawing-panel-toggle::v-deep.v-btn-toggle
   > .v-btn.v-item--active
+  .v-icon,
+.map-mobility-drawing-options
+  .drawing-panel-toggle::v-deep.v-btn-toggle
+  > .v-btn.v-item--active
   .v-icon {
   color: white;
+}
+
+.map-mobility-drawing-options .drawing-panel-toggle >>> .v-btn {
+  height: 32px;
+}
+
+.map-mobility-drawing-options {
+  grid-gap: 4px;
+  padding: 4px;
+  overflow: hidden;
 }
 </style>
