@@ -1,7 +1,6 @@
 [
   {
-    "json_featuretype": "HH_FHH_0531",
-    "Stadt": "FHH",
+    "json_featuretype": "HH_FHH_aggr_1118",
     "Shape_Leng": 0,
     "Shape_Area": 754575676.0454,
     "Anz_Baubl": 8041,
@@ -48,12 +47,13 @@
     "SozialWh_P": 8,
     "kwh_perHh": 2715,
     "kwh_alleHh": 2823433540,
+    "mwh_alleHh": 2823434,
     "SP_Geb_all": 8194754,
     "PV_Geb_all": 290,
     "SP_GebWB15": 4598498,
     "SP_perEW15": 2.4,
     "SP_perHh15": 4.4,
-    "PVersWB15": 163,
+    "PVersWBP15": 163,
     "Strom_WB": 1348715,
     "NW_abs_un": 18323791963,
     "NW_abs_san": 11595642073,

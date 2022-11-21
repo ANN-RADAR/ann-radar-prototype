@@ -28,7 +28,8 @@ export const aggregateValues = (
     (aggregation, currentValue) =>
       Object.fromEntries(
         potentialDataWithAggregationFunction.map(key => {
-          const {iterable} = potentialDataAggregationSteps[key];
+          const {iterable = aggregation => aggregation[key]} =
+            potentialDataAggregationSteps[key];
           return [key, iterable(aggregation, currentValue)];
         })
       ),
@@ -43,7 +44,7 @@ export const aggregateValues = (
     potentialDataWithAggregationFunction.map(key => {
       const {final = aggregation => aggregation[key]} =
         potentialDataAggregationSteps[key];
-      return [key, final(summedValues)];
+      return [key, final(summedValues, featuresData.length)];
     })
   );
 };
