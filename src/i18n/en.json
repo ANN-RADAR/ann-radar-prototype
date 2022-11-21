@@ -79,7 +79,8 @@
     "socialMonitoring2020": "Social Monitoring 2020",
     "powerConsumption": "Power Consumption",
     "urban-testbeds": "Urban Testbeds",
-    "model-quarters": "Model Quarters"
+    "model-quarters": "Model Quarters",
+    "mobilityIsochrones": "Last Mile Delivery"
   },
   "mapStyle": {
     "colored": "colored",
@@ -222,6 +223,11 @@
       "bike": "Bike",
       "car": "Car",
       "transit": "Transit"
+    }
+  },
+  "legends": {
+    "units": {
+      "minutes": "Minutes"
     }
   }
 }

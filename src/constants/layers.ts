@@ -198,7 +198,7 @@ export const laboratoriesLayersOptions: Array<VectorLayerOptions> = [
 
 export const mobilityIsochronesLayerOptions: VectorLayerOptions = {
   type: 'vector',
-  properties: {name: 'mobility-isochrones'},
+  properties: {name: 'mobilityIsochrones'},
   visible: true,
   source: {wrapX: false},
   style: mobilityIsochronesStyle,

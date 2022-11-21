@@ -32,7 +32,10 @@ export const dataLayerOptions: DataLayerOptions = {
         featureId
       } = options;
       const adminLayerData = adminLayerDataById[String(feature.get(featureId))];
-      const value = adminLayerData && adminLayerData[layerConfig.attributeName];
+      const value =
+        adminLayerData &&
+        layerConfig.attributeName &&
+        adminLayerData[layerConfig.attributeName];
       const classification =
         selectedClassificationIndex != null
           ? layerConfig.classification[selectedClassificationIndex]
