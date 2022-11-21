@@ -27,7 +27,7 @@ import {MapStyle} from '@/types/map-styles';
 import {adminLayers} from './admin-layers';
 import {AdminLayerType} from '@/types/admin-layers';
 import {socialMonitoringColors} from './colors';
-import {laboratoriesStyle} from './laboratories-layers';
+import {laboratoriesStyle} from './map-layer-styles';
 
 export const solarPotentialLayersOptions: Array<LayerOptions> = [
   {

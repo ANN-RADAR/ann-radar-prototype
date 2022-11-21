@@ -1,10 +1,17 @@
 <template>
   <div class="laboratory">
     <Map
-      :drawingSource="source"
       showLayerSwitcher
       showStyleSwitcher
-      showDrawingTools
+      hasDrawingTools
+      :drawingOptions="{
+        source,
+        type: 'Polygon',
+        style: laboratoriesDrawAreaStyle,
+        maxNumberOfDrawings: 1
+      }"
+      :drawingSource="source"
+      drawingType="Polygon"
       disableFeatureSelection
     />
     <v-card class="laboratories-data">
@@ -307,10 +314,13 @@ import {
   MapStateToComputed
 } from '@/types/store';
 
+import Style, {StyleFunction} from 'ol/style/Style';
 import Geometry from 'ol/geom/Geometry';
 import VectorSource from 'ol/source/Vector';
 import Vue, {PropType} from 'vue';
 import {mapActions, mapMutations, mapState} from 'vuex';
+
+import {laboratoriesDrawAreaStyle} from '@/constants/map-layer-styles';
 
 import Map from './map-component.vue';
 
@@ -328,6 +338,7 @@ interface Data {
   customSector: string;
   addCustomExperimentalGovernance: boolean;
   customExperimentalGovernance: string;
+  laboratoriesDrawAreaStyle: StyleFunction | Style;
 }
 
 const EMPTY_LABORATORY_DATA = {
@@ -384,7 +395,8 @@ export default Vue.extend({
       addCustomSector: false,
       customSector: '',
       addCustomExperimentalGovernance: false,
-      customExperimentalGovernance: ''
+      customExperimentalGovernance: '',
+      laboratoriesDrawAreaStyle
     };
   },
   computed: {

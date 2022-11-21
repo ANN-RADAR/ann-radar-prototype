@@ -13,6 +13,7 @@
         "
       />
       <MapStyleSwitcher v-if="showStyleSwitcher" />
+      <slot name="map-controls" />
     </div>
     <div class="map-overlays bottom-right">
       <MapLegends v-if="showLegends" :thematicLayers="thematicLayerOptions" />
@@ -71,7 +72,7 @@ import VectorLayer from 'ol/layer/Vector';
 import Geometry from 'ol/geom/Geometry';
 import TileSource from 'ol/source/Tile';
 import VectorSource from 'ol/source/Vector';
-import {Draw, Modify} from 'ol/interaction';
+import {Draw, Interaction, Modify} from 'ol/interaction';
 import {register} from 'ol/proj/proj4';
 import proj4 from 'proj4';
 
@@ -83,7 +84,7 @@ import {
 } from '@/constants/layers';
 import {dataLayerIds, dataLayerOptions} from '@/constants/data-layers';
 import {adminLayers} from '@/constants/admin-layers';
-import {laboratoriesStyles} from '@/constants/laboratories-layers';
+import {drawHandleStyle, modifyHandleStyle} from '@/constants/map-layer-styles';
 
 import {AdminLayerFeatureData} from '@/types/admin-layers';
 import {DataLayerOptions, LayerOptions} from '@/types/layers';
@@ -107,8 +108,10 @@ type Data = {
   adminLayers: LayerGroup;
   baseLayers: LayerGroup;
   laboratoriesLayers: LayerGroup;
-  laboratoriesStyles: Record<string, StyleFunction | Style>;
   showNewDrawingConfirmationDialog: boolean;
+  drawHandleStyle: StyleFunction | Style;
+  modifyHandleStyle: StyleFunction | Style;
+  drawingInteractions: Array<Interaction>;
 };
 
 export default Vue.extend({
@@ -149,15 +152,26 @@ export default Vue.extend({
       required: false,
       default: false
     },
-    showDrawingTools: {
+    hasDrawingTools: {
       type: Boolean,
       required: false,
       default: false
     },
-    drawingSource: {
-      type: VectorSource,
+    drawingOptions: {
+      type: Object as PropType<{
+        source: VectorSource<Geometry>;
+        type: string;
+        style: StyleFunction | Style;
+        maxNumberOfDrawings?: number;
+      }>,
       required: false,
-      default: null
+      default: () =>
+        ({} as {
+          source: VectorSource<Geometry>;
+          type: string;
+          style: StyleFunction | Style;
+          maxNumberOfDrawings?: number;
+        })
     },
     highlightedFeatureIds: {
       type: Array as PropType<Array<string>>,
@@ -181,7 +195,6 @@ export default Vue.extend({
       adminLayers,
       baseLayers,
       laboratoriesLayers,
-      laboratoriesStyles,
       mapOptions: {
         target: 'map',
         controls: defaultControls().extend([new ScaleLine({units: 'metric'})]),
@@ -194,7 +207,10 @@ export default Vue.extend({
           center: [565811, 5933977]
         })
       },
-      showNewDrawingConfirmationDialog: false
+      showNewDrawingConfirmationDialog: false,
+      drawHandleStyle,
+      modifyHandleStyle,
+      drawingInteractions: []
     };
   },
   computed: {
@@ -290,6 +306,13 @@ export default Vue.extend({
         const isHovered = feature.get('id') === newHoveredLaboratoryId;
         feature.set('hovered', isLaboratoriesView && isHovered);
       });
+    },
+    hasDrawingTools(newHasDrawingTools: boolean) {
+      if (newHasDrawingTools) {
+        this.addDrawingTools();
+      } else {
+        this.removeDrawingTools();
+      }
     }
   },
   methods: {
@@ -413,8 +436,9 @@ export default Vue.extend({
             features.forEach(feature => {
               const id = feature.get(featureId);
 
-              const isSelected = !this.disableFeatureSelection
-                && this.currentLayerSelectedFeatureIds.includes(id);
+              const isSelected =
+                !this.disableFeatureSelection &&
+                this.currentLayerSelectedFeatureIds.includes(id);
               feature.set('selected', isSelected);
 
               const isHighlighted = this.highlightedFeatureIds?.includes(id);
@@ -483,41 +507,54 @@ export default Vue.extend({
       }
     },
     addDrawingTools() {
-      if (this.map && this.drawingSource) {
+      if (this.map && this.drawingOptions.source) {
         const vector = new VectorLayer({
-          source: this.drawingSource,
-          style: this.laboratoriesStyles.laboratoriesDrawAreaStyle
+          source: this.drawingOptions.source,
+          style: this.drawingOptions.style
         });
 
         const modify = new Modify({
-          source: this.drawingSource,
-          style: this.laboratoriesStyles.laboratoriesModifyHandleStyle
+          source: this.drawingOptions.source,
+          style: this.modifyHandleStyle
         });
+        this.drawingInteractions.push(modify);
         this.map.addInteraction(modify);
 
         const draw = new Draw({
-          source: this.drawingSource,
-          type: 'Polygon',
-          style: this.laboratoriesStyles.laboratoriesDrawHandleStyle
+          source: this.drawingOptions.source,
+          type: this.drawingOptions.type,
+          style: this.drawHandleStyle
         });
 
-        draw.on('drawstart', () => {
-          const hasFeatureDrawn = Boolean(
-            this.drawingSource?.getFeatures().length
-          );
+        if (this.drawingOptions.maxNumberOfDrawings != null) {
+          draw.on('drawstart', () => {
+            const numberOfFeaturesDrawn =
+              this.drawingOptions.source.getFeatures().length;
 
-          if (hasFeatureDrawn) {
-            draw.abortDrawing();
-            this.showNewDrawingConfirmationDialog = true;
-          }
-        });
+            if (
+              this.drawingOptions.maxNumberOfDrawings != null &&
+              numberOfFeaturesDrawn >= this.drawingOptions.maxNumberOfDrawings
+            ) {
+              if (this.drawingOptions.type !== 'Point') {
+                draw.abortDrawing();
+              }
+              this.showNewDrawingConfirmationDialog = true;
+            }
+          });
+        }
 
+        this.drawingInteractions.push(draw);
         this.map.addInteraction(draw);
         this.map.addLayer(vector);
       }
     },
+    removeDrawingTools() {
+      this.drawingInteractions.forEach(interaction => {
+        this.map?.removeInteraction(interaction);
+      });
+    },
     resetDrawing() {
-      this.drawingSource?.clear();
+      this.drawingOptions.source?.clear();
       this.showNewDrawingConfirmationDialog = false;
     },
     toggleLaboratoriesLayers() {
@@ -574,7 +611,7 @@ export default Vue.extend({
     this.toggleLaboratoriesLayers();
     this.updateLaboratoriesFeatures();
 
-    if (this.showDrawingTools) {
+    if (this.hasDrawingTools) {
       this.addDrawingTools();
     }
 

@@ -3,26 +3,17 @@
     <router-view name="navigation" />
     <div class="wrapper" v-if="!$route.path.endsWith('/compare')">
       <keep-alive>
-        <Map
-          showStyleSwitcher
-          v-bind="
-            $route.path.startsWith('/potential')
-              ? {
-                  showLegends: true,
-                  hasMultipleFeatureSelection: true,
-                  thematicLayerOptions: potentialLayers.layerOptions,
-                  showLayerSwitcher: true,
-                  layerSwitcherProps: {
-                    thematicLayersTitle: potentialLayers.title
-                  }
-                }
-              : {
-                  showLayerSwitcher: true,
-                  highlightedFeatureIds,
-                  disableAdminLayers: !isAdminLayerOfBalacedScorecardType()
-                }
-          "
-      /></keep-alive>
+        <Map showLayerSwitcher showStyleSwitcher v-bind="mapProperties">
+          <template
+            v-if="$route.path.endsWith('/potential/mobility')"
+            v-slot:map-controls
+          >
+            <MapMobilityDrawingPanel
+              :drawingActive.sync="mobilityDrawingActive"
+            />
+          </template>
+        </Map>
+      </keep-alive>
       <v-card><router-view name="content" /></v-card>
     </div>
     <router-view v-else name="content" />
@@ -31,19 +22,25 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import {mapState} from 'vuex';
+import VectorSource from 'ol/source/Vector';
+import Geometry from 'ol/geom/Geometry';
+import Style, {StyleFunction} from 'ol/style/Style';
 
 import i18n from '../plugins/i18n';
 
 import {BalancedScorecardAdminLayerType} from '@/types/admin-layers';
 import {LayerOptions} from '@/types/layers';
-
-import Map from '../components/map-component.vue';
-import {mapState} from 'vuex';
 import {MapStateToComputed} from '@/types/store';
+
 import {
   energyPotentialLayersOptions,
   solarPotentialLayersOptions
 } from '@/constants/layers';
+import {mobilityDrawPointStyle} from '@/constants/map-layer-styles';
+
+import Map from '../components/map-component.vue';
+import MapMobilityDrawingPanel from '../components/map-mobility-drawing-panel.vue';
 
 function getPotentialLayers(path: string) {
   if (path.startsWith('/potential/solar')) {
@@ -60,16 +57,27 @@ function getPotentialLayers(path: string) {
   return {title: '', layerOptions: []};
 }
 
+const mobilityDrawingSource = new VectorSource({wrapX: false});
+
 interface Data {
   potentialLayers: {title: string; layerOptions: Array<LayerOptions>};
+  mobilityDrawingSource: VectorSource<Geometry>;
+  mobilityDrawPointStyle: StyleFunction | Style;
+  mobilityDrawingActive: boolean;
 }
 
 export default Vue.extend({
   components: {
-    Map
+    Map,
+    MapMobilityDrawingPanel
   },
   data(): Data {
-    return {potentialLayers: getPotentialLayers(this.$route.path)};
+    return {
+      potentialLayers: getPotentialLayers(this.$route.path),
+      mobilityDrawingSource,
+      mobilityDrawPointStyle,
+      mobilityDrawingActive: false
+    };
   },
   watch: {
     $route(to) {
@@ -80,15 +88,41 @@ export default Vue.extend({
     ...(mapState as MapStateToComputed)('root', [
       'highlightedFeatureIds',
       'adminLayerType'
-    ])
+    ]),
+    mapProperties(): Record<string, unknown> {
+      if (this.$route.path.startsWith('/potential')) {
+        return {
+          showLegends: true,
+          hasMultipleFeatureSelection: true,
+          thematicLayerOptions: this.potentialLayers.layerOptions,
+          layerSwitcherProps: {
+            thematicLayersTitle: this.potentialLayers.title
+          },
+          ...(this.$route.path.startsWith('/potential/mobility') && {
+            hasDrawingTools: this.mobilityDrawingActive,
+            drawingOptions: {
+              source: this.mobilityDrawingSource,
+              type: 'Point',
+              style: this.mobilityDrawPointStyle
+            },
+            disableFeatureSelection: this.mobilityDrawingActive
+          })
+        };
+      }
+
+      return {
+        highlightedFeatureIds: this.highlightedFeatureIds,
+        disableAdminLayers: !this.isAdminLayerOfBalacedScorecardType()
+      };
+    }
   },
   methods: {
-    isAdminLayerOfBalacedScorecardType: function () {
-      return (
+    isAdminLayerOfBalacedScorecardType(): boolean {
+      return Boolean(
         this.adminLayerType &&
-        Object.values(BalancedScorecardAdminLayerType).includes(
-          this.adminLayerType
-        )
+          Object.values(BalancedScorecardAdminLayerType).includes(
+            this.adminLayerType
+          )
       );
     }
   }
