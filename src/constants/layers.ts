@@ -67,8 +67,14 @@ export const solarPotentialLayersOptions: Array<LayerOptions> = [
     properties: {
       name: 'buildingSolarPotential',
       featureProperties: [
-        {name: 'Solarpotential in mwh_a', id: 'p_st_mwha'},
-        {name: 'Dachform', id: 'BEZDAF'}
+        {
+          name: 'solarPotential',
+          id: 'p_st_mwha'
+        },
+        {
+          name: 'roofShape',
+          id: 'BEZDAF'
+        }
       ]
     },
     visible: false,
@@ -98,8 +104,8 @@ export const energyPotentialLayersOptions: Array<LayerOptions> = [
     properties: {
       name: 'buildingSpecificHeatDemand',
       featureProperties: [
-        {name: 'Differenz unsaniert/saniert in Prozent', id: 'Diff_WBd_P'},
-        {name: 'Wohnfläche in qm', id: 'wohnflaech'}
+        {name: 'diffRenovation', id: 'Diff_WBd_P'},
+        {name: 'livingSpace', id: 'wohnflaech'}
       ]
     },
     visible: false,

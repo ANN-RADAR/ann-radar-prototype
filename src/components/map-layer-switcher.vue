@@ -59,7 +59,11 @@
                 <v-radio
                   v-for="property in layer.properties.featureProperties"
                   :key="property.id"
-                  :label="property.name"
+                  :label="
+                    $t(
+                      `layer.properties.${layer.properties.name}.${property.name}`
+                    )
+                  "
                   :value="property.id"
                   class="radio"
                   @change="onLayerFeatureChange(layer, property.id)"
