@@ -66,7 +66,12 @@
                   "
                   :value="property.id"
                   class="radio"
-                  @change="onLayerFeatureChange(layer, property.id)"
+                  @change="
+                    onLayerFeaturePropertyChange(
+                      layer.properties.name,
+                      property.id
+                    )
+                  "
                 ></v-radio>
               </v-radio-group>
             </div>
@@ -232,12 +237,12 @@ export default Vue.extend({
       layer.visible = visible;
       this.toggleBaseLayerType(layer.properties.name);
     },
-    onLayerFeatureChange(
-      layer: LayerOptions,
+    onLayerFeaturePropertyChange(
+      baseLayerType: string,
       baseLayerFeatureProperty: string
     ) {
       this.setBaseLayerFeatureProperty({
-        baseLayerType: layer.properties.name,
+        baseLayerType,
         baseLayerFeatureProperty
       });
     },
