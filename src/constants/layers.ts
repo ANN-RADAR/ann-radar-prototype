@@ -81,7 +81,7 @@ export const solarPotentialLayersOptions: Array<LayerOptions> = [
     source: vectorSourcesOptions.HH_Gebaeude_Solarpotential,
     style: createBuildingLayerStyle('p_st_mwha'),
     zIndex: 6,
-    minZoom: 17
+    minZoom: 16
   }
 ];
 
@@ -112,7 +112,7 @@ export const energyPotentialLayersOptions: Array<LayerOptions> = [
     source: vectorSourcesOptions.HH_Gebaeude_spezifischer_Nutzwaermebedarf,
     style: createBuildingLayerStyle('Diff_WBd_P'),
     zIndex: 6,
-    minZoom: 17
+    minZoom: 16
   }
 ];
 
