@@ -159,7 +159,7 @@ export default Vue.extend({
       if (this.mobilityLocations.length) {
         try {
           const sources = this.mobilityLocations.map(({id, x, y}) => {
-            const [lng, lat] = transform([x, y], 'EPSG:25832', 'EPSG:4326');
+            const [lng, lat] = transform([x, y], 'EPSG:3857', 'EPSG:4326');
             return {id, lat, lng};
           });
 
