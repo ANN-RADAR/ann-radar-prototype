@@ -37,7 +37,7 @@ export const createBuildingLayerStyle = (labelProperty: string) => {
         width: 1.25
       }),
       text: new Text({
-        font: '12px Calibri,sans-serif',
+        font: '12px Avenir, Helvetica, Arial, sans-serif',
         text: String(feature.getProperties()[labelProperty] || ''),
         fill: new Fill({
           color: '#000'
