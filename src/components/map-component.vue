@@ -72,6 +72,7 @@ import VectorLayer from 'ol/layer/Vector';
 import Geometry from 'ol/geom/Geometry';
 import TileSource from 'ol/source/Tile';
 import VectorSource from 'ol/source/Vector';
+import VectorTileLayer from 'ol/layer/VectorTile';
 import {Draw, Interaction, Modify, Select} from 'ol/interaction';
 import {pointerMove} from 'ol/events/condition';
 import {register} from 'ol/proj/proj4';
@@ -83,6 +84,7 @@ import {
   getAdminAreaLayers,
   getBaseLayers,
   getLabortoriesLayers,
+  createBuildingLayerStyle,
   getMobilityIsochronesLayer
 } from '@/constants/layers';
 import {dataLayerIds, dataLayerOptions} from '@/constants/data-layers';
@@ -99,7 +101,7 @@ import MapLegends from './map-legends.vue';
 
 // projection for UTM zone 32N
 proj4.defs(
-  'EPSG:25832',
+  'EPSG:3857',
   '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
 );
 register(proj4);
@@ -215,11 +217,11 @@ export default Vue.extend({
           mobilityIsochronesLayer
         ],
         view: new View({
-          projection: 'EPSG:25832',
+          projection: 'EPSG:3857',
           zoom: 12,
           minZoom: 9,
           maxZoom: 18,
-          center: [565811, 5933977]
+          center: [1113052.5963, 7084613.6599]
         })
       },
       showNewDrawingConfirmationDialog: false,
@@ -234,6 +236,7 @@ export default Vue.extend({
       'adminLayerType',
       'mapStyle',
       'baseLayerTypes',
+      'baseLayerFeatureProperties',
       'layersConfig',
       'layerClassificationSelection',
       'laboratories',
@@ -290,6 +293,19 @@ export default Vue.extend({
     baseLayerTypes() {
       this.toggleBaseLayers();
       this.toggleLaboratoriesLayers();
+    },
+    baseLayerFeatureProperties(
+      newBaseLayerFeatureProperties: Record<string, string>
+    ) {
+      this.allBaseLayers.forEach(layer => {
+        if (newBaseLayerFeatureProperties[layer.get('name')]) {
+          (layer as VectorTileLayer).setStyle(
+            createBuildingLayerStyle(
+              newBaseLayerFeatureProperties[layer.get('name')]
+            )
+          );
+        }
+      });
     },
     layerClassificationSelection() {
       // Update style of data layers
@@ -648,7 +664,7 @@ export default Vue.extend({
         locationFeatures.forEach(feature => {
           source.addFeature(
             new GeoJSON().readFeature(feature, {
-              featureProjection: 'EPSG:25832'
+              featureProjection: 'EPSG:3857'
             })
           );
         });

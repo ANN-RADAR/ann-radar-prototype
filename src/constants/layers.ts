@@ -29,6 +29,25 @@ import {AdminLayerType} from '@/types/admin-layers';
 import {socialMonitoringColors} from './colors';
 import {laboratoriesStyle, mobilityIsochronesStyle} from './map-layer-styles';
 
+export const createBuildingLayerStyle = (labelProperty: string) => {
+  return (feature: Feature<Geometry> | RenderFeature) =>
+    new Style({
+      stroke: new Stroke({
+        color: '#3399CC',
+        width: 1.25
+      }),
+      text: new Text({
+        font: '12px Avenir, Helvetica, Arial, sans-serif',
+        text: String(feature.getProperties()[labelProperty] || ''),
+        fill: new Fill({
+          color: '#000'
+        }),
+        stroke: new Stroke({color: '#fff', width: 4}),
+        overflow: true
+      })
+    });
+};
+
 export const solarPotentialLayersOptions: Array<LayerOptions> = [
   {
     type: 'tile',
@@ -45,25 +64,24 @@ export const solarPotentialLayersOptions: Array<LayerOptions> = [
   },
   {
     type: 'vector',
-    properties: {name: 'buildingSolarPotential'},
+    properties: {
+      name: 'buildingSolarPotential',
+      featureProperties: [
+        {
+          name: 'solarPotential',
+          id: 'p_st_mwha'
+        },
+        {
+          name: 'roofShape',
+          id: 'BEZDAF'
+        }
+      ]
+    },
     visible: false,
     source: vectorSourcesOptions.HH_Gebaeude_Solarpotential,
-    style: feature =>
-      new Style({
-        stroke: new Stroke({
-          color: '#3399CC',
-          width: 1.25
-        }),
-        text: new Text({
-          font: '12px Avenir, Helvetica, Arial, sans-serif',
-          text: String(feature.getProperties()['p_st_mwha']),
-          fill: new Fill({
-            color: '#000'
-          })
-        })
-      }),
+    style: createBuildingLayerStyle('p_st_mwha'),
     zIndex: 6,
-    minZoom: 13
+    minZoom: 16
   }
 ];
 
@@ -83,25 +101,18 @@ export const energyPotentialLayersOptions: Array<LayerOptions> = [
   },
   {
     type: 'vector',
-    properties: {name: 'buildingSpecificHeatDemand'},
+    properties: {
+      name: 'buildingSpecificHeatDemand',
+      featureProperties: [
+        {name: 'diffRenovation', id: 'Diff_WBd_P'},
+        {name: 'livingSpace', id: 'wohnflaech'}
+      ]
+    },
     visible: false,
     source: vectorSourcesOptions.HH_Gebaeude_spezifischer_Nutzwaermebedarf,
-    style: feature =>
-      new Style({
-        stroke: new Stroke({
-          color: '#3399CC',
-          width: 1.25
-        }),
-        text: new Text({
-          font: '12px Calibri,sans-serif',
-          text: String(feature.getProperties()['Diff_WBd_P']),
-          fill: new Fill({
-            color: '#000'
-          })
-        })
-      }),
+    style: createBuildingLayerStyle('Diff_WBd_P'),
     zIndex: 6,
-    minZoom: 13
+    minZoom: 16
   }
 ];
 

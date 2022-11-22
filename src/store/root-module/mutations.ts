@@ -80,6 +80,15 @@ const mutations = {
       state.baseLayerTypes = [...state.baseLayerTypes, baseLayerTypeToToggle];
     }
   },
+  setBaseLayerFeatureProperty(
+    state: RootState,
+    payload: {baseLayerType: string; baseLayerFeatureProperty: string}
+  ) {
+    state.baseLayerFeatureProperties = {
+      ...state.baseLayerFeatureProperties,
+      [payload.baseLayerType]: payload.baseLayerFeatureProperty
+    };
+  },
   setHighlightedFeatureIds(
     state: RootState,
     newSelectedFeatureIds: RootState['highlightedFeatureIds']

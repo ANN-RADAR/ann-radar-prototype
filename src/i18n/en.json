@@ -80,7 +80,17 @@
     "powerConsumption": "Power Consumption",
     "urban-testbeds": "Urban Testbeds",
     "model-quarters": "Model Quarters",
-    "mobilityIsochrones": "Last Mile Delivery"
+    "mobilityIsochrones": "Last Mile Delivery",
+    "properties": {
+      "buildingSolarPotential": {
+        "solarPotential": "Solar Potential in MWh/a",
+        "roofShape": "Roof Shape"
+      },
+      "buildingSpecificHeatDemand": {
+        "diffRenovation": "Difference renovated/unrenovated in percent",
+        "livingSpace": "Living space in sqm"
+      }
+    }
   },
   "mapStyle": {
     "colored": "colored",
