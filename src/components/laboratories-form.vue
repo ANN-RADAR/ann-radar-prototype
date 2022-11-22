@@ -1,10 +1,18 @@
 <template>
   <div class="laboratory">
     <Map
-      :drawingSource="source"
       showLayerSwitcher
       showStyleSwitcher
-      showDrawingTools
+      hasDrawingTools
+      :drawingOptions="{
+        source,
+        mode: 'draw',
+        type: 'Polygon',
+        style: laboratoriesDrawAreaStyle,
+        maxNumberOfDrawings: 1
+      }"
+      :drawingSource="source"
+      drawingType="Polygon"
       disableFeatureSelection
     />
     <v-card class="laboratories-data">
@@ -301,16 +309,15 @@ import {
   LaboratoryStakeholderType,
   LaboratoryType
 } from '@/types/laboratories';
-import {
-  MapActionsToMethods,
-  MapMutationsToMethods,
-  MapStateToComputed
-} from '@/types/store';
+import {MapActionsToMethods, MapStateToComputed} from '@/types/store';
 
+import Style, {StyleFunction} from 'ol/style/Style';
 import Geometry from 'ol/geom/Geometry';
 import VectorSource from 'ol/source/Vector';
 import Vue, {PropType} from 'vue';
-import {mapActions, mapMutations, mapState} from 'vuex';
+import {mapActions, mapState} from 'vuex';
+
+import {laboratoriesDrawAreaStyle} from '@/constants/map-layer-styles';
 
 import Map from './map-component.vue';
 
@@ -328,6 +335,7 @@ interface Data {
   customSector: string;
   addCustomExperimentalGovernance: boolean;
   customExperimentalGovernance: string;
+  laboratoriesDrawAreaStyle: StyleFunction | Style;
 }
 
 const EMPTY_LABORATORY_DATA = {
@@ -384,7 +392,8 @@ export default Vue.extend({
       addCustomSector: false,
       customSector: '',
       addCustomExperimentalGovernance: false,
-      customExperimentalGovernance: ''
+      customExperimentalGovernance: '',
+      laboratoriesDrawAreaStyle
     };
   },
   computed: {
@@ -429,7 +438,6 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...(mapMutations as MapMutationsToMethods)('root', ['setLaboratory']),
     ...(mapActions as MapActionsToMethods)('root', ['saveLaboratory']),
     updateLaboratoryData(newLaboratory: Laboratory | null | undefined) {
       if (newLaboratory) {

@@ -14,3 +14,9 @@ export interface PotentialConfig {
     };
   };
 }
+
+export interface MobilityLocation {
+  id: string;
+  x: number;
+  y: number;
+}

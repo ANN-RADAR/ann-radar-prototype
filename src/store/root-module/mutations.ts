@@ -3,13 +3,14 @@ import {AdminLayerFeatureId, AdminLayerType} from '@/types/admin-layers';
 import {RootState} from '@/types/store';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {ScenarioMetaData} from '@/types/scenarios';
-import {PotentialConfig} from '@/types/potential-config';
+import {MobilityLocation, PotentialConfig} from '@/types/potential';
 import {Laboratory, LaboratoryId} from '@/types/laboratories';
 import {
   StakeholdersEngagementRatings,
   StakeholdersEngagementTemplate,
   StakeholdersEngagementType
 } from '@/types/stakeholders';
+import {GeoJSONFeature} from 'ol/format/GeoJSON';
 
 const mutations = {
   setLayersConfig(
@@ -144,6 +145,30 @@ const mutations = {
     >
   ) {
     state.stakeholdersEngagementRatings = newStakeholdersEngagementRatings;
+  },
+  resetStakeholdersEngagementRatings(state: RootState) {
+    state.stakeholdersEngagementRatings = Object.values(ScorecardType).reduce(
+      (ratings, stakeholdersEngagementType) => ({
+        ...ratings,
+        [stakeholdersEngagementType]: {}
+      }),
+      {} as Record<StakeholdersEngagementType, StakeholdersEngagementRatings>
+    );
+  },
+  setMobilityLocations(
+    state: RootState,
+    newMobilityLocations: Array<MobilityLocation>
+  ) {
+    state.mobilityLocations = newMobilityLocations;
+  },
+  resetMobilityLocations(state: RootState) {
+    state.mobilityLocations = [];
+  },
+  setMobilityIsochrones(
+    state: RootState,
+    isochrones: Record<string, Array<GeoJSONFeature>>
+  ) {
+    state.mobilityIsochrones = isochrones;
   }
 };
 

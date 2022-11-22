@@ -39,6 +39,11 @@
     "none": "None"
   },
   "mapStyles": "Map Style",
+  "mobilityLocationDrawing": {
+    "title": "Mobility Location Drawing",
+    "draw": "Place location",
+    "erase": "Delete location"
+  },
   "notes": "Notes",
   "cockpit": "Cockpit",
   "selectAreas": "Select Areas",
@@ -74,7 +79,8 @@
     "socialMonitoring2020": "Social Monitoring 2020",
     "powerConsumption": "Power Consumption",
     "urban-testbeds": "Urban Testbeds",
-    "model-quarters": "Model Quarters"
+    "model-quarters": "Model Quarters",
+    "mobilityIsochrones": "Last Mile Delivery"
   },
   "mapStyle": {
     "colored": "colored",
@@ -208,5 +214,20 @@
     "organizations": "Stakeholders Engagement",
     "citizens": "Citizens Engagement",
     "links": "Links to Evidence"
+  },
+  "mobility": {
+    "lastMileDelivery": "Last Mile Delivery",
+    "calculateIsochrones": "Calculate isochrones",
+    "travelType": {
+      "walk": "Walk",
+      "bike": "Bike",
+      "car": "Car",
+      "transit": "Transit"
+    }
+  },
+  "legends": {
+    "units": {
+      "minutes": "Minutes"
+    }
   }
 }

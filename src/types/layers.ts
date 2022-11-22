@@ -40,7 +40,7 @@ export interface DataLayerOptions {
 }
 
 export interface LayerConfig {
-  attributeName: string;
+  attributeName?: string;
   classification: Array<
     LayerCategoryConfig & {classification?: Array<LayerCategoryConfig>}
   >;
@@ -50,4 +50,5 @@ export interface LayerCategoryConfig {
   from: number;
   to: number;
   color: string;
+  unit?: string; // translation key
 }

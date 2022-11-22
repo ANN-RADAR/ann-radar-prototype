@@ -142,8 +142,11 @@ const routes = [
       },
       {
         path: '/potential/mobility',
-        components: {content: null},
-        name: 'Mobility Potential'
+        components: {content: PotentialInspectorTable},
+        name: 'Mobility Potential',
+        props: {
+          content: {category: 'mobility'}
+        }
       },
       {
         path: '/potential/mobility/*',

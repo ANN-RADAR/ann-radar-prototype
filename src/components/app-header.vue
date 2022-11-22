@@ -93,6 +93,33 @@
           <span>{{ $t('auth.logout') }}</span>
           <v-icon right>mdi-logout</v-icon>
         </v-btn>
+
+        <v-menu bottom offset-y left>
+          <template v-slot:activator="{on, attrs}">
+            <v-btn
+              icon
+              small
+              active-class="primary--text"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-earth</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item-group v-model="$i18n.locale" color="primary">
+              <v-list-item
+                v-for="locale in ['en', 'de']"
+                :key="locale"
+                :value="locale"
+              >
+                <v-list-item-title>
+                  {{ $t(`locales.${locale}`) }}
+                </v-list-item-title>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-menu>
       </div>
     </div>
 
@@ -339,6 +366,7 @@ export default Vue.extend({
   display: grid;
   grid-auto-flow: column;
   grid-gap: 4px;
+  align-items: center;
 }
 
 .scenario-name {
@@ -347,13 +375,12 @@ export default Vue.extend({
   padding: 0 32px;
 }
 
-.navigation-menu {
-  margin-top: -2px;
+.header-actions >>> .theme--light.v-btn.v-btn--icon {
+  color: inherit;
 }
 
-.navigation-menu-button {
-  transform: translateX(-100%);
-  opacity: 0;
+.navigation-menu {
+  margin-top: -2px;
 }
 
 .iclei-logo {

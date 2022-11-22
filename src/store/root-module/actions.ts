@@ -54,6 +54,7 @@ const actions = {
     const {
       stakeholdersEngagementsRef,
       notesRef,
+      mobilityLocationsRef,
       baseLayerTypes,
       ...scenarioMetaData
     } = scenario;
@@ -71,18 +72,35 @@ const actions = {
     const notesSnapshot = await getDoc(notesRef);
     const notes = notesSnapshot.data();
 
+    let mobilityLocationsSnapshot;
+    let mobilityLocations;
+    if (mobilityLocationsRef) {
+      mobilityLocationsSnapshot = await getDoc(mobilityLocationsRef);
+      mobilityLocations = mobilityLocationsSnapshot.data()?.locations || [];
+    }
+
     commit('setScenarioMetaData', {
       ...(stakeholdersEngagementRatingsSnapshot && {
         stakeholdersEngagementsId: stakeholdersEngagementRatingsSnapshot.id
       }),
       notesId: notesSnapshot.id,
+      ...(mobilityLocationsSnapshot && {
+        mobilityLocationsId: mobilityLocationsSnapshot.id
+      }),
       ...scenarioMetaData
     });
     commit('setBaseLayerTypes', baseLayerTypes);
     if (stakeholdersEngagementRatings) {
       commit('setStakeholdersEngagementRatings', stakeholdersEngagementRatings);
+    } else {
+      commit('resetStakeholdersEngagementRatings');
     }
     commit('setNotes', notes);
+    if (mobilityLocations) {
+      commit('setMobilityLocations', mobilityLocations);
+    } else {
+      commit('resetMobilityLocations');
+    }
   },
   fetchLayersConfig({commit}: ActionContext<RootState, StoreState>) {
     return fetch(
@@ -207,16 +225,21 @@ const actions = {
     }
 
     try {
-      const {id, stakeholdersEngagementsId, notesId, ...scenarioMetaData} =
-        state.scenarioMetaData;
+      const {
+        id,
+        stakeholdersEngagementsId,
+        notesId,
+        mobilityLocationsId,
+        ...scenarioMetaData
+      } = state.scenarioMetaData;
 
-      const scenarioRef = doc(database, ANNRadarCollection.SCENARIOS, id);
-      await updateDoc(scenarioRef, {
-        ...scenarioMetaData,
-        baseLayerTypes: state.baseLayerTypes
-      });
+      const hasStakeholdersEngagementRatings = Object.values(
+        state.stakeholdersEngagementRatings
+      ).some(ratings => Object.values(ratings).length);
+      let stakeholdersEngagementRatingsRef;
 
       if (stakeholdersEngagementsId) {
+        // Update existing stakeholders engagement ratings
         const stakeholdersEngagementRatingsRef = doc(
           database,
           ANNRadarCollection.STAKEHOLDERS_ENGAGEMENTS,
@@ -226,10 +249,54 @@ const actions = {
           stakeholdersEngagementRatingsRef,
           state.stakeholdersEngagementRatings
         );
+      } else if (hasStakeholdersEngagementRatings) {
+        // Add stakeholders engagement ratings
+        const stakeholdersEngagementCollectionRef = collection(
+          database,
+          ANNRadarCollection.STAKEHOLDERS_ENGAGEMENTS
+        );
+        stakeholdersEngagementRatingsRef = await addDoc(
+          stakeholdersEngagementCollectionRef,
+          state.stakeholdersEngagementRatings
+        );
       }
 
       const notesRef = doc(database, ANNRadarCollection.NOTES, notesId);
       await updateDoc(notesRef, state.notes);
+
+      const hasMobilityLocations = state.mobilityLocations.length;
+      let mobilityLocationsRef;
+
+      if (mobilityLocationsId) {
+        // Update existing mobility locations
+        const mobilityLocationsRef = doc(
+          database,
+          ANNRadarCollection.MOBILITY_LOCATIONS,
+          mobilityLocationsId
+        );
+        await updateDoc(mobilityLocationsRef, {
+          locations: state.mobilityLocations
+        });
+      } else if (hasMobilityLocations) {
+        // Add mobility locations
+        const mobilityLocationsCollectionRef = collection(
+          database,
+          ANNRadarCollection.MOBILITY_LOCATIONS
+        );
+        mobilityLocationsRef = await addDoc(mobilityLocationsCollectionRef, {
+          locations: state.mobilityLocations
+        });
+      }
+
+      const scenarioRef = doc(database, ANNRadarCollection.SCENARIOS, id);
+      await updateDoc(scenarioRef, {
+        ...scenarioMetaData,
+        baseLayerTypes: state.baseLayerTypes,
+        ...(stakeholdersEngagementRatingsRef && {
+          stakeholdersEngagementRatingsRef
+        }),
+        ...(mobilityLocationsRef && {mobilityLocationsRef})
+      });
     } catch (error) {
       console.error('Error saving scenario:', error);
     }

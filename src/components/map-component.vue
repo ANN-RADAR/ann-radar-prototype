@@ -13,6 +13,7 @@
         "
       />
       <MapStyleSwitcher v-if="showStyleSwitcher" />
+      <slot name="map-controls" />
     </div>
     <div class="map-overlays bottom-right">
       <MapLegends v-if="showLegends" :thematicLayers="thematicLayerOptions" />
@@ -72,20 +73,23 @@ import Geometry from 'ol/geom/Geometry';
 import TileSource from 'ol/source/Tile';
 import VectorSource from 'ol/source/Vector';
 import VectorTileLayer from 'ol/layer/VectorTile';
-import {Draw, Modify} from 'ol/interaction';
+import {Draw, Interaction, Modify, Select} from 'ol/interaction';
+import {pointerMove} from 'ol/events/condition';
 import {register} from 'ol/proj/proj4';
 import proj4 from 'proj4';
+import GeoJSON from 'ol/format/GeoJSON';
 
 import {
   getMapStyleLayers,
   getAdminAreaLayers,
   getBaseLayers,
   getLabortoriesLayers,
-  createBuildingLayerStyle
+  createBuildingLayerStyle,
+  getMobilityIsochronesLayer
 } from '@/constants/layers';
 import {dataLayerIds, dataLayerOptions} from '@/constants/data-layers';
 import {adminLayers} from '@/constants/admin-layers';
-import {laboratoriesStyles} from '@/constants/laboratories-layers';
+import {drawHandleStyle, modifyHandleStyle} from '@/constants/map-layer-styles';
 
 import {AdminLayerFeatureData} from '@/types/admin-layers';
 import {DataLayerOptions, LayerOptions} from '@/types/layers';
@@ -109,8 +113,12 @@ type Data = {
   adminLayers: LayerGroup;
   baseLayers: LayerGroup;
   laboratoriesLayers: LayerGroup;
-  laboratoriesStyles: Record<string, StyleFunction | Style>;
+  mobilityIsochronesLayer: VectorLayer<VectorSource<Geometry>>;
   showNewDrawingConfirmationDialog: boolean;
+  drawHandleStyle: StyleFunction | Style;
+  modifyHandleStyle: StyleFunction | Style;
+  drawingInteractions: Array<Interaction>;
+  drawingLayer: VectorLayer<VectorSource<Geometry>> | null;
 };
 
 export default Vue.extend({
@@ -151,15 +159,28 @@ export default Vue.extend({
       required: false,
       default: false
     },
-    showDrawingTools: {
+    hasDrawingTools: {
       type: Boolean,
       required: false,
       default: false
     },
-    drawingSource: {
-      type: VectorSource,
+    drawingOptions: {
+      type: Object as PropType<{
+        source: VectorSource<Geometry>;
+        mode: 'draw' | 'erase';
+        type: string;
+        style: StyleFunction | Style;
+        maxNumberOfDrawings?: number;
+      }>,
       required: false,
-      default: null
+      default: () =>
+        ({} as {
+          source: VectorSource<Geometry>;
+          mode: 'draw' | 'erase';
+          type: string;
+          style: StyleFunction | Style;
+          maxNumberOfDrawings?: number;
+        })
     },
     highlightedFeatureIds: {
       type: Array as PropType<Array<string>>,
@@ -176,6 +197,7 @@ export default Vue.extend({
     const adminLayers = getAdminAreaLayers();
     const baseLayers = getBaseLayers();
     const laboratoriesLayers = getLabortoriesLayers();
+    const mobilityIsochronesLayer = getMobilityIsochronesLayer();
 
     return {
       map: null,
@@ -183,11 +205,17 @@ export default Vue.extend({
       adminLayers,
       baseLayers,
       laboratoriesLayers,
-      laboratoriesStyles,
+      mobilityIsochronesLayer,
       mapOptions: {
         target: 'map',
         controls: defaultControls().extend([new ScaleLine({units: 'metric'})]),
-        layers: [mapStyleLayers, adminLayers, baseLayers, laboratoriesLayers],
+        layers: [
+          mapStyleLayers,
+          adminLayers,
+          baseLayers,
+          laboratoriesLayers,
+          mobilityIsochronesLayer
+        ],
         view: new View({
           projection: 'EPSG:25832',
           zoom: 12,
@@ -196,7 +224,11 @@ export default Vue.extend({
           center: [565811, 5933977]
         })
       },
-      showNewDrawingConfirmationDialog: false
+      showNewDrawingConfirmationDialog: false,
+      drawHandleStyle,
+      modifyHandleStyle,
+      drawingInteractions: [],
+      drawingLayer: null
     };
   },
   computed: {
@@ -208,7 +240,8 @@ export default Vue.extend({
       'layersConfig',
       'layerClassificationSelection',
       'laboratories',
-      'hoveredLaboratoryId'
+      'hoveredLaboratoryId',
+      'mobilityIsochrones'
     ]),
     ...(mapGetters as MapGettersToComputed)('root', [
       'currentLayerSelectedFeatureIds'
@@ -295,6 +328,7 @@ export default Vue.extend({
     },
     $route() {
       this.updateLaboratoriesFeatures();
+      this.toggleMobilityIsochronesLayer();
     },
     laboratories() {
       this.updateLaboratoriesFeatures();
@@ -306,6 +340,26 @@ export default Vue.extend({
         const isHovered = feature.get('id') === newHoveredLaboratoryId;
         feature.set('hovered', isLaboratoriesView && isHovered);
       });
+    },
+    hasDrawingTools(newHasDrawingTools: boolean) {
+      if (newHasDrawingTools) {
+        this.addDrawingTools();
+      } else {
+        this.removeDrawingTools();
+      }
+    },
+    'drawingOptions.source'() {
+      this.updateDrawingLayer();
+    },
+    'drawingOptions.mode'() {
+      if (this.hasDrawingTools) {
+        // Update drawing tools
+        this.removeDrawingTools();
+        this.addDrawingTools();
+      }
+    },
+    mobilityIsochrones() {
+      this.updateMobilityIsochronesFeatures();
     }
   },
   methods: {
@@ -429,8 +483,9 @@ export default Vue.extend({
             features.forEach(feature => {
               const id = feature.get(featureId);
 
-              const isSelected = !this.disableFeatureSelection
-                && this.currentLayerSelectedFeatureIds.includes(id);
+              const isSelected =
+                !this.disableFeatureSelection &&
+                this.currentLayerSelectedFeatureIds.includes(id);
               feature.set('selected', isSelected);
 
               const isHighlighted = this.highlightedFeatureIds?.includes(id);
@@ -498,43 +553,122 @@ export default Vue.extend({
         );
       }
     },
+    updateDrawingLayer() {
+      if (!this.map || (!this.drawingOptions.source && !this.drawingLayer)) {
+        return;
+      }
+
+      if (!this.drawingOptions.source && this.drawingLayer) {
+        this.map.removeLayer(this.drawingLayer);
+        return;
+      }
+
+      this.drawingLayer = new VectorLayer({
+        source: this.drawingOptions.source,
+        style: this.drawingOptions.style,
+        zIndex: 8
+      });
+
+      this.map.addLayer(this.drawingLayer);
+    },
     addDrawingTools() {
-      if (this.map && this.drawingSource) {
-        const vector = new VectorLayer({
-          source: this.drawingSource,
-          style: this.laboratoriesStyles.laboratoriesDrawAreaStyle
-        });
+      if (this.map && this.drawingLayer) {
+        if (this.drawingOptions.mode === 'draw') {
+          // Add interactions to draw and modify features on the map
+          const draw = new Draw({
+            source: this.drawingOptions.source,
+            type: this.drawingOptions.type,
+            style: this.drawHandleStyle
+          });
 
-        const modify = new Modify({
-          source: this.drawingSource,
-          style: this.laboratoriesStyles.laboratoriesModifyHandleStyle
-        });
-        this.map.addInteraction(modify);
+          if (this.drawingOptions.maxNumberOfDrawings != null) {
+            draw.on('drawstart', () => {
+              const numberOfFeaturesDrawn =
+                this.drawingOptions.source.getFeatures().length;
 
-        const draw = new Draw({
-          source: this.drawingSource,
-          type: 'Polygon',
-          style: this.laboratoriesStyles.laboratoriesDrawHandleStyle
-        });
-
-        draw.on('drawstart', () => {
-          const hasFeatureDrawn = Boolean(
-            this.drawingSource?.getFeatures().length
-          );
-
-          if (hasFeatureDrawn) {
-            draw.abortDrawing();
-            this.showNewDrawingConfirmationDialog = true;
+              if (
+                this.drawingOptions.maxNumberOfDrawings != null &&
+                numberOfFeaturesDrawn >= this.drawingOptions.maxNumberOfDrawings
+              ) {
+                if (this.drawingOptions.type !== 'Point') {
+                  draw.abortDrawing();
+                }
+                this.showNewDrawingConfirmationDialog = true;
+              }
+            });
           }
-        });
 
-        this.map.addInteraction(draw);
-        this.map.addLayer(vector);
+          this.drawingInteractions.push(draw);
+          this.map.addInteraction(draw);
+
+          const modify = new Modify({
+            source: this.drawingOptions.source,
+            style: this.modifyHandleStyle
+          });
+          this.drawingInteractions.push(modify);
+          this.map.addInteraction(modify);
+        } else {
+          // Add interaction to select and delete drawn features on the map
+          const select = new Select({
+            condition: pointerMove,
+            layers: [this.drawingLayer],
+            style: this.modifyHandleStyle
+          });
+          this.drawingInteractions.push(select);
+          this.map.addInteraction(select);
+
+          this.map?.on('click', this.handleDeleteDrawnFeature);
+        }
       }
     },
+    removeDrawingTools() {
+      // Remove drawing interactions from the map
+      this.drawingInteractions.forEach(interaction => {
+        this.map?.removeInteraction(interaction);
+      });
+
+      // Clean up event listeners
+      this.map?.un('click', this.handleDeleteDrawnFeature);
+    },
+    handleDeleteDrawnFeature() {
+      // Delete selected features from the drawing source
+      this.drawingInteractions.forEach(interaction => {
+        if (interaction instanceof Select) {
+          const selectedFeatures = interaction.getFeatures();
+          selectedFeatures.forEach(feature =>
+            this.drawingOptions.source.removeFeature(feature)
+          );
+        }
+      });
+    },
     resetDrawing() {
-      this.drawingSource?.clear();
+      this.drawingOptions.source?.clear();
       this.showNewDrawingConfirmationDialog = false;
+    },
+    toggleMobilityIsochronesLayer() {
+      if (!this.map) {
+        return;
+      }
+
+      const layerIsVisible = this.$route.path.startsWith('/potential/mobility');
+      this.mobilityIsochronesLayer.setVisible(layerIsVisible);
+    },
+    updateMobilityIsochronesFeatures() {
+      const source = this.mobilityIsochronesLayer.getSource();
+
+      // Remove old isochrones polygons
+      source.clear();
+
+      // Add isochrones polygons to the map
+      Object.values(this.mobilityIsochrones).forEach(locationFeatures => {
+        locationFeatures.forEach(feature => {
+          source.addFeature(
+            new GeoJSON().readFeature(feature, {
+              featureProjection: 'EPSG:25832'
+            })
+          );
+        });
+      });
     },
     toggleLaboratoriesLayers() {
       if (!this.map) {
@@ -589,8 +723,13 @@ export default Vue.extend({
     this.handleAdminAreaSelectionAndHighlighting();
     this.toggleLaboratoriesLayers();
     this.updateLaboratoriesFeatures();
+    this.toggleMobilityIsochronesLayer();
+    this.updateMobilityIsochronesFeatures();
 
-    if (this.showDrawingTools) {
+    if (this.drawingOptions?.source) {
+      this.updateDrawingLayer();
+    }
+    if (this.hasDrawingTools) {
       this.addDrawingTools();
     }
 

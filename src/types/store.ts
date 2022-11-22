@@ -6,13 +6,14 @@ import {LayerConfig} from './layers';
 import {ScenarioMetaData} from './scenarios';
 import {Scorecard, ScorecardRatings, ScorecardType} from './scorecards';
 import {ActionContext} from 'vuex';
-import {PotentialConfig} from './potential-config';
+import {MobilityLocation, PotentialConfig} from './potential';
 import {Laboratory, LaboratoryId} from './laboratories';
 import {
   StakeholdersEngagementTemplate,
   StakeholdersEngagementRatings,
   StakeholdersEngagementType
 } from './stakeholders';
+import {GeoJSONFeature} from 'ol/format/GeoJSON';
 
 export interface RootState {
   scenarioMetaData: ScenarioMetaData | null;
@@ -41,6 +42,8 @@ export interface RootState {
     StakeholdersEngagementType,
     StakeholdersEngagementRatings
   >;
+  mobilityLocations: Array<MobilityLocation>;
+  mobilityIsochrones: Record<string, Array<GeoJSONFeature>>;
 }
 
 export interface UserState {
