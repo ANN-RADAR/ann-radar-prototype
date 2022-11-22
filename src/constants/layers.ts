@@ -41,7 +41,9 @@ export const createBuildingLayerStyle = (labelProperty: string) => {
         text: String(feature.getProperties()[labelProperty] || ''),
         fill: new Fill({
           color: '#000'
-        })
+        }),
+        stroke: new Stroke({color: '#fff', width: 4}),
+        overflow: true
       })
     });
 };
@@ -73,7 +75,7 @@ export const solarPotentialLayersOptions: Array<LayerOptions> = [
     source: vectorSourcesOptions.HH_Gebaeude_Solarpotential,
     style: createBuildingLayerStyle('p_st_mwha'),
     zIndex: 6,
-    minZoom: 13
+    minZoom: 17
   }
 ];
 
@@ -104,7 +106,7 @@ export const energyPotentialLayersOptions: Array<LayerOptions> = [
     source: vectorSourcesOptions.HH_Gebaeude_spezifischer_Nutzwaermebedarf,
     style: createBuildingLayerStyle('Diff_WBd_P'),
     zIndex: 6,
-    minZoom: 13
+    minZoom: 17
   }
 ];
 
