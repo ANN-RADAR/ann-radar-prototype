@@ -29,24 +29,29 @@ import {AdminLayerType} from '@/types/admin-layers';
 import {socialMonitoringColors} from './colors';
 import {laboratoriesStyle, mobilityIsochronesStyle} from './map-layer-styles';
 
-export const createBuildingLayerStyle = (labelProperty: string) => {
-  return (feature: Feature<Geometry> | RenderFeature) =>
+export const LABEL_RESOLUTION_THRESHOLD = 1.5;
+
+export const createBuildingLayerStyle =
+  (labelProperty: string) =>
+  (feature: Feature<Geometry> | RenderFeature, resolution: number) =>
     new Style({
       stroke: new Stroke({
         color: '#3399CC',
         width: 1.25
       }),
-      text: new Text({
-        font: '12px Avenir, Helvetica, Arial, sans-serif',
-        text: String(feature.getProperties()[labelProperty] || ''),
-        fill: new Fill({
-          color: '#000'
-        }),
-        stroke: new Stroke({color: '#fff', width: 4}),
-        overflow: true
-      })
+      text:
+        resolution < LABEL_RESOLUTION_THRESHOLD
+          ? new Text({
+              font: '12px Avenir, Helvetica, Arial, sans-serif',
+              text: String(feature.getProperties()[labelProperty] || ''),
+              fill: new Fill({
+                color: '#000'
+              }),
+              stroke: new Stroke({color: '#fff', width: 4}),
+              overflow: true
+            })
+          : undefined
     });
-};
 
 export const solarPotentialLayersOptions: Array<LayerOptions> = [
   {
@@ -81,7 +86,7 @@ export const solarPotentialLayersOptions: Array<LayerOptions> = [
     source: vectorSourcesOptions.HH_Gebaeude_Solarpotential,
     style: createBuildingLayerStyle('p_st_mwha'),
     zIndex: 6,
-    minZoom: 16
+    minZoom: 9
   }
 ];
 
@@ -112,7 +117,7 @@ export const energyPotentialLayersOptions: Array<LayerOptions> = [
     source: vectorSourcesOptions.HH_Gebaeude_spezifischer_Nutzwaermebedarf,
     style: createBuildingLayerStyle('Diff_WBd_P'),
     zIndex: 6,
-    minZoom: 16
+    minZoom: 9
   }
 ];
 
