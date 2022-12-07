@@ -5,10 +5,11 @@
       layersConfig.mobilityIsochrones.classification.map(val => ({
         text: val.from + ' ' + $t(val.unit || ''),
         sortable: false,
+        // value is time range in seconds
         value: (val.from * 60).toString()
       }))
     "
-    :items="Object.values(reachedResidentsByTime)"
+    :items="reachedResidentsByTime"
     class="reachability-table"
   ></v-data-table>
 </template>
@@ -41,7 +42,7 @@ interface Data {
     geometry: {coordinates: []};
     properties: {BBZ: string};
   }[];
-  reachedResidentsByTime: Record<string, Record<string, number>>;
+  reachedResidentsByTime: Record<string, number>[];
 }
 
 const BUILDING_BLOCK_DATA_RESIDENTS_KEY = 'Bev_311220';
@@ -56,7 +57,7 @@ export default Vue.extend({
   data(): Data {
     return {
       buildingBlockFeatures: [],
-      reachedResidentsByTime: {}
+      reachedResidentsByTime: []
     };
   },
   created() {
@@ -73,22 +74,16 @@ export default Vue.extend({
     });
   },
   watch: {
-    mobilityIsochrones(newMobilityIsochrones) {
+    mobilityIsochrones() {
       if (!this.buildingBlockFeatures || !this.buildingBlockFeatures.length) {
         return;
       }
 
-      Object.keys(this.reachedResidentsByTime).forEach(id => {
-        if (!(id in newMobilityIsochrones)) {
-          delete this.reachedResidentsByTime[id];
-        }
-      });
+      // reset current calculation
+      this.reachedResidentsByTime = [];
 
-      Object.keys(newMobilityIsochrones)
-        .filter(id => !(id in this.reachedResidentsByTime))
-        .forEach(id => {
-          const isochroneFeatures = newMobilityIsochrones[id];
-
+      Object.values(this.mobilityIsochrones).forEach(
+        (isochroneFeatures: Array<GeoJSONFeature>) => {
           // Filter building blocks to reduce calculation time
           const filteredBuildingBlockGeometries =
             this.filterBuildingBlockFeatures(
@@ -108,11 +103,12 @@ export default Vue.extend({
             reachedBuildingBlocksByTime
           );
 
-          this.reachedResidentsByTime = {
+          this.reachedResidentsByTime = [
             ...this.reachedResidentsByTime,
-            [id]: reachedResidentsByTime
-          };
-        });
+            reachedResidentsByTime
+          ];
+        }
+      );
     }
   },
   methods: {
@@ -126,8 +122,15 @@ export default Vue.extend({
       // Merge all isochrone Features into one Polygon
       const mergedIsochronePolygon = isochroneFeatures.reduce(
         (mergedFeatures, feature) =>
-          union(mergedFeatures, multiPolygon(feature.geometry.coordinates)),
+          union(
+            mergedFeatures,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            multiPolygon(feature.geometry.coordinates)
+          ),
         multiPolygon(
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           isochroneFeatures[isochroneFeatures.length - 1].geometry.coordinates
         )
       );
