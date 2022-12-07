@@ -3,7 +3,7 @@
     v-if="layersConfig.mobilityIsochrones"
     :headers="
       layersConfig.mobilityIsochrones.classification.map(val => ({
-        text: val.from + ' ' + $t(val.unit || ''),
+        text: val.from + ' ' + $t(`legends.units.${val.unit}`),
         sortable: false,
         // value is time range in seconds
         value: (val.from * 60).toString()
