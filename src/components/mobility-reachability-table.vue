@@ -33,19 +33,23 @@ import {Polygon} from 'ol/geom';
 import proj4 from 'proj4';
 import {register} from 'ol/proj/proj4';
 
-import {vectorSourcesOptions} from '../constants/sources';
+import {vectorSourcesOptions} from '@/constants/sources';
+import {adminLayers} from '@/constants/admin-layers';
+import {AdminLayerType} from '@/types/admin-layers';
 
 import buildingBlockData from '../../public/data/baublöcke.json';
 
 interface Data {
   buildingBlockFeatures: {
     geometry: {coordinates: number[]};
-    properties: {BBZ: string};
+    properties: Record<string, string>;
   }[];
   reachedResidentsByTime: Record<string, number>[];
 }
 
 const BUILDING_BLOCK_DATA_RESIDENTS_KEY = 'Bev_311220';
+const BUILDING_BLOCK_DATA_ID =
+  adminLayers[AdminLayerType.BUILDING_BLOCK].dataId;
 
 export default Vue.extend({
   computed: {
@@ -115,7 +119,7 @@ export default Vue.extend({
     filterBuildingBlockFeatures(
       buildingBlockFeatures: {
         geometry: {coordinates: number[]};
-        properties: {BBZ: string};
+        properties: Record<string, string>;
       }[],
       isochroneFeatures: Array<GeoJSONFeature>
     ) {
@@ -157,7 +161,7 @@ export default Vue.extend({
 
       // Filter building blocks with a higher distance to isochrone center than calculated max distance
       return buildingBlockFeatures
-        .map<{geometry: Polygon; bbz: string} | null>(feature => {
+        .map<{geometry: Polygon; buildingBlockId: string} | null>(feature => {
           const geometry = new GeoJSON()
             .readFeature(feature)
             .getGeometry()
@@ -170,14 +174,17 @@ export default Vue.extend({
           );
 
           if (distanceToCenter < maxDistance) {
-            return {geometry, bbz: feature.properties.BBZ};
+            return {
+              geometry,
+              buildingBlockId: feature.properties[BUILDING_BLOCK_DATA_ID]
+            };
           }
           return null;
         })
         .filter(Boolean as unknown as <E>(x: E | null | undefined) => x is E);
     },
     calculateReachedBuildingBlocksByTime(
-      buildingBlocks: {geometry: Polygon; bbz: string}[],
+      buildingBlocks: {geometry: Polygon; buildingBlockId: string}[],
       isochroneFeatures: Array<GeoJSONFeature>
     ) {
       // Sort isochrones by time range ascending
@@ -204,7 +211,7 @@ export default Vue.extend({
       );
 
       // Check if building block polygons intersect with isochrones
-      buildingBlocks.forEach(({geometry, bbz}) => {
+      buildingBlocks.forEach(({geometry, buildingBlockId}) => {
         let blockPolygon: GeoJSONFeature = polygon([]);
         // Check if given geometry is a multi-polygon
         if (isNaN(geometry.getCoordinates()[0][0][0])) {
@@ -223,14 +230,16 @@ export default Vue.extend({
             // Check wether building block already matched isochrone of former time range
             (formerTime &&
               reachedBuildingBlocksByTime[formerTime] &&
-              [...reachedBuildingBlocksByTime[formerTime]].includes(bbz)) ||
+              [...reachedBuildingBlocksByTime[formerTime]].includes(
+                buildingBlockId
+              )) ||
             // Match building block with isochrone
             booleanWithin(blockPolygon, isochroneFeature)
           ) {
             // Add residents count to entry matching current reachability time
             reachedBuildingBlocksByTime[time] = new Set([
               ...reachedBuildingBlocksByTime[time],
-              bbz
+              buildingBlockId
             ]);
           }
         }
@@ -244,9 +253,9 @@ export default Vue.extend({
         (reachedResidentsByTime: Record<string, number>, time) => {
           const reachedResidents: number = [
             ...reachedBuildingBlocksByTime[time]
-          ].reduce((reachedResidents: number, bbz: string) => {
+          ].reduce((reachedResidents: number, buildingBlockId: string) => {
             const buildingBlock = buildingBlockData.find(
-              data => bbz === data.BBZ
+              data => buildingBlockId === data[BUILDING_BLOCK_DATA_ID]
             );
             return (
               reachedResidents +
