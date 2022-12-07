@@ -255,11 +255,15 @@ export default Vue.extend({
             ...reachedBuildingBlocksByTime[time]
           ].reduce((reachedResidents: number, buildingBlockId: string) => {
             const buildingBlock = buildingBlockData.find(
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
               data => buildingBlockId === data[BUILDING_BLOCK_DATA_ID]
             );
             return (
               reachedResidents +
-              Number(buildingBlock[BUILDING_BLOCK_DATA_RESIDENTS_KEY])
+              (buildingBlock
+                ? Number(buildingBlock[BUILDING_BLOCK_DATA_RESIDENTS_KEY])
+                : 0)
             );
           }, 0);
 
