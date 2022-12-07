@@ -119,19 +119,23 @@ export default Vue.extend({
       }[],
       isochroneFeatures: Array<GeoJSONFeature>
     ) {
+      const lastIsochroneFeature =
+        isochroneFeatures[isochroneFeatures.length - 1];
       // Merge all isochrone Features into one Polygon
       const mergedIsochronePolygon = isochroneFeatures.reduce(
         (mergedFeatures, feature) =>
           union(
             mergedFeatures,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            multiPolygon(feature.geometry.coordinates)
+            multiPolygon(
+              feature.geometry.type === 'MultiPolygon'
+                ? feature.geometry.coordinates
+                : []
+            )
           ),
         multiPolygon(
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          isochroneFeatures[isochroneFeatures.length - 1].geometry.coordinates
+          lastIsochroneFeature.geometry.type === 'MultiPolygon'
+            ? lastIsochroneFeature.geometry.coordinates
+            : []
         )
       );
 
