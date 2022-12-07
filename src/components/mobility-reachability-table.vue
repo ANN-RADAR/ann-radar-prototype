@@ -180,7 +180,28 @@ export default Vue.extend({
       buildingBlocks: {geometry: Polygon; bbz: string}[],
       isochroneFeatures: Array<GeoJSONFeature>
     ) {
-      let reachedBuildingBlocksByTime: Record<string, Set<string>> = {};
+      // Sort isochrones by time range ascending
+      const sortedIsochroneFeatures = isochroneFeatures.sort(
+        (a, b) => (a.properties?.time || 0) - (b.properties?.time || 0)
+      );
+
+      // Initialize with time ranges
+      let reachedBuildingBlocksByTime: Record<
+        string,
+        Set<string>
+      > = sortedIsochroneFeatures.reduce(
+        (
+          buildingBlocksByTime: Record<string, Set<string>>,
+          isochroneFeature
+        ) => {
+          const time = isochroneFeature.properties?.time;
+          if (time) {
+            buildingBlocksByTime[time] = new Set();
+          }
+          return buildingBlocksByTime;
+        },
+        {}
+      );
 
       // Check if building block polygons intersect with isochrones
       buildingBlocks.forEach(({geometry, bbz}) => {
@@ -192,18 +213,25 @@ export default Vue.extend({
           blockPolygon = polygon(geometry.getCoordinates());
         }
 
-        for (let i = 0; i < isochroneFeatures.length; i++) {
-          const isochroneFeature = isochroneFeatures[i];
+        for (let i = 0; i < sortedIsochroneFeatures.length; i++) {
+          const isochroneFeature = sortedIsochroneFeatures[i];
+          const time = isochroneFeature.properties?.time;
+          const formerTime =
+            i > 0 && sortedIsochroneFeatures[i - 1].properties?.time;
 
-          if (booleanWithin(blockPolygon, isochroneFeature)) {
-            const time = isochroneFeature.properties?.time;
-            if (time) {
-              // Add residents count to entry matching current reachability time
-              reachedBuildingBlocksByTime[time] = new Set([
-                ...(reachedBuildingBlocksByTime[time] || []),
-                bbz
-              ]);
-            }
+          if (
+            // Check wether building block already matched isochrone of former time range
+            (formerTime &&
+              reachedBuildingBlocksByTime[formerTime] &&
+              [...reachedBuildingBlocksByTime[formerTime]].includes(bbz)) ||
+            // Match building block with isochrone
+            booleanWithin(blockPolygon, isochroneFeature)
+          ) {
+            // Add residents count to entry matching current reachability time
+            reachedBuildingBlocksByTime[time] = new Set([
+              ...reachedBuildingBlocksByTime[time],
+              bbz
+            ]);
           }
         }
       });
