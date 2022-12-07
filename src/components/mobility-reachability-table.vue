@@ -163,15 +163,13 @@ export default Vue.extend({
             .getGeometry()
             .transform('EPSG:25832', 'EPSG:4326');
 
-          if (
-            distance(
-              centerOfIsochrone,
-              point(geometry.flatCoordinates.slice(0, 2)),
-              {
-                units: 'meters'
-              }
-            ) < maxDistance
-          ) {
+          const distanceToCenter = distance(
+            centerOfIsochrone,
+            point(geometry.flatCoordinates.slice(0, 2)),
+            {units: 'meters'}
+          );
+
+          if (distanceToCenter < maxDistance) {
             return {geometry, bbz: feature.properties.BBZ};
           }
           return null;
