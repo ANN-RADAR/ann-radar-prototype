@@ -39,7 +39,7 @@ import buildingBlockData from '../../public/data/baublöcke.json';
 
 interface Data {
   buildingBlockFeatures: {
-    geometry: {coordinates: []};
+    geometry: {coordinates: number[]};
     properties: {BBZ: string};
   }[];
   reachedResidentsByTime: Record<string, number>[];
