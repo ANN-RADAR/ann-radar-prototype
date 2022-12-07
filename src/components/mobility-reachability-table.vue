@@ -114,7 +114,7 @@ export default Vue.extend({
   methods: {
     filterBuildingBlockFeatures(
       buildingBlockFeatures: {
-        geometry: {coordinates: []};
+        geometry: {coordinates: number[]};
         properties: {BBZ: string};
       }[],
       isochroneFeatures: Array<GeoJSONFeature>
