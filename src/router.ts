@@ -10,6 +10,7 @@ import LaboratoryForm from './components/laboratories-form.vue';
 import ListLaboratories from './components/laboratories-list.vue';
 import Category from './views/category-container.vue';
 import PotentialInspectorTable from './components/potential-inspector-table.vue';
+import PotentialMobilityWrapper from './components/potential-mobility-wrapper.vue';
 import Plans from './views/category-plans.vue';
 import Stakeholders from './views/category-stakeholders.vue';
 import StakeholdersEngagement from './components/stakeholders-engagement.vue';
@@ -142,7 +143,7 @@ const routes = [
       },
       {
         path: '/potential/mobility',
-        components: {content: PotentialInspectorTable},
+        components: {content: PotentialMobilityWrapper},
         name: 'Mobility Potential',
         props: {
           content: {category: 'mobility'}

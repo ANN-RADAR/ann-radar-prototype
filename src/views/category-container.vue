@@ -192,10 +192,10 @@ export default Vue.extend({
       const newMobilityLocations: Array<MobilityLocation> = [];
 
       features.forEach((feature, index) => {
-        const locationId = String(index + 1);
+        const locationId = feature['ol_uid'];
 
         // Add name property to mobility location feature
-        feature.set('name', locationId);
+        feature.set('name', String(index + 1));
 
         const geometry = feature.getGeometry();
         if (geometry instanceof Point) {

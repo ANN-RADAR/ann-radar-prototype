@@ -11,3 +11,7 @@ declare global {
     }
   }
 }
+
+declare module 'turf-point';
+declare module 'turf-polygon';
+declare module 'turf-multipolygon';
