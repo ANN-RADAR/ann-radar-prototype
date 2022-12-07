@@ -1,6 +1,6 @@
 <template>
   <div class="potential-mobility-wrapper">
-    <potential-inspector-table :category="this.category" />
+    <potential-inspector-table :category="category" />
     <mobility-reachability-table />
   </div>
 </template>
