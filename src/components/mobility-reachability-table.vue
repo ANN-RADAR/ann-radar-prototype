@@ -25,7 +25,7 @@ import point from 'turf-point';
 import centroid from '@turf/centroid';
 import distance from '@turf/distance';
 import union from '@turf/union';
-import booleanIntersects from '@turf/boolean-intersects';
+import booleanWithin from '@turf/boolean-within';
 
 import GeoJSON from 'ol/format/GeoJSON';
 import {GeoJSONFeature} from 'ol/format/GeoJSON';
@@ -185,7 +185,7 @@ export default Vue.extend({
         let blockPolygon: GeoJSONFeature = polygon([]);
         // Check if given geometry is a multi-polygon
         if (isNaN(geometry.getCoordinates()[0][0][0])) {
-          blockPolygon = multiPolygon(geometry.getCoordinates());
+          blockPolygon = polygon(geometry.getCoordinates().flat());
         } else {
           blockPolygon = polygon(geometry.getCoordinates());
         }
@@ -193,7 +193,7 @@ export default Vue.extend({
         for (let i = 0; i < isochroneFeatures.length; i++) {
           const isochroneFeature = isochroneFeatures[i];
 
-          if (booleanIntersects(isochroneFeature, blockPolygon)) {
+          if (booleanWithin(blockPolygon, isochroneFeature)) {
             const time = isochroneFeature.properties?.time;
             if (time) {
               // Add residents count to entry matching current reachability time
