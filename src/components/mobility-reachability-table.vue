@@ -1,14 +1,18 @@
 <template>
   <v-data-table
     v-if="layersConfig.mobilityIsochrones"
-    :headers="
-      layersConfig.mobilityIsochrones.classification.map(val => ({
+    :headers="[
+      {
+        sortable: false,
+        value: 'id'
+      },
+      ...layersConfig.mobilityIsochrones.classification.map(val => ({
         text: (val.from + ' ' + $t(`legends.units.${val.unit}`)).trim(),
         sortable: false,
         // value is time range in seconds
         value: (val.from * 60).toString()
       }))
-    "
+    ]"
     :items="reachedResidentsByTime"
     class="reachability-table"
   ></v-data-table>
@@ -18,6 +22,8 @@
 import Vue from 'vue';
 import {mapState} from 'vuex';
 import {MapStateToComputed} from '@/types/store';
+
+import i18n from '../plugins/i18n';
 
 import multiPolygon from 'turf-multipolygon';
 import polygon from 'turf-polygon';
@@ -44,7 +50,7 @@ interface Data {
     geometry: {coordinates: number[]};
     properties: Record<string, string>;
   }[];
-  reachedResidentsByTime: Record<string, number>[];
+  reachedResidentsByTime: Record<string, string>[];
 }
 
 const BUILDING_BLOCK_DATA_RESIDENTS_KEY = 'Bev_311220';
@@ -86,32 +92,55 @@ export default Vue.extend({
       // reset current calculation
       this.reachedResidentsByTime = [];
 
-      Object.values(this.mobilityIsochrones).forEach(
-        (isochroneFeatures: Array<GeoJSONFeature>) => {
-          // Filter building blocks to reduce calculation time
-          const filteredBuildingBlockGeometries =
-            this.filterBuildingBlockFeatures(
-              this.buildingBlockFeatures,
-              isochroneFeatures
-            );
+      Object.keys(this.mobilityIsochrones).forEach(id => {
+        const isochroneFeatures: Array<GeoJSONFeature> =
+          this.mobilityIsochrones[id];
 
-          // Calculate building blocks reached
-          const reachedBuildingBlocksByTime =
-            this.calculateReachedBuildingBlocksByTime(
-              filteredBuildingBlockGeometries,
-              isochroneFeatures
-            );
-
-          // Retrieve resident counts for reached building blocks
-          const reachedResidentsByTime = this.calculateReachedResidentsByTime(
-            reachedBuildingBlocksByTime
+        // Filter building blocks to reduce calculation time
+        const filteredBuildingBlockGeometries =
+          this.filterBuildingBlockFeatures(
+            this.buildingBlockFeatures,
+            isochroneFeatures
           );
 
-          this.reachedResidentsByTime = [
-            ...this.reachedResidentsByTime,
-            reachedResidentsByTime
-          ];
-        }
+        // Calculate building blocks reached
+        const reachedBuildingBlocksByTime =
+          this.calculateReachedBuildingBlocksByTime(
+            filteredBuildingBlockGeometries,
+            isochroneFeatures
+          );
+
+        // Retrieve resident counts for reached building blocks
+        const reachedResidentsByTime = this.calculateReachedResidentsByTime(
+          reachedBuildingBlocksByTime
+        );
+
+        reachedResidentsByTime['id'] = id;
+
+        this.reachedResidentsByTime = [
+          ...this.reachedResidentsByTime,
+          reachedResidentsByTime
+        ];
+      });
+
+      // Calculate total reached residents
+      this.reachedResidentsByTime.push(
+        this.reachedResidentsByTime.reduce(
+          (totalResidents, reachedResidents) => {
+            Object.keys(reachedResidents).forEach(key => {
+              if (key === 'id') {
+                totalResidents[key] = i18n.t('total');
+                return;
+              }
+              totalResidents[key] = String(
+                (Number(totalResidents[key]) || 0) +
+                  Number(reachedResidents[key])
+              );
+            });
+            return totalResidents;
+          },
+          {}
+        )
       );
     }
   },
@@ -250,7 +279,7 @@ export default Vue.extend({
       reachedBuildingBlocksByTime: Record<string, Set<string>>
     ) {
       return Object.keys(reachedBuildingBlocksByTime).reduce(
-        (reachedResidentsByTime: Record<string, number>, time) => {
+        (reachedResidentsByTime: Record<string, string>, time) => {
           const reachedResidents: number = [
             ...reachedBuildingBlocksByTime[time]
           ].reduce((reachedResidents: number, buildingBlockId: string) => {
@@ -267,7 +296,7 @@ export default Vue.extend({
             );
           }, 0);
 
-          reachedResidentsByTime[time] = reachedResidents;
+          reachedResidentsByTime[time] = String(reachedResidents);
           return reachedResidentsByTime;
         },
         {}
