@@ -128,13 +128,15 @@ export const baseLayersOptions: Array<LayerOptions> = [
     type: 'tile',
     properties: {name: 'schools'},
     visible: false,
-    source: tileSourcesOptions.HH_WMS_Schulen
+    source: tileSourcesOptions.HH_WMS_Schulen,
+    zIndex: 1
   },
   {
     type: 'tile',
     properties: {name: 'quarterCulture'},
     visible: false,
-    source: tileSourcesOptions.HH_WMS_Oeffentliche_Bibliotheken
+    source: tileSourcesOptions.HH_WMS_Oeffentliche_Bibliotheken,
+    zIndex: 1
   },
   {
     type: 'tile',
@@ -148,7 +150,8 @@ export const baseLayersOptions: Array<LayerOptions> = [
       ],
       tileSourcesOptions.HH_WMS_Jugend_Aktiv_Plus,
       tileSourcesOptions.HH_WMS_KitaEinrichtung
-    ]
+    ],
+    zIndex: 1
   },
   {
     type: 'tile',
@@ -157,7 +160,8 @@ export const baseLayersOptions: Array<LayerOptions> = [
     source: [
       tileSourcesOptions.HH_WMS_Wohnungsbauprojekte,
       tileSourcesOptions.HH_WMS_Wohnbauflaechenpotenziale
-    ]
+    ],
+    zIndex: 1
   },
   {
     type: 'tile',
@@ -217,8 +221,7 @@ export const mobilityIsochronesLayerOptions: VectorLayerOptions = {
   properties: {name: 'mobilityIsochrones'},
   visible: true,
   source: {wrapX: false},
-  style: mobilityIsochronesStyle,
-  zIndex: 4
+  style: mobilityIsochronesStyle
 };
 
 export const mapStyleLayersOptions: Array<TileLayerOptions> = [
