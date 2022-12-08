@@ -1,10 +1,18 @@
 export enum AdminLayerType {
   CITY = 'city',
-  BOROUGH = 'borough',
+  DISTRICT = 'district',
   QUARTER = 'quarter',
   STATISTICAL_AREA = 'statisticalArea',
   BUILDING_BLOCK = 'buildingBlock'
 }
+
+export enum BalancedScorecardAdminLayerType {
+  DISTRICT = AdminLayerType.DISTRICT,
+  QUARTER = AdminLayerType.QUARTER,
+  STATISTICAL_AREA = AdminLayerType.STATISTICAL_AREA
+}
+
+export type AdminLayerFeatureId = string;
 
 export interface AdminLayerFeatureData
   extends Record<string, string | number | undefined> {

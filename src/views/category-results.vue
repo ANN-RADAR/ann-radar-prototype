@@ -15,7 +15,7 @@
         :thematicLayerOptions="thematicLayers"
         showLayerSwitcher
         :layerSwitcherProps="{
-          thematicLayersTitle: $t(thematicLayersTitleKey),
+          thematicLayersTitle: thematicLayersTitle,
           alwaysVisibleLayers: initialActiveLayers
         }"
         showStyleSwitcher
@@ -113,13 +113,8 @@ import BalancedScorecardResults from '../components/balanced-scorecard-results.v
 import PotentialInspectorTable from '../components/potential-inspector-table.vue';
 
 import {LayerOptions} from '@/types/layers';
-import {mapActions, mapGetters, mapState} from 'vuex';
-import {
-  MapActionsToMethods,
-  MapGettersToComputed,
-  MapStateToComputed
-} from '@/types/store';
-import {ScorecardType} from '@/types/scorecards';
+import {mapGetters, mapState} from 'vuex';
+import {MapGettersToComputed, MapStateToComputed} from '@/types/store';
 
 interface Data {
   initialActiveLayers: Array<string>;
@@ -146,7 +141,7 @@ export default Vue.extend({
       type: Array as PropType<Array<LayerOptions>>,
       required: true
     },
-    thematicLayersTitleKey: {
+    thematicLayersTitle: {
       type: String,
       required: true
     }
@@ -172,10 +167,6 @@ export default Vue.extend({
     ])
   },
   methods: {
-    ...(mapActions as MapActionsToMethods)('root', [
-      'fetchBalancedScorecard',
-      'fetchBalancedScorecardRatings'
-    ]),
     toggleResults(open: boolean) {
       if (!open) {
         this.$router.push(this.returnTo);
@@ -189,11 +180,6 @@ export default Vue.extend({
     }
 
     this.initialActiveLayers = this.baseLayerTypes;
-
-    Object.values(ScorecardType).forEach(scorecardType => {
-      this.fetchBalancedScorecard(scorecardType);
-    });
-    this.fetchBalancedScorecardRatings();
   }
 });
 </script>
@@ -264,6 +250,7 @@ export default Vue.extend({
 }
 
 .potential-table-wrapper {
+  flex: 1;
   padding: 16px;
   overflow: hidden;
 }

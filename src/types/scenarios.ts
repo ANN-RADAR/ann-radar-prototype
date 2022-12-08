@@ -4,11 +4,13 @@ export interface Scenario {
   id: string;
   name: string;
   baseLayerTypes: Array<string>;
-  balancedScorecardsRef: DocumentReference;
+  stakeholdersEngagementsRef?: DocumentReference;
   notesRef: DocumentReference;
+  mobilityLocationsRef?: DocumentReference;
 }
 
 export interface ScenarioMetaData extends Pick<Scenario, 'id' | 'name'> {
-  balancedScorecardsId: string;
+  stakeholdersEngagementsId?: string;
   notesId: string;
+  mobilityLocationsId?: string;
 }

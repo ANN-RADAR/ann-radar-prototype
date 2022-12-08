@@ -30,16 +30,51 @@
             <h4 v-if="!showReducedList && thematicLayersTitle" class="overline">
               {{ thematicLayersTitle }}
             </h4>
-            <v-checkbox
+            <div
               v-for="layer in visibleThematicLayers"
               :key="layer.properties.name"
-              :input-value="baseLayerTypes.includes(layer.properties.name)"
-              :label="$t(`layer.${layer.properties.name}`)"
-              style="margin-top: -4px"
-              @change="onLayerChange(layer, $event)"
-              dense
-              hide-details
-            ></v-checkbox>
+            >
+              <v-checkbox
+                :input-value="baseLayerTypes.includes(layer.properties.name)"
+                :label="$t(`layer.${layer.properties.name}`)"
+                class="checkbox"
+                @change="onLayerChange(layer, $event)"
+                dense
+                hide-details
+              ></v-checkbox>
+              <v-radio-group
+                v-if="
+                  baseLayerTypes.includes(layer.properties.name) &&
+                  layer.properties.featureProperties &&
+                  layer.properties.featureProperties.length
+                "
+                :value="
+                  baseLayerFeatureProperties[layer.properties.name] ||
+                  layer.properties.featureProperties[0].id
+                "
+                dense
+                hide-details
+                class="sub-radio-group"
+              >
+                <v-radio
+                  v-for="property in layer.properties.featureProperties"
+                  :key="property.id"
+                  :label="
+                    $t(
+                      `layer.properties.${layer.properties.name}.${property.name}`
+                    )
+                  "
+                  :value="property.id"
+                  class="radio"
+                  @change="
+                    onLayerFeaturePropertyChange(
+                      layer.properties.name,
+                      property.id
+                    )
+                  "
+                ></v-radio>
+              </v-radio-group>
+            </div>
           </section>
 
           <section v-if="visibleBaseLayers.length">
@@ -51,11 +86,53 @@
               :key="layer.properties.name"
               :input-value="baseLayerTypes.includes(layer.properties.name)"
               :label="$t(`layer.${layer.properties.name}`)"
-              style="margin-top: -4px"
+              class="checkbox"
               @change="onLayerChange(layer, $event)"
               dense
               hide-details
             ></v-checkbox>
+          </section>
+
+          <section v-if="!$route.path.startsWith('/urban-testbeds')">
+            <h4 v-if="!showReducedList" class="overline">
+              {{ $t('navigation.urbanTestbeds') }}
+            </h4>
+            <v-checkbox
+              v-for="layer in laboratoriesLayers"
+              :key="layer.properties.name"
+              :input-value="baseLayerTypes.includes(layer.properties.name)"
+              :label="$t(`layer.${layer.properties.name}`)"
+              class="checkbox"
+              @change="onLayerChange(layer, $event)"
+              dense
+              hide-details
+            ></v-checkbox>
+          </section>
+
+          <section v-if="$route.path.startsWith('/urban-testbeds')">
+            <h4 v-if="!showReducedList" class="overline">
+              {{ $t('layerOptions.administrativeBorders') }}
+            </h4>
+            <v-radio-group
+              :value="adminLayerType"
+              @change="onAdminAreaLayerChange($event)"
+              class="radio-group"
+              dense
+              hide-details
+            >
+              <v-radio
+                :label="$t('layerOptions.none')"
+                :value="null"
+                class="radio"
+              ></v-radio>
+              <v-radio
+                v-for="adminLayer in allAdminLayerTypes"
+                :key="adminLayer"
+                :label="$t(`adminLayer.${adminLayer}`)"
+                :value="adminLayer"
+                class="radio"
+              ></v-radio>
+            </v-radio-group>
           </section>
         </div>
 
@@ -84,14 +161,20 @@
 import Vue, {PropType} from 'vue';
 import {mapMutations, mapState} from 'vuex';
 
+import {AdminLayerType} from '@/types/admin-layers';
 import {LayerOptions} from '@/types/layers';
 import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
-import {baseLayersOptions} from '../constants/layers';
+import {
+  baseLayersOptions,
+  laboratoriesLayersOptions
+} from '../constants/layers';
 
 interface Data {
   isOpen: boolean;
   showReducedList: boolean;
   baseLayers: Array<LayerOptions>;
+  laboratoriesLayers: Array<LayerOptions>;
+  allAdminLayerTypes: Array<AdminLayerType>;
 }
 
 export default Vue.extend({
@@ -116,16 +199,22 @@ export default Vue.extend({
     return {
       isOpen: hasAlwaysVisibleLayers,
       showReducedList: hasAlwaysVisibleLayers,
-      baseLayers: baseLayersOptions
+      baseLayers: baseLayersOptions,
+      laboratoriesLayers: laboratoriesLayersOptions,
+      allAdminLayerTypes: Object.values(AdminLayerType)
     };
   },
   computed: {
-    ...(mapState as MapStateToComputed)('root', ['baseLayerTypes']),
+    ...(mapState as MapStateToComputed)('root', [
+      'adminLayerType',
+      'baseLayerTypes',
+      'baseLayerFeatureProperties'
+    ]),
     visibleThematicLayers(): Array<LayerOptions> {
       if (!this.showReducedList) {
-        return this.thematicLayers;
+        return this.thematicLayers || [];
       }
-      return this.thematicLayers.filter((layer: LayerOptions) =>
+      return (this.thematicLayers || []).filter((layer: LayerOptions) =>
         this.alwaysVisibleLayers.includes(layer.properties.name)
       );
     },
@@ -139,10 +228,26 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...(mapMutations as MapMutationsToMethods)('root', ['toggleBaseLayerType']),
+    ...(mapMutations as MapMutationsToMethods)('root', [
+      'toggleBaseLayerType',
+      'setBaseLayerFeatureProperty',
+      'setAdminLayerType'
+    ]),
     onLayerChange(layer: LayerOptions, visible: boolean) {
       layer.visible = visible;
       this.toggleBaseLayerType(layer.properties.name);
+    },
+    onLayerFeaturePropertyChange(
+      baseLayerType: string,
+      baseLayerFeatureProperty: string
+    ) {
+      this.setBaseLayerFeatureProperty({
+        baseLayerType,
+        baseLayerFeatureProperty
+      });
+    },
+    onAdminAreaLayerChange(newSelectedAdminLayer: AdminLayerType | null) {
+      this.setAdminLayerType(newSelectedAdminLayer);
     },
     toggleReducedList() {
       this.showReducedList = !this.showReducedList;
@@ -166,6 +271,23 @@ export default Vue.extend({
   grid-gap: 16px;
   padding: 4px 12px 12px 12px;
   overflow: auto;
+}
+
+.list .checkbox {
+  margin-top: -4px;
+}
+
+.list .radio-group {
+  margin-top: 0;
+}
+
+.list .sub-radio-group {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.list .radio {
+  margin-top: -8px;
 }
 
 .reduced {

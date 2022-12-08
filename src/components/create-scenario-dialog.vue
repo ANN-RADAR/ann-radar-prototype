@@ -8,18 +8,7 @@
       @onConfirm="createAndLoad()"
       @onCancel="showConfirm = false"
     />
-    <v-dialog v-model="open" max-width="600px">
-      <template v-slot:activator="{on, attrs}">
-        <v-btn
-          id="tour-create-scenario"
-          text
-          v-bind="attrs"
-          v-on="on"
-          :disabled="disabled"
-        >
-          {{ $t('scenarios.createScenario') }}
-        </v-btn>
-      </template>
+    <v-dialog :value="true" max-width="600px">
       <v-card>
         <v-card-title>{{ $t('scenarios.createScenario') }}</v-card-title>
         <v-card-text>
@@ -31,7 +20,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="close()">
+          <v-btn color="blue darken-1" text @click="$emit('close')">
             {{ $t('cancel') }}
           </v-btn>
           <v-btn
@@ -59,7 +48,6 @@ import {mapActions, mapState} from 'vuex';
 import ConfirmCreateDialog from './confirm-dialog.vue';
 
 interface Data {
-  open: boolean;
   name: string;
   showConfirm: boolean;
 }
@@ -72,7 +60,6 @@ export default Vue.extend({
   },
   data(): Data {
     return {
-      open: false,
       name: '',
       showConfirm: false
     };
@@ -108,12 +95,8 @@ export default Vue.extend({
 
       this.fetchScenarioDetails({id, ...scenario});
 
-      this.close();
-    },
-    close() {
-      this.name = '';
-      this.open = false;
-      this.showConfirm = false;
+      // Close the dialog
+      this.$emit('close');
     }
   }
 });

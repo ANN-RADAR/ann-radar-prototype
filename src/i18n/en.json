@@ -13,10 +13,11 @@
     "logout": "Logout"
   },
   "navigation": {
-    "potential": "Potential",
+    "sustainabilityDomains": "Sustainability Domains",
     "solar": "Solar",
     "energyEfficiency": "Energy Efficiency",
     "mobility": "Mobility",
+    "assessment": "Assessment",
     "plans": "Plans",
     "rate": "Select",
     "compare": "View",
@@ -33,9 +34,16 @@
     "baseLayers": "Base Layers",
     "solarLayers": "Solar Layers",
     "energyLayers": "Energy Efficiency Layers",
-    "mobilityLayers": "Mobility Layers"
+    "mobilityLayers": "Mobility Layers",
+    "administrativeBorders": "Administrative Borders",
+    "none": "None"
   },
   "mapStyles": "Map Style",
+  "mobilityLocationDrawing": {
+    "title": "Mobility Location Drawing",
+    "draw": "Place location",
+    "erase": "Delete location"
+  },
   "notes": "Notes",
   "cockpit": "Cockpit",
   "selectAreas": "Select Areas",
@@ -45,27 +53,44 @@
   "cancel": "Cancel",
   "save": "Save",
   "create": "Create",
+  "copy": "Create a Copy",
   "saving": "Saving...",
   "loading": "Loading...",
   "notAvailable": "n/a",
   "adminLayer": {
     "city": "City",
-    "borough": "Borough",
+    "district": "District",
     "quarter": "Quarter",
     "statisticalArea": "Statistical Area",
     "buildingBlock": "Building Block"
   },
   "layer": {
-    "solarMap": "Solar Map",
+    "solarMap": "Solar Potential 2015",
     "solarCoverageRate": "Solar Coverage Rate",
-    "heatAtlas": "Heat Atlas",
-    "heatDemand": "Heat Demand",
+    "buildingSolarPotential": "Building Solar Potential",
+    "heatAtlas": "Specific Heat Demand",
+    "heatDemand": "Potential of Renovation",
+    "buildingSpecificHeatDemand": "Building Specific Heat Demand",
     "schools": "Schools",
     "quarterCulture": "Suburban Culture",
     "socialInfrastructure": "Social Infrastructure",
     "buildingAndLiving": "Building and Living",
     "riseFundingAreas": "RISE Funding Areas",
-    "socialMonitoring2020": "Social Monitoring 2020"
+    "socialMonitoring2020": "Social Monitoring 2020",
+    "powerConsumption": "Power Consumption",
+    "urban-testbeds": "Urban Testbeds",
+    "model-quarters": "Model Quarters",
+    "mobilityIsochrones": "Last Mile Delivery",
+    "properties": {
+      "buildingSolarPotential": {
+        "solarPotential": "Solar Potential in MWh/a",
+        "roofShape": "Roof Shape"
+      },
+      "buildingSpecificHeatDemand": {
+        "diffRenovation": "Difference renovated/unrenovated in percent",
+        "livingSpace": "Living space in sqm"
+      }
+    }
   },
   "mapStyle": {
     "colored": "colored",
@@ -75,7 +100,7 @@
   },
   "statisticalArea": "Statistical Area",
   "scenarios": {
-    "scenario": "Scenario: ",
+    "scenario": "Scenario",
     "createScenario": "Create Scenario",
     "saveScenario": "Save Scenario",
     "loadScenario": "Load Scenario",
@@ -125,7 +150,8 @@
       "edit": "Edit Model Quarter \"{name}\""
     },
     "drawingHint": "Click on the map to draw in the corresponding area.",
-    "name": "Name",
+    "projectName": "Project Name",
+    "name": "Testbed Name",
     "runtime": "Runtime",
     "budget": "Budget",
     "location": "Location",
@@ -189,6 +215,29 @@
     "results": {
       "title": "5 – View & Discuss Results",
       "content": "Select data layers<br/>Balanced Scorecards per area<br/>Sustainability thematic potentials"
+    }
+  },
+  "adminAreaSelector": {
+    "areaNotAvailable": "The current admin area selection is not available. Please select another admin area."
+  },
+  "stakeholdersEngagement": {
+    "organizations": "Stakeholders Engagement",
+    "citizens": "Citizens Engagement",
+    "links": "Links to Evidence"
+  },
+  "mobility": {
+    "lastMileDelivery": "Last Mile Delivery",
+    "calculateIsochrones": "Calculate isochrones",
+    "travelType": {
+      "walk": "Walk",
+      "bike": "Bike",
+      "car": "Car",
+      "transit": "Transit"
+    }
+  },
+  "legends": {
+    "units": {
+      "minutes": "Minutes"
     }
   }
 }

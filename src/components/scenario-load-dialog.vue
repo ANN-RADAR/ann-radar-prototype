@@ -8,13 +8,7 @@
       @onConfirm="loadScenario"
       @onCancel="showConfirm = false"
     />
-    <v-dialog v-model="open" max-width="600px">
-      <template v-slot:activator="{on, attrs}">
-        <v-btn id="tour-load-scenario" text v-bind="attrs" v-on="on">
-          {{ $t('scenarios.loadScenario') }}
-        </v-btn>
-      </template>
-
+    <v-dialog :value="true" max-width="600px">
       <v-card>
         <v-card-title>{{ $t('scenarios.loadScenario') }}</v-card-title>
         <v-card-text>
@@ -57,7 +51,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="open = false">
+          <v-btn color="blue darken-1" text @click="$emit('close')">
             {{ $t('cancel') }}
           </v-btn>
           <v-btn
@@ -92,7 +86,6 @@ import {Scenario} from '@/types/scenarios';
 import ConfirmLoadDialog from './confirm-dialog.vue';
 
 interface Data {
-  open: boolean;
   showConfirm: boolean;
   isLoading: boolean;
   savedScenarios: Scenario[];
@@ -101,7 +94,6 @@ interface Data {
 export default Vue.extend({
   data(): Data {
     return {
-      open: false,
       showConfirm: false,
       isLoading: false,
       savedScenarios: [],
@@ -110,19 +102,6 @@ export default Vue.extend({
   },
   components: {
     ConfirmLoadDialog
-  },
-  watch: {
-    async open(newOpenState: boolean) {
-      if (newOpenState) {
-        const scenarios = await this.fetchScenarios();
-        if (scenarios) {
-          this.savedScenarios = scenarios;
-        }
-      } else {
-        // Reset the dialog when it was closed
-        this.resetDialog();
-      }
-    }
   },
   computed: {
     ...(mapState as MapStateToComputed)('root', ['scenarioMetaData'])
@@ -135,24 +114,13 @@ export default Vue.extend({
         const scenarioSnapshot = await getDocs(scenarioRef);
 
         return scenarioSnapshot.docs.map(doc => {
-          const {name, baseLayerTypes, balancedScorecardsRef, notesRef} =
-            doc.data();
-          return {
-            id: doc.id,
-            baseLayerTypes,
-            name,
-            balancedScorecardsRef,
-            notesRef
-          };
+          const data = doc.data();
+          return {id: doc.id, ...data} as Scenario;
         });
       } catch (error) {
         console.error('Error loading scenarios:', error);
         return null;
       }
-    },
-    resetDialog() {
-      this.selectedScenarioIndex = null;
-      this.isLoading = false;
     },
     loadScenario() {
       this.showConfirm = false;
@@ -160,13 +128,23 @@ export default Vue.extend({
       const scenarioToSet =
         this.selectedScenarioIndex != null &&
         this.savedScenarios[this.selectedScenarioIndex];
+
       if (!scenarioToSet) {
         this.isLoading = false;
         return;
       }
+
       this.fetchScenarioDetails(scenarioToSet);
+
       // Close the dialog
-      this.open = false;
+      this.$emit('close');
+    }
+  },
+  async created() {
+    const scenarios = await this.fetchScenarios();
+
+    if (scenarios) {
+      this.savedScenarios = scenarios;
     }
   }
 });

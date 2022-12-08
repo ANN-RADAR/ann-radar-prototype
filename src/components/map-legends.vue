@@ -3,7 +3,7 @@
     <v-sheet
       class="map-legend"
       v-for="[layerType, legend] in Object.entries(legends)"
-      :key="legend.attributeName"
+      :key="layerType"
     >
       <section>
         <h4 class="overline">{{ $t(`layer.${layerType}`) }}</h4>
@@ -26,8 +26,10 @@
               <v-list-item-title
                 >{{ category.from
                 }}<template v-if="category.from !== category.to"
-                  >&nbsp;–&nbsp;{{ category.to }}
-                </template>
+                  >&nbsp;–&nbsp;{{ category.to }}</template
+                ><template v-if="category.unit"
+                  >&nbsp;{{ $t(`legends.units.${category.unit}`) }}</template
+                >
               </v-list-item-title>
             </v-list-item>
 
@@ -123,7 +125,9 @@ export default Vue.extend({
       );
     },
     legends(): Record<string, LayerConfig> {
-      return this.baseLayerTypes.reduce((config, layer) => {
+      const legendsConfig = this.baseLayerTypes.reduce<
+        Record<string, LayerConfig>
+      >((config, layer) => {
         if (!this.availableLayers.includes(layer)) {
           return config;
         }
@@ -131,6 +135,15 @@ export default Vue.extend({
         const layerConfig = this.layersConfig[layer];
         return {...config, ...(layerConfig && {[layer]: layerConfig})};
       }, {});
+
+      if (
+        this.$route.path.startsWith('/potential/mobility') &&
+        this.layersConfig.mobilityIsochrones
+      ) {
+        legendsConfig.mobilityIsochrones = this.layersConfig.mobilityIsochrones;
+      }
+
+      return legendsConfig;
     }
   },
   watch: {

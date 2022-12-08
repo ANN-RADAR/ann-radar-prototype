@@ -67,7 +67,7 @@ export default Vue.extend({
               this.$router.push('/potential');
             }
             if (!this.adminLayerType) {
-              this.setAdminLayerType(AdminLayerType.BOROUGH);
+              this.setAdminLayerType(AdminLayerType.DISTRICT);
             }
           }
         },
@@ -81,7 +81,7 @@ export default Vue.extend({
               this.$router.push('/potential');
             }
             if (!this.adminLayerType) {
-              this.setAdminLayerType(AdminLayerType.BOROUGH);
+              this.setAdminLayerType(AdminLayerType.DISTRICT);
             }
           }
         },
@@ -91,9 +91,9 @@ export default Vue.extend({
           content: this.$t('tour.results.content'),
           params: {placement: 'left'},
           before: () => {
-            this.setAdminLayerType(AdminLayerType.BOROUGH);
+            this.setAdminLayerType(AdminLayerType.DISTRICT);
             this.setSelectedFeatureIdsOfAdminLayer({
-              adminLayerType: AdminLayerType.BOROUGH,
+              adminLayerType: AdminLayerType.DISTRICT,
               featureIds: ['Altona', 'Eimsbüttel', 'Hamburg-Mitte']
             });
             this.$router.push('/potential/solar/results');

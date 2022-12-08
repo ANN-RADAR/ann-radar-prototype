@@ -5,14 +5,45 @@
       <MapLayerSwitcher
         v-if="showLayerSwitcher"
         :thematicLayers="thematicLayerOptions"
-        :thematicLayersTitle="layerSwitcherProps.thematicLayersTitle"
-        :alwaysVisibleLayers="layerSwitcherProps.alwaysVisibleLayers"
+        :thematicLayersTitle="
+          layerSwitcherProps && layerSwitcherProps.thematicLayersTitle
+        "
+        :alwaysVisibleLayers="
+          layerSwitcherProps && layerSwitcherProps.alwaysVisibleLayers
+        "
       />
       <MapStyleSwitcher v-if="showStyleSwitcher" />
+      <slot name="map-controls" />
     </div>
     <div class="map-overlays bottom-right">
       <MapLegends v-if="showLegends" :thematicLayers="thematicLayerOptions" />
     </div>
+
+    <v-dialog
+      v-model="showNewDrawingConfirmationDialog"
+      persistent
+      max-width="500"
+    >
+      <v-card>
+        <v-card-title>Start a new drawing?</v-card-title>
+        <v-card-text>
+          Are you sure you want to start a new drawing on the map? Your current
+          drawing will be deleted. This can not be undone.
+        </v-card-text>
+        <v-card-actions class="confirmation-dialog-actions">
+          <v-btn
+            color="blue"
+            text
+            @click="showNewDrawingConfirmationDialog = false"
+          >
+            Keep current drawing
+          </v-btn>
+          <v-btn color="blue" text @click="resetDrawing">
+            Start new drawing
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -32,41 +63,45 @@ import {Feature, Map, MapBrowserEvent, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
 import {ScaleLine, defaults as defaultControls} from 'ol/control';
 import {Style} from 'ol/style';
+import {StyleFunction} from 'ol/style/Style';
+import BaseEvent from 'ol/events/Event';
+import BaseLayer from 'ol/layer/Base';
+import TileLayer from 'ol/layer/Tile';
 import LayerGroup from 'ol/layer/Group';
 import VectorLayer from 'ol/layer/Vector';
 import Geometry from 'ol/geom/Geometry';
+import TileSource from 'ol/source/Tile';
 import VectorSource from 'ol/source/Vector';
-import {Draw, Modify} from 'ol/interaction';
+import VectorTileLayer from 'ol/layer/VectorTile';
+import {Draw, Interaction, Modify, Select} from 'ol/interaction';
+import {pointerMove} from 'ol/events/condition';
 import {register} from 'ol/proj/proj4';
 import proj4 from 'proj4';
+import GeoJSON from 'ol/format/GeoJSON';
 
 import {
   getMapStyleLayers,
   getAdminAreaLayers,
-  getBaseLayers
+  getBaseLayers,
+  getLabortoriesLayers,
+  createBuildingLayerStyle,
+  getMobilityIsochronesLayer
 } from '@/constants/layers';
 import {dataLayerIds, dataLayerOptions} from '@/constants/data-layers';
 import {adminLayers} from '@/constants/admin-layers';
-import {
-  getLaboratoriesLayer,
-  laboratoriesStyles
-} from '@/constants/laboratories-layers';
+import {drawHandleStyle, modifyHandleStyle} from '@/constants/map-layer-styles';
+
 import {AdminLayerFeatureData} from '@/types/admin-layers';
-import BaseLayer from 'ol/layer/Base';
 import {DataLayerOptions, LayerOptions} from '@/types/layers';
-import BaseEvent from 'ol/events/Event';
-import TileLayer from 'ol/layer/Tile';
-import TileSource from 'ol/source/Tile';
-import {StyleFunction} from 'ol/style/Style';
+import {LaboratoryId} from '@/types/laboratories';
 
 import MapLayerSwitcher from './map-layer-switcher.vue';
 import MapStyleSwitcher from './map-style-switcher.vue';
 import MapLegends from './map-legends.vue';
-import {LaboratoryId} from '@/types/laboratories';
 
 // projection for UTM zone 32N
 proj4.defs(
-  'EPSG:25832',
+  'EPSG:3857',
   '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
 );
 register(proj4);
@@ -77,8 +112,13 @@ type Data = {
   mapStyleLayers: LayerGroup;
   adminLayers: LayerGroup;
   baseLayers: LayerGroup;
-  laboratoriesLayer: VectorLayer<VectorSource<Geometry>>;
-  laboratoriesStyles: Record<string, StyleFunction | Style>;
+  laboratoriesLayers: LayerGroup;
+  mobilityIsochronesLayer: VectorLayer<VectorSource<Geometry>>;
+  showNewDrawingConfirmationDialog: boolean;
+  drawHandleStyle: StyleFunction | Style;
+  modifyHandleStyle: StyleFunction | Style;
+  drawingInteractions: Array<Interaction>;
+  drawingLayer: VectorLayer<VectorSource<Geometry>> | null;
 };
 
 export default Vue.extend({
@@ -101,7 +141,8 @@ export default Vue.extend({
       type: Object as PropType<{
         thematicLayersTitle?: string;
         alwaysVisibleLayers?: Array<string>;
-      }>
+      }>,
+      required: false
     },
     showStyleSwitcher: {
       type: Boolean,
@@ -118,15 +159,28 @@ export default Vue.extend({
       required: false,
       default: false
     },
-    showDrawingTools: {
+    hasDrawingTools: {
       type: Boolean,
       required: false,
       default: false
     },
-    drawingSource: {
-      type: VectorSource,
+    drawingOptions: {
+      type: Object as PropType<{
+        source: VectorSource<Geometry>;
+        mode: 'draw' | 'erase';
+        type: string;
+        style: StyleFunction | Style;
+        maxNumberOfDrawings?: number;
+      }>,
       required: false,
-      default: null
+      default: () =>
+        ({} as {
+          source: VectorSource<Geometry>;
+          mode: 'draw' | 'erase';
+          type: string;
+          style: StyleFunction | Style;
+          maxNumberOfDrawings?: number;
+        })
     },
     highlightedFeatureIds: {
       type: Array as PropType<Array<string>>,
@@ -142,27 +196,39 @@ export default Vue.extend({
     const mapStyleLayers = getMapStyleLayers();
     const adminLayers = getAdminAreaLayers();
     const baseLayers = getBaseLayers();
-    const laboratoriesLayer = getLaboratoriesLayer();
+    const laboratoriesLayers = getLabortoriesLayers();
+    const mobilityIsochronesLayer = getMobilityIsochronesLayer();
 
     return {
       map: null,
       mapStyleLayers,
       adminLayers,
       baseLayers,
-      laboratoriesLayer,
-      laboratoriesStyles,
+      laboratoriesLayers,
+      mobilityIsochronesLayer,
       mapOptions: {
         target: 'map',
         controls: defaultControls().extend([new ScaleLine({units: 'metric'})]),
-        layers: [mapStyleLayers, adminLayers, baseLayers, laboratoriesLayer],
+        layers: [
+          mapStyleLayers,
+          adminLayers,
+          baseLayers,
+          laboratoriesLayers,
+          mobilityIsochronesLayer
+        ],
         view: new View({
-          projection: 'EPSG:25832',
+          projection: 'EPSG:3857',
           zoom: 12,
           minZoom: 9,
           maxZoom: 18,
-          center: [565811, 5933977]
+          center: [1113052.5963, 7084613.6599]
         })
-      }
+      },
+      showNewDrawingConfirmationDialog: false,
+      drawHandleStyle,
+      modifyHandleStyle,
+      drawingInteractions: [],
+      drawingLayer: null
     };
   },
   computed: {
@@ -170,16 +236,23 @@ export default Vue.extend({
       'adminLayerType',
       'mapStyle',
       'baseLayerTypes',
+      'baseLayerFeatureProperties',
       'layersConfig',
       'layerClassificationSelection',
       'laboratories',
-      'hoveredLaboratoryId'
+      'hoveredLaboratoryId',
+      'mobilityIsochrones'
     ]),
     ...(mapGetters as MapGettersToComputed)('root', [
       'currentLayerSelectedFeatureIds'
     ]),
     allBaseLayers(): Array<BaseLayer> {
       return this.baseLayers.getLayers().getArray();
+    },
+    allLaboratoriesLayers(): Array<VectorLayer<VectorSource<Geometry>>> {
+      return this.laboratoriesLayers.getLayers().getArray() as Array<
+        VectorLayer<VectorSource<Geometry>>
+      >;
     },
     allMapStyleLayers(): Array<TileLayer<TileSource>> {
       return this.mapStyleLayers.getLayers().getArray() as Array<
@@ -193,7 +266,11 @@ export default Vue.extend({
     },
     laboratoryFeatures(): Array<Feature<Geometry>> {
       return Object.values(this.laboratories)
-        .filter(({type}) => this.$route.params.laboratoryType === type)
+        .filter(
+          ({type}) =>
+            this.$route.params.laboratoryType === type ||
+            this.baseLayerTypes.includes(type)
+        )
         .map(({feature}) => feature);
     }
   },
@@ -215,6 +292,20 @@ export default Vue.extend({
     },
     baseLayerTypes() {
       this.toggleBaseLayers();
+      this.toggleLaboratoriesLayers();
+    },
+    baseLayerFeatureProperties(
+      newBaseLayerFeatureProperties: Record<string, string>
+    ) {
+      this.allBaseLayers.forEach(layer => {
+        if (newBaseLayerFeatureProperties[layer.get('name')]) {
+          (layer as VectorTileLayer).setStyle(
+            createBuildingLayerStyle(
+              newBaseLayerFeatureProperties[layer.get('name')]
+            )
+          );
+        }
+      });
     },
     layerClassificationSelection() {
       // Update style of data layers
@@ -232,18 +323,50 @@ export default Vue.extend({
     currentLayerSelectedFeatureIds() {
       this.handleAdminAreaSelectionAndHighlighting();
     },
+    highlightedFeatureIds() {
+      this.handleAdminAreaSelectionAndHighlighting();
+    },
+    $route() {
+      this.updateLaboratoriesFeatures();
+      this.toggleMobilityIsochronesLayer();
+    },
     laboratories() {
       this.updateLaboratoriesFeatures();
     },
     hoveredLaboratoryId(newHoveredLaboratoryId: LaboratoryId | null) {
+      const isLaboratoriesView = Boolean(this.$route.params.laboratoryType);
+
       this.laboratoryFeatures.forEach(feature => {
         const isHovered = feature.get('id') === newHoveredLaboratoryId;
-        feature.set('hovered', isHovered);
+        feature.set('hovered', isLaboratoriesView && isHovered);
       });
+    },
+    hasDrawingTools(newHasDrawingTools: boolean) {
+      if (newHasDrawingTools) {
+        this.addDrawingTools();
+      } else {
+        this.removeDrawingTools();
+      }
+    },
+    'drawingOptions.source'() {
+      this.updateDrawingLayer();
+    },
+    'drawingOptions.mode'() {
+      if (this.hasDrawingTools) {
+        // Update drawing tools
+        this.removeDrawingTools();
+        this.addDrawingTools();
+      }
+    },
+    mobilityIsochrones() {
+      this.updateMobilityIsochronesFeatures();
     }
   },
   methods: {
-    ...(mapActions as MapActionsToMethods)('root', ['fetchLayersConfig']),
+    ...(mapActions as MapActionsToMethods)('root', [
+      'fetchLayersConfig',
+      'fetchLaboratories'
+    ]),
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setSelectedFeatureIdsOfAdminLayer',
       'setHoveredLaboratoryId'
@@ -300,11 +423,12 @@ export default Vue.extend({
       ) as Array<Feature<Geometry>>;
 
       // Highlight hovered laboratory feature
-      const laboratoriesSource = this.laboratoriesLayer.getSource();
-      const hoveredLaboratoryId =
-        hoveredFeatures
-          .find(feature => laboratoriesSource.hasFeature(feature))
-          ?.get('id') || null;
+      const hoveredLaboratoryFeature = hoveredFeatures.find(feature =>
+        this.allLaboratoriesLayers.some(layer =>
+          layer.getSource().hasFeature(feature)
+        )
+      );
+      const hoveredLaboratoryId = hoveredLaboratoryFeature?.get('id') || null;
       this.setHoveredLaboratoryId(hoveredLaboratoryId);
     },
     toggleMapStyleLayers() {
@@ -326,15 +450,8 @@ export default Vue.extend({
       }
     },
     toggleBaseLayers() {
-      const baseLayersAreVisible = Boolean(
-        this.$route.path.startsWith('/potential')
-      );
-
       for (const layer of this.allBaseLayers) {
-        if (
-          baseLayersAreVisible &&
-          this.baseLayerTypes.includes(layer.get('name'))
-        ) {
+        if (this.baseLayerTypes.includes(layer.get('name'))) {
           layer.setVisible(true);
 
           // Update source and style of data layers
@@ -366,9 +483,9 @@ export default Vue.extend({
             features.forEach(feature => {
               const id = feature.get(featureId);
 
-              const isSelected = !this.disableFeatureSelection
-                ? this.currentLayerSelectedFeatureIds.includes(id)
-                : false;
+              const isSelected =
+                !this.disableFeatureSelection &&
+                this.currentLayerSelectedFeatureIds.includes(id);
               feature.set('selected', isSelected);
 
               const isHighlighted = this.highlightedFeatureIds?.includes(id);
@@ -419,7 +536,7 @@ export default Vue.extend({
       // Update the style depending on the layer config and data
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if (this.adminLayerType && layerConfig && (layer as any).setStyle) {
-        const {data = [], dataId} = adminLayers[this.adminLayerType];
+        const {data = [], dataId, featureId} = adminLayers[this.adminLayerType];
         const adminLayerDataById: Record<string, AdminLayerFeatureData> =
           data.reduce(
             (byId, data) => ({...byId, [String(data[dataId])]: data}),
@@ -431,69 +548,170 @@ export default Vue.extend({
             layerConfig,
             selectedClassificationIndex,
             adminLayerDataById,
-            dataId
+            featureId
           })
         );
       }
     },
+    updateDrawingLayer() {
+      if (!this.map || (!this.drawingOptions.source && !this.drawingLayer)) {
+        return;
+      }
+
+      if (!this.drawingOptions.source && this.drawingLayer) {
+        this.map.removeLayer(this.drawingLayer);
+        return;
+      }
+
+      this.drawingLayer = new VectorLayer({
+        source: this.drawingOptions.source,
+        style: this.drawingOptions.style,
+        zIndex: 8
+      });
+
+      this.map.addLayer(this.drawingLayer);
+    },
     addDrawingTools() {
-      if (this.map && this.drawingSource) {
-        const vector = new VectorLayer({
-          source: this.drawingSource,
-          style: this.laboratoriesStyles.laboratoriesDrawAreaStyle
-        });
+      if (this.map && this.drawingLayer) {
+        if (this.drawingOptions.mode === 'draw') {
+          // Add interactions to draw and modify features on the map
+          const draw = new Draw({
+            source: this.drawingOptions.source,
+            type: this.drawingOptions.type,
+            style: this.drawHandleStyle
+          });
 
-        const modify = new Modify({
-          source: this.drawingSource,
-          style: this.laboratoriesStyles.laboratoriesModifyHandleStyle
-        });
-        this.map.addInteraction(modify);
+          if (this.drawingOptions.maxNumberOfDrawings != null) {
+            draw.on('drawstart', () => {
+              const numberOfFeaturesDrawn =
+                this.drawingOptions.source.getFeatures().length;
 
-        const draw = new Draw({
-          source: this.drawingSource,
-          type: 'Polygon',
-          style: this.laboratoriesStyles.laboratoriesDrawHandleStyle
-        });
-
-        draw.on('drawstart', () => {
-          if (this.drawingSource) {
-            // TODO: ask if user wants to clear the drawing if there is already one
-            this.drawingSource.clear();
+              if (
+                this.drawingOptions.maxNumberOfDrawings != null &&
+                numberOfFeaturesDrawn >= this.drawingOptions.maxNumberOfDrawings
+              ) {
+                if (this.drawingOptions.type !== 'Point') {
+                  draw.abortDrawing();
+                }
+                this.showNewDrawingConfirmationDialog = true;
+              }
+            });
           }
-        });
 
-        this.map.addInteraction(draw);
-        this.map.addLayer(vector);
+          this.drawingInteractions.push(draw);
+          this.map.addInteraction(draw);
+
+          const modify = new Modify({
+            source: this.drawingOptions.source,
+            style: this.modifyHandleStyle
+          });
+          this.drawingInteractions.push(modify);
+          this.map.addInteraction(modify);
+        } else {
+          // Add interaction to select and delete drawn features on the map
+          const select = new Select({
+            condition: pointerMove,
+            layers: [this.drawingLayer],
+            style: this.modifyHandleStyle
+          });
+          this.drawingInteractions.push(select);
+          this.map.addInteraction(select);
+
+          this.map?.on('click', this.handleDeleteDrawnFeature);
+        }
       }
     },
-    toggleLaboratoriesLayer() {
+    removeDrawingTools() {
+      // Remove drawing interactions from the map
+      this.drawingInteractions.forEach(interaction => {
+        this.map?.removeInteraction(interaction);
+      });
+
+      // Clean up event listeners
+      this.map?.un('click', this.handleDeleteDrawnFeature);
+    },
+    handleDeleteDrawnFeature() {
+      // Delete selected features from the drawing source
+      this.drawingInteractions.forEach(interaction => {
+        if (interaction instanceof Select) {
+          const selectedFeatures = interaction.getFeatures();
+          selectedFeatures.forEach(feature =>
+            this.drawingOptions.source.removeFeature(feature)
+          );
+        }
+      });
+    },
+    resetDrawing() {
+      this.drawingOptions.source?.clear();
+      this.showNewDrawingConfirmationDialog = false;
+    },
+    toggleMobilityIsochronesLayer() {
       if (!this.map) {
         return;
       }
 
-      const laboratoriesAreVisible = Boolean(this.$route.params.laboratoryType);
-      this.laboratoriesLayer.setVisible(laboratoriesAreVisible);
+      const layerIsVisible = this.$route.path.startsWith('/potential/mobility');
+      this.mobilityIsochronesLayer.setVisible(layerIsVisible);
+    },
+    updateMobilityIsochronesFeatures() {
+      const source = this.mobilityIsochronesLayer.getSource();
+
+      // Remove old isochrones polygons
+      source.clear();
+
+      // Add isochrones polygons to the map
+      Object.values(this.mobilityIsochrones).forEach(locationFeatures => {
+        locationFeatures.forEach(feature => {
+          source.addFeature(
+            new GeoJSON().readFeature(feature, {
+              featureProjection: 'EPSG:3857'
+            })
+          );
+        });
+      });
+    },
+    toggleLaboratoriesLayers() {
+      if (!this.map) {
+        return;
+      }
+
+      for (const layer of this.allLaboratoriesLayers) {
+        const layerIsVisible =
+          this.$route.params.laboratoryType === layer.get('name') ||
+          (!this.$route.path.startsWith('/urban-testbeds') &&
+            this.baseLayerTypes.includes(layer.get('name')));
+
+        layer.setVisible(layerIsVisible);
+      }
     },
     updateLaboratoriesFeatures() {
-      const laboratoriesSource = this.laboratoriesLayer.getSource();
-      // Remove old laboratories
-      laboratoriesSource.clear();
-      // Add laboratories to the map
-      laboratoriesSource.addFeatures(
-        this.laboratoryFeatures.map(feature => {
-          // Hide the laboratory from the laboratories layer
-          // if the user is editing this laboratory
-          const isEditingLaboratory =
-            this.$route.params.laboratoryId === feature.get('id');
-          feature.set('hidden', isEditingLaboratory);
+      for (const layer of this.allLaboratoriesLayers) {
+        const laboratoriesSource = layer.getSource();
 
-          return feature;
-        })
-      );
+        // Remove old laboratories
+        laboratoriesSource.clear();
+
+        // Add laboratories to the map
+        laboratoriesSource.addFeatures(
+          Object.values(this.laboratories)
+            .filter(({type}) => type === layer.get('name'))
+            .map(({feature}) => {
+              // Hide the laboratory from the laboratories layer
+              // if the user is editing this laboratory
+              const isEditingLaboratory =
+                this.$route.params.laboratoryId === feature.get('id');
+              feature.set('hidden', isEditingLaboratory);
+              feature.set('hovered', false);
+
+              return feature;
+            })
+        );
+      }
     }
   },
   created() {
     this.fetchLayersConfig();
+    this.fetchLaboratories();
   },
   mounted() {
     this.map = new Map(this.mapOptions);
@@ -503,10 +721,15 @@ export default Vue.extend({
     this.toggleAdminLayers();
     this.toggleBaseLayers();
     this.handleAdminAreaSelectionAndHighlighting();
-    this.toggleLaboratoriesLayer();
+    this.toggleLaboratoriesLayers();
     this.updateLaboratoriesFeatures();
+    this.toggleMobilityIsochronesLayer();
+    this.updateMobilityIsochronesFeatures();
 
-    if (this.showDrawingTools) {
+    if (this.drawingOptions?.source) {
+      this.updateDrawingLayer();
+    }
+    if (this.hasDrawingTools) {
       this.addDrawingTools();
     }
 
@@ -545,5 +768,11 @@ export default Vue.extend({
 .map-overlays.bottom-right {
   bottom: 0;
   right: 0;
+}
+
+.confirmation-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
 }
 </style>

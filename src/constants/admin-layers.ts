@@ -1,14 +1,18 @@
-import {AdminLayerType, AdminLayerFeatureData} from '@/types/admin-layers';
+import {
+  AdminLayerType,
+  AdminLayerFeatureData,
+  AdminLayerFeatureId
+} from '@/types/admin-layers';
 
 import buildingBlockData from '../../public/data/baublöcke.json';
-import boroughData from '../../public/data/bezirke.json';
+import districtData from '../../public/data/bezirke.json';
 import statisticalAreaData from '../../public/data/statistische_gebiete.json';
 import quarterData from '../../public/data/stadtteile.json';
 import cityData from '../../public/data/city.json';
 
 export const adminLayers: {
   [key in AdminLayerType]: {
-    featureId: string; // the name of the property used as label for the geometry on the map and to match geometry and data
+    featureId: AdminLayerFeatureId; // the name of the property used as label for the geometry on the map and to match geometry and data
     data?: AdminLayerFeatureData[];
     dataId: string; // the name of the id property in the data json to match geometry and data
   };
@@ -18,9 +22,9 @@ export const adminLayers: {
     data: cityData as unknown as AdminLayerFeatureData[],
     dataId: 'Stadt'
   },
-  [AdminLayerType.BOROUGH]: {
+  [AdminLayerType.DISTRICT]: {
     featureId: 'bezirk_name',
-    data: boroughData as unknown as AdminLayerFeatureData[],
+    data: districtData as unknown as AdminLayerFeatureData[],
     dataId: 'Bezirk'
   },
   [AdminLayerType.QUARTER]: {

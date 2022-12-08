@@ -1,10 +1,18 @@
-import {AdminLayerType} from '@/types/admin-layers';
+import {AdminLayerFeatureId, AdminLayerType} from '@/types/admin-layers';
 import {
   ScorecardMeasureId,
   ScorecardRating,
   ScorecardType
 } from '@/types/scorecards';
 import {RootState, StoreState} from '@/types/store';
+import {Scenario} from '@/types/scenarios';
+import {Laboratory, LaboratoryId} from '@/types/laboratories';
+import {
+  StakeholdersEngagementMeasureId,
+  StakeholdersEngagementRating,
+  StakeholdersEngagementType
+} from '@/types/stakeholders';
+import {ANNRadarCollection} from '@/types/firestore';
 
 import {ActionContext} from 'vuex';
 
@@ -17,12 +25,8 @@ import {
   getDocs
 } from 'firebase/firestore';
 import {database} from '../../libs/firebase';
-import {ANNRadarCollection} from '@/types/firestore';
-
-import {Scenario} from '@/types/scenarios';
 
 import GeoJSON from 'ol/format/GeoJSON';
-import {Laboratory, LaboratoryId} from '@/types/laboratories';
 
 const scorecardURLs = {
   [ScorecardType.PLANS]:
@@ -35,34 +39,68 @@ const scorecardURLs = {
     'https://storage.googleapis.com/ann-radar-data/governance_scorecard.json'
 };
 
+const stakeholdersEngagementURLs = {
+  [StakeholdersEngagementType.ORGANIZATIONS]:
+    'https://storage.googleapis.com/ann-radar-data/stakeholders_organizations_engagement.json',
+  [StakeholdersEngagementType.CITIZENS]:
+    'https://storage.googleapis.com/ann-radar-data/stakeholders_citizens_engagement.json'
+};
+
 const actions = {
   async fetchScenarioDetails(
     {commit}: ActionContext<RootState, StoreState>,
     scenario: Scenario
   ) {
     const {
-      balancedScorecardsRef,
+      stakeholdersEngagementsRef,
       notesRef,
+      mobilityLocationsRef,
       baseLayerTypes,
       ...scenarioMetaData
     } = scenario;
 
-    const balancedScorecardRatingsSnapshot = await getDoc(
-      balancedScorecardsRef
-    );
-    const balancedScorecardRatings = balancedScorecardRatingsSnapshot.data();
+    let stakeholdersEngagementRatingsSnapshot;
+    let stakeholdersEngagementRatings;
+    if (stakeholdersEngagementsRef) {
+      stakeholdersEngagementRatingsSnapshot = await getDoc(
+        stakeholdersEngagementsRef
+      );
+      stakeholdersEngagementRatings =
+        stakeholdersEngagementRatingsSnapshot.data();
+    }
 
     const notesSnapshot = await getDoc(notesRef);
     const notes = notesSnapshot.data();
 
+    let mobilityLocationsSnapshot;
+    let mobilityLocations;
+    if (mobilityLocationsRef) {
+      mobilityLocationsSnapshot = await getDoc(mobilityLocationsRef);
+      mobilityLocations = mobilityLocationsSnapshot.data()?.locations || [];
+    }
+
     commit('setScenarioMetaData', {
-      balancedScorecardsId: balancedScorecardRatingsSnapshot.id,
+      ...(stakeholdersEngagementRatingsSnapshot && {
+        stakeholdersEngagementsId: stakeholdersEngagementRatingsSnapshot.id
+      }),
       notesId: notesSnapshot.id,
+      ...(mobilityLocationsSnapshot && {
+        mobilityLocationsId: mobilityLocationsSnapshot.id
+      }),
       ...scenarioMetaData
     });
     commit('setBaseLayerTypes', baseLayerTypes);
-    commit('setBalancedScorecardRatings', balancedScorecardRatings);
+    if (stakeholdersEngagementRatings) {
+      commit('setStakeholdersEngagementRatings', stakeholdersEngagementRatings);
+    } else {
+      commit('resetStakeholdersEngagementRatings');
+    }
     commit('setNotes', notes);
+    if (mobilityLocations) {
+      commit('setMobilityLocations', mobilityLocations);
+    } else {
+      commit('resetMobilityLocations');
+    }
   },
   fetchLayersConfig({commit}: ActionContext<RootState, StoreState>) {
     return fetch(
@@ -95,33 +133,31 @@ const actions = {
       })
       .catch(error => console.error(error));
   },
-  async fetchBalancedScorecardRatings({
-    commit,
-    state
-  }: ActionContext<RootState, StoreState>) {
-    if (!state.scenarioMetaData?.balancedScorecardsId) {
-      return;
-    }
-
+  async fetchBalancedScorecardRatings(
+    {commit}: ActionContext<RootState, StoreState>,
+    type: ScorecardType
+  ) {
     try {
-      const balancedScorecardsRatingsRef = doc(
-        database,
-        ANNRadarCollection.BALANCED_SCORECARDS,
-        state.scenarioMetaData.balancedScorecardsId
+      const querySnapshot = await getDoc(
+        doc(database, ANNRadarCollection.BALANCED_SCORECARDS, type)
       );
-      const balancedScorecardsRatingsSnapshot = await getDoc(
-        balancedScorecardsRatingsRef
-      );
+      const ratings = querySnapshot.data();
 
-      if (balancedScorecardsRatingsSnapshot.exists()) {
-        commit(
-          'setBalancedScorecardRatings',
-          balancedScorecardsRatingsSnapshot.data()
-        );
-      }
+      commit('setBalancedScorecardRatings', {type, ratings});
     } catch (error) {
       console.error('Error loading balanced scorecard ratings:', error);
     }
+  },
+  fetchStakeholdersEngagementTemplate(
+    {commit}: ActionContext<RootState, StoreState>,
+    type: StakeholdersEngagementType
+  ) {
+    return fetch(stakeholdersEngagementURLs[type])
+      .then(response => response.json())
+      .then(template => {
+        commit('setStakeholdersEngagementTemplates', {type, template});
+      })
+      .catch(error => console.error(error));
   },
   async fetchLaboratories({commit}: ActionContext<RootState, StoreState>) {
     try {
@@ -189,61 +225,172 @@ const actions = {
     }
 
     try {
-      const {id, balancedScorecardsId, notesId, ...scenarioMetaData} =
-        state.scenarioMetaData;
+      const {
+        id,
+        stakeholdersEngagementsId,
+        notesId,
+        mobilityLocationsId,
+        ...scenarioMetaData
+      } = state.scenarioMetaData;
+
+      const hasStakeholdersEngagementRatings = Object.values(
+        state.stakeholdersEngagementRatings
+      ).some(ratings => Object.values(ratings).length);
+      let stakeholdersEngagementRatingsRef;
+
+      if (stakeholdersEngagementsId) {
+        // Update existing stakeholders engagement ratings
+        const stakeholdersEngagementRatingsRef = doc(
+          database,
+          ANNRadarCollection.STAKEHOLDERS_ENGAGEMENTS,
+          stakeholdersEngagementsId
+        );
+        await updateDoc(
+          stakeholdersEngagementRatingsRef,
+          state.stakeholdersEngagementRatings
+        );
+      } else if (hasStakeholdersEngagementRatings) {
+        // Add stakeholders engagement ratings
+        const stakeholdersEngagementCollectionRef = collection(
+          database,
+          ANNRadarCollection.STAKEHOLDERS_ENGAGEMENTS
+        );
+        stakeholdersEngagementRatingsRef = await addDoc(
+          stakeholdersEngagementCollectionRef,
+          state.stakeholdersEngagementRatings
+        );
+      }
+
+      const notesRef = doc(database, ANNRadarCollection.NOTES, notesId);
+      await updateDoc(notesRef, state.notes);
+
+      const hasMobilityLocations = state.mobilityLocations.length;
+      let mobilityLocationsRef;
+
+      if (mobilityLocationsId) {
+        // Update existing mobility locations
+        const mobilityLocationsRef = doc(
+          database,
+          ANNRadarCollection.MOBILITY_LOCATIONS,
+          mobilityLocationsId
+        );
+        await updateDoc(mobilityLocationsRef, {
+          locations: state.mobilityLocations
+        });
+      } else if (hasMobilityLocations) {
+        // Add mobility locations
+        const mobilityLocationsCollectionRef = collection(
+          database,
+          ANNRadarCollection.MOBILITY_LOCATIONS
+        );
+        mobilityLocationsRef = await addDoc(mobilityLocationsCollectionRef, {
+          locations: state.mobilityLocations
+        });
+      }
 
       const scenarioRef = doc(database, ANNRadarCollection.SCENARIOS, id);
       await updateDoc(scenarioRef, {
         ...scenarioMetaData,
-        baseLayerTypes: state.baseLayerTypes
+        baseLayerTypes: state.baseLayerTypes,
+        ...(stakeholdersEngagementRatingsRef && {
+          stakeholdersEngagementRatingsRef
+        }),
+        ...(mobilityLocationsRef && {mobilityLocationsRef})
       });
-
-      const balancedScorecardsRatingsRef = doc(
-        database,
-        ANNRadarCollection.BALANCED_SCORECARDS,
-        balancedScorecardsId
-      );
-      await updateDoc(
-        balancedScorecardsRatingsRef,
-        state.balancedScorecardRatings
-      );
-
-      const notesRef = doc(database, ANNRadarCollection.NOTES, notesId);
-      await updateDoc(notesRef, state.notes);
     } catch (error) {
       console.error('Error saving scenario:', error);
     }
   },
-  updateBalancedScorecardRatings(
+  async updateBalancedScorecardRatings(
     {commit, state}: ActionContext<RootState, StoreState>,
     payload: {
       scorecardType: ScorecardType;
       adminLayerType: AdminLayerType;
-      featureId: string;
+      featureId: AdminLayerFeatureId;
       measureId: ScorecardMeasureId;
       rating: ScorecardRating;
     }
   ) {
-    const ratings = {...state.balancedScorecardRatings};
-    ratings[payload.scorecardType] = ratings[payload.scorecardType] || {};
-    ratings[payload.scorecardType][payload.adminLayerType] =
-      ratings[payload.scorecardType][payload.adminLayerType] || {};
-    ratings[payload.scorecardType][payload.adminLayerType][payload.featureId] =
-      ratings[payload.scorecardType][payload.adminLayerType][
-        payload.featureId
-      ] || {};
+    const {scorecardType, adminLayerType, featureId, measureId, rating} =
+      payload;
 
-    if (payload.rating.value === undefined && !payload.rating.comment) {
-      delete ratings[payload.scorecardType][payload.adminLayerType][
-        payload.featureId
-      ][payload.measureId];
+    const ratings = {
+      ...(state.balancedScorecardRatings[scorecardType] || {})
+    };
+    ratings[adminLayerType] = ratings[adminLayerType] || {};
+    ratings[adminLayerType][featureId] =
+      ratings[adminLayerType][featureId] || {};
+
+    if (rating.value === undefined && !rating.comment) {
+      // Delete empty measure object
+      delete ratings[adminLayerType][featureId][measureId];
+
+      // Delete empty feature object
+      if (!Object.values(ratings[adminLayerType][featureId]).length) {
+        delete ratings[adminLayerType][featureId];
+      }
     } else {
-      ratings[payload.scorecardType][payload.adminLayerType][payload.featureId][
-        payload.measureId
-      ] = payload.rating;
+      ratings[adminLayerType][featureId][measureId] = rating;
     }
 
-    commit('setBalancedScorecardRatings', ratings);
+    try {
+      // Save ratings in Firestore
+      const ratingsRef = doc(
+        database,
+        ANNRadarCollection.BALANCED_SCORECARDS,
+        scorecardType
+      );
+      await updateDoc(ratingsRef, ratings);
+
+      // Update ratings in store
+      commit('setBalancedScorecardRatings', {type: scorecardType, ratings});
+    } catch (error) {
+      console.error('Error saving balanced scorecard ratings:', error);
+    }
+  },
+  updateStakeholdersEngagementRatings(
+    {commit, state}: ActionContext<RootState, StoreState>,
+    payload: {
+      stakeholdersEngagementType: StakeholdersEngagementType;
+      adminLayerType: AdminLayerType;
+      featureId: string;
+      measureId?: StakeholdersEngagementMeasureId;
+      rating?: StakeholdersEngagementRating;
+      links?: string;
+    }
+  ) {
+    const {
+      stakeholdersEngagementType: type,
+      adminLayerType,
+      featureId,
+      measureId,
+      rating,
+      links
+    } = payload;
+    const ratings = {...state.stakeholdersEngagementRatings};
+
+    // Start new ratings object for the given feature if necessary
+    ratings[type] = ratings[type] || {};
+    ratings[type][adminLayerType] = ratings[type][adminLayerType] || {};
+    ratings[type][adminLayerType][featureId] =
+      ratings[type][adminLayerType][featureId] || {};
+    ratings[type][adminLayerType][featureId].ratings =
+      ratings[type][adminLayerType][featureId].ratings || {};
+
+    // Update ratings
+    if (measureId && rating) {
+      if (rating.value === undefined && !rating.comment) {
+        delete ratings[type][adminLayerType][featureId].ratings[measureId];
+      } else {
+        ratings[type][adminLayerType][featureId].ratings[measureId] = rating;
+      }
+    }
+
+    // Update links
+    ratings[type][adminLayerType][featureId].links =
+      links || ratings[type][adminLayerType][featureId].links || '';
+
+    commit('setStakeholdersEngagementRatings', ratings);
   }
 };
 

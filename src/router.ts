@@ -1,160 +1,36 @@
 import Vue from 'vue';
 import Router, {Route} from 'vue-router';
 
+import i18n from './plugins/i18n';
+
 import store from './store';
 
 import Laboratories from './views/real-laboratories.vue';
-import EditLaboratory from './components/laboratories-edit.vue';
+import LaboratoryForm from './components/laboratories-form.vue';
 import ListLaboratories from './components/laboratories-list.vue';
-import Potential from './views/category-potential.vue';
-import SolarPotential from './components/solar-potential.vue';
-import EnergyPotential from './components/energy-potential.vue';
+import Category from './views/category-container.vue';
+import PotentialInspectorTable from './components/potential-inspector-table.vue';
+import PotentialMobilityWrapper from './components/potential-mobility-wrapper.vue';
 import Plans from './views/category-plans.vue';
-import PlansRate from './components/plans-rate.vue';
-import PlansCompare from './components/plans-compare.vue';
 import Stakeholders from './views/category-stakeholders.vue';
-import StakeholdersRate from './components/stakeholders-rate.vue';
-import StakeholdersCompare from './components/stakeholders-compare.vue';
-import StakeholdersOrganizations from './components/stakeholders-organizations.vue';
-import StakeholdersCitizens from './components/stakeholders-citizens.vue';
+import StakeholdersEngagement from './components/stakeholders-engagement.vue';
 import UrbanData from './views/category-urban-data.vue';
-import UrbanDataRate from './components/urban-data-rate.vue';
-import UrbanDataCompare from './components/urban-data-compare.vue';
 import Governance from './views/category-governance.vue';
-import GovernanceRate from './components/governance-rate.vue';
-import GovernanceCompare from './components/governance-compare.vue';
 import Results from './views/category-results.vue';
 import Login from './views/app-login.vue';
+import BalancedScorecardRate from './components/balanced-scorecard-rate.vue';
+import BalancedScorecardCompare from './components/balanced-scorecard-compare.vue';
 
 import {
   solarPotentialLayersOptions,
   energyPotentialLayersOptions,
   mobilityPotentialLayersOptions
 } from './constants/layers';
+import {ScorecardType} from './types/scorecards';
+import {StakeholdersEngagementType} from './types/stakeholders';
 
 const routes = [
   {path: '/', redirect: '/potential/solar', name: 'Root'},
-  {
-    path: '/potential',
-    redirect: '/potential/solar',
-    component: Potential,
-    name: 'Potential',
-    children: [
-      {
-        path: 'solar',
-        component: SolarPotential,
-        name: 'Solar Potential'
-      },
-      {
-        path: 'solar/results',
-        component: Results,
-        name: 'Solar Potential Results',
-        props: {
-          category: 'solar',
-          returnTo: '/potential/solar',
-          thematicLayers: solarPotentialLayersOptions,
-          thematicLayersTitleKey: 'layerOptions.solarLayers'
-        }
-      },
-      {path: 'solar/*', redirect: '/potential/solar'},
-      {
-        path: 'energy-efficiency',
-        component: EnergyPotential,
-        name: 'Energy Potential'
-      },
-      {
-        path: 'energy-efficiency/results',
-        component: Results,
-        name: 'Energy Potential Results',
-        props: {
-          category: 'energyEfficiency',
-          returnTo: '/potential/energy-efficiency',
-          thematicLayers: energyPotentialLayersOptions,
-          thematicLayersTitleKey: 'layerOptions.energyLayers'
-        }
-      },
-      {path: 'energy-efficiency/*', redirect: '/potential/energy-efficiency'},
-      {
-        path: 'mobility',
-        component: null,
-        name: 'Mobility Potential'
-      },
-      {
-        path: 'mobility/results',
-        component: Results,
-        name: 'Mobility Potential Results',
-        props: {
-          category: 'mobility',
-          returnTo: '/potential/mobility',
-          thematicLayers: mobilityPotentialLayersOptions,
-          thematicLayersTitleKey: 'layerOptions.mobilityLayers'
-        }
-      },
-      {
-        path: 'mobility/*',
-        redirect: '/potential/mobility'
-      },
-      {path: '*', redirect: '/potential/solar'}
-    ]
-  },
-  {
-    path: '/plans',
-    redirect: '/plans/rate',
-    component: Plans,
-    name: 'Plans',
-    children: [
-      {path: 'rate', component: PlansRate, name: 'Rate Plans'},
-      {path: 'compare', component: PlansCompare, name: 'Compare Plans'}
-    ]
-  },
-  {
-    path: '/stakeholders/organizations',
-    component: StakeholdersOrganizations,
-    name: 'Stakeholders Organizations'
-  },
-  {
-    path: '/stakeholders/citizens',
-    component: StakeholdersCitizens,
-    name: 'Stakeholders Citizens'
-  },
-  {
-    path: '/stakeholders',
-    redirect: '/stakeholders/rate',
-    component: Stakeholders,
-    name: 'Stakeholders',
-    children: [
-      {path: 'rate', component: StakeholdersRate, name: 'Rate Stakeholders'},
-      {
-        path: 'compare',
-        component: StakeholdersCompare,
-        name: 'Compare Stakeholders'
-      }
-    ]
-  },
-  {
-    path: '/urban-data',
-    redirect: '/urban-data/rate',
-    component: UrbanData,
-    name: 'Urban Data',
-    children: [
-      {path: 'rate', component: UrbanDataRate, name: 'Rate Urban Data'},
-      {path: 'compare', component: UrbanDataCompare, name: 'Compare Urban Data'}
-    ]
-  },
-  {
-    path: '/governance',
-    redirect: '/governance/rate',
-    component: Governance,
-    name: 'Governance',
-    children: [
-      {path: 'rate', component: GovernanceRate, name: 'Rate Governance'},
-      {
-        path: 'compare',
-        component: GovernanceCompare,
-        name: 'Compare Governance'
-      }
-    ]
-  },
   {path: '/login', component: Login, name: 'Login'},
   {
     path: '/urban-testbeds/:laboratoryType',
@@ -173,7 +49,7 @@ const routes = [
       },
       {
         path: 'new',
-        component: EditLaboratory,
+        component: LaboratoryForm,
         name: 'Add Urban Testbed',
         props: (route: Route) => ({
           laboratoryType: route.params.laboratoryType,
@@ -181,18 +57,204 @@ const routes = [
         })
       },
       {
+        path: 'copy/:copiedLaboratoryId',
+        component: LaboratoryForm,
+        name: 'Copy Urban Testbed',
+        props: (route: Route) => ({
+          laboratoryType: route.params.laboratoryType,
+          copiedLaboratoryId: route.params.copiedLaboratoryId,
+          returnTo: `/urban-testbeds/${route.params.laboratoryType}/list`
+        })
+      },
+      {
         path: ':laboratoryId',
-        component: EditLaboratory,
+        component: LaboratoryForm,
         name: 'Edit Urban Testbed',
         props: (route: Route) => ({
           laboratoryType: route.params.laboratoryType,
           laboratoryId: route.params.laboratoryId,
+          basePath: `/urban-testbeds/${route.params.laboratoryType}`,
           returnTo: `/urban-testbeds/${route.params.laboratoryType}/list`
         })
       }
     ]
   },
-  {path: '*', redirect: '/'}
+  {
+    path: '/potential/solar/results',
+    component: Results,
+    name: 'Solar Potential Results',
+    props: {
+      category: 'solar',
+      returnTo: '/potential/solar',
+      thematicLayers: solarPotentialLayersOptions,
+      thematicLayersTitle: i18n.t('layerOptions.solarLayers')
+    }
+  },
+  {
+    path: '/potential/energy-efficiency/results',
+    component: Results,
+    name: 'Energy Potential Results',
+    props: {
+      category: 'energyEfficiency',
+      returnTo: '/potential/energy-efficiency',
+      thematicLayers: energyPotentialLayersOptions,
+      thematicLayersTitle: i18n.t('layerOptions.energyLayers')
+    }
+  },
+  {
+    path: '/potential/mobility/results',
+    component: Results,
+    name: 'Mobility Potential Results',
+    props: {
+      category: 'mobility',
+      returnTo: '/potential/mobility',
+      thematicLayers: mobilityPotentialLayersOptions,
+      thematicLayersTitle: i18n.t('layerOptions.mobilityLayers')
+    }
+  },
+  {
+    path: '*',
+    component: Category,
+    children: [
+      {
+        path: '/potential',
+        redirect: '/potential/solar'
+      },
+      {
+        path: '/potential/solar',
+        components: {content: PotentialInspectorTable},
+        name: 'Solar Potential',
+        props: {
+          content: {category: 'solar'}
+        }
+      },
+      {path: 'solar/*', redirect: '/potential/solar'},
+      {
+        path: '/potential/energy-efficiency',
+        components: {content: PotentialInspectorTable},
+        name: 'Energy Potential',
+        props: {
+          content: {category: 'energyEfficiency'}
+        }
+      },
+      {
+        path: '/potential/energy-efficiency/*',
+        redirect: '/potential/energy-efficiency'
+      },
+      {
+        path: '/potential/mobility',
+        components: {content: PotentialMobilityWrapper},
+        name: 'Mobility Potential',
+        props: {
+          content: {category: 'mobility'}
+        }
+      },
+      {
+        path: '/potential/mobility/*',
+        redirect: '/potential/mobility'
+      },
+      {
+        path: '/assessment/plans',
+        redirect: '/assessment/plans/rate',
+        name: 'Plans'
+      },
+      {
+        path: '/assessment/plans/rate',
+        components: {navigation: Plans, content: BalancedScorecardRate},
+        name: 'Rate Plans',
+        props: {
+          content: {scorecardType: ScorecardType.PLANS}
+        }
+      },
+      {
+        path: '/assessment/plans/compare',
+        components: {navigation: Plans, content: BalancedScorecardCompare},
+        name: 'Compare Plans',
+        props: {
+          content: {scorecardType: ScorecardType.PLANS}
+        }
+      },
+      {
+        path: '/assessment/stakeholders-organizations',
+        components: {content: StakeholdersEngagement},
+        name: 'Stakeholders Organizations',
+        props: {
+          content: {
+            stakeholdersEngagementType: StakeholdersEngagementType.ORGANIZATIONS
+          }
+        }
+      },
+      {
+        path: '/assessment/stakeholders-citizens',
+        components: {content: StakeholdersEngagement},
+        name: 'Stakeholders Citizens',
+        props: {
+          content: {
+            stakeholdersEngagementType: StakeholdersEngagementType.CITIZENS
+          }
+        }
+      },
+      {
+        path: '/assessment/stakeholders/',
+        redirect: '/assessment/stakeholders/rate',
+        name: 'Stakeholders'
+      },
+      {
+        path: '/assessment/stakeholders/rate',
+        components: {navigation: Stakeholders, content: BalancedScorecardRate},
+        name: 'Rate Stakeholders',
+        props: {
+          content: {scorecardType: ScorecardType.STAKEHOLDERS}
+        }
+      },
+      {
+        path: '/assessment/stakeholders/compare',
+        components: {
+          navigation: Stakeholders,
+          content: BalancedScorecardCompare
+        },
+        name: 'Compare Stakeholders',
+        props: {
+          content: {scorecardType: ScorecardType.STAKEHOLDERS}
+        }
+      },
+      {
+        path: '/assessment/urban-data',
+        redirect: '/assessment/urban-data/rate',
+        name: 'Urban Data'
+      },
+      {
+        path: '/assessment/urban-data/rate',
+        components: {navigation: UrbanData, content: BalancedScorecardRate},
+        name: 'Rate Urban Data',
+        props: {content: {scorecardType: ScorecardType.URBAN_DATA}}
+      },
+      {
+        path: '/assessment/urban-data/compare',
+        components: {navigation: UrbanData, content: BalancedScorecardCompare},
+        name: 'Compare Urban Data',
+        props: {content: {scorecardType: ScorecardType.URBAN_DATA}}
+      },
+      {
+        path: '/assessment/governance',
+        redirect: '/assessment/governance/rate',
+        name: 'Governance'
+      },
+      {
+        path: '/assessment/governance/rate',
+        components: {navigation: Governance, content: BalancedScorecardRate},
+        name: 'Rate Governance',
+        props: {content: {scorecardType: ScorecardType.GOVERNANCE}}
+      },
+      {
+        path: '/assessment/governance/compare',
+        components: {navigation: Governance, content: BalancedScorecardCompare},
+        name: 'Compare Governance',
+        props: {content: {scorecardType: ScorecardType.GOVERNANCE}}
+      },
+      {path: '*', redirect: '/'}
+    ]
+  }
 ];
 
 Vue.use(Router);

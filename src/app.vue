@@ -29,6 +29,11 @@ import Header from './components/app-header.vue';
 import Notes from './components/app-notes.vue';
 import Tour from './components/app-tour.vue';
 
+import {mapActions} from 'vuex';
+import {MapActionsToMethods} from '@/types/store';
+
+import {ScorecardType} from '@/types/scorecards';
+
 interface Data {
   showNotes: boolean;
 }
@@ -43,6 +48,18 @@ export default Vue.extend({
     return {
       showNotes: true
     };
+  },
+  methods: {
+    ...(mapActions as MapActionsToMethods)('root', [
+      'fetchBalancedScorecard',
+      'fetchBalancedScorecardRatings'
+    ])
+  },
+  created() {
+    Object.values(ScorecardType).forEach(scorecardType => {
+      this.fetchBalancedScorecard(scorecardType);
+      this.fetchBalancedScorecardRatings(scorecardType);
+    });
   }
 });
 </script>
@@ -77,7 +94,7 @@ body {
 
 .route-wrapper > div {
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: 48px 1fr;
   height: 100%;
 }
 

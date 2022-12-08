@@ -1,4 +1,4 @@
-import {AdminLayerType} from './admin-layers';
+import {AdminLayerType, AdminLayerFeatureId} from './admin-layers';
 
 export enum ScorecardType {
   PLANS = 'plans',
@@ -21,5 +21,5 @@ export interface ScorecardRating {
 
 export type ScorecardRatings = Record<
   AdminLayerType,
-  Record<string, Record<ScorecardMeasureId, ScorecardRating>>
+  Record<AdminLayerFeatureId, Record<ScorecardMeasureId, ScorecardRating>>
 >;

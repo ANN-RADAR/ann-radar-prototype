@@ -1,10 +1,16 @@
 import Vue from 'vue';
-import {AdminLayerType} from '@/types/admin-layers';
+import {AdminLayerFeatureId, AdminLayerType} from '@/types/admin-layers';
 import {RootState} from '@/types/store';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {ScenarioMetaData} from '@/types/scenarios';
-import {PotentialConfig} from '@/types/potential-config';
+import {MobilityLocation, PotentialConfig} from '@/types/potential';
 import {Laboratory, LaboratoryId} from '@/types/laboratories';
+import {
+  StakeholdersEngagementRatings,
+  StakeholdersEngagementTemplate,
+  StakeholdersEngagementType
+} from '@/types/stakeholders';
+import {GeoJSONFeature} from 'ol/format/GeoJSON';
 
 const mutations = {
   setLayersConfig(
@@ -30,9 +36,12 @@ const mutations = {
   },
   setBalancedScorecardRatings(
     state: RootState,
-    newScorecardRatings: Record<ScorecardType, ScorecardRatings>
+    payload: {type: ScorecardType; ratings: ScorecardRatings}
   ) {
-    state.balancedScorecardRatings = newScorecardRatings;
+    state.balancedScorecardRatings = {
+      ...state.balancedScorecardRatings,
+      [payload.type]: payload.ratings
+    };
   },
   setLayerClassificationSelection(
     state: RootState,
@@ -71,15 +80,27 @@ const mutations = {
       state.baseLayerTypes = [...state.baseLayerTypes, baseLayerTypeToToggle];
     }
   },
-  setSelectedFeatureIds(
+  setBaseLayerFeatureProperty(
     state: RootState,
-    newSelectedFeatureIds: RootState['selectedFeatureIds']
+    payload: {baseLayerType: string; baseLayerFeatureProperty: string}
   ) {
-    state.selectedFeatureIds = newSelectedFeatureIds;
+    state.baseLayerFeatureProperties = {
+      ...state.baseLayerFeatureProperties,
+      [payload.baseLayerType]: payload.baseLayerFeatureProperty
+    };
+  },
+  setHighlightedFeatureIds(
+    state: RootState,
+    newSelectedFeatureIds: RootState['highlightedFeatureIds']
+  ) {
+    state.highlightedFeatureIds = newSelectedFeatureIds;
   },
   setSelectedFeatureIdsOfAdminLayer(
     state: RootState,
-    payload: {adminLayerType: AdminLayerType; featureIds: Array<string>}
+    payload: {
+      adminLayerType: AdminLayerType;
+      featureIds: Array<AdminLayerFeatureId>;
+    }
   ) {
     state.selectedFeatureIds = {
       ...state.selectedFeatureIds,
@@ -103,6 +124,51 @@ const mutations = {
   },
   setLaboratories(state: RootState, laboratories: RootState['laboratories']) {
     state.laboratories = laboratories;
+  },
+  setStakeholdersEngagementTemplates(
+    state: RootState,
+    payload: {
+      type: StakeholdersEngagementType;
+      template: StakeholdersEngagementTemplate;
+    }
+  ) {
+    state.stakeholdersEngagementTemplates = {
+      ...state.stakeholdersEngagementTemplates,
+      [payload.type]: payload.template
+    };
+  },
+  setStakeholdersEngagementRatings(
+    state: RootState,
+    newStakeholdersEngagementRatings: Record<
+      StakeholdersEngagementType,
+      StakeholdersEngagementRatings
+    >
+  ) {
+    state.stakeholdersEngagementRatings = newStakeholdersEngagementRatings;
+  },
+  resetStakeholdersEngagementRatings(state: RootState) {
+    state.stakeholdersEngagementRatings = Object.values(ScorecardType).reduce(
+      (ratings, stakeholdersEngagementType) => ({
+        ...ratings,
+        [stakeholdersEngagementType]: {}
+      }),
+      {} as Record<StakeholdersEngagementType, StakeholdersEngagementRatings>
+    );
+  },
+  setMobilityLocations(
+    state: RootState,
+    newMobilityLocations: Array<MobilityLocation>
+  ) {
+    state.mobilityLocations = newMobilityLocations;
+  },
+  resetMobilityLocations(state: RootState) {
+    state.mobilityLocations = [];
+  },
+  setMobilityIsochrones(
+    state: RootState,
+    isochrones: Record<string, Array<GeoJSONFeature>>
+  ) {
+    state.mobilityIsochrones = isochrones;
   }
 };
 

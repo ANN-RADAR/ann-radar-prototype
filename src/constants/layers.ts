@@ -5,22 +5,53 @@ import {
   VectorLayerOptions
 } from '@/types/layers';
 import {Options as TileSourceOptions} from 'ol/source/TileWMS';
+import {Options as VectorSourceOptions} from 'ol/source/Vector';
 import {Feature} from 'ol';
 import Geometry from 'ol/geom/Geometry';
 import LayerGroup from 'ol/layer/Group';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
+import {Options as VectorTileSourceOptions} from 'ol/source/VectorTile';
+import VectorTileSource from 'ol/source/VectorTile';
+import VectorTileLayer from 'ol/layer/VectorTile';
 import RenderFeature from 'ol/render/Feature';
 import {TileWMS} from 'ol/source';
 import VectorSource from 'ol/source/Vector';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import Style from 'ol/style/Style';
+import Text from 'ol/style/Text';
+import {MVT} from 'ol/format';
 import {tileSourcesOptions, vectorSourcesOptions} from './sources';
 import {MapStyle} from '@/types/map-styles';
 import {adminLayers} from './admin-layers';
 import {AdminLayerType} from '@/types/admin-layers';
 import {socialMonitoringColors} from './colors';
+import {laboratoriesStyle, mobilityIsochronesStyle} from './map-layer-styles';
+
+export const LABEL_RESOLUTION_THRESHOLD = 1.5;
+
+export const createBuildingLayerStyle =
+  (labelProperty: string) =>
+  (feature: Feature<Geometry> | RenderFeature, resolution: number) =>
+    new Style({
+      stroke: new Stroke({
+        color: '#3399CC',
+        width: 1.25
+      }),
+      text:
+        resolution < LABEL_RESOLUTION_THRESHOLD
+          ? new Text({
+              font: '12px Avenir, Helvetica, Arial, sans-serif',
+              text: String(feature.getProperties()[labelProperty] || ''),
+              fill: new Fill({
+                color: '#000'
+              }),
+              stroke: new Stroke({color: '#fff', width: 4}),
+              overflow: true
+            })
+          : undefined
+    });
 
 export const solarPotentialLayersOptions: Array<LayerOptions> = [
   {
@@ -35,6 +66,27 @@ export const solarPotentialLayersOptions: Array<LayerOptions> = [
     properties: {name: 'solarCoverageRate'},
     visible: false,
     zIndex: 4
+  },
+  {
+    type: 'vector',
+    properties: {
+      name: 'buildingSolarPotential',
+      featureProperties: [
+        {
+          name: 'solarPotential',
+          id: 'p_st_mwha'
+        },
+        {
+          name: 'roofShape',
+          id: 'BEZDAF'
+        }
+      ]
+    },
+    visible: false,
+    source: vectorSourcesOptions.HH_Gebaeude_Solarpotential,
+    style: createBuildingLayerStyle('p_st_mwha'),
+    zIndex: 6,
+    minZoom: 9
   }
 ];
 
@@ -51,6 +103,21 @@ export const energyPotentialLayersOptions: Array<LayerOptions> = [
     properties: {name: 'heatDemand'},
     visible: false,
     zIndex: 4
+  },
+  {
+    type: 'vector',
+    properties: {
+      name: 'buildingSpecificHeatDemand',
+      featureProperties: [
+        {name: 'diffRenovation', id: 'Diff_WBd_P'},
+        {name: 'livingSpace', id: 'wohnflaech'}
+      ]
+    },
+    visible: false,
+    source: vectorSourcesOptions.HH_Gebaeude_spezifischer_Nutzwaermebedarf,
+    style: createBuildingLayerStyle('Diff_WBd_P'),
+    zIndex: 6,
+    minZoom: 9
   }
 ];
 
@@ -61,25 +128,40 @@ export const baseLayersOptions: Array<LayerOptions> = [
     type: 'tile',
     properties: {name: 'schools'},
     visible: false,
-    source: tileSourcesOptions.HH_WMS_Schulen
+    source: tileSourcesOptions.HH_WMS_Schulen,
+    zIndex: 1
   },
   {
     type: 'tile',
     properties: {name: 'quarterCulture'},
     visible: false,
-    source: tileSourcesOptions.HH_WMS_Oeffentliche_Bibliotheken
+    source: tileSourcesOptions.HH_WMS_Oeffentliche_Bibliotheken,
+    zIndex: 1
   },
   {
     type: 'tile',
     properties: {name: 'socialInfrastructure'},
     visible: false,
-    source: tileSourcesOptions.HH_WMS_Geobasiskarten_GB
+    source: [
+      tileSourcesOptions.HH_WMS_Freiwilliges_Engagement,
+      tileSourcesOptions.HH_WMS_Familien_Angebote,
+      tileSourcesOptions[
+        'HH_WMS_Sozialraeumliche_Angebote_der_Jugend-_und_Familienhilfe'
+      ],
+      tileSourcesOptions.HH_WMS_Jugend_Aktiv_Plus,
+      tileSourcesOptions.HH_WMS_KitaEinrichtung
+    ],
+    zIndex: 1
   },
   {
     type: 'tile',
     properties: {name: 'buildingAndLiving'},
     visible: false,
-    source: tileSourcesOptions.HH_WMS_Geobasiskarten
+    source: [
+      tileSourcesOptions.HH_WMS_Wohnungsbauprojekte,
+      tileSourcesOptions.HH_WMS_Wohnbauflaechenpotenziale
+    ],
+    zIndex: 1
   },
   {
     type: 'tile',
@@ -106,18 +188,43 @@ export const baseLayersOptions: Array<LayerOptions> = [
       });
     },
     zIndex: 6
+  },
+  {
+    type: 'tile',
+    properties: {name: 'powerConsumption'},
+    visible: false,
+    source: tileSourcesOptions.HH_WMS_Waermekataster_Stromverbrauch
   }
 ];
 
-export const mapStyleLayersOptions: Array<TileLayerOptions> = [
+export const laboratoriesLayersOptions: Array<VectorLayerOptions> = [
   {
-    type: 'tile',
-    properties: {
-      name: MapStyle.COLORED
-    },
-    visible: true,
-    source: tileSourcesOptions.HH_WMS_Geobasiskarten
+    type: 'vector',
+    properties: {name: 'urban-testbeds'},
+    visible: false,
+    source: {wrapX: false},
+    style: laboratoriesStyle,
+    zIndex: 4
   },
+  {
+    type: 'vector',
+    properties: {name: 'model-quarters'},
+    visible: false,
+    source: {wrapX: false},
+    style: laboratoriesStyle,
+    zIndex: 4
+  }
+];
+
+export const mobilityIsochronesLayerOptions: VectorLayerOptions = {
+  type: 'vector',
+  properties: {name: 'mobilityIsochrones'},
+  visible: true,
+  source: {wrapX: false},
+  style: mobilityIsochronesStyle
+};
+
+export const mapStyleLayersOptions: Array<TileLayerOptions> = [
   {
     type: 'tile',
     properties: {
@@ -125,6 +232,14 @@ export const mapStyleLayersOptions: Array<TileLayerOptions> = [
     },
     visible: false,
     source: tileSourcesOptions.HH_WMS_Geobasiskarten_GB
+  },
+  {
+    type: 'tile',
+    properties: {
+      name: MapStyle.COLORED
+    },
+    visible: true,
+    source: tileSourcesOptions.HH_WMS_Geobasiskarten
   },
   {
     type: 'tile',
@@ -157,11 +272,11 @@ const adminAreaLayersOptions: Array<VectorLayerOptions> = [
   },
   {
     type: 'vector',
-    source: vectorSourcesOptions.BOROUGH,
+    source: vectorSourcesOptions.DISTRICT,
     visible: false,
-    style: getAdminLayerStyle(adminLayers[AdminLayerType.BOROUGH].featureId),
+    style: getAdminLayerStyle(adminLayers[AdminLayerType.DISTRICT].featureId),
     properties: {
-      name: AdminLayerType.BOROUGH
+      name: AdminLayerType.DISTRICT
     },
     zIndex: 6
   },
@@ -202,42 +317,88 @@ const adminAreaLayersOptions: Array<VectorLayerOptions> = [
   }
 ];
 
+const isVectorTileSource = (source: VectorSourceOptions) =>
+  'format' in source && source?.format instanceof MVT;
+
+const getLayerWithSource = (
+  type: 'vector' | 'tile',
+  {
+    source,
+    ...layerOptions
+  }: Omit<LayerOptions, 'type' | 'source'> & {
+    source?: TileSourceOptions | VectorSourceOptions;
+  }
+) => {
+  if (type === 'vector') {
+    return source && isVectorTileSource(source)
+      ? new VectorTileLayer({
+          ...layerOptions,
+          source: new VectorTileSource(source as VectorTileSourceOptions)
+        })
+      : new VectorLayer({
+          ...layerOptions,
+          source: new VectorSource(source)
+        });
+  } else {
+    return new TileLayer({
+      ...layerOptions,
+      source: new TileWMS(source as TileSourceOptions)
+    });
+  }
+};
+
+const getLayerWithOptions = ({type, ...layerOptions}: LayerOptions) => {
+  const sources = Array.isArray(layerOptions.source)
+    ? layerOptions.source
+    : [layerOptions.source];
+
+  // Return layer group if multiple sources were configured
+  if (sources.length > 1) {
+    const {properties, visible, ...options} = layerOptions;
+
+    return new LayerGroup({
+      layers: sources.map(source =>
+        getLayerWithSource(type, {
+          ...options,
+          properties,
+          source,
+          visible: true
+        })
+      ),
+      properties,
+      visible
+    });
+  }
+
+  // Return single layer if only one source was configured
+  return getLayerWithSource(type, {...layerOptions, source: sources[0]});
+};
+
 export const getBaseLayers = (): LayerGroup =>
   new LayerGroup({
     layers: [
       ...baseLayersOptions,
       ...solarPotentialLayersOptions,
       ...energyPotentialLayersOptions
-    ].map(({type, source, ...layerOptions}) =>
-      type === 'vector'
-        ? new VectorLayer({
-            ...layerOptions,
-            source: new VectorSource(source)
-          })
-        : new TileLayer({
-            ...layerOptions,
-            source: new TileWMS(source as TileSourceOptions)
-          })
-    )
+    ].map(getLayerWithOptions)
   });
+
+export const getLabortoriesLayers = (): LayerGroup =>
+  new LayerGroup({layers: laboratoriesLayersOptions.map(getLayerWithOptions)});
+
+export const getMobilityIsochronesLayer = (): VectorLayer<
+  VectorSource<Geometry>
+> =>
+  getLayerWithOptions(mobilityIsochronesLayerOptions) as VectorLayer<
+    VectorSource<Geometry>
+  >;
 
 export const getMapStyleLayers = (): LayerGroup =>
   new LayerGroup({
-    layers: mapStyleLayersOptions.map(
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      ({type, source, ...layerOptions}) =>
-        new TileLayer({...layerOptions, source: new TileWMS(source)})
-    )
+    layers: mapStyleLayersOptions.map(getLayerWithOptions)
   });
 
 export const getAdminAreaLayers = (): LayerGroup =>
   new LayerGroup({
-    layers: adminAreaLayersOptions.map(
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      ({type, source, ...layerOptions}) =>
-        new VectorLayer({
-          ...layerOptions,
-          source: new VectorSource(source)
-        })
-    )
+    layers: adminAreaLayersOptions.map(getLayerWithOptions)
   });

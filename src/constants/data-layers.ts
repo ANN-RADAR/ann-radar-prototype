@@ -12,7 +12,7 @@ export const dataLayerIds = ['solarCoverageRate', 'heatDemand'];
 export const dataLayerOptions: DataLayerOptions = {
   sources: {
     [AdminLayerType.CITY]: vectorSourcesOptions.CITY,
-    [AdminLayerType.BOROUGH]: vectorSourcesOptions.BOROUGH,
+    [AdminLayerType.DISTRICT]: vectorSourcesOptions.DISTRICT,
     [AdminLayerType.QUARTER]: vectorSourcesOptions.QUARTER,
     [AdminLayerType.STATISTICAL_AREA]: vectorSourcesOptions.STATISTICAL_AREA,
     [AdminLayerType.BUILDING_BLOCK]: vectorSourcesOptions.BUILDING_BLOCK_NETTO
@@ -22,17 +22,20 @@ export const dataLayerOptions: DataLayerOptions = {
       layerConfig: LayerConfig;
       selectedClassificationIndex: number | undefined;
       adminLayerDataById: Record<string, AdminLayerFeatureData>;
-      dataId: string;
+      featureId: string;
     }) =>
     (feature: Feature<Geometry> | RenderFeature) => {
       const {
         layerConfig,
         selectedClassificationIndex,
         adminLayerDataById,
-        dataId
+        featureId
       } = options;
-      const adminLayerData = adminLayerDataById[String(feature.get(dataId))];
-      const value = adminLayerData && adminLayerData[layerConfig.attributeName];
+      const adminLayerData = adminLayerDataById[String(feature.get(featureId))];
+      const value =
+        adminLayerData &&
+        layerConfig.attributeName &&
+        adminLayerData[layerConfig.attributeName];
       const classification =
         selectedClassificationIndex != null
           ? layerConfig.classification[selectedClassificationIndex]

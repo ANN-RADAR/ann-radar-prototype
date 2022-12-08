@@ -5,6 +5,7 @@ import VectorSource from 'ol/source/Vector';
 import {StyleFunction} from 'ol/style/Style';
 import {Options as TileSourceOptions} from 'ol/source/TileWMS';
 import {Options as VectorSourceOptions} from 'ol/source/Vector';
+import {Options as VectorTileSourceOptions} from 'ol/source/VectorTile';
 import {AdminLayerFeatureData, AdminLayerType} from './admin-layers';
 
 export interface LayerBaseOptions<T = TileSourceOptions | VectorSourceOptions>
@@ -13,7 +14,7 @@ export interface LayerBaseOptions<T = TileSourceOptions | VectorSourceOptions>
     'properties' | 'source'
   > {
   properties: {[x: string]: any}; // eslint-disable-line @typescript-eslint/no-explicit-any
-  source?: T;
+  source?: T | T[];
 }
 
 export interface TileLayerOptions extends LayerBaseOptions<TileSourceOptions> {
@@ -21,7 +22,7 @@ export interface TileLayerOptions extends LayerBaseOptions<TileSourceOptions> {
 }
 
 export interface VectorLayerOptions
-  extends LayerBaseOptions<VectorSourceOptions> {
+  extends LayerBaseOptions<VectorSourceOptions | VectorTileSourceOptions> {
   type: 'vector';
   style?: StyleFunction;
 }
@@ -34,12 +35,12 @@ export interface DataLayerOptions {
     layerConfig: LayerConfig;
     selectedClassificationIndex: number | undefined;
     adminLayerDataById: Record<string, AdminLayerFeatureData>;
-    dataId: string;
+    featureId: string;
   }) => StyleFunction;
 }
 
 export interface LayerConfig {
-  attributeName: string;
+  attributeName?: string;
   classification: Array<
     LayerCategoryConfig & {classification?: Array<LayerCategoryConfig>}
   >;
@@ -49,4 +50,5 @@ export interface LayerCategoryConfig {
   from: number;
   to: number;
   color: string;
+  unit?: string; // translation key
 }

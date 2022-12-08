@@ -1,113 +1,148 @@
 <template>
-  <div class="wrapper" v-if="adminLayerType">
-    <v-select
-      class="inspector-column-select"
-      v-model="selectedTableHeaders"
-      :items="tableHeaders.slice(1)"
-      :label="$t('selectColumns')"
-      multiple
-      return-object
-      hide-details
-    >
-      <template v-slot:selection="{item, index}">
-        <v-chip v-if="index === 0">
-          <span>{{ item.text }}</span>
-        </v-chip>
-        <span
-          v-if="index === 1 && selectedTableHeaders.length > 1"
-          class="grey--text caption"
-          >{{ $t('others', {count: selectedTableHeaders.length - 1}) }}</span
+  <div class="potential-wrapper">
+    <v-card-title>
+      {{ $t(`navigation.${category}`) }}
+    </v-card-title>
+    <v-card-text>
+      <div class="potential-wrapper" v-if="adminLayerType">
+        <v-select
+          class="inspector-column-select"
+          v-model="selectedTableHeaders"
+          :items="tableHeaders.slice(1)"
+          :label="$t('selectColumns')"
+          multiple
+          return-object
+          hide-details
         >
-      </template>
-    </v-select>
-
-    <div
-      class="potential-table-container"
-      ref="tableContainer"
-      v-resize="onResize"
-    >
-      <v-data-table
-        class="potential-table"
-        :class="{
-          selectable: showAggregationOnly ? false : showSelected
-        }"
-        :value="selectedFeaturesData"
-        @input="onSelectedFeaturesDataChange"
-        :headers="shownTableHeaders"
-        :items="selectedFeaturesData"
-        :item-key="adminLayers[adminLayerType].dataId"
-        :show-select="showAggregationOnly ? false : showSelected"
-        :height="tableHeight"
-        :fixed-header="true"
-        hide-default-footer
-      >
-        <template
-          v-for="(header, index) in shownTableHeaders"
-          v-slot:[`item.${header.value}`]="{item}"
-        >
-          <slot :name="[`item.${header.value}`]" :item="item">
+          <template v-slot:selection="{item, index}">
+            <v-chip v-if="index === 0">
+              <span>{{ item.text }}</span>
+            </v-chip>
             <span
-              v-if="
-                item[header.value] !== undefined && item[header.value] !== ''
-              "
-              v-bind:key="header.value"
+              v-if="index === 1 && selectedTableHeaders.length > 1"
+              class="grey--text caption"
+              >{{
+                $t('others', {count: selectedTableHeaders.length - 1})
+              }}</span
             >
-              <span v-if="index === 0 || isNaN(item[header.value])">
-                {{ item[header.value] }}
-              </span>
-              <span
-                v-else-if="
-                  ['mittlFlur', 'BGF', 'Wohnfl_WK'].includes(header.value)
-                "
-              >
-                {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²
-              </span>
-              <span
-                v-else-if="['SP_GebWB15', 'NW_absdiff'].includes(header.value)"
-              >
-                {{ formatNumber(item[header.value]) }}&nbsp;MWh/a
-              </span>
-              <span
-                v-else-if="['tatNu_WB_P', 'spezWBd_dP'].includes(header.value)"
-              >
-                {{ formatNumber(item[header.value]) }}&nbsp;%
-              </span>
-              <span v-else>
-                {{ formatNumber(Math.round(item[header.value])) }}
-              </span>
-            </span>
-            <span v-else v-bind:key="header.value">
-              {{ $t('notAvailable') }}
-            </span>
-          </slot>
-        </template>
+          </template>
+        </v-select>
 
-        <template v-slot:[`body.append`] v-if="!showAggregationOnly">
-          <AggregatedValues
-            :tableHeaders="shownTableHeaders"
-            :showSelect="showSelected"
-          />
-        </template>
+        <div
+          class="potential-table-container"
+          ref="tableContainer"
+          v-resize="onResize"
+        >
+          <v-data-table
+            class="potential-table"
+            :class="{
+              selectable: showAggregationOnly ? false : showSelected
+            }"
+            :value="selectedFeaturesData"
+            :headers="shownTableHeaders"
+            :items="selectedFeaturesData"
+            :item-key="adminLayers[adminLayerType].dataId"
+            :show-select="showAggregationOnly ? false : showSelected"
+            :height="tableHeight"
+            :fixed-header="true"
+            hide-default-footer
+          >
+            <template v-slot:[`header.data-table-select`]>
+              <v-btn
+                text
+                icon
+                :disabled="!selectedFeaturesData.length"
+                @click="onDeselectAllFeatures"
+              >
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </template>
 
-        <template v-slot:[`body`] v-else>
-          <tbody>
-            <AggregatedValues
-              :tableHeaders="shownTableHeaders"
-              :showSelect="false"
-            />
-          </tbody>
-        </template>
-      </v-data-table>
-    </div>
+            <template v-slot:[`item.data-table-select`]="{item}">
+              <v-btn
+                text
+                icon
+                @click="onDeselectFeature(item[shownTableHeaders[0].value])"
+              >
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </template>
+
+            <template
+              v-for="(header, index) in shownTableHeaders"
+              v-slot:[`item.${header.value}`]="{item}"
+            >
+              <slot :name="[`item.${header.value}`]" :item="item">
+                <span
+                  v-if="
+                    item[header.value] !== undefined &&
+                    item[header.value] !== ''
+                  "
+                  v-bind:key="header.value"
+                >
+                  <span v-if="index === 0 || isNaN(item[header.value])">
+                    {{ item[header.value] }}
+                  </span>
+                  <span
+                    v-else-if="
+                      ['mittlFlur', 'BGF', 'Wohnfl_WK'].includes(header.value)
+                    "
+                  >
+                    {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²
+                  </span>
+                  <span
+                    v-else-if="
+                      ['SP_GebWB15', 'NW_absdiff'].includes(header.value)
+                    "
+                  >
+                    {{ formatNumber(item[header.value]) }}&nbsp;MWh/a
+                  </span>
+                  <span
+                    v-else-if="
+                      ['tatNu_WB_P', 'spezWBd_dP'].includes(header.value)
+                    "
+                  >
+                    {{ formatNumber(item[header.value]) }}&nbsp;%
+                  </span>
+                  <span v-else>
+                    {{ formatNumber(Math.round(item[header.value])) }}
+                  </span>
+                </span>
+                <span v-else v-bind:key="header.value">
+                  {{ $t('notAvailable') }}
+                </span>
+              </slot>
+            </template>
+
+            <template v-slot:[`body.append`] v-if="!showAggregationOnly">
+              <AggregatedValues
+                :tableHeaders="shownTableHeaders"
+                :showSelect="showSelected"
+              />
+            </template>
+
+            <template v-slot:[`body`] v-else>
+              <tbody>
+                <AggregatedValues
+                  :tableHeaders="shownTableHeaders"
+                  :showSelect="false"
+                />
+              </tbody>
+            </template>
+          </v-data-table>
+        </div>
+      </div>
+    </v-card-text>
   </div>
 </template>
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
-import {mapState, mapMutations, mapGetters} from 'vuex';
+import {mapState, mapMutations, mapGetters, mapActions} from 'vuex';
 
 import {AdminLayerFeatureData, AdminLayerType} from '@/types/admin-layers';
 import {
+  MapActionsToMethods,
   MapGettersToComputed,
   MapMutationsToMethods,
   MapStateToComputed
@@ -151,6 +186,7 @@ export default Vue.extend({
     };
   },
   created() {
+    this.fetchPotentialConfig();
     this.setSelectedTableHeaders(this.tableHeaders);
   },
   computed: {
@@ -216,9 +252,13 @@ export default Vue.extend({
   watch: {
     tableHeaders(newTableHeaders: Array<DataTableHeader>) {
       this.setSelectedTableHeaders(newTableHeaders);
+    },
+    category() {
+      this.setSelectedTableHeaders(this.tableHeaders);
     }
   },
   methods: {
+    ...(mapActions as MapActionsToMethods)('root', ['fetchPotentialConfig']),
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setSelectedFeatureIdsOfAdminLayer'
     ]),
@@ -231,23 +271,26 @@ export default Vue.extend({
       const container = this.$refs.tableContainer as Element;
       this.tableHeight = container?.getBoundingClientRect().height || 0;
     },
-    onSelectedFeaturesDataChange(
-      newSelectedFeaturesData: Array<AdminLayerFeatureData>
-    ) {
+    onDeselectFeature(featureIdToRemove: string) {
       if (!this.adminLayerType) {
         return;
       }
 
-      const {dataId} = adminLayers[this.adminLayerType];
-
       this.setSelectedFeatureIdsOfAdminLayer({
         adminLayerType: this.adminLayerType,
         featureIds: this.currentLayerSelectedFeatureIds.filter(
-          (featureId: string) =>
-            newSelectedFeaturesData
-              .map(data => String(data[dataId]))
-              .includes(featureId)
+          (featureId: string) => featureId !== featureIdToRemove
         )
+      });
+    },
+    onDeselectAllFeatures() {
+      if (!this.adminLayerType) {
+        return;
+      }
+
+      this.setSelectedFeatureIdsOfAdminLayer({
+        adminLayerType: this.adminLayerType,
+        featureIds: []
       });
     },
     setSelectedTableHeaders(tableHeaders: Array<DataTableHeader>) {
@@ -264,7 +307,7 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.wrapper {
+.potential-wrapper {
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100%;

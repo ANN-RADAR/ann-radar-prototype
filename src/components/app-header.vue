@@ -5,34 +5,75 @@
         {{ $t('annRadar') }}
       </v-app-bar-title>
 
+      <ScenarioCreateDialog
+        v-if="showScenarioCreateDialog"
+        @close="showScenarioCreateDialog = false"
+      />
+      <ScenarioLoadDialog
+        v-if="showScenarioLoadDialog"
+        @close="showScenarioLoadDialog = false"
+      />
+
       <span class="scenario-name" v-if="scenarioMetaData">
-        {{ $t('scenarios.scenario') + scenarioMetaData.name }}
+        {{ $t('scenarios.scenario') }}: {{ scenarioMetaData.name }}
       </span>
       <div class="header-actions">
-        <ScenarioCreateDialog :disabled="!canCreate" />
-        <ScenarioLoadDialog />
-        <v-btn text @click="saveScenario" :disabled="!canSave">
-          <span>{{ $t('scenarios.saveScenario') }}</span>
-          <v-icon right>mdi-content-save</v-icon>
-        </v-btn>
-
         <v-menu open-on-hover bottom offset-y>
           <template v-slot:activator="{on, attrs}">
             <v-btn text active-class="primary--text" v-bind="attrs" v-on="on">
-              <span>{{ $t('navigation.urbanTestbeds') }}</span>
-              <v-icon right>mdi-notebook-edit-outline</v-icon>
+              <span>{{ $t('scenarios.scenario') }}</span>
             </v-btn>
           </template>
 
           <v-list>
-            <v-list-item to="/urban-testbeds/model-quarters">
+            <v-list-item
+              @click="showScenarioCreateDialog = true"
+              :disabled="!canCreate"
+            >
               <v-list-item-title>
-                {{ $t('navigation.modelQuarters') }}
+                {{ $t('scenarios.createScenario') }}
               </v-list-item-title>
             </v-list-item>
-            <v-list-item to="/urban-testbeds/urban-testbeds">
+            <v-list-item @click="showScenarioLoadDialog = true">
               <v-list-item-title>
-                {{ $t('navigation.urbanTestbeds') }}
+                {{ $t('scenarios.loadScenario') }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="saveScenario" :disabled="!canSave">
+              <v-list-item-title>
+                {{ $t('scenarios.saveScenario') }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+
+        <v-menu open-on-hover bottom offset-y>
+          <template v-slot:activator="{on, attrs}">
+            <v-btn
+              text
+              active-class="primary--text"
+              v-bind="attrs"
+              v-on="on"
+              :disabled="!currentLayerSelectedFeatureIds.length"
+            >
+              <span>{{ $t('results.show') }}</span>
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item to="/potential/solar/results">
+              <v-list-item-title>
+                {{ $t('navigation.solar') }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/potential/energy-efficiency/results">
+              <v-list-item-title>
+                {{ $t('navigation.energyEfficiency') }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/potential/mobility/results">
+              <v-list-item-title>
+                {{ $t('navigation.mobility') }}
               </v-list-item-title>
             </v-list-item>
           </v-list>
@@ -52,6 +93,33 @@
           <span>{{ $t('auth.logout') }}</span>
           <v-icon right>mdi-logout</v-icon>
         </v-btn>
+
+        <v-menu bottom offset-y left>
+          <template v-slot:activator="{on, attrs}">
+            <v-btn
+              icon
+              small
+              active-class="primary--text"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-earth</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item-group v-model="$i18n.locale" color="primary">
+              <v-list-item
+                v-for="locale in ['en', 'de']"
+                :key="locale"
+                :value="locale"
+              >
+                <v-list-item-title>
+                  {{ $t(`locales.${locale}`) }}
+                </v-list-item-title>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-menu>
       </div>
     </div>
 
@@ -59,35 +127,147 @@
       <img class="iclei-logo" :src="`assets/iclei-logo.png`" />
       <img class="iclei-logo" :src="`assets/hcu-logo.svg`" />
     </div>
-    <template v-slot:extension>
-      <v-tabs v-model="tab">
-        <v-tab to="/potential">{{ $t('navigation.potential') }}</v-tab>
-        <v-tab to="/plans">{{ $t('navigation.plans') }}</v-tab>
 
-        <v-menu open-on-hover bottom offset-y content-class="stakeholders-menu">
+    <template v-slot:extension>
+      <v-tabs :value="tab" optional>
+        <v-menu
+          open-on-hover
+          bottom
+          offset-y
+          :close-on-content-click="false"
+          content-class="navigation-menu"
+        >
           <template v-slot:activator="{on, attrs}">
-            <v-tab to="/stakeholders" v-bind="attrs" v-on="on">
-              {{ $t('navigation.stakeholders') }}
-            </v-tab>
+            <span
+              :class="{'v-tab': true, 'v-tab--active': tab === 0}"
+              v-bind="attrs"
+              v-on="on"
+            >
+              {{ $t('navigation.sustainabilityDomains') }}
+            </span>
           </template>
 
           <v-list>
-            <v-list-item to="/stakeholders/organizations">
+            <v-list-item color="primary" to="/potential/solar">
               <v-list-item-title>
-                {{ $t('navigation.stakeholdersOrganizations') }}
+                {{ $t('navigation.solar') }}
               </v-list-item-title>
             </v-list-item>
-            <v-list-item to="/stakeholders/citizens">
+            <v-list-item color="primary" to="/potential/energy-efficiency">
               <v-list-item-title>
-                {{ $t('navigation.citizens') }}
+                {{ $t('navigation.energyEfficiency') }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item color="primary" to="/potential/mobility">
+              <v-list-item-title>
+                {{ $t('navigation.mobility') }}
               </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
 
-        <v-tab to="/urban-data">{{ $t('navigation.urbanData') }}</v-tab>
-        <v-tab to="/governance">{{ $t('navigation.governance') }}</v-tab>
+        <!-- Visible assessment tab -->
+        <v-menu
+          open-on-hover
+          bottom
+          offset-y
+          :close-on-content-click="false"
+          min-width="300"
+          content-class="navigation-menu"
+        >
+          <template v-slot:activator="{on, attrs}">
+            <span
+              :class="{'v-tab': true, 'v-tab--active': tab === 1}"
+              v-bind="attrs"
+              v-on="on"
+            >
+              {{ $t('navigation.assessment') }}
+            </span>
+          </template>
+
+          <v-list>
+            <v-list-item color="primary" to="/assessment/plans">
+              <v-list-item-title>
+                {{ $t('navigation.plans') }}
+              </v-list-item-title>
+            </v-list-item>
+
+            <v-list-group :value="true" no-action prepend-icon>
+              <template v-slot:activator>
+                <v-list-item-title>
+                  {{ $t('navigation.stakeholders') }}
+                </v-list-item-title>
+              </template>
+
+              <v-list-item to="/assessment/stakeholders">
+                <v-list-item-title>
+                  {{ $t('navigation.stakeholders') }}
+                </v-list-item-title>
+              </v-list-item>
+              <v-list-item to="/assessment/stakeholders-organizations">
+                <v-list-item-title>
+                  {{ $t('navigation.stakeholdersOrganizations') }}
+                </v-list-item-title>
+              </v-list-item>
+              <v-list-item to="/assessment/stakeholders-citizens">
+                <v-list-item-title>
+                  {{ $t('navigation.citizens') }}
+                </v-list-item-title>
+              </v-list-item>
+            </v-list-group>
+
+            <v-list-item color="primary" to="/assessment/urban-data">
+              <v-list-item-title>
+                {{ $t('navigation.urbanData') }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item color="primary" to="/assessment/governance">
+              <v-list-item-title>
+                {{ $t('navigation.governance') }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+
+        <!-- Visible laboratories tab -->
+        <v-menu
+          open-on-hover
+          bottom
+          offset-y
+          :close-on-content-click="false"
+          content-class="navigation-menu"
+        >
+          <template v-slot:activator="{on, attrs}">
+            <span
+              :class="{'v-tab': true, 'v-tab--active': tab === 2}"
+              v-bind="attrs"
+              v-on="on"
+            >
+              {{ $t('navigation.urbanTestbeds') }}
+            </span>
+          </template>
+
+          <v-list>
+            <v-list-item color="primary" to="/urban-testbeds/model-quarters">
+              <v-list-item-title>
+                {{ $t('navigation.modelQuarters') }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item color="primary" to="/urban-testbeds/urban-testbeds">
+              <v-list-item-title>
+                {{ $t('navigation.urbanTestbeds') }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-tabs>
+
+      <div
+        class="admin-area-selection"
+        v-if="!$route.path.startsWith('/urban-testbeds')"
+      >
+        <AdminAreaSelector />
+      </div>
     </template>
   </v-app-bar>
 </template>
@@ -95,14 +275,21 @@
 <script lang="ts">
 import Vue from 'vue';
 import {logOut} from '@/libs/firebase';
-import {mapActions, mapState} from 'vuex';
-import {MapActionsToMethods, MapStateToComputed} from '@/types/store';
+import {mapActions, mapGetters, mapState} from 'vuex';
+import {
+  MapActionsToMethods,
+  MapGettersToComputed,
+  MapStateToComputed
+} from '@/types/store';
 
 import ScenarioCreateDialog from './create-scenario-dialog.vue';
-import ScenarioLoadDialog from '../components/scenario-load-dialog.vue';
+import ScenarioLoadDialog from './scenario-load-dialog.vue';
+import AdminAreaSelector from './admin-area-selector.vue';
 
 interface Data {
   tab: number;
+  showScenarioCreateDialog: boolean;
+  showScenarioLoadDialog: boolean;
 }
 
 export default Vue.extend({
@@ -114,16 +301,30 @@ export default Vue.extend({
   },
   components: {
     ScenarioCreateDialog,
-    ScenarioLoadDialog
+    ScenarioLoadDialog,
+    AdminAreaSelector
   },
   data(): Data {
     return {
-      tab: 0
+      tab: 0,
+      showScenarioCreateDialog: false,
+      showScenarioLoadDialog: false
     };
+  },
+  watch: {
+    $route(to) {
+      this.tab =
+        (to.path.startsWith('/urban-testbeds') && 2) ||
+        (to.path.startsWith('/assessment') && 1) ||
+        0;
+    }
   },
   computed: {
     ...(mapState as MapStateToComputed)('root', ['scenarioMetaData']),
     ...(mapState as MapStateToComputed)('user', ['roles']),
+    ...(mapGetters as MapGettersToComputed)('root', [
+      'currentLayerSelectedFeatureIds'
+    ]),
     canSave(): boolean {
       const isWriter = this.roles.includes('WRITER');
       const hasScenarioMetaData = Boolean(this.scenarioMetaData);
@@ -165,6 +366,7 @@ export default Vue.extend({
   display: grid;
   grid-auto-flow: column;
   grid-gap: 4px;
+  align-items: center;
 }
 
 .scenario-name {
@@ -173,7 +375,11 @@ export default Vue.extend({
   padding: 0 32px;
 }
 
-.stakeholders-menu {
+.header-actions >>> .theme--light.v-btn.v-btn--icon {
+  color: inherit;
+}
+
+.navigation-menu {
   margin-top: -2px;
 }
 
@@ -192,5 +398,13 @@ export default Vue.extend({
   justify-content: flex-end;
   margin: 0.5rem -0.5rem 0 0;
   flex-direction: column;
+}
+
+.admin-area-selection {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  padding: 0.5rem 1rem;
+  width: 16rem;
 }
 </style>

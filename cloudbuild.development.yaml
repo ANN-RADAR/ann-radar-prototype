@@ -1,11 +1,11 @@
 steps:
   - id: install
-    name: 'gcr.io/cloud-builders/npm'
+    name: 'gcr.io/cloud-builders/npm:node-16.18.0'
     entrypoint: 'npm'
     args: ['install']
 
   - id: test
-    name: 'gcr.io/cloud-builders/npm'
+    name: 'gcr.io/cloud-builders/npm:node-16.18.0'
     waitFor: ['install']
     entrypoint: 'npm'
     args: ['run', 'test']

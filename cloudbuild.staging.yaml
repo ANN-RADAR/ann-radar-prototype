@@ -1,0 +1,62 @@
+steps:
+  - id: install
+    name: 'gcr.io/cloud-builders/npm:node-16.18.0'
+    entrypoint: 'npm'
+    args: ['install']
+
+  - id: test
+    name: 'gcr.io/cloud-builders/npm:node-16.18.0'
+    waitFor: ['install']
+    entrypoint: 'npm'
+    args: ['run', 'test']
+
+  - id: build
+    name: 'gcr.io/cloud-builders/npm:node-16.18.0'
+    waitFor: ['test']
+    entrypoint: 'npm'
+    args: ['run', 'build']
+    secretEnv: ['VUE_APP_TARGOMO_REGION', VUE_APP_TARGOMO_SERVICE_KEY]
+
+  - id: deploy
+    waitFor: ['build']
+    name: 'gcr.io/cloud-builders/gsutil'
+    entrypoint: 'gsutil'
+    args:
+      - '-m'
+      - 'rsync'
+      - '-r'
+      - 'dist/'
+      - 'gs://ann-radar-staging'
+
+  - id: setmeta
+    waitFor: ['deploy']
+    name: 'gcr.io/cloud-builders/gsutil'
+    entrypoint: 'gsutil'
+    args:
+      [
+        '-m',
+        'setmeta',
+        '-r',
+        '-h',
+        'Cache-Control: no-cache',
+        'gs://ann-radar-staging/*'
+      ]
+
+  - id: slack_notification
+    waitFor: ['setmeta']
+    name: gcr.io/cloud-builders/curl
+    entrypoint: 'bash'
+    args:
+      - -c
+      - |
+        curl -X POST -H "Content-type: application/json; charset=utf-8" -H "Authorization: Bearer $$SLACK_BOT_TOKEN" --data "{\"channel\":\"C02V2LH6LRM\",\"username\":\"Staging Deployment\",\"icon_emoji\":\":robot_face:\",\"text\":\"New staging version deployed: https://storage.googleapis.com/ann-radar-staging/index.html\",\"unfurl_links\":false}" https://slack.com/api/chat.postMessage
+    secretEnv: ['SLACK_BOT_TOKEN']
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/ann-radar-prototype-project/secrets/SLACK_BOT_TOKEN/versions/latest
+      env: 'SLACK_BOT_TOKEN'
+    - versionName: projects/ann-radar-prototype-project/secrets/TARGOMO_REGION/versions/latest
+      env: 'VUE_APP_TARGOMO_REGION'
+    - versionName: projects/ann-radar-prototype-project/secrets/TARGOMO_SERVICE_KEY/versions/latest
+      env: 'VUE_APP_TARGOMO_SERVICE_KEY'

@@ -1,27 +1,16 @@
 <template>
-  <div class="wrapper">
-    <Map :highlightedFeatureIds="highlightedFeatureIds" showStyleSwitcher />
-    <v-card class="rate">
-      <v-card-title>{{ $t('balancedScorecards.rate.title') }}</v-card-title>
-      <v-card-text class="rate-content">
-        <nav class="areas-navigation">
-          <v-btn
-            v-for="layerType in adminLayerTypes"
-            :key="layerType"
-            :color="layerType === adminLayerType ? 'primary' : ''"
-            @click="onLayerTypeChanged(layerType)"
-          >
-            {{ $t(`adminLayer.${layerType}`) }}
-          </v-btn>
-        </nav>
-
-        <BalancedScorecard
-          :selectedFeatures="selectedFeatureId ? [selectedFeatureId] : []"
-          :scorecardType="scorecardType"
-          isEditable
-        />
-      </v-card-text>
-    </v-card>
+  <div
+    v-if="!adminLayerType || isAdminLayerOfBalacedScorecardType()"
+    class="rate-wrapper"
+  >
+    <v-card-title>{{ title }}</v-card-title>
+    <v-card-text class="rate-content">
+      <BalancedScorecard
+        :selectedFeatures="selectedFeatureId ? [selectedFeatureId] : []"
+        :scorecardType="scorecardType"
+        isEditable
+      />
+    </v-card-text>
   </div>
 </template>
 
@@ -29,23 +18,20 @@
 import Vue, {PropType} from 'vue';
 import {mapMutations, mapState} from 'vuex';
 
-import {AdminLayerType} from '@/types/admin-layers';
 import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
+import {
+  AdminLayerFeatureId,
+  BalancedScorecardAdminLayerType
+} from '@/types/admin-layers';
 import {ScorecardType} from '@/types/scorecards';
 
-import Map from './map-component.vue';
 import BalancedScorecard from './balanced-scorecard.vue';
 
 export default Vue.extend({
   components: {
-    Map,
     BalancedScorecard
   },
   props: {
-    adminLayerTypes: {
-      type: Array as PropType<Array<AdminLayerType>>,
-      required: true
-    },
     scorecardType: {
       type: String as PropType<ScorecardType>,
       required: true
@@ -57,7 +43,7 @@ export default Vue.extend({
       'selectedFeatureIds',
       'balancedScorecardRatings'
     ]),
-    selectedFeatureId(): string | null {
+    selectedFeatureId(): AdminLayerFeatureId | null {
       if (
         !this.adminLayerType ||
         !this.selectedFeatureIds[this.adminLayerType]?.length
@@ -67,55 +53,71 @@ export default Vue.extend({
 
       return this.selectedFeatureIds[this.adminLayerType][0];
     },
-    highlightedFeatureIds(): Array<string> {
+    title(): string {
+      // Get translations key by converting the scorecard type from kebab case to camel case
+      const scorecardTranslationKey = this.scorecardType.replace(/-./g, str =>
+        str[1].toUpperCase()
+      );
+      const scorecardName = this.$t(`navigation.${scorecardTranslationKey}`);
+      return `${scorecardName} | ${this.$t('balancedScorecards.rate.title')}`;
+    }
+  },
+  watch: {
+    adminLayerType() {
+      this.updateHighlightedFeatureIds();
+    },
+    scorecardType() {
+      this.updateHighlightedFeatureIds();
+    },
+    balancedScorecardRatings() {
+      this.updateHighlightedFeatureIds();
+    }
+  },
+  methods: {
+    ...(mapMutations as MapMutationsToMethods)('root', [
+      'setAdminLayerType',
+      'setHighlightedFeatureIds'
+    ]),
+    isAdminLayerOfBalacedScorecardType: function () {
+      return (
+        this.adminLayerType &&
+        Object.values(BalancedScorecardAdminLayerType).includes(
+          this.adminLayerType
+        )
+      );
+    },
+    updateHighlightedFeatureIds() {
       if (
         !this.adminLayerType ||
         !this.balancedScorecardRatings[this.scorecardType] ||
         !this.balancedScorecardRatings[this.scorecardType][this.adminLayerType]
       ) {
-        return [];
+        this.setHighlightedFeatureIds([]);
+      } else {
+        this.setHighlightedFeatureIds(
+          Object.keys(
+            this.balancedScorecardRatings[this.scorecardType][
+              this.adminLayerType
+            ]
+          )
+        );
       }
-
-      return Object.keys(
-        this.balancedScorecardRatings[this.scorecardType][this.adminLayerType]
-      );
     }
   },
-  methods: {
-    ...(mapMutations as MapMutationsToMethods)('root', ['setAdminLayerType']),
-    onLayerTypeChanged(adminLayerType: AdminLayerType) {
-      const selectedAdminLayerType =
-        adminLayerType === this.adminLayerType ? null : adminLayerType;
-      this.setAdminLayerType(selectedAdminLayerType);
-    }
+  created() {
+    this.updateHighlightedFeatureIds();
   }
 });
 </script>
 
 <style scoped>
-.wrapper {
+.rate-wrapper {
   display: grid;
-  grid-template-columns: calc(50% - 0.5rem) calc(50% - 0.5rem);
-  grid-template-rows: 100%;
-  gap: 1rem;
-  padding: 1rem;
-}
-
-.wrapper > * {
-  position: relative;
-}
-
-.areas-navigation {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  grid-gap: 0.5rem;
-  margin-bottom: 1rem;
+  grid-template-rows: auto 1fr;
+  min-height: 0;
 }
 
 .rate-content {
-  display: grid;
-  grid-template-rows: auto 40px auto 1fr;
-  height: calc(100% - 2rem - 32px);
+  overflow: auto;
 }
 </style>

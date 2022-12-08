@@ -1,13 +1,19 @@
 import {Accessors} from 'vue/types/options';
 import {MapStyle} from './map-styles';
-import {AdminLayerType} from './admin-layers';
+import {AdminLayerType, AdminLayerFeatureId} from './admin-layers';
 import {modules} from '../store/index';
 import {LayerConfig} from './layers';
 import {ScenarioMetaData} from './scenarios';
 import {Scorecard, ScorecardRatings, ScorecardType} from './scorecards';
 import {ActionContext} from 'vuex';
-import {PotentialConfig} from './potential-config';
+import {MobilityLocation, PotentialConfig} from './potential';
 import {Laboratory, LaboratoryId} from './laboratories';
+import {
+  StakeholdersEngagementTemplate,
+  StakeholdersEngagementRatings,
+  StakeholdersEngagementType
+} from './stakeholders';
+import {GeoJSONFeature} from 'ol/format/GeoJSON';
 
 export interface RootState {
   scenarioMetaData: ScenarioMetaData | null;
@@ -19,13 +25,25 @@ export interface RootState {
   potentialConfig: PotentialConfig | null;
   mapStyle: MapStyle;
   baseLayerTypes: Array<string>;
+  baseLayerFeatureProperties: Record<string, string>;
   adminLayerType: AdminLayerType | null;
-  selectedFeatureIds: Record<AdminLayerType, Array<string>>;
+  selectedFeatureIds: Record<AdminLayerType, Array<AdminLayerFeatureId>>;
+  highlightedFeatureIds: Array<AdminLayerFeatureId>;
   balancedScorecards: Record<ScorecardType, Scorecard>;
   balancedScorecardRatings: Record<ScorecardType, ScorecardRatings>;
   notes: Record<string /* path */, string /* note */>;
   laboratories: Record<LaboratoryId, Laboratory>;
   hoveredLaboratoryId: LaboratoryId | null;
+  stakeholdersEngagementTemplates: Record<
+    StakeholdersEngagementType,
+    StakeholdersEngagementTemplate
+  >;
+  stakeholdersEngagementRatings: Record<
+    StakeholdersEngagementType,
+    StakeholdersEngagementRatings
+  >;
+  mobilityLocations: Array<MobilityLocation>;
+  mobilityIsochrones: Record<string, Array<GeoJSONFeature>>;
 }
 
 export interface UserState {

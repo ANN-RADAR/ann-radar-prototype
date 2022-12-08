@@ -1,18 +1,27 @@
 import {RootState} from '@/types/store';
 import {MapStyle} from '@/types/map-styles';
-import {AdminLayerType} from '@/types/admin-layers';
+import {AdminLayerType, AdminLayerFeatureId} from '@/types/admin-layers';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {Laboratory, LaboratoryId} from '@/types/laboratories';
+import {
+  StakeholdersEngagementRatings,
+  StakeholdersEngagementTemplate,
+  StakeholdersEngagementType
+} from '@/types/stakeholders';
+import {MobilityLocation} from '@/types/potential';
+import {GeoJSONFeature} from 'ol/format/GeoJSON';
 
 const state: RootState = {
   scenarioMetaData: null,
   layersConfig: {},
   potentialConfig: null,
   layerClassificationSelection: {},
-  mapStyle: MapStyle.COLORED,
+  mapStyle: MapStyle.GRAY_BLUE,
   baseLayerTypes: [],
+  baseLayerFeatureProperties: {},
   adminLayerType: null,
-  selectedFeatureIds: {} as Record<AdminLayerType, Array<string>>,
+  selectedFeatureIds: {} as Record<AdminLayerType, Array<AdminLayerFeatureId>>,
+  highlightedFeatureIds: [],
   balancedScorecards: Object.values(ScorecardType).reduce(
     (scorecards, scorecardType) => ({...scorecards, [scorecardType]: []}),
     {} as Record<ScorecardType, Scorecard>
@@ -26,7 +35,25 @@ const state: RootState = {
   ),
   notes: {},
   laboratories: {} as Record<LaboratoryId, Laboratory>,
-  hoveredLaboratoryId: null
+  hoveredLaboratoryId: null,
+  stakeholdersEngagementTemplates: Object.values(
+    StakeholdersEngagementType
+  ).reduce(
+    (templates, stakeholdersEngagementType) => ({
+      ...templates,
+      [stakeholdersEngagementType]: []
+    }),
+    {} as Record<StakeholdersEngagementType, StakeholdersEngagementTemplate>
+  ),
+  stakeholdersEngagementRatings: Object.values(ScorecardType).reduce(
+    (ratings, stakeholdersEngagementType) => ({
+      ...ratings,
+      [stakeholdersEngagementType]: {} as StakeholdersEngagementRatings
+    }),
+    {} as Record<StakeholdersEngagementType, StakeholdersEngagementRatings>
+  ),
+  mobilityLocations: [] as Array<MobilityLocation>,
+  mobilityIsochrones: {} as Record<string, Array<GeoJSONFeature>>
 };
 
 export default state;
