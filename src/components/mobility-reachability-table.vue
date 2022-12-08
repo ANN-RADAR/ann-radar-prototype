@@ -25,6 +25,7 @@ import point from 'turf-point';
 import centroid from '@turf/centroid';
 import distance from '@turf/distance';
 import union from '@turf/union';
+import flatten from '@turf/flatten';
 import booleanWithin from '@turf/boolean-within';
 
 import GeoJSON from 'ol/format/GeoJSON';
@@ -150,9 +151,10 @@ export default Vue.extend({
 
       // Calculcate max distance from isochrone border to center
       const maxDistance = Math.max(
-        ...mergedIsochronePolygon.geometry.coordinates
+        ...flatten(mergedIsochronePolygon)
+          .features.flatMap(({geometry}) => geometry.coordinates)
           .flat()
-          .map((coordinate: number[]) =>
+          .map(coordinate =>
             distance(centerOfIsochrone, point(coordinate), {
               units: 'meters'
             })
