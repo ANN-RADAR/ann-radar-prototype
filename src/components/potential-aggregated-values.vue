@@ -60,6 +60,7 @@ export default Vue.extend({
   },
   computed: {
     ...(mapState as MapStateToComputed)('root', [
+      'adminLayerData',
       'adminLayerType',
       'selectedFeatureIds'
     ]),
@@ -76,6 +77,7 @@ export default Vue.extend({
       }
 
       return aggregateValues(
+        this.adminLayerData[this.adminLayerType],
         this.adminLayerType,
         this.currentLayerSelectedFeatureIds
       );

@@ -44,8 +44,6 @@ import {vectorSourcesOptions} from '@/constants/sources';
 import {adminLayers} from '@/constants/admin-layers';
 import {AdminLayerType} from '@/types/admin-layers';
 
-import buildingBlockData from '../../public/data/baublöcke.json';
-
 interface Data {
   buildingBlockFeatures: {
     geometry: {coordinates: number[]};
@@ -61,6 +59,7 @@ const BUILDING_BLOCK_DATA_ID =
 export default Vue.extend({
   computed: {
     ...(mapState as MapStateToComputed)('root', [
+      'adminLayerData',
       'layersConfig',
       'mobilityIsochrones'
     ])
@@ -280,6 +279,8 @@ export default Vue.extend({
     calculateReachedResidentsByTime(
       reachedBuildingBlocksByTime: Record<string, Set<string>>
     ) {
+      const buildingBlockData =
+        this.adminLayerData[AdminLayerType.BUILDING_BLOCK];
       return Object.keys(reachedBuildingBlocksByTime).reduce(
         (reachedResidentsByTime: Record<string, string>, time) => {
           const reachedResidents: number = [

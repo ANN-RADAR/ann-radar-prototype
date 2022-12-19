@@ -1,6 +1,10 @@
 import {Accessors} from 'vue/types/options';
 import {MapStyle} from './map-styles';
-import {AdminLayerType, AdminLayerFeatureId} from './admin-layers';
+import {
+  AdminLayerType,
+  AdminLayerFeatureId,
+  AdminLayerFeatureData
+} from './admin-layers';
 import {modules} from '../store/index';
 import {LayerConfig} from './layers';
 import {ScenarioMetaData} from './scenarios';
@@ -16,6 +20,7 @@ import {
 import {GeoJSONFeature} from 'ol/format/GeoJSON';
 
 export interface RootState {
+  adminLayerData: Record<AdminLayerType, Array<AdminLayerFeatureData>>;
   scenarioMetaData: ScenarioMetaData | null;
   layersConfig: Record<string /* layer type */, LayerConfig>;
   layerClassificationSelection: Record<
