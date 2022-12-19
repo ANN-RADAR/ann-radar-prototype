@@ -51,11 +51,13 @@ export default Vue.extend({
   },
   methods: {
     ...(mapActions as MapActionsToMethods)('root', [
+      'fetchAdminLayerData',
       'fetchBalancedScorecard',
       'fetchBalancedScorecardRatings'
     ])
   },
   created() {
+    this.fetchAdminLayerData();
     Object.values(ScorecardType).forEach(scorecardType => {
       this.fetchBalancedScorecard(scorecardType);
       this.fetchBalancedScorecardRatings(scorecardType);

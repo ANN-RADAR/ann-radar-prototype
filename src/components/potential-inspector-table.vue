@@ -191,6 +191,7 @@ export default Vue.extend({
   },
   computed: {
     ...(mapState as MapStateToComputed)('root', [
+      'adminLayerData',
       'adminLayerType',
       'potentialConfig'
     ]),
@@ -236,7 +237,8 @@ export default Vue.extend({
         return [];
       }
 
-      const {data, dataId} = adminLayers[this.adminLayerType];
+      const {dataId} = adminLayers[this.adminLayerType];
+      const data = this.adminLayerData[this.adminLayerType];
 
       if (!data || !dataId) {
         return [];

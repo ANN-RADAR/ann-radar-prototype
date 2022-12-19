@@ -6,12 +6,13 @@ import {
 } from '@/constants/potential-data';
 
 export const aggregateValues = (
+  data: Array<AdminLayerFeatureData>,
   adminLayerType: AdminLayerType,
   featureIds: Array<string>
 ): Record<string, number> => {
-  const {featureId, data, dataId} = adminLayers[adminLayerType];
+  const {featureId, dataId} = adminLayers[adminLayerType];
 
-  if (!data || !dataId || !featureId) {
+  if (!data.length || !dataId || !featureId) {
     return {};
   }
 
