@@ -1,5 +1,9 @@
 import Vue from 'vue';
-import {AdminLayerFeatureId, AdminLayerType} from '@/types/admin-layers';
+import {
+  AdminLayerFeatureData,
+  AdminLayerFeatureId,
+  AdminLayerType
+} from '@/types/admin-layers';
 import {RootState} from '@/types/store';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {ScenarioMetaData} from '@/types/scenarios';
@@ -13,6 +17,15 @@ import {
 import {GeoJSONFeature} from 'ol/format/GeoJSON';
 
 const mutations = {
+  setAdminLayerData(
+    state: RootState,
+    payload: {
+      adminLayerType: AdminLayerType;
+      data: Array<AdminLayerFeatureData>;
+    }
+  ) {
+    state.adminLayerData[payload.adminLayerType] = payload.data;
+  },
   setLayersConfig(
     state: RootState,
     newLayersConfig: RootState['layersConfig']

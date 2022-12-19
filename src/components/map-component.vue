@@ -233,6 +233,7 @@ export default Vue.extend({
   },
   computed: {
     ...(mapState as MapStateToComputed)('root', [
+      'adminLayerData',
       'adminLayerType',
       'mapStyle',
       'baseLayerTypes',
@@ -536,7 +537,8 @@ export default Vue.extend({
       // Update the style depending on the layer config and data
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if (this.adminLayerType && layerConfig && (layer as any).setStyle) {
-        const {data = [], dataId, featureId} = adminLayers[this.adminLayerType];
+        const data = this.adminLayerData[this.adminLayerType];
+        const {dataId, featureId} = adminLayers[this.adminLayerType];
         const adminLayerDataById: Record<string, AdminLayerFeatureData> =
           data.reduce(
             (byId, data) => ({...byId, [String(data[dataId])]: data}),

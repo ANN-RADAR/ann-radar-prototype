@@ -28,6 +28,19 @@ import {database} from '../../libs/firebase';
 
 import GeoJSON from 'ol/format/GeoJSON';
 
+const adminLayerDataURLs = {
+  [AdminLayerType.CITY]:
+    'https://storage.googleapis.com/ann-radar-data/city.json',
+  [AdminLayerType.DISTRICT]:
+    'https://storage.googleapis.com/ann-radar-data/district.json',
+  [AdminLayerType.QUARTER]:
+    'https://storage.googleapis.com/ann-radar-data/quarter.json',
+  [AdminLayerType.STATISTICAL_AREA]:
+    'https://storage.googleapis.com/ann-radar-data/statistical_area.json',
+  [AdminLayerType.BUILDING_BLOCK]:
+    'https://storage.googleapis.com/ann-radar-data/building_block.json'
+};
+
 const scorecardURLs = {
   [ScorecardType.PLANS]:
     'https://storage.googleapis.com/ann-radar-data/plans_scorecard.json',
@@ -47,6 +60,38 @@ const stakeholdersEngagementURLs = {
 };
 
 const actions = {
+  fetchAdminLayerData({commit}: ActionContext<RootState, StoreState>) {
+    const adminLayerDataEntries = Object.entries(adminLayerDataURLs);
+
+    Promise.allSettled<Response>(
+      adminLayerDataEntries.map(([, url]) => fetch(url))
+    ).then(async results => {
+      for (const [index, result] of results.entries()) {
+        const [adminLayerType] = adminLayerDataEntries[index];
+
+        if (result.status === 'rejected') {
+          console.error(
+            `Error loading data for admin layer "${adminLayerType}".`,
+            result.reason
+          );
+          return;
+        }
+
+        const response = result.value;
+
+        if (!response.ok) {
+          console.error(
+            `Error loading data for admin layer "${adminLayerType}".`,
+            response.status,
+            response.statusText
+          );
+        }
+
+        const data = await response.json();
+        commit('setAdminLayerData', {adminLayerType, data});
+      }
+    });
+  },
   async fetchScenarioDetails(
     {commit}: ActionContext<RootState, StoreState>,
     scenario: Scenario

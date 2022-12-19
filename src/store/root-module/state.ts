@@ -1,6 +1,10 @@
 import {RootState} from '@/types/store';
 import {MapStyle} from '@/types/map-styles';
-import {AdminLayerType, AdminLayerFeatureId} from '@/types/admin-layers';
+import {
+  AdminLayerType,
+  AdminLayerFeatureId,
+  AdminLayerFeatureData
+} from '@/types/admin-layers';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {Laboratory, LaboratoryId} from '@/types/laboratories';
 import {
@@ -12,6 +16,13 @@ import {MobilityLocation} from '@/types/potential';
 import {GeoJSONFeature} from 'ol/format/GeoJSON';
 
 const state: RootState = {
+  adminLayerData: Object.values(AdminLayerType).reduce(
+    (dataByAdminLayerType, adminLayerType) => ({
+      ...dataByAdminLayerType,
+      [adminLayerType]: [] as Array<AdminLayerFeatureData>
+    }),
+    {} as Record<AdminLayerType, Array<AdminLayerFeatureData>>
+  ),
   scenarioMetaData: null,
   layersConfig: {},
   potentialConfig: null,
