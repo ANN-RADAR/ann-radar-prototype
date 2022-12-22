@@ -1,5 +1,7 @@
 # ann-radar-prototype
 
+ANN RADAR is a decision support tool. ANN RADAR is Open Source Software published under the MIT License.
+
 ## Project setup
 
 ```
