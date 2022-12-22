@@ -67,10 +67,10 @@
   "layer": {
     "solarMap": "Solar Potential 2015",
     "solarCoverageRate": "Solar Coverage Rate",
-    "buildingSolarPotential": "Building Solar Potential",
+    "buildingSolarPotential": "Res. Building Solar Potential",
     "heatAtlas": "Specific Heat Demand",
     "heatDemand": "Potential of Renovation",
-    "buildingSpecificHeatDemand": "Building Specific Heat Demand",
+    "buildingSpecificHeatDemand": "Res. Building Specific Heat Demand",
     "schools": "Schools",
     "quarterCulture": "Suburban Culture",
     "socialInfrastructure": "Social Infrastructure",
