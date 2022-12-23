@@ -1,6 +1,10 @@
 # ann-radar-prototype
 
-ANN RADAR is a decision support tool. ANN RADAR is Open Source Software published under the MIT License.
+ANN RADAR is a decision support tool. It is provided as Open Source Software published under the MIT License.
+
+ANN RADAR has been funded by ICLEI Action Fund (https://iclei-europe.org/funding-opportunities/action-fund/).
+
+ANN RADAR has been developed by a project realised by Hafen City University, Faculty of Urban Planning and Regional Development.
 
 ## Project setup
 
