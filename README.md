@@ -40,6 +40,8 @@ Layer configuration
 In the file layers_config.json layers and their legends can be configured.
 The configuration follows the following scheme:
 
+
+```json
 {
   // Layername please ask developers
   "layerName": {
@@ -92,11 +94,13 @@ The configuration follows the following scheme:
     ]
   }
 }
+```
 
 ### Sustainability Domains Configuration
 
 The potential_config.json file contains information about the attributes of the potential tables (Solar, Energy Efficiency and Mobility). For each table, the initially visible attributes (columns) can be configured. In addition, the translations of the attribute names (German and English) are maintained here.
 
+```json
 {
   "table": {
     "columns": {
@@ -119,6 +123,7 @@ The potential_config.json file contains information about the attributes of the 
     }
   }
 }
+```
 
 ### Balanced Scorecards Configuration
 
@@ -134,7 +139,7 @@ The configuration files for the Balanced Scorecards are named as follows:
 The configuration files consist of a list of objects. Any number of objects and any number of measures (consisting of id and description) can be stored in them. The objective of the objects is optional.
 
 Example:
-
+```json
 [
   {
     "objective": "Objective A",
@@ -162,7 +167,7 @@ Example:
     ]
   }
 ]
-
+```
 ⚠️ Important! The Measure IDs must be unique and may not be changed afterwards, so that an assignment of the entered data is possible.
 
 ### Daten
