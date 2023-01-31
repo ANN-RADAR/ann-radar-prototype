@@ -55,6 +55,8 @@ interface Data {
 const BUILDING_BLOCK_DATA_RESIDENTS_KEY = 'Bev_311220';
 const BUILDING_BLOCK_DATA_ID =
   adminLayers[AdminLayerType.BUILDING_BLOCK].dataId;
+const BUILDING_BLOCK_FEATURE_ID =
+  adminLayers[AdminLayerType.BUILDING_BLOCK].featureId;
 
 export default Vue.extend({
   computed: {
@@ -71,12 +73,6 @@ export default Vue.extend({
     };
   },
   created() {
-    proj4.defs(
-      'EPSG:25832',
-      '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
-    );
-    register(proj4);
-
     fetch(vectorSourcesOptions.BUILDING_BLOCK_NETTO.url as string).then(res => {
       res.json().then(json => {
         this.buildingBlockFeatures = json.features;
@@ -192,10 +188,7 @@ export default Vue.extend({
       // Filter building blocks with a higher distance to isochrone center than calculated max distance
       return buildingBlockFeatures
         .map<{geometry: Polygon; buildingBlockId: string} | null>(feature => {
-          const geometry = new GeoJSON()
-            .readFeature(feature)
-            .getGeometry()
-            .transform('EPSG:25832', 'EPSG:4326');
+          const geometry = new GeoJSON().readFeature(feature).getGeometry();
 
           const distanceToCenter = distance(
             centerOfIsochrone,
@@ -206,7 +199,7 @@ export default Vue.extend({
           if (distanceToCenter < maxDistance) {
             return {
               geometry,
-              buildingBlockId: feature.properties[BUILDING_BLOCK_DATA_ID]
+              buildingBlockId: feature.properties[BUILDING_BLOCK_FEATURE_ID]
             };
           }
           return null;
