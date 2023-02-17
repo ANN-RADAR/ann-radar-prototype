@@ -6,6 +6,8 @@ ANN RADAR has been funded by ICLEI Action Fund (https://iclei-europe.org/funding
 
 ANN RADAR has been developed by a project realised by Hafen City University Hamburg, Faculty of Urban Planning and Regional Development (https://www.hcu-hamburg.de/).
 
+To learn more about the project and the method developed please see the Wiki page.
+
 ## Project setup
 
 ```
