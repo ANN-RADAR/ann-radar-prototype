@@ -1,244 +1,243 @@
 {
-    "annRadar": "ANN Radar",
-    "auth": {
-      "loginTitle": "Log in zu ANN Radar",
-      "email": "Email",
-      "password": "Password",
-      "login": "Login",
-      "forgotPassword": "Logging in for the first time or forgot your password?",
-      "forgotPasswordTitle": "Don't know your password?",
-      "forgotPasswordDescription": "Don't worry! Just fill in your email address and we'll send you a link to reset your password.",
-      "resetPassword": "Reset password",
-      "returnToLogin": "Return to Login",
-      "logout": "Logout"
-    },
-    "navigation": {
-      "sustainabilityDomains": "Sustainability Domains",
-      "solar": "Solar",
-      "energyEfficiency": "Energy Efficiency",
-      "mobility": "Mobility",
-      "assessment": "Assessment",
-      "plans": "Plans",
-      "rate": "Select",
-      "compare": "View",
-      "stakeholders": "Stakeholders",
-      "stakeholdersOrganizations": "Stakeholders (Organizations)",
-      "citizens": "Citizens",
-      "urbanData": "Urban Data",
-      "governance": "Governance",
-      "urbanTestbeds": "Urban Testbeds",
-      "modelQuarters": "Model Quarters"
-    },
-    "layers": "Layers",
-    "layerOptions": {
-      "baseLayers": "Base Layers",
-      "solarLayers": "Solar Layers",
-      "energyLayers": "Energy Efficiency Layers",
-      "mobilityLayers": "Mobility Layers",
-      "administrativeBorders": "Administrative Borders",
-      "none": "None"
-    },
-    "mapStyles": "Map Style",
-    "mobilityLocationDrawing": {
-      "title": "Mobility Location Drawing",
-      "draw": "Place location",
-      "erase": "Delete location"
-    },
-    "notes": "Notes",
-    "cockpit": "Cockpit",
-    "selectAreas": "Select Areas",
-    "selectColumns": "Select Columns",
-    "others": "(+{count} others)",
-    "adminArea": "Admin Area",
-    "cancel": "Cancel",
-    "save": "Save",
-    "create": "Create",
-    "copy": "Create a Copy",
-    "saving": "Saving...",
-    "loading": "Loading...",
-    "notAvailable": "n/a",
-    "adminLayer": {
-      "city": "City",
-      "district": "District",
-      "quarter": "Quarter",
-      "statisticalArea": "Statistical Area",
-      "buildingBlock": "Building Block"
-    },
-    "layer": {
-      "solarMap": "Solar Potential 2015",
-      "solarCoverageRate": "Solar Coverage Rate",
-      "buildingSolarPotential": "Building Solar Potential",
-      "heatAtlas": "Specific Heat Demand",
-      "heatDemand": "Potential of Renovation",
-      "buildingSpecificHeatDemand": "Building Specific Heat Demand",
-      "schools": "Schools",
-      "quarterCulture": "Suburban Culture",
-      "socialInfrastructure": "Social Infrastructure",
-      "buildingAndLiving": "Building and Living",
-      "riseFundingAreas": "RISE Funding Areas",
-      "socialMonitoring2020": "Social Monitoring 2020",
-      "powerConsumption": "Power Consumption",
-      "urban-testbeds": "Urban Testbeds",
-      "model-quarters": "Model Quarters",
-      "mobilityIsochrones": "Last Mile Delivery",
-      "properties": {
-        "buildingSolarPotential": {
-          "solarPotential": "Solar Potential in MWh/a",
-          "roofShape": "Roof Shape"
-        },
-        "buildingSpecificHeatDemand": {
-          "diffRenovation": "Difference renovated/unrenovated in percent",
-          "livingSpace": "Living space in sqm"
-        }
-      }
-    },
-    "mapStyle": {
-      "colored": "colored",
-      "grayBlue": "gray-blue",
-      "blackGray": "black-gray",
-      "satellite": "satellite"
-    },
-    "statisticalArea": "Statistical Area",
-    "scenarios": {
-      "scenario": "Scenario",
-      "createScenario": "Create Scenario",
-      "saveScenario": "Save Scenario",
-      "loadScenario": "Load Scenario",
-      "loadScenarioWarning": "Unsaved changes to current scenario will be lost. Do you want to proceed loading scenario?",
-      "createScenarioWarning": "Unsaved changes to current scenario will be lost. Do you want to proceed creating scenario?",
-      "scenarioTitle": "Scenario Title",
-      "noSavedScenarios": "Couldn't find any saved scenarios.",
-      "adminAreasConfigured": "No admin areas configured | 1 admin area configured | {count} admin areas configured",
-      "scenarioLayers": "No map layers selected | 1 map layer selected | {count} map layers selected",
-      "error": {
-        "scenarioTitleAlreadyExists": "This scenario title already exists. Please try another one."
-      }
-    },
-    "total": "Total",
-    "balancedScorecards": {
-      "rate": {
-        "title": "Mark indicators"
+  "annRadar": "ANN Radar",
+  "auth": {
+    "loginTitle": "Logga in på ANN Radar",
+    "email": "E-post",
+    "password": "Lösenord",
+    "login": "Logga in",
+    "forgotPassword": "Loggar in för första gången eller har du glömt ditt lösenord?",
+    "forgotPasswordTitle": "Vet du inte ditt lösenord?",
+    "forgotPasswordDescription": "Oroa dig inte! Fyll bara i din e-postadress så skickar vi dig en länk för att återställa ditt lösenord.",
+    "resetPassword": "Återställ lösenord",
+    "returnToLogin": "Tillbaka till inloggning",
+    "logout": "Logga ut"
+  },
+  "navigation": {
+    "sustainabilityDomains": "Hållbarhetsområden",
+    "solar": "Solenergi",
+    "energyEfficiency": "Energieffektivitet",
+    "mobility": "Mobilitet",
+    "assessment": "Bedömning",
+    "plans": "Planer",
+    "rate": "Välj",
+    "compare": "Visa",
+    "stakeholders": "Stakeholders",
+    "stakeholdersOrganizations": "Stakeholders (Organisationer)",
+    "citizens": "Medborgare",
+    "urbanData": "Stadsdata",
+    "governance": "Styrning",
+    "urbanTestbeds": "Stadsprovområden",
+    "modelQuarters": "Modellkvarter"
+  },
+  "layers": "Lager",
+  "layerOptions": {
+    "baseLayers": "Bakgrundslager",
+    "solarLayers": "Solenergilager",
+    "energyLayers": "Energieffektivitetslager",
+    "mobilityLayers": "Mobilitetslager",
+    "administrativeBorders": "Administrativa gränser",
+    "none": "Inga"
+  },
+  "mapStyles": "Kartstil",
+  "mobilityLocationDrawing": {
+    "title": "Rita plats för mobilitet",
+    "draw": "Placera plats",
+    "erase": "Radera plats"
+  },
+  "notes": "Anteckningar",
+  "cockpit": "Cockpit",
+  "selectAreas": "Välj områden",
+  "selectColumns": "Välj kolumner",
+  "others": "(+{count} andra)",
+  "adminArea": "Administrativt område",
+  "cancel": "Avbryt",
+  "save": "Spara",
+  "create": "Skapa",
+  "copy": "Skapa en kopia",
+  "saving": "Sparar...",
+  "loading": "Laddar...",
+  "notAvailable": "ej tillgängligt",
+  "adminLayer": {
+    "city": "Stad",
+    "district": "Distrikt",
+    "quarter": "Kvarter",
+    "statisticalArea": "Statistiskt område",
+    "buildingBlock": "Byggblock"
+  },
+  "layer": {
+    "solarMap": "Solpotential 2015",
+    "solarCoverageRate": "Sol täckningsgrad",
+    "buildingSolarPotential": "Byggnads solpotential",
+    "heatAtlas": "Specifik värmebehov",
+    "heatDemand": "Renoveringspotential",
+    "buildingSpecificHeatDemand": "Byggnadsspecifikt värmebehov",
+    "schools": "Skolor",
+    "quarterCulture": "Förorts kultur",
+    "socialInfrastructure": "Social infrastruktur",
+    "buildingAndLiving": "Byggande och boende",
+    "riseFundingAreas": "RISE finansieringsområden",
+    "socialMonitoring2020": "Social uppföljning 2020",
+    "powerConsumption": "Energikonsumtion",
+    "urban-testbeds": "Stadsprovområden",
+    "model-quarters": "Modellkvarter",
+    "mobilityIsochrones": "Sista milen leverans",
+    "properties": {
+      "buildingSolarPotential": {
+        "solarPotential": "Solpotential i MWh/år",
+        "roofShape": "Takform"
       },
-      "compare": {
-        "compareAreaRatings": "Compare Area Ratings",
-        "emptyList": "Select an admin area to see ratings",
-        "noRatings": "No ratings found for this admin area",
-        "emptyCompare": "Select areas to compare"
+      "buildingSpecificHeatDemand": {
+        "diffRenovation": "Skillnad renoverat/ounovererat i procent",
+        "livingSpace": "Bostadsyta i kvm"
+      }
+    }
+  },
+  "mapStyle": {
+    "colored": "färgad",
+    "grayBlue": "gråblå",
+    "blackGray": "svartgrå",
+    "satellite": "satellit"
+  },
+  "statisticalArea": "Statistiskt område",
+  "scenarios": {
+    "scenario": "Scenario",
+    "createScenario": "Skapa scenario",
+    "saveScenario": "Spara scenario",
+    "loadScenario": "Ladda scenario",
+    "loadScenarioWarning": "Ossparade ändringar i det aktuella scenariot kommer att gå förlorade. Vill du fortsätta att ladda scenario?",
+    "createScenarioWarning": "Ossparade ändringar i det aktuella scenariot kommer att gå förlorade. Vill du fortsätta att skapa scenario?",
+    "scenarioTitle": "Scenariotitel",
+    "noSavedScenarios": "Kunde inte hitta några sparade scenarier.",
+    "adminAreasConfigured": "Inga administrativa områden konfigurerade | 1 administrativt område konfigurerat | {count} administrativa områden konfigurerade",
+    "scenarioLayers": "Inga kartlager valda | 1 kartlager valt | {count} kartlager valda",
+    "error": {
+      "scenarioTitleAlreadyExists": "Denna scenariotitel finns redan. Vänligen försök med en annan."
+    }
+  },
+  "total": "Totalt",
+  "balancedScorecards": {
+    "rate": {
+      "title": "Betygsätt indikatorer"
+    },
+    "compare": {
+      "compareAreaRatings": "Jämför områdesbetyg",
+      "emptyList": "Välj ett administrativt område för att se betyg",
+      "noRatings": "Inga betyg hittades för detta administrativa område",
+      "emptyCompare": "Välj områden att jämföra"
+    }
+  },
+  "results": {
+    "show": "Visa resultat",
+    "title": "Resultat",
+    "layers": "Lager ({count})",
+    "noLayersSelected": "Inga kartlager valda",
+    "balancedScorecards": "Balanserade betygskort",
+    "potential": "Potential"
+  },
+  "laboratories": {
+    "urban-testbeds": {
+      "title": "Stadsprovområden",
+      "new": "Lägg till nytt stadsprovområde",
+      "emptyList": "Inga stadsprovområden hittades",
+      "add": "Lägg till stadsprovområde",
+      "edit": "Redigera stadsprovområde \"{name}\""
+    },
+    "model-quarters": {
+      "title": "Modellkvarter",
+      "new": "Lägg till nytt modellkvarter",
+      "emptyList": "Inga modellkvarter hittades",
+      "add": "Lägg till modellkvarter",
+      "edit": "Redigera modellkvarter \"{name}\""
+    },
+    "drawingHint": "Klicka på kartan för att rita i det motsvarande området.",
+    "projectName": "Projektnamn",
+    "name": "Testområdesnamn",
+    "runtime": "Körtid",
+    "budget": "Budget",
+    "location": "Plats",
+    "goals": "Mål",
+    "stakeholders": "Stakeholders",
+    "stakeholderType": "Stakeholder-typ",
+    "stakeholderTypes": {
+      "project-partner": "Projektpartner",
+      "associate": "Associerad"
+    },
+    "stakeholderCategory": "Stakeholder-kategori",
+    "enterStakeholderCategory": "Ange anpassad kategori",
+    "stakeholderCategories": {
+      "municipal": "Kommunal",
+      "academic": "Akademisk",
+      "civic": "Medborgerlig",
+      "business": "Affärer"
+    },
+    "stakeholderName": "Stakeholder-namn",
+    "sectors": "Sektorer",
+    "enterSector": "Ange anpassad sektor",
+    "sector": {
+      "solar": "Solenergi",
+      "energy-efficiency": "Energieffektivitet",
+      "mobility": "Mobilitet",
+      "integrated-planning": "Integrerad planering"
+    },
+    "experimentalGovernance": "Experimentell styrning",
+    "enterExperimentalGovernance": "Ange anpassad experimentell styrning",
+    "experimentalGovernanceOptions": {
+      "exceptions-to-legal-regulations": "Undantag från gällande rättsliga föreskrifter",
+      "citizen-driven-location-based-urban-development": "Medborgarstyrd platstbaserad stadsutveckling"
+    },
+    "links": "Länkar till bevis",
+    "link": "Länk",
+    "other": "Annat"
+  },
+  "tour": {
+    "scenarios": {
+      "title": "1 – Scenarier",
+      "content": {
+        "select": "Välj ett fördefinierat scenario ...",
+        "create": "... eller skapa ditt eget scenario."
+      }
+    },
+    "sustainabilityThemes": {
+      "title": "2 – Hållbarhetsteman",
+      "content": "Hållbarhetsteman"
+    },
+    "dataLayers": {
+      "title": "3 – Data lager",
+      "content": "Välj relevanta data lager"
+    },
+    "urbanAreas": {
+      "title": "4 – Stadsområden",
+      "content": {
+        "select": "Välj funktionsområden för staden",
+        "view": "Datumbaserad vy över stadsområden"
       }
     },
     "results": {
-      "show": "Show results",
-      "title": "Results",
-      "layers": "Layers ({count})",
-      "noLayersSelected": "No map layers selected",
-      "balancedScorecards": "Balanced Scorecards",
-      "potential": "Potential"
-    },
-    "laboratories": {
-      "urban-testbeds": {
-        "title": "Urban Testbeds",
-        "new": "Add New Urban Testbed",
-        "emptyList": "No urban testbeds found",
-        "add": "Add Urban Testbed",
-        "edit": "Edit Urban Testbed \"{name}\""
-      },
-      "model-quarters": {
-        "title": "Model Quarters",
-        "new": "Add New Model Quarter",
-        "emptyList": "No model quarters found",
-        "add": "Add Model Quarter",
-        "edit": "Edit Model Quarter \"{name}\""
-      },
-      "drawingHint": "Click on the map to draw in the corresponding area.",
-      "projectName": "Project Name",
-      "name": "Testbed Name",
-      "runtime": "Runtime",
-      "budget": "Budget",
-      "location": "Location",
-      "goals": "Goals",
-      "stakeholders": "Stakeholders",
-      "stakeholderType": "Stakeholder Type",
-      "stakeholderTypes": {
-        "project-partner": "Project Partner",
-        "associate": "Associate"
-      },
-      "stakeholderCategory": "Stakeholder Category",
-      "enterStakeholderCategory": "Enter custom category",
-      "stakeholderCategories": {
-        "municipal": "Municipal",
-        "academic": "Academic",
-        "civic": "Civic",
-        "business": "Business"
-      },
-      "stakeholderName": "Stakeholder Name",
-      "sectors": "Sectors",
-      "enterSector": "Enter custom sector",
-      "sector": {
-        "solar": "Solar",
-        "energy-efficiency": "Energy Efficiency",
-        "mobility": "Mobility",
-        "integrated-planning": "Integrated Planning"
-      },
-      "experimentalGovernance": "Experimental Governance",
-      "enterExperimentalGovernance": "Enter custom experimental governance",
-      "experimentalGovernanceOptions": {
-        "exceptions-to-legal-regulations": "Exceptions to current legal regulations",
-        "citizen-driven-location-based-urban-development": "Citizen driven location based urban development"
-      },
-      "links": "Links to Evidence",
-      "link": "Link",
-      "other": "Other"
-    },
-    "tour": {
-      "scenarios": {
-        "title": "1 – Scenarios",
-        "content": {
-          "select": "Select a predefined scenario ...",
-          "create": "... or build your own scenario."
-        }
-      },
-      "sustainabilityThemes": {
-        "title": "2 – Sustainability Themes",
-        "content": "Sustainability Themes"
-      },
-      "dataLayers": {
-        "title": "3 – Data layers",
-        "content": "Choose relevant data layers"
-      },
-      "urbanAreas": {
-        "title": "4 – Urban Areas",
-        "content": {
-          "select": "Select functional urban areas",
-          "view": "Data-based view of urban areas"
-        }
-      },
-      "results": {
-        "title": "5 – View & Discuss Results",
-        "content": "Select data layers<br/>Balanced Scorecards per area<br/>Sustainability thematic potentials"
-      }
-    },
-    "adminAreaSelector": {
-      "areaNotAvailable": "The current admin area selection is not available. Please select another admin area."
-    },
-    "stakeholdersEngagement": {
-      "organizations": "Stakeholders Engagement",
-      "citizens": "Citizens Engagement",
-      "links": "Links to Evidence"
-    },
-    "mobility": {
-      "lastMileDelivery": "Last Mile Delivery",
-      "calculateIsochrones": "Calculate isochrones",
-      "travelType": {
-        "walk": "Walk",
-        "bike": "Bike",
-        "car": "Car",
-        "transit": "Transit"
-      }
-    },
-    "legends": {
-      "units": {
-        "minutes": "Minutes"
-      }
+      "title": "5 – Visa & Diskutera Resultat",
+      "content": "Välj data lager<br/>Balanserade betygskort per område<br/>Hållbarhetsmässiga potentialer"
+    }
+  },
+  "adminAreaSelector": {
+    "areaNotAvailable": "Den aktuella administrativa områdesvalet är inte tillgängligt. Vänligen välj ett annat administrativt område."
+  },
+  "stakeholdersEngagement": {
+    "organizations": "Engagemang av intressenter",
+    "citizens": "Engagemang av medborgare",
+    "links": "Länkar till bevis"
+  },
+  "mobility": {
+    "lastMileDelivery": "Sista milen leverans",
+    "calculateIsochrones": "Beräkna isokroner",
+    "travelType": {
+      "walk": "Gå",
+      "bike": "Cykla",
+      "car": "Bil",
+      "transit": "Kollektivtrafik"
+    }
+  },
+  "legends": {
+    "units": {
+      "minutes": "Minuter"
     }
   }
-  
+}
