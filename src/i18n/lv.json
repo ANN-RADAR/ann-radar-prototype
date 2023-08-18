@@ -1,0 +1,244 @@
+{
+    "annRadar": "ANN Radars",
+    "auth": {
+      "loginTitle": "Pieteikties pie ANN Radars",
+      "email": "E-pasts",
+      "password": "Parole",
+      "login": "Pieteikties",
+      "forgotPassword": "Pirmo reizi pieteikšanās vai aizmirsi paroli?",
+      "forgotPasswordTitle": "Nezinu paroli?",
+      "forgotPasswordDescription": "Nav problēmas! Ievadiet savu e-pasta adresi, un mēs nosūtīsim jums saiti, lai atiestatītu paroli.",
+      "resetPassword": "Atiestatīt paroli",
+      "returnToLogin": "Atgriezties pie pieteikšanās",
+      "logout": "Izrakstīties"
+    },
+    "navigation": {
+      "sustainabilityDomains": "Ilgtermiņa ilgtspējas jomas",
+      "solar": "Saule",
+      "energyEfficiency": "Energoefektivitāte",
+      "mobility": "Mobilitāte",
+      "assessment": "Novērtējums",
+      "plans": "Plāni",
+      "rate": "Izvēlēties",
+      "compare": "Skatīt",
+      "stakeholders": "Dalībnieki",
+      "stakeholdersOrganizations": "Dalībnieki (Organizācijas)",
+      "citizens": "Iedzīvotāji",
+      "urbanData": "Pilsētas dati",
+      "governance": "Pārvaldība",
+      "urbanTestbeds": "Pilsētas pārbaudes",
+      "modelQuarters": "Modeļu rajoni"
+    },
+    "layers": "Slāņi",
+    "layerOptions": {
+      "baseLayers": "Pamatnes slāņi",
+      "solarLayers": "Saules slāņi",
+      "energyLayers": "Energoefektivitātes slāņi",
+      "mobilityLayers": "Mobilitātes slāņi",
+      "administrativeBorders": "Administratīvie robežojumi",
+      "none": "Nav"
+    },
+    "mapStyles": "Kartes stils",
+    "mobilityLocationDrawing": {
+      "title": "Mobilitātes atrašanās vietas zīmēšana",
+      "draw": "Ielikt atrašanās vietu",
+      "erase": "Dzēst vietu"
+    },
+    "notes": "Piezīmes",
+    "cockpit": "Kokpits",
+    "selectAreas": "Izvēlēties teritorijas",
+    "selectColumns": "Izvēlēties kolonnas",
+    "others": "(+{count} citi)",
+    "adminArea": "Administratīvā teritorija",
+    "cancel": "Atcelt",
+    "save": "Saglabāt",
+    "create": "Izveidot",
+    "copy": "Izveidot kopiju",
+    "saving": "Saglabā...",
+    "loading": "Ielādē...",
+    "notAvailable": "nav pieejams",
+    "adminLayer": {
+      "city": "Pilsēta",
+      "district": "Rajons",
+      "quarter": "Rajons",
+      "statisticalArea": "Statistiskā zona",
+      "buildingBlock": "Ēku bloks"
+    },
+    "layer": {
+      "solarMap": "Saules potenciāls 2015. gadā",
+      "solarCoverageRate": "Saules seguma ātrums",
+      "buildingSolarPotential": "Ēku saules potenciāls",
+      "heatAtlas": "Specifiskais siltuma pieprasījums",
+      "heatDemand": "Renovācijas potenciāls",
+      "buildingSpecificHeatDemand": "Ēku specifisks siltuma pieprasījums",
+      "schools": "Skolas",
+      "quarterCulture": "Priekšpilsētas kultūra",
+      "socialInfrastructure": "Sociālā infrastruktūra",
+      "buildingAndLiving": "Ēku un dzīvošanas",
+      "riseFundingAreas": "RISE finansēšanas teritorijas",
+      "socialMonitoring2020": "Sociālais monitoringa pārskats 2020",
+      "powerConsumption": "Enerģijas patēriņš",
+      "urban-testbeds": "Pilsētas pārbaudes",
+      "model-quarters": "Modeļa rajoni",
+      "mobilityIsochrones": "Pēdējā jūdzes piegāde",
+      "properties": {
+        "buildingSolarPotential": {
+          "solarPotential": "Saules potenciāls MWh/g",
+          "roofShape": "Jumta forma"
+        },
+        "buildingSpecificHeatDemand": {
+          "diffRenovation": "Atšķirība renovēta/ne-renovēta procentos",
+          "livingSpace": "Dzīvojamā platība kv. m"
+        }
+      }
+    },
+    "mapStyle": {
+      "colored": "krāsains",
+      "grayBlue": "pelēkzilā",
+      "blackGray": "melnpelēkā",
+      "satellite": "satelīts"
+    },
+    "statisticalArea": "Statistiskā zona",
+    "scenarios": {
+      "scenario": "Scenārijs",
+      "createScenario": "Izveidot scenāriju",
+      "saveScenario": "Saglabāt scenāriju",
+      "loadScenario": "Ielādēt scenāriju",
+      "loadScenarioWarning": "Pašreizējais nesaglabātais scenārijs tiks zaudēts. Vai vēlaties turpināt ielādēt scenāriju?",
+      "createScenarioWarning": "Pašreizējais nesaglabātais scenārijs tiks zaudēts. Vai vēlaties turpināt izveidot scenāriju?",
+      "scenarioTitle": "Scenārija nosaukums",
+      "noSavedScenarios": "Nevarēja atrast saglabātus scenārijus.",
+      "adminAreasConfigured": "Nav konfigurētas administratīvās teritorijas | 1 administratīvā teritorija konfigurēta | {count} administratīvās teritorijas konfigurētas",
+      "scenarioLayers": "Nav atlasīti kartes slāņi | 1 kartes slānis atlasīts | {count} kartes slāņi atlasīti",
+      "error": {
+        "scenarioTitleAlreadyExists": "Šis scenārija nosaukums jau pastāv. Lūdzu, izmēģiniet citu."
+      }
+    },
+    "total": "Kopā",
+    "balancedScorecards": {
+      "rate": {
+        "title": "Novērtēt rādītājus"
+      },
+      "compare": {
+        "compareAreaRatings": "Salīdzināt teritoriju novērtējumus",
+        "emptyList": "Izvēlieties administratīvo teritoriju, lai skatītu novērtējumus",
+        "noRatings": "Šai administratīvajai teritorijai nav atrasti novērtējumi",
+        "emptyCompare": "Izvēlieties teritorijas, lai salīdzinātu"
+      }
+    },
+    "results": {
+      "show": "Rādīt rezultātus",
+      "title": "Rezultāti",
+      "layers": "Slāņi ({count})",
+      "noLayersSelected": "Nav atlasīti kartes slāņi",
+      "balancedScorecards": "Līdzsvarotie rezultāti",
+      "potential": "Potenciāls"
+    },
+    "laboratories": {
+      "urban-testbeds": {
+        "title": "Pilsētas pārbaudes",
+        "new": "Pievienot jaunu pilsētas pārbaudi",
+        "emptyList": "Nav atrasti pilsētas pārbaudes",
+        "add": "Pievienot pilsētas pārbaudi",
+        "edit": "Rediģēt pilsētas pārbaudi \"{name}\""
+      },
+      "model-quarters": {
+        "title": "Modeļa rajoni",
+        "new": "Pievienot jaunu modeļa rajonu",
+        "emptyList": "Nav atrasti modeļa rajoni",
+        "add": "Pievienot modeļa rajonu",
+        "edit": "Rediģēt modeļa rajonu \"{name}\""
+      },
+      "drawingHint": "Uzklikšķiniet uz kartes, lai zīmētu attiecīgo teritoriju.",
+      "projectName": "Projekta nosaukums",
+      "name": "Pārbaudes nosaukums",
+      "runtime": "Darbības laiks",
+      "budget": "Budžets",
+      "location": "Atrašanās vieta",
+      "goals": "Mērķi",
+      "stakeholders": "Dalībnieki",
+      "stakeholderType": "Dalībnieka veids",
+      "stakeholderTypes": {
+        "project-partner": "Projekta partneris",
+        "associate": "Asociētais dalībnieks"
+      },
+      "stakeholderCategory": "Dalībnieka kategorija",
+      "enterStakeholderCategory": "Ievadiet pielāgotu kategoriju",
+      "stakeholderCategories": {
+        "municipal": "Pašvaldība",
+        "academic": "Akadēmiskais",
+        "civic": "Pilsētiedzīvotāji",
+        "business": "Uzņēmējdarbība"
+      },
+      "stakeholderName": "Dalībnieka nosaukums",
+      "sectors": "Nozares",
+      "enterSector": "Ievadiet pielāgotu nozari",
+      "sector": {
+        "solar": "Saule",
+        "energy-efficiency": "Energoefektivitāte",
+        "mobility": "Mobilitāte",
+        "integrated-planning": "Integrētā plānošana"
+      },
+      "experimentalGovernance": "Eksperimentāla pārvalde",
+      "enterExperimentalGovernance": "Ievadiet pielāgotu eksperimentālu pārvaldi",
+      "experimentalGovernanceOptions": {
+        "exceptions-to-legal-regulations": "Izņēmumi no esošajiem likumdošanas noteikumiem",
+        "citizen-driven-location-based-urban-development": "Iedzīvotāju vadīta teritoriāli balstīta pilsētplānošana"
+      },
+      "links": "Saites uz pierādījumiem",
+      "link": "Saite",
+      "other": "Cits"
+    },
+    "tour": {
+      "scenarios": {
+        "title": "1 – Scenāriji",
+        "content": {
+          "select": "Atlasiet iepriekš definētu scenāriju ...",
+          "create": "... vai veidojiet savu scenāriju."
+        }
+      },
+      "sustainabilityThemes": {
+        "title": "2 – Ilgtspējas tēmas",
+        "content": "Ilgtspējas tēmas"
+      },
+      "dataLayers": {
+        "title": "3 – Datus slāņi",
+        "content": "Izvēlieties atbilstošus datu slāņus"
+      },
+      "urbanAreas": {
+        "title": "4 – Pilsētas teritorijas",
+        "content": {
+          "select": "Izvēlieties funkcionalās pilsētas teritorijas",
+          "view": "Datu pamatota pilsētas teritoriju skatīšana"
+        }
+      },
+      "results": {
+        "title": "5 – Skatīt un apspriest rezultātus",
+        "content": "Izvēlieties datu slāņus<br/>Līdzsvarotie rezultāti pēc teritorijām<br/>Ilgtspējas tematiskais potenciāls"
+      }
+    },
+    "adminAreaSelector": {
+      "areaNotAvailable": "Pašreizējā administratīvā teritorijas izvēle nav pieejama. Lūdzu, atlasiet citu administratīvo teritoriju."
+    },
+    "stakeholdersEngagement": {
+      "organizations": "Dalībnieku iesaiste",
+      "citizens": "Iedzīvotāju iesaiste",
+      "links": "Saites uz pierādījumiem"
+    },
+    "mobility": {
+      "lastMileDelivery": "Pēdējā jūdzes piegāde",
+      "calculateIsochrones": "Aprēķināt izohronus",
+      "travelType": {
+        "walk": "Iet",
+        "bike": "Velosipēds",
+        "car": "Auto",
+        "transit": "Transports"
+      }
+    },
+    "legends": {
+      "units": {
+        "minutes": "Minūtes"
+      }
+    }
+  }
+  
