@@ -1,0 +1,244 @@
+{
+    "annRadar": "Radar ANN",
+    "auth": {
+      "loginTitle": "Iniciar sesión en Radar ANN",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "login": "Iniciar sesión",
+      "forgotPassword": "¿Iniciando sesión por primera vez o olvidó su contraseña?",
+      "forgotPasswordTitle": "¿No recuerda su contraseña?",
+      "forgotPasswordDescription": "¡No se preocupe! Simplemente ingrese su dirección de correo electrónico y le enviaremos un enlace para restablecer su contraseña.",
+      "resetPassword": "Restablecer contraseña",
+      "returnToLogin": "Volver a iniciar sesión",
+      "logout": "Cerrar sesión"
+    },
+    "navigation": {
+      "sustainabilityDomains": "Dominios de Sostenibilidad",
+      "solar": "Solar",
+      "energyEfficiency": "Eficiencia Energética",
+      "mobility": "Movilidad",
+      "assessment": "Evaluación",
+      "plans": "Planes",
+      "rate": "Seleccionar",
+      "compare": "Ver",
+      "stakeholders": "Participantes",
+      "stakeholdersOrganizations": "Participantes (Organizaciones)",
+      "citizens": "Ciudadanos",
+      "urbanData": "Datos Urbanos",
+      "governance": "Gobernanza",
+      "urbanTestbeds": "Áreas de Prueba Urbanas",
+      "modelQuarters": "Barrios Modelo"
+    },
+    "layers": "Capas",
+    "layerOptions": {
+      "baseLayers": "Capas Base",
+      "solarLayers": "Capas Solares",
+      "energyLayers": "Capas de Eficiencia Energética",
+      "mobilityLayers": "Capas de Movilidad",
+      "administrativeBorders": "Límites Administrativos",
+      "none": "Ninguno"
+    },
+    "mapStyles": "Estilo de Mapa",
+    "mobilityLocationDrawing": {
+      "title": "Dibujo de Ubicación de Movilidad",
+      "draw": "Colocar ubicación",
+      "erase": "Eliminar ubicación"
+    },
+    "notes": "Notas",
+    "cockpit": "Cabina de Control",
+    "selectAreas": "Seleccionar Áreas",
+    "selectColumns": "Seleccionar Columnas",
+    "others": "(+{count} otros)",
+    "adminArea": "Área de Administración",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "create": "Crear",
+    "copy": "Crear una Copia",
+    "saving": "Guardando...",
+    "loading": "Cargando...",
+    "notAvailable": "n/d",
+    "adminLayer": {
+      "city": "Ciudad",
+      "district": "Distrito",
+      "quarter": "Barrio",
+      "statisticalArea": "Área Estadística",
+      "buildingBlock": "Bloque de Edificio"
+    },
+    "layer": {
+      "solarMap": "Potencial Solar 2015",
+      "solarCoverageRate": "Tasa de Cobertura Solar",
+      "buildingSolarPotential": "Potencial Solar de Edificios",
+      "heatAtlas": "Demanda de Calor Específica",
+      "heatDemand": "Potencial de Renovación",
+      "buildingSpecificHeatDemand": "Demanda de Calor Específica de Edificios",
+      "schools": "Escuelas",
+      "quarterCulture": "Cultura Suburbana",
+      "socialInfrastructure": "Infraestructura Social",
+      "buildingAndLiving": "Construcción y Vivienda",
+      "riseFundingAreas": "Áreas de Financiamiento RISE",
+      "socialMonitoring2020": "Monitoreo Social 2020",
+      "powerConsumption": "Consumo de Energía",
+      "urban-testbeds": "Áreas de Prueba Urbanas",
+      "model-quarters": "Barrios Modelo",
+      "mobilityIsochrones": "Entrega en Última Milla",
+      "properties": {
+        "buildingSolarPotential": {
+          "solarPotential": "Potencial Solar en MWh/a",
+          "roofShape": "Forma del Techo"
+        },
+        "buildingSpecificHeatDemand": {
+          "diffRenovation": "Diferencia renovado/no renovado en porcentaje",
+          "livingSpace": "Espacio habitable en m²"
+        }
+      }
+    },
+    "mapStyle": {
+      "colored": "coloreado",
+      "grayBlue": "gris-azul",
+      "blackGray": "negro-gris",
+      "satellite": "satélite"
+    },
+    "statisticalArea": "Área Estadística",
+    "scenarios": {
+      "scenario": "Escenario",
+      "createScenario": "Crear Escenario",
+      "saveScenario": "Guardar Escenario",
+      "loadScenario": "Cargar Escenario",
+      "loadScenarioWarning": "Se perderán los cambios no guardados en el escenario actual. ¿Desea continuar cargando el escenario?",
+      "createScenarioWarning": "Se perderán los cambios no guardados en el escenario actual. ¿Desea continuar creando el escenario?",
+      "scenarioTitle": "Título del Escenario",
+      "noSavedScenarios": "No se encontraron escenarios guardados.",
+      "adminAreasConfigured": "No hay áreas administrativas configuradas | 1 área administrativa configurada | {count} áreas administrativas configuradas",
+      "scenarioLayers": "Ninguna capa de mapa seleccionada | 1 capa de mapa seleccionada | {count} capas de mapa seleccionadas",
+      "error": {
+        "scenarioTitleAlreadyExists": "Este título de escenario ya existe. Por favor, intente con otro."
+      }
+    },
+    "total": "Total",
+    "balancedScorecards": {
+      "rate": {
+        "title": "Evaluar indicadores"
+      },
+      "compare": {
+        "compareAreaRatings": "Comparar Calificaciones de Área",
+        "emptyList": "Seleccione un área administrativa para ver las calificaciones",
+        "noRatings": "No se encontraron calificaciones para esta área administrativa",
+        "emptyCompare": "Seleccione áreas para comparar"
+      }
+    },
+    "results": {
+      "show": "Mostrar resultados",
+      "title": "Resultados",
+      "layers": "Capas ({count})",
+      "noLayersSelected": "Ninguna capa de mapa seleccionada",
+      "balancedScorecards": "Balanced Scorecards",
+      "potential": "Potencial"
+    },
+    "laboratories": {
+      "urban-testbeds": {
+        "title": "Áreas de Prueba Urbanas",
+        "new": "Agregar Nueva Área de Prueba Urbana",
+        "emptyList": "No se encontraron áreas de prueba urbanas",
+        "add": "Agregar Área de Prueba Urbana",
+        "edit": "Editar Área de Prueba Urbana \"{name}\""
+      },
+      "model-quarters": {
+        "title": "Barrios Modelo",
+        "new": "Agregar Nuevo Barrio Modelo",
+        "emptyList": "No se encontraron barrios modelo",
+        "add": "Agregar Barrio Modelo",
+        "edit": "Editar Barrio Modelo \"{name}\""
+      },
+      "drawingHint": "Haga clic en el mapa para dibujar en el área correspondiente.",
+      "projectName": "Nombre del Proyecto",
+      "name": "Nombre del Área de Prueba",
+      "runtime": "Tiempo de Ejecución",
+      "budget": "Presupuesto",
+      "location": "Ubicación",
+      "goals": "Objetivos",
+      "stakeholders": "Participantes",
+      "stakeholderType": "Tipo de Participante",
+      "stakeholderTypes": {
+        "project-partner": "Socio del Proyecto",
+        "associate": "Asociado"
+      },
+      "stakeholderCategory": "Categoría de Participante",
+      "enterStakeholderCategory": "Ingrese una categoría personalizada",
+      "stakeholderCategories": {
+        "municipal": "Municipal",
+        "academic": "Académico",
+        "civic": "Cívico",
+        "business": "Negocio"
+      },
+      "stakeholderName": "Nombre del Participante",
+      "sectors": "Sectores",
+      "enterSector": "Ingrese un sector personalizado",
+      "sector": {
+        "solar": "Solar",
+        "energy-efficiency": "Eficiencia Energética",
+        "mobility": "Movilidad",
+        "integrated-planning": "Planificación Integrada"
+      },
+      "experimentalGovernance": "Gobernanza Experimental",
+      "enterExperimentalGovernance": "Ingrese una gobernanza experimental personalizada",
+      "experimentalGovernanceOptions": {
+        "exceptions-to-legal-regulations": "Excepciones a las regulaciones legales actuales",
+        "citizen-driven-location-based-urban-development": "Desarrollo urbano basado en la ubicación impulsado por los ciudadanos"
+      },
+      "links": "Enlaces de Evidencia",
+      "link": "Enlace",
+      "other": "Otro"
+    },
+    "tour": {
+      "scenarios": {
+        "title": "1 – Escenarios",
+        "content": {
+          "select": "Seleccione un escenario predefinido...",
+          "create": "... o construya su propio escenario."
+        }
+      },
+      "sustainabilityThemes": {
+        "title": "2 – Temas de Sostenibilidad",
+        "content": "Temas de Sostenibilidad"
+      },
+      "dataLayers": {
+        "title": "3 – Capas de Datos",
+        "content": "Elija las capas de datos relevantes"
+      },
+      "urbanAreas": {
+        "title": "4 – Áreas Urbanas",
+        "content": {
+          "select": "Seleccione áreas urbanas funcionales",
+          "view": "Vista basada en datos de áreas urbanas"
+        }
+      },
+      "results": {
+        "title": "5 – Ver y Discutir Resultados",
+        "content": "Seleccione capas de datos<br/>Balanced Scorecards por área<br/>Potenciales temáticos de sostenibilidad"
+      }
+    },
+    "adminAreaSelector": {
+      "areaNotAvailable": "La selección actual de área administrativa no está disponible. Por favor, seleccione otra área administrativa."
+    },
+    "stakeholdersEngagement": {
+      "organizations": "Participación de Participantes",
+      "citizens": "Participación de Ciudadanos",
+      "links": "Enlaces de Evidencia"
+    },
+    "mobility": {
+      "lastMileDelivery": "Entrega en Última Milla",
+      "calculateIsochrones": "Calcular isocronas",
+      "travelType": {
+        "walk": "Caminar",
+        "bike": "Bicicleta",
+        "car": "Automóvil",
+        "transit": "Transporte Público"
+      }
+    },
+    "legends": {
+      "units": {
+        "minutes": "Minutos"
+      }
+    }
+  }
+  
