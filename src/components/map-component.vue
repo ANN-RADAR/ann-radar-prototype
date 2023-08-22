@@ -60,7 +60,7 @@ import {
 
 import 'ol/ol.css';
 import {Feature, Map, MapBrowserEvent, View} from 'ol';
-import {MapOptions} from 'ol/PluggableMap';
+import {MapOptions} from 'ol/Map';
 import {ScaleLine, defaults as defaultControls} from 'ol/control';
 import {Style} from 'ol/style';
 import {StyleFunction} from 'ol/style/Style';
@@ -69,7 +69,7 @@ import BaseLayer from 'ol/layer/Base';
 import TileLayer from 'ol/layer/Tile';
 import LayerGroup from 'ol/layer/Group';
 import VectorLayer from 'ol/layer/Vector';
-import Geometry from 'ol/geom/Geometry';
+import Geometry, {Type} from 'ol/geom/Geometry';
 import TileSource from 'ol/source/Tile';
 import VectorSource from 'ol/source/Vector';
 import VectorTileLayer from 'ol/layer/VectorTile';
@@ -168,7 +168,7 @@ export default Vue.extend({
       type: Object as PropType<{
         source: VectorSource<Geometry>;
         mode: 'draw' | 'erase';
-        type: string;
+        type: Type;
         style: StyleFunction | Style;
         maxNumberOfDrawings?: number;
       }>,
@@ -177,7 +177,7 @@ export default Vue.extend({
         ({} as {
           source: VectorSource<Geometry>;
           mode: 'draw' | 'erase';
-          type: string;
+          type: Type;
           style: StyleFunction | Style;
           maxNumberOfDrawings?: number;
         })
@@ -388,11 +388,10 @@ export default Vue.extend({
       for (const layer of this.allAdminLayers) {
         if (this.adminLayerType && layer.get('name') === this.adminLayerType) {
           const {featureId} = adminLayers[this.adminLayerType];
-          const clickedFeatures = layer
-            .getSource()
-            .getFeaturesAtCoordinate(coord);
+          const source = layer.getSource();
+          const clickedFeatures = source?.getFeaturesAtCoordinate(coord);
 
-          clickedFeatures.forEach(feature => {
+          clickedFeatures?.forEach(feature => {
             const id = feature.get(featureId);
 
             // Toggle the clicked feature's keys
@@ -426,7 +425,7 @@ export default Vue.extend({
       // Highlight hovered laboratory feature
       const hoveredLaboratoryFeature = hoveredFeatures.find(feature =>
         this.allLaboratoriesLayers.some(layer =>
-          layer.getSource().hasFeature(feature)
+          layer.getSource()?.hasFeature(feature)
         )
       );
       const hoveredLaboratoryId = hoveredLaboratoryFeature?.get('id') || null;
@@ -479,7 +478,7 @@ export default Vue.extend({
           const handleSelectionAndHighlighting = (
             features: Array<Feature<Geometry>>
           ) => {
-            adminLayerSource.un('change', sourceLoadingHandler);
+            adminLayerSource?.un('change', sourceLoadingHandler);
 
             features.forEach(feature => {
               const id = feature.get(featureId);
@@ -495,13 +494,13 @@ export default Vue.extend({
           };
 
           const adminLayerSource = layer.getSource();
-          const adminLayerFeatures = adminLayerSource.getFeatures();
+          const adminLayerFeatures = adminLayerSource?.getFeatures();
 
-          if (adminLayerFeatures.length) {
+          if (adminLayerFeatures?.length) {
             handleSelectionAndHighlighting(adminLayerFeatures);
           } else {
             // Wait for source to be loaded
-            adminLayerSource.on('change', sourceLoadingHandler);
+            adminLayerSource?.on('change', sourceLoadingHandler);
           }
         }
       }
@@ -658,6 +657,10 @@ export default Vue.extend({
     updateMobilityIsochronesFeatures() {
       const source = this.mobilityIsochronesLayer.getSource();
 
+      if (!source) {
+        return;
+      }
+
       // Remove old isochrones polygons
       source.clear();
 
@@ -689,6 +692,10 @@ export default Vue.extend({
     updateLaboratoriesFeatures() {
       for (const layer of this.allLaboratoriesLayers) {
         const laboratoriesSource = layer.getSource();
+
+        if (!laboratoriesSource) {
+          return;
+        }
 
         // Remove old laboratories
         laboratoriesSource.clear();

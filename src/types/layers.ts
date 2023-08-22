@@ -11,8 +11,9 @@ import {AdminLayerFeatureData, AdminLayerType} from './admin-layers';
 export interface LayerBaseOptions<T = TileSourceOptions | VectorSourceOptions>
   extends Omit<
     Options<TileSource | VectorSource<Geometry>>,
-    'properties' | 'source'
+    'properties' | 'source' | 'map'
   > {
+  map?: NonNullable<Options<TileSource | VectorSource<Geometry>>['map']>;
   properties: {[x: string]: any}; // eslint-disable-line @typescript-eslint/no-explicit-any
   source?: T | T[];
 }

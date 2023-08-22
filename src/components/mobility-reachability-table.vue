@@ -37,8 +37,6 @@ import booleanWithin from '@turf/boolean-within';
 import GeoJSON from 'ol/format/GeoJSON';
 import {GeoJSONFeature} from 'ol/format/GeoJSON';
 import {Polygon} from 'ol/geom';
-import proj4 from 'proj4';
-import {register} from 'ol/proj/proj4';
 
 import {vectorSourcesOptions} from '@/constants/sources';
 import {adminLayers} from '@/constants/admin-layers';
@@ -188,10 +186,17 @@ export default Vue.extend({
       // Filter building blocks with a higher distance to isochrone center than calculated max distance
       return buildingBlockFeatures
         .map<{geometry: Polygon; buildingBlockId: string} | null>(feature => {
-          const geometry = new GeoJSON().readFeature(feature).getGeometry();
+          const geometry = new GeoJSON().readFeature(feature).getGeometry() as
+            | Polygon
+            | undefined;
+
+          if (!geometry) {
+            return null;
+          }
 
           const distanceToCenter = distance(
             centerOfIsochrone,
+            // @ts-expect-error Vetur(2445): Property 'flatCoordinates' is protected and only accessible within class 'SimpleGeometry' and its subclasses.
             point(geometry.flatCoordinates.slice(0, 2)),
             {units: 'meters'}
           );
