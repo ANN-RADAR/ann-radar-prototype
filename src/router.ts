@@ -128,7 +128,7 @@ const routes = [
           content: {category: 'solar'}
         }
       },
-      {path: 'solar/*', redirect: '/potential/solar'},
+      {path: '/potential/solar/*', redirect: '/potential/solar'},
       {
         path: '/potential/energy-efficiency',
         components: {content: PotentialInspectorTable},

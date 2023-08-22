@@ -58,6 +58,32 @@
               </v-btn>
             </template>
 
+            <template
+              v-for="(tableHeader, index) in shownTableHeaders"
+              v-slot:[`header.${tableHeader.value}`]="{header}"
+            >
+              {{ header.text }}
+              <v-btn
+                v-if="index !== 0"
+                :class="{
+                  'chart-button': true,
+                  active: $route.query.chartProperty === tableHeader.value
+                }"
+                text
+                icon
+                :disabled="barChartDisabled"
+                :color="
+                  $route.query.chartProperty === tableHeader.value
+                    ? 'primary'
+                    : undefined
+                "
+                @click.stop="openBarChart(tableHeader.value)"
+                v-bind:key="`${tableHeader.value}-chart`"
+              >
+                <v-icon>mdi-chart-bar</v-icon>
+              </v-btn>
+            </template>
+
             <template v-slot:[`item.data-table-select`]="{item}">
               <v-btn
                 text
@@ -217,6 +243,9 @@ export default Vue.extend({
           (featureId: string) => featureId === String(featureData[dataId])
         );
       });
+    },
+    barChartDisabled(): boolean {
+      return !this.currentLayerSelectedFeatureIds.length;
     }
   },
   watch: {
@@ -275,6 +304,9 @@ export default Vue.extend({
       return formattedValue !== undefined
         ? formattedValue
         : this.$t('notAvailable');
+    },
+    openBarChart(chartProperty: string) {
+      this.$router.push({path: this.$route.path, query: {chartProperty}});
     }
   }
 });
@@ -295,5 +327,29 @@ export default Vue.extend({
 .inspector-column-select {
   width: 18.75rem;
   margin-bottom: 1rem;
+}
+
+.potential-table-container
+  >>> .v-data-table
+  > .v-data-table__wrapper
+  > table
+  > thead
+  > tr
+  > th {
+  padding-right: 40px;
+}
+
+.chart-button {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  opacity: 0;
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.v-data-table-header th:hover .chart-button,
+.chart-button.active {
+  opacity: 1;
 }
 </style>
