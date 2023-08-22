@@ -11,12 +11,14 @@
 
       <v-card-text ref="chartContainer" v-resize="onResize">
         <apexchart
+          v-if="chartData.filter(({y}) => typeof y === 'number').length"
           type="bar"
           :width="chartsWidth"
           :height="300"
           :options="chartOptions"
           :series="[{data: chartData}]"
         />
+        <span v-else>{{ $t('potential.chart.notAvailable') }}</span>
       </v-card-text>
     </v-card>
   </div>
