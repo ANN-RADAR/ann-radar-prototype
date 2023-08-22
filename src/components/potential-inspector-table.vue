@@ -179,10 +179,11 @@ export default Vue.extend({
         ...Object.keys(
           this.potentialConfig?.table.columns.translations || {}
         ).map(key => {
+          const locale = this.$i18n.locale;
           return {
-            // TODO: choose translation by language setting
             text:
-              this.potentialConfig?.table.columns.translations[key].en || key,
+              this.potentialConfig?.table.columns.translations[key][locale] ||
+              key,
             sortable: true,
             value: key
           };
