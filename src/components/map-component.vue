@@ -73,11 +73,12 @@ import Geometry from 'ol/geom/Geometry';
 import TileSource from 'ol/source/Tile';
 import VectorSource from 'ol/source/Vector';
 import VectorTileLayer from 'ol/layer/VectorTile';
-import {Draw, Interaction, Modify, Select} from 'ol/interaction';
-import {pointerMove} from 'ol/events/condition';
+import {DragBox, Draw, Interaction, Modify, Select} from 'ol/interaction';
+import {platformModifierKeyOnly, pointerMove} from 'ol/events/condition';
 import {register} from 'ol/proj/proj4';
 import proj4 from 'proj4';
 import GeoJSON from 'ol/format/GeoJSON';
+import {getWidth} from 'ol/extent';
 
 import {
   getMapStyleLayers,
@@ -105,6 +106,10 @@ proj4.defs(
   '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
 );
 register(proj4);
+
+const dragBox = new DragBox({
+  condition: platformModifierKeyOnly
+});
 
 type Data = {
   map: null | Map;
@@ -361,6 +366,9 @@ export default Vue.extend({
     },
     mobilityIsochrones() {
       this.updateMobilityIsochronesFeatures();
+    },
+    hasMultipleFeatureSelection() {
+      this.toggleBoxSelection();
     }
   },
   methods: {
@@ -416,6 +424,108 @@ export default Vue.extend({
             featureIds: selectedFeatureIds
           });
         }
+      }
+    },
+    handleBoxEnd() {
+      if (!this.map || !this.adminLayerType) {
+        return;
+      }
+
+      const adminLayer = this.allAdminLayers.find(
+        layer => layer.get('name') === this.adminLayerType
+      );
+      const adminLayerSource = adminLayer?.getSource();
+
+      if (!adminLayerSource) {
+        return;
+      }
+
+      const {featureId} = adminLayers[this.adminLayerType];
+      let selectedFeatureIds = [...this.currentLayerSelectedFeatureIds];
+
+      /**
+       * OpenLayers Box Selection
+       * https://openlayers.org/en/latest/examples/box-selection.html
+       */
+      const boxExtent = dragBox.getGeometry().getExtent();
+      // if the extent crosses the antimeridian process each world separately
+      const worldExtent = this.map.getView().getProjection().getExtent();
+      const worldWidth = getWidth(worldExtent);
+      const startWorld = Math.floor(
+        (boxExtent[0] - worldExtent[0]) / worldWidth
+      );
+      const endWorld = Math.floor((boxExtent[2] - worldExtent[0]) / worldWidth);
+
+      for (let world = startWorld; world <= endWorld; ++world) {
+        const left = Math.max(
+          boxExtent[0] - world * worldWidth,
+          worldExtent[0]
+        );
+        const right = Math.min(
+          boxExtent[2] - world * worldWidth,
+          worldExtent[2]
+        );
+        const extent = [left, boxExtent[1], right, boxExtent[3]];
+
+        // features that intersect the box geometry are added to the
+        // collection of selected features (if not already included)
+        const boxFeatures = adminLayerSource
+          .getFeaturesInExtent(extent)
+          .filter(
+            feature =>
+              !selectedFeatureIds.includes(feature.get(featureId)) &&
+              feature.getGeometry()?.intersectsExtent(extent)
+          );
+
+        // if the view is not obliquely rotated the box geometry and
+        // its extent are equalivalent so intersecting features can
+        // be added directly to the collection
+        const rotation = this.map.getView().getRotation();
+        const oblique = rotation % (Math.PI / 2) !== 0;
+
+        // when the view is obliquely rotated the box extent will
+        // exceed its geometry so both the box and the candidate
+        // feature geometries are rotated around a common anchor
+        // to confirm that, with the box geometry aligned with its
+        // extent, the geometries intersect
+        if (oblique) {
+          const anchor = [0, 0];
+          const geometry = dragBox.getGeometry().clone();
+          geometry.translate(-world * worldWidth, 0);
+          geometry.rotate(-rotation, anchor);
+          const extent = geometry.getExtent();
+          boxFeatures.forEach(function (feature) {
+            const id = feature.get(featureId);
+            const geometry = feature.getGeometry()?.clone();
+
+            geometry?.rotate(-rotation, anchor);
+
+            if (geometry?.intersectsExtent(extent)) {
+              selectedFeatureIds.push(id);
+            }
+          });
+        } else {
+          const boxFeatureIds = boxFeatures.map(feature =>
+            feature.get(featureId)
+          );
+          selectedFeatureIds.push(...boxFeatureIds);
+        }
+      }
+
+      this.setSelectedFeatureIdsOfAdminLayer({
+        adminLayerType: this.adminLayerType,
+        featureIds: selectedFeatureIds
+      });
+    },
+    toggleBoxSelection() {
+      if (this.hasMultipleFeatureSelection) {
+        // Enable box selection for map with multiple feature selection
+        this.map?.addInteraction(dragBox);
+        dragBox.on('boxend', this.handleBoxEnd);
+      } else {
+        // Enable box selection for map without multiple feature selection
+        dragBox.un('boxend', this.handleBoxEnd);
+        this.map?.removeInteraction(dragBox);
       }
     },
     handleHoverOnMap(event: MapBrowserEvent<UIEvent>) {
@@ -737,6 +847,7 @@ export default Vue.extend({
 
     // Select map features
     this.map.on('click', this.handleClickOnMap);
+    this.toggleBoxSelection();
     // Hover map features
     this.map.on('pointermove', this.handleHoverOnMap);
   }
