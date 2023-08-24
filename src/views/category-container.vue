@@ -15,7 +15,10 @@
           </template>
         </Map>
       </keep-alive>
-      <v-card><router-view name="content" /></v-card>
+      <PotentialChart v-if="$route.query.chartProperty" />
+      <v-card>
+        <router-view name="content" />
+      </v-card>
     </div>
     <router-view v-else name="content" />
   </div>
@@ -46,6 +49,8 @@ import {MobilityLocation} from '@/types/potential';
 import {Feature} from 'ol';
 import Point from 'ol/geom/Point';
 
+import PotentialChart from '../components/potential-chart.vue';
+
 function getPotentialLayers(path: string) {
   if (path.startsWith('/potential/solar')) {
     return {
@@ -74,7 +79,8 @@ interface Data {
 export default Vue.extend({
   components: {
     Map,
-    MapMobilityDrawingPanel
+    MapMobilityDrawingPanel,
+    PotentialChart
   },
   data(): Data {
     return {
@@ -223,6 +229,7 @@ export default Vue.extend({
   display: grid;
   grid-template-columns: calc(50% - 0.5rem) calc(50% - 0.5rem);
   grid-template-rows: 100%;
+  grid-template-areas: 'left right';
   gap: 1rem;
   height: 100%;
   min-height: 0;

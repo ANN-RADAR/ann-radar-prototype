@@ -239,5 +239,10 @@
     "units": {
       "minutes": "Minutes"
     }
+  },
+  "potential": {
+    "chart": {
+      "notAvailable": "No visualisation available"
+    }
   }
 }

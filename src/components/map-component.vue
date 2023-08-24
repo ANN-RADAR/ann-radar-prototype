@@ -746,6 +746,7 @@ export default Vue.extend({
 <style scoped>
 .map-wrapper {
   position: relative;
+  grid-area: left;
 }
 
 #map {
