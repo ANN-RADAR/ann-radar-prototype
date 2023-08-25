@@ -1,6 +1,7 @@
 <template>
   <div class="map-wrapper">
     <div id="map"></div>
+
     <div class="map-overlays top-right">
       <MapLayerSwitcher
         v-if="showLayerSwitcher"
@@ -17,6 +18,13 @@
     </div>
     <div class="map-overlays bottom-right">
       <MapLegends v-if="showLegends" :thematicLayers="thematicLayerOptions" />
+    </div>
+
+    <div class="map-info-window" ref="infoWindow">
+      <v-btn text icon @click="closeInfoWindow">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+      <div class="map-info-window-content" ref="infoWindowContent"></div>
     </div>
 
     <v-dialog
@@ -59,7 +67,7 @@ import {
 } from '@/types/store';
 
 import 'ol/ol.css';
-import {Feature, Map, MapBrowserEvent, View} from 'ol';
+import {Feature, Map, MapBrowserEvent, Overlay, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
 import {ScaleLine, defaults as defaultControls} from 'ol/control';
 import {Style} from 'ol/style';
@@ -113,6 +121,7 @@ const dragBox = new DragBox({
 
 type Data = {
   map: null | Map;
+  infoWindow: null | Overlay;
   mapOptions: MapOptions;
   mapStyleLayers: LayerGroup;
   adminLayers: LayerGroup;
@@ -206,6 +215,7 @@ export default Vue.extend({
 
     return {
       map: null,
+      infoWindow: null,
       mapStyleLayers,
       adminLayers,
       baseLayers,
@@ -819,6 +829,27 @@ export default Vue.extend({
             })
         );
       }
+    },
+    setupInfoWindow() {
+      const infoWindowContainerElement = this.$refs.infoWindow as HTMLElement;
+
+      this.infoWindow = new Overlay({
+        element: infoWindowContainerElement,
+        autoPan: {
+          animation: {
+            duration: 250
+          }
+        }
+      });
+      this.map?.addOverlay(this.infoWindow);
+    },
+    openInfoWindow(position: number[], content: string) {
+      const infoWindowContentElement = this.$refs.infoWindowContent as Element;
+      infoWindowContentElement.innerHTML = content;
+      this.infoWindow?.setPosition(position);
+    },
+    closeInfoWindow() {
+      this.infoWindow?.setPosition(undefined);
     }
   },
   created() {
@@ -844,6 +875,9 @@ export default Vue.extend({
     if (this.hasDrawingTools) {
       this.addDrawingTools();
     }
+
+    // Handle info window
+    this.setupInfoWindow();
 
     // Select map features
     this.map.on('click', this.handleClickOnMap);
@@ -882,6 +916,53 @@ export default Vue.extend({
 .map-overlays.bottom-right {
   bottom: 0;
   right: 0;
+}
+
+.map-info-window {
+  position: absolute;
+  bottom: 16px;
+  left: -48px;
+  min-width: 10rem;
+  max-width: 40vw;
+  padding: 16px 52px 16px 16px;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+.map-info-window:after,
+.map-info-window:before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 48px;
+  height: 0;
+  width: 0;
+  border: solid transparent;
+  pointer-events: none;
+}
+
+.map-info-window:after {
+  margin-left: -14px;
+  border-width: 14px;
+  border-top-color: #f5f5f5;
+}
+
+.map-info-window:before {
+  margin-left: -16px;
+  border-width: 16px;
+  border-top-color: rgba(0, 0, 0, 0.14);
+}
+
+.map-info-window > button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.map-info-window-content {
+  overflow: auto;
 }
 
 .confirmation-dialog-actions {
