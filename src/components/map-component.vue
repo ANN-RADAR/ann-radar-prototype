@@ -906,18 +906,19 @@ export default Vue.extend({
       // "Building and Living" and "Street Tree Cadastre"
       const layers = this.allBaseLayers
         .filter(layer => {
-          const isVisible = layer.getVisible();
           const name = layer.get('name');
           const layersWithInfoWindow = [
             'buildingAndLiving',
             'socialInfrastructure',
-            'streetTreeCadastre'
+            'streetTreeCadastre',
+            'heatAtlas'
           ];
 
-          return isVisible && layersWithInfoWindow.includes(name);
+          return layersWithInfoWindow.includes(name);
         })
         .map(layerGroup => layerGroup?.getLayersArray() || [])
-        .flat();
+        .flat()
+        .filter(layer => layer.getVisible());
       const sources = layers.map(layer => layer.getSource());
 
       let featureInfo = null;
