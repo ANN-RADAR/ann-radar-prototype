@@ -850,6 +850,74 @@ export default Vue.extend({
     },
     closeInfoWindow() {
       this.infoWindow?.setPosition(undefined);
+    },
+    async handleTileLayersInfoWindow(event: MouseEvent) {
+      // Prevent opening context menu
+      event.preventDefault();
+
+      const position = this.map?.getEventCoordinate(event);
+      const view = this.map?.getView();
+      const viewResolution = view?.getResolution();
+
+      if (!position || viewResolution === undefined) {
+        this.closeInfoWindow();
+        return;
+      }
+
+      // Display info window for tile layers
+      // "Social Infrastructure" and "Building and Living"
+      const layers = this.allBaseLayers
+        .filter(layer => {
+          const isVisible = layer.getVisible();
+          const name = layer.get('name');
+
+          return (
+            isVisible &&
+            ['buildingAndLiving', 'socialInfrastructure'].includes(name)
+          );
+        })
+        .map(layerGroup => layerGroup?.getLayersArray() || [])
+        .flat();
+      const sources = layers.map(layer => layer.getSource());
+
+      let featureInfo = null;
+
+      // Fetch feature info for all tile layer sources at the clicked location
+      for await (const source of sources) {
+        const projectionCode = source.getProjection().getCode();
+        const featureInfoUrl = source.getFeatureInfoUrl(
+          position,
+          viewResolution,
+          projectionCode,
+          {INFO_FORMAT: 'text/html'}
+        );
+
+        if (!featureInfoUrl) {
+          continue;
+        }
+
+        await fetch(featureInfoUrl)
+          .then(response => response.text())
+          .then(text => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(text, 'text/html');
+            const hasContent = Boolean(
+              htmlDoc.querySelector('tbody')?.innerHTML.trim()
+            );
+
+            if (hasContent) {
+              featureInfo = htmlDoc.body.innerHTML;
+            }
+          });
+      }
+
+      // Open the info window if feature info was found for the clicked position,
+      // otherwise close the previous shown info window.
+      if (featureInfo) {
+        this.openInfoWindow(position, featureInfo);
+      } else {
+        this.closeInfoWindow();
+      }
     }
   },
   created() {
@@ -878,6 +946,9 @@ export default Vue.extend({
 
     // Handle info window
     this.setupInfoWindow();
+    this.map
+      .getViewport()
+      .addEventListener('contextmenu', this.handleTileLayersInfoWindow);
 
     // Select map features
     this.map.on('click', this.handleClickOnMap);
@@ -962,6 +1033,7 @@ export default Vue.extend({
 }
 
 .map-info-window-content {
+  max-height: 50vh;
   overflow: auto;
 }
 
