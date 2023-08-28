@@ -1,5 +1,5 @@
 <template>
-  <div class="map-wrapper">
+  <div class="map-wrapper" ref="mapWrapper">
     <div id="map"></div>
 
     <div class="map-overlays top-right">
@@ -889,6 +889,22 @@ export default Vue.extend({
     closeInfoWindow() {
       this.infoWindow?.setPosition(undefined);
     },
+    handleClickOutsideInfoWindow() {
+      // Close info window when user clicked anywhere on the map /
+      // outside the info window
+      this.closeInfoWindow();
+    },
+    handleClickOutsideMap(event: MouseEvent) {
+      const mapWrapperElement = this.$refs.mapWrapper as Element;
+
+      // Close info window when user clicked outside the map
+      if (
+        !(event.target instanceof Node) ||
+        !mapWrapperElement.contains(event.target)
+      ) {
+        this.closeInfoWindow();
+      }
+    },
     async handleTileLayersInfoWindow(event: MouseEvent) {
       // Prevent opening context menu
       event.preventDefault();
@@ -990,12 +1006,18 @@ export default Vue.extend({
     this.map
       .getViewport()
       .addEventListener('contextmenu', this.handleTileLayersInfoWindow);
+    this.map.on('click', this.handleClickOutsideInfoWindow);
+    document.body.addEventListener('click', this.handleClickOutsideMap);
 
     // Select map features
     this.map.on('click', this.handleClickOnMap);
     this.toggleBoxSelection();
     // Hover map features
     this.map.on('pointermove', this.handleHoverOnMap);
+  },
+  beforeDestroy() {
+    // Clean up event listeners
+    document.body.removeEventListener('click', this.handleClickOutsideMap);
   }
 });
 </script>
