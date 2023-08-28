@@ -107,6 +107,7 @@ import {LaboratoryId} from '@/types/laboratories';
 import MapLayerSwitcher from './map-layer-switcher.vue';
 import MapStyleSwitcher from './map-style-switcher.vue';
 import MapLegends from './map-legends.vue';
+import {TileWMS} from 'ol/source';
 
 // projection for UTM zone 32N
 proj4.defs(
@@ -312,10 +313,31 @@ export default Vue.extend({
     },
     baseLayerOptions(newBaseLayerOptions: Record<string, string>) {
       this.allBaseLayers.forEach(layer => {
-        if (newBaseLayerOptions[layer.get('name')]) {
-          (layer as VectorTileLayer).setStyle(
-            createBuildingLayerStyle(newBaseLayerOptions[layer.get('name')])
-          );
+        const newBaseLayerOption = newBaseLayerOptions[layer.get('name')];
+
+        if (newBaseLayerOption) {
+          // Update vector layer styles
+          if (layer instanceof VectorTileLayer) {
+            layer.setStyle(createBuildingLayerStyle(newBaseLayerOption));
+            return;
+          }
+
+          // Toggle visibility of sublayers in tile layer groups
+          if (layer instanceof LayerGroup) {
+            const sublayers = layer.getLayersArray();
+
+            for (const sublayer of sublayers) {
+              const source = sublayer.getSource();
+
+              if (source instanceof TileWMS) {
+                const sourceLayers = Array.isArray(source.getParams().LAYERS)
+                  ? source.getParams().LAYERS
+                  : [source.getParams().LAYERS];
+                const isVisible = sourceLayers.includes(newBaseLayerOption);
+                sublayer.setVisible(isVisible);
+              }
+            }
+          }
         }
       });
     },
@@ -574,6 +596,26 @@ export default Vue.extend({
           // Update source and style of data layers
           if (dataLayerIds.includes(layer.get('name'))) {
             this.updateDataLayer(layer, dataLayerOptions);
+            continue;
+          }
+
+          // Toggle visibility of sublayers in tile layer groups
+          const baseLayerOption = this.baseLayerOptions[layer.get('name')];
+
+          if (baseLayerOption && layer instanceof LayerGroup) {
+            const sublayers = layer.getLayersArray();
+
+            for (const sublayer of sublayers) {
+              const source = sublayer.getSource();
+
+              if (source instanceof TileWMS) {
+                const sourceLayers = Array.isArray(source.getParams().LAYERS)
+                  ? source.getParams().LAYERS
+                  : [source.getParams().LAYERS];
+                const isVisible = sourceLayers.includes(baseLayerOption);
+                sublayer.setVisible(isVisible);
+              }
+            }
           }
         } else {
           layer.setVisible(false);

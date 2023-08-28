@@ -87,9 +87,18 @@ export const solarPotentialLayersOptions: Array<LayerOptions> = [
 export const energyPotentialLayersOptions: Array<LayerOptions> = [
   {
     type: 'tile',
-    properties: {name: 'heatAtlas'},
+    properties: {
+      name: 'heatAtlas',
+      options: [
+        {name: 'renovated', id: 'nw_spez_geb_saniert'},
+        {name: 'unrenovated', id: 'nw_spez_geb_unsaniert'}
+      ]
+    },
     visible: false,
-    source: tileSourcesOptions.HH_WMS_Waermekataster_Waermebedarf,
+    source: [
+      tileSourcesOptions.HH_WMS_Waermekataster_Waermebedarf_saniert,
+      tileSourcesOptions.HH_WMS_Waermekataster_Waermebedarf_unsaniert
+    ],
     zIndex: 5
   },
   {
