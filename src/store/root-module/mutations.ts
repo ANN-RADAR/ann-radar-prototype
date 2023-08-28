@@ -93,13 +93,13 @@ const mutations = {
       state.baseLayerTypes = [...state.baseLayerTypes, baseLayerTypeToToggle];
     }
   },
-  setBaseLayerFeatureProperty(
+  setBaseLayerOption(
     state: RootState,
-    payload: {baseLayerType: string; baseLayerFeatureProperty: string}
+    payload: {baseLayerType: string; baseLayerOptionId: string}
   ) {
-    state.baseLayerFeatureProperties = {
-      ...state.baseLayerFeatureProperties,
-      [payload.baseLayerType]: payload.baseLayerFeatureProperty
+    state.baseLayerOptions = {
+      ...state.baseLayerOptions,
+      [payload.baseLayerType]: payload.baseLayerOptionId
     };
   },
   setHighlightedFeatureIds(

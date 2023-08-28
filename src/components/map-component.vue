@@ -252,7 +252,7 @@ export default Vue.extend({
       'adminLayerType',
       'mapStyle',
       'baseLayerTypes',
-      'baseLayerFeatureProperties',
+      'baseLayerOptions',
       'layersConfig',
       'layerClassificationSelection',
       'laboratories',
@@ -310,15 +310,11 @@ export default Vue.extend({
       this.toggleBaseLayers();
       this.toggleLaboratoriesLayers();
     },
-    baseLayerFeatureProperties(
-      newBaseLayerFeatureProperties: Record<string, string>
-    ) {
+    baseLayerOptions(newBaseLayerOptions: Record<string, string>) {
       this.allBaseLayers.forEach(layer => {
-        if (newBaseLayerFeatureProperties[layer.get('name')]) {
+        if (newBaseLayerOptions[layer.get('name')]) {
           (layer as VectorTileLayer).setStyle(
-            createBuildingLayerStyle(
-              newBaseLayerFeatureProperties[layer.get('name')]
-            )
+            createBuildingLayerStyle(newBaseLayerOptions[layer.get('name')])
           );
         }
       });

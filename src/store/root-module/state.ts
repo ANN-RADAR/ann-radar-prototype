@@ -29,7 +29,7 @@ const state: RootState = {
   layerClassificationSelection: {},
   mapStyle: MapStyle.GRAY_BLUE,
   baseLayerTypes: [],
-  baseLayerFeatureProperties: {},
+  baseLayerOptions: {},
   adminLayerType: null,
   selectedFeatureIds: {} as Record<AdminLayerType, Array<AdminLayerFeatureId>>,
   highlightedFeatureIds: [],
