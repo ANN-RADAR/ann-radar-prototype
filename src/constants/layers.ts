@@ -71,15 +71,9 @@ export const solarPotentialLayersOptions: Array<LayerOptions> = [
     type: 'vector',
     properties: {
       name: 'buildingSolarPotential',
-      featureProperties: [
-        {
-          name: 'solarPotential',
-          id: 'p_st_mwha'
-        },
-        {
-          name: 'roofShape',
-          id: 'BEZDAF'
-        }
+      options: [
+        {name: 'solarPotential', id: 'p_st_mwha'},
+        {name: 'roofShape', id: 'BEZDAF'}
       ]
     },
     visible: false,
@@ -108,7 +102,7 @@ export const energyPotentialLayersOptions: Array<LayerOptions> = [
     type: 'vector',
     properties: {
       name: 'buildingSpecificHeatDemand',
-      featureProperties: [
+      options: [
         {name: 'diffRenovation', id: 'Diff_WBd_P'},
         {name: 'livingSpace', id: 'wohnflaech'}
       ]
