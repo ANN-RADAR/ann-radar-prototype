@@ -90,6 +90,10 @@
       "buildingSpecificHeatDemand": {
         "diffRenovation": "Difference renovated/unrenovated in percent",
         "livingSpace": "Living space in sqm"
+      },
+      "heatAtlas": {
+        "renovated": "Renovated",
+        "unrenovated": "Unrenovated"
       }
     }
   },

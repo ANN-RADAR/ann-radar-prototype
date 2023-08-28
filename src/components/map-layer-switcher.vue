@@ -48,10 +48,7 @@
                   layer.properties.options &&
                   layer.properties.options.length
                 "
-                :value="
-                  baseLayerOptions[layer.properties.name] ||
-                  layer.properties.options[0].id
-                "
+                :value="baseLayerOptions[layer.properties.name]"
                 dense
                 hide-details
                 class="sub-radio-group"
@@ -233,6 +230,16 @@ export default Vue.extend({
     onLayerChange(layer: LayerOptions, visible: boolean) {
       layer.visible = visible;
       this.toggleBaseLayerType(layer.properties.name);
+
+      const baseLayerOption = this.baseLayerOptions[layer.properties.name];
+
+      // Select the first feature property when enabling a layer the first time
+      if (visible && layer.properties.options?.length && !baseLayerOption) {
+        this.onLayerOptionChange(
+          layer.properties.name,
+          layer.properties.options[0].id
+        );
+      }
     },
     onLayerOptionChange(baseLayerType: string, baseLayerOptionId: string) {
       this.setBaseLayerOption({

@@ -5,7 +5,14 @@ import {Options as VectorSourceOptions} from 'ol/source/Vector';
 import {Options as VectorTileSourceOptions} from 'ol/source/VectorTile';
 
 export const tileSourcesOptions: Record<string, TileSourceOptions> = {
-  HH_WMS_Waermekataster_Waermebedarf: {
+  HH_WMS_Waermekataster_Waermebedarf_saniert: {
+    url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_Waermebedarf',
+    params: {
+      LAYERS: 'nw_spez_geb_saniert'
+    },
+    projection: 'EPSG:3857'
+  },
+  HH_WMS_Waermekataster_Waermebedarf_unsaniert: {
     url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_Waermebedarf',
     params: {
       LAYERS: 'nw_spez_geb_unsaniert'
