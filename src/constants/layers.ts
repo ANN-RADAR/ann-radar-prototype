@@ -193,7 +193,15 @@ export const baseLayersOptions: Array<LayerOptions> = [
     type: 'tile',
     properties: {name: 'powerConsumption'},
     visible: false,
-    source: tileSourcesOptions.HH_WMS_Waermekataster_Stromverbrauch
+    source: tileSourcesOptions.HH_WMS_Waermekataster_Stromverbrauch,
+    zIndex: 1
+  },
+  {
+    type: 'tile',
+    properties: {name: 'streetTreeCadastre'},
+    visible: false,
+    source: tileSourcesOptions.HH_WMS_Strassenbaumkataster,
+    zIndex: 1
   }
 ];
 

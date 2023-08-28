@@ -81,6 +81,7 @@
     "urban-testbeds": "Urban Testbeds",
     "model-quarters": "Model Quarters",
     "mobilityIsochrones": "Last Mile Delivery",
+    "streetTreeCadastre": "Street Tree Cadastre",
     "properties": {
       "buildingSolarPotential": {
         "solarPotential": "Solar Potential in MWh/a",

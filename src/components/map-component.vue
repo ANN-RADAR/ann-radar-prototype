@@ -864,17 +864,19 @@ export default Vue.extend({
         return;
       }
 
-      // Display info window for tile layers
-      // "Social Infrastructure" and "Building and Living"
+      // Display info window for tile layers "Social Infrastructure",
+      // "Building and Living" and "Street Tree Cadastre"
       const layers = this.allBaseLayers
         .filter(layer => {
           const isVisible = layer.getVisible();
           const name = layer.get('name');
+          const layersWithInfoWindow = [
+            'buildingAndLiving',
+            'socialInfrastructure',
+            'streetTreeCadastre'
+          ];
 
-          return (
-            isVisible &&
-            ['buildingAndLiving', 'socialInfrastructure'].includes(name)
-          );
+          return isVisible && layersWithInfoWindow.includes(name);
         })
         .map(layerGroup => layerGroup?.getLayersArray() || [])
         .flat();

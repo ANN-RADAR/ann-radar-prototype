@@ -123,6 +123,13 @@ export const tileSourcesOptions: Record<string, TileSourceOptions> = {
       LAYERS: 'stromverbrauch'
     },
     projection: 'EPSG:3857'
+  },
+  HH_WMS_Strassenbaumkataster: {
+    url: 'https://geodienste.hamburg.de/HH_WMS_Strassenbaumkataster',
+    params: {
+      LAYERS: ['strassenbaum', 'strassenbaum_hpa']
+    },
+    projection: 'EPSG:3857'
   }
 };
 
