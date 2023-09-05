@@ -100,7 +100,10 @@ import {dataLayerIds, dataLayerOptions} from '@/constants/data-layers';
 import {adminLayers} from '@/constants/admin-layers';
 import {drawHandleStyle, modifyHandleStyle} from '@/constants/map-layer-styles';
 
-import {getInfoWindowContentFromXML} from '@/libs/info-window-content';
+import {
+  getInfoWindowContentFromXML,
+  getInfoWindowContentFromProperties
+} from '@/libs/info-window-content';
 
 import {AdminLayerFeatureData} from '@/types/admin-layers';
 import {DataLayerOptions, LayerOptions} from '@/types/layers';
@@ -980,6 +983,28 @@ export default Vue.extend({
       } else {
         this.closeInfoWindow();
       }
+    },
+    handleVectorTileLayersInfoWindow(event: MapBrowserEvent<UIEvent>) {
+      // Display info window for vector tile layer "Building Solar Potential"
+      const layersWithInfoWindow = ['buildingSolarPotential'];
+
+      this.map?.forEachFeatureAtPixel(
+        event.pixel,
+        feature => {
+          const position = this.map?.getCoordinateFromPixel(event.pixel);
+          const properties = feature.getProperties();
+
+          if (!position || !Object.values(properties).length) {
+            return;
+          }
+
+          const featureInfo = getInfoWindowContentFromProperties(properties);
+          this.openInfoWindow(position, featureInfo);
+        },
+        {
+          layerFilter: layer => layersWithInfoWindow.includes(layer.get('name'))
+        }
+      );
     }
   },
   created() {
@@ -1011,6 +1036,7 @@ export default Vue.extend({
     this.map
       .getViewport()
       .addEventListener('contextmenu', this.handleTileLayersInfoWindow);
+    this.map.on('pointermove', this.handleVectorTileLayersInfoWindow);
     this.map.on('click', this.handleClickOutsideInfoWindow);
     document.body.addEventListener('click', this.handleClickOutsideMap);
 
