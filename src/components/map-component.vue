@@ -100,6 +100,8 @@ import {dataLayerIds, dataLayerOptions} from '@/constants/data-layers';
 import {adminLayers} from '@/constants/admin-layers';
 import {drawHandleStyle, modifyHandleStyle} from '@/constants/map-layer-styles';
 
+import {getInfoWindowContentFromXML} from '@/libs/info-window-content';
+
 import {AdminLayerFeatureData} from '@/types/admin-layers';
 import {DataLayerOptions, LayerOptions} from '@/types/layers';
 import {LaboratoryId} from '@/types/laboratories';
@@ -919,7 +921,7 @@ export default Vue.extend({
       }
 
       // Display info window for tile layers "Social Infrastructure",
-      // "Building and Living" and "Street Tree Cadastre"
+      // "Building and Living", "Street Tree Cadastre" and "Specific Heat Demand"
       const layers = this.allBaseLayers
         .filter(layer => {
           const name = layer.get('name');
@@ -946,7 +948,7 @@ export default Vue.extend({
           position,
           viewResolution,
           projectionCode,
-          {INFO_FORMAT: 'text/html'}
+          {INFO_FORMAT: 'text/xml'}
         );
 
         if (!featureInfoUrl) {
@@ -956,15 +958,18 @@ export default Vue.extend({
         await fetch(featureInfoUrl)
           .then(response => response.text())
           .then(text => {
+            // Parse xml response and create a definition list from it
             const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(text, 'text/html');
+            const xmlDoc = parser.parseFromString(text, 'text/xml');
             const hasContent = Boolean(
-              htmlDoc.querySelector('tbody')?.innerHTML.trim()
+              xmlDoc.getElementsByTagName('gml:featureMember').length
             );
 
-            if (hasContent) {
-              featureInfo = htmlDoc.body.innerHTML;
+            if (!hasContent) {
+              return;
             }
+
+            featureInfo = getInfoWindowContentFromXML(xmlDoc);
           });
       }
 
@@ -1098,6 +1103,19 @@ export default Vue.extend({
 .map-info-window-content {
   max-height: 50vh;
   overflow: auto;
+}
+
+.map-info-window-content::v-deep dt {
+  font-weight: 500;
+}
+
+.map-info-window-content::v-deep dt:not(:first-child) {
+  margin-top: 0.3em;
+}
+
+.map-info-window-content::v-deep dd > dl {
+  margin-top: 0.3em;
+  margin-left: 0.5em;
 }
 
 .confirmation-dialog-actions {
