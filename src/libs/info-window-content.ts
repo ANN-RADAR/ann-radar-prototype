@@ -45,3 +45,23 @@ export const getInfoWindowContentFromXML = (xmlDoc: Document): string => {
 
   return featureInfo;
 };
+
+/**
+ * Returns a definition list with the given properties as string
+ */
+export const getInfoWindowContentFromProperties = (
+  properties: Record<string, unknown>
+): string => {
+  let featureInfo = '<dl>';
+
+  for (const key in properties) {
+    if (Object.prototype.hasOwnProperty.call(properties, key)) {
+      const value = properties[key];
+      featureInfo += `<dt>${key}</dt><dd>${value}</dd>`;
+    }
+  }
+
+  featureInfo += '</dl>';
+
+  return featureInfo;
+};
