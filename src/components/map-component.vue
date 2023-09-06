@@ -1114,6 +1114,7 @@ export default Vue.extend({
 }
 
 .map-info-window-content::v-deep dd > dl {
+  margin-top: 0.3em;
   margin-left: 0.5em;
 }
 
