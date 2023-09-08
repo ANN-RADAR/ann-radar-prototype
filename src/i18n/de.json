@@ -60,7 +60,7 @@
   "adminLayer": {
     "city": "Stadt",
     "district": "Bezirk",
-    "quarter": "Viertel",
+    "quarter": "Stadtteil",
     "statisticalArea": "Statistisches  Gebiet",
     "buildingBlock": "Baublock"
   },
