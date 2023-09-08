@@ -914,11 +914,12 @@ export default Vue.extend({
       // Prevent opening context menu
       event.preventDefault();
 
+      const pixel = this.map?.getEventPixel(event);
       const position = this.map?.getEventCoordinate(event);
       const view = this.map?.getView();
       const viewResolution = view?.getResolution();
 
-      if (!position || viewResolution === undefined) {
+      if (!pixel || !position || viewResolution === undefined) {
         this.closeInfoWindow();
         return;
       }
@@ -976,6 +977,24 @@ export default Vue.extend({
           });
       }
 
+      if (!featureInfo) {
+        // Display info window for vector tile layer "Building Solar Potential"
+        const layersWithInfoWindow = ['buildingSolarPotential'];
+        const clickedFeature = this.map?.forEachFeatureAtPixel(
+          pixel,
+          feature => feature,
+          {
+            layerFilter: layer =>
+              layersWithInfoWindow.includes(layer.get('name'))
+          }
+        );
+        const properties = clickedFeature?.getProperties();
+
+        if (properties && Object.values(properties).length) {
+          featureInfo = getInfoWindowContentFromProperties(properties);
+        }
+      }
+
       // Open the info window if feature info was found for the clicked position,
       // otherwise close the previous shown info window.
       if (featureInfo) {
@@ -983,28 +1002,6 @@ export default Vue.extend({
       } else {
         this.closeInfoWindow();
       }
-    },
-    handleVectorTileLayersInfoWindow(event: MapBrowserEvent<UIEvent>) {
-      // Display info window for vector tile layer "Building Solar Potential"
-      const layersWithInfoWindow = ['buildingSolarPotential'];
-
-      this.map?.forEachFeatureAtPixel(
-        event.pixel,
-        feature => {
-          const position = this.map?.getCoordinateFromPixel(event.pixel);
-          const properties = feature.getProperties();
-
-          if (!position || !Object.values(properties).length) {
-            return;
-          }
-
-          const featureInfo = getInfoWindowContentFromProperties(properties);
-          this.openInfoWindow(position, featureInfo);
-        },
-        {
-          layerFilter: layer => layersWithInfoWindow.includes(layer.get('name'))
-        }
-      );
     }
   },
   created() {
@@ -1036,7 +1033,6 @@ export default Vue.extend({
     this.map
       .getViewport()
       .addEventListener('contextmenu', this.handleTileLayersInfoWindow);
-    this.map.on('pointermove', this.handleVectorTileLayersInfoWindow);
     this.map.on('click', this.handleClickOutsideInfoWindow);
     document.body.addEventListener('click', this.handleClickOutsideMap);
 
