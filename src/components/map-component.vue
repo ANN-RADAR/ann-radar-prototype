@@ -936,7 +936,7 @@ export default Vue.extend({
             'heatAtlas'
           ];
 
-          return layersWithInfoWindow.includes(name);
+          return layersWithInfoWindow.includes(name) && layer.getVisible();
         })
         .map(layerGroup => layerGroup?.getLayersArray() || [])
         .flat()
