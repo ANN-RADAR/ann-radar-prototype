@@ -5,7 +5,7 @@
 export const getInfoWindowContentFromXML = (xmlDoc: Document): string => {
   const featureMembers = xmlDoc.getElementsByTagName('gml:featureMember');
 
-  let featureInfo = '<dl>';
+  let featureInfo = '';
 
   for (const featureMember of featureMembers) {
     const featureElements = [...featureMember.childNodes].filter(
@@ -18,10 +18,10 @@ export const getInfoWindowContentFromXML = (xmlDoc: Document): string => {
         node => node instanceof Element
       ) as Array<Element>;
 
-      featureInfo += `<dt>${title}</dt>`;
+      featureInfo += `<h4>${title}</h4>`;
 
       if (propertyElements.length) {
-        featureInfo += '<dd><dl>';
+        featureInfo += '<dl>';
 
         for (const propertyElement of propertyElements) {
           const key = propertyElement.tagName.split(':')[1];
@@ -36,12 +36,10 @@ export const getInfoWindowContentFromXML = (xmlDoc: Document): string => {
           }
         }
 
-        featureInfo += '</dl></dt>';
+        featureInfo += '</dl>';
       }
     }
   }
-
-  featureInfo += '</dl>';
 
   return featureInfo;
 };

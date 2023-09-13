@@ -35,6 +35,9 @@ export const createBuildingLayerStyle =
   (labelProperty: string) =>
   (feature: Feature<Geometry> | RenderFeature, resolution: number) =>
     new Style({
+      fill: new Fill({
+        color: 'rgba(0, 0, 0, 0)'
+      }),
       stroke: new Stroke({
         color: '#3399CC',
         width: 1.25
