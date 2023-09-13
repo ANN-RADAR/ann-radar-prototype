@@ -1127,17 +1127,25 @@ export default Vue.extend({
   overflow: auto;
 }
 
+.map-info-window-content::v-deep dl {
+  display: grid;
+  grid-template-columns: auto auto;
+  row-gap: 0.3em;
+  column-gap: 0.5em;
+  font-size: 0.875rem;
+}
+
+.map-info-window-content::v-deep dl:not(:first-child) {
+  margin-top: 0.3em;
+}
+
 .map-info-window-content::v-deep dt {
+  grid-column: 1;
   font-weight: 500;
 }
 
-.map-info-window-content::v-deep dt:not(:first-child) {
-  margin-top: 0.3em;
-}
-
-.map-info-window-content::v-deep dd > dl {
-  margin-top: 0.3em;
-  margin-left: 0.5em;
+.map-info-window-content::v-deep dd {
+  grid-column: 2;
 }
 
 .confirmation-dialog-actions {
