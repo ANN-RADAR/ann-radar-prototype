@@ -3,10 +3,10 @@ import VueI18n from 'vue-i18n/types';
 export const locales = {
   en: 'English',
   de: 'Deutsch',
-  dk: 'Danish',
-  es: 'Spanish',
-  lv: 'Latvian',
-  sv: 'Swedish'
+  dk: 'Dansk',
+  es: 'Español',
+  lv: 'Latvieši',
+  sv: 'Svenska'
 };
 
 export const fallbackLocale = 'en';
