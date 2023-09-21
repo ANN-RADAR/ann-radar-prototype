@@ -57,7 +57,7 @@ export const tileSourcesOptions: Record<string, TileSourceOptions> = {
   HH_WMS_Schulen: {
     url: 'https://geodienste.hamburg.de/HH_WMS_Schulen',
     params: {
-      LAYERS: 'hh_schulen_dwh'
+      LAYERS: 'theme_hh_schulen'
     },
     projection: 'EPSG:3857'
   },
