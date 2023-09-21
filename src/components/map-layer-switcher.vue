@@ -45,32 +45,26 @@
               <v-radio-group
                 v-if="
                   baseLayerTypes.includes(layer.properties.name) &&
-                  layer.properties.featureProperties &&
-                  layer.properties.featureProperties.length
+                  layer.properties.options &&
+                  layer.properties.options.length
                 "
-                :value="
-                  baseLayerFeatureProperties[layer.properties.name] ||
-                  layer.properties.featureProperties[0].id
-                "
+                :value="baseLayerOptions[layer.properties.name]"
                 dense
                 hide-details
                 class="sub-radio-group"
               >
                 <v-radio
-                  v-for="property in layer.properties.featureProperties"
-                  :key="property.id"
+                  v-for="option in layer.properties.options"
+                  :key="option.id"
                   :label="
                     $t(
-                      `layer.properties.${layer.properties.name}.${property.name}`
+                      `layer.properties.${layer.properties.name}.${option.name}`
                     )
                   "
-                  :value="property.id"
+                  :value="option.id"
                   class="radio"
                   @change="
-                    onLayerFeaturePropertyChange(
-                      layer.properties.name,
-                      property.id
-                    )
+                    onLayerOptionChange(layer.properties.name, option.id)
                   "
                 ></v-radio>
               </v-radio-group>
@@ -208,7 +202,7 @@ export default Vue.extend({
     ...(mapState as MapStateToComputed)('root', [
       'adminLayerType',
       'baseLayerTypes',
-      'baseLayerFeatureProperties'
+      'baseLayerOptions'
     ]),
     visibleThematicLayers(): Array<LayerOptions> {
       if (!this.showReducedList) {
@@ -230,20 +224,27 @@ export default Vue.extend({
   methods: {
     ...(mapMutations as MapMutationsToMethods)('root', [
       'toggleBaseLayerType',
-      'setBaseLayerFeatureProperty',
+      'setBaseLayerOption',
       'setAdminLayerType'
     ]),
     onLayerChange(layer: LayerOptions, visible: boolean) {
       layer.visible = visible;
       this.toggleBaseLayerType(layer.properties.name);
+
+      const baseLayerOption = this.baseLayerOptions[layer.properties.name];
+
+      // Select the first feature property when enabling a layer the first time
+      if (visible && layer.properties.options?.length && !baseLayerOption) {
+        this.onLayerOptionChange(
+          layer.properties.name,
+          layer.properties.options[0].id
+        );
+      }
     },
-    onLayerFeaturePropertyChange(
-      baseLayerType: string,
-      baseLayerFeatureProperty: string
-    ) {
-      this.setBaseLayerFeatureProperty({
+    onLayerOptionChange(baseLayerType: string, baseLayerOptionId: string) {
+      this.setBaseLayerOption({
         baseLayerType,
-        baseLayerFeatureProperty
+        baseLayerOptionId
       });
     },
     onAdminAreaLayerChange(newSelectedAdminLayer: AdminLayerType | null) {

@@ -58,6 +58,32 @@
               </v-btn>
             </template>
 
+            <template
+              v-for="(tableHeader, index) in shownTableHeaders"
+              v-slot:[`header.${tableHeader.value}`]="{header}"
+            >
+              {{ header.text }}
+              <v-btn
+                v-if="index !== 0"
+                :class="{
+                  'chart-button': true,
+                  active: $route.query.chartProperty === tableHeader.value
+                }"
+                text
+                icon
+                :disabled="barChartDisabled"
+                :color="
+                  $route.query.chartProperty === tableHeader.value
+                    ? 'primary'
+                    : undefined
+                "
+                @click.stop="openBarChart(tableHeader.value)"
+                v-bind:key="`${tableHeader.value}-chart`"
+              >
+                <v-icon>mdi-chart-bar</v-icon>
+              </v-btn>
+            </template>
+
             <template v-slot:[`item.data-table-select`]="{item}">
               <v-btn
                 text
@@ -69,47 +95,14 @@
             </template>
 
             <template
-              v-for="(header, index) in shownTableHeaders"
+              v-for="header in shownTableHeaders"
               v-slot:[`item.${header.value}`]="{item}"
             >
               <slot :name="[`item.${header.value}`]" :item="item">
-                <span
-                  v-if="
-                    item[header.value] !== undefined &&
-                    item[header.value] !== ''
-                  "
-                  v-bind:key="header.value"
-                >
-                  <span v-if="index === 0 || isNaN(item[header.value])">
-                    {{ item[header.value] }}
-                  </span>
-                  <span
-                    v-else-if="
-                      ['mittlFlur', 'BGF', 'Wohnfl_WK'].includes(header.value)
-                    "
-                  >
-                    {{ formatNumber(Math.round(item[header.value])) }}&nbsp;m²
-                  </span>
-                  <span
-                    v-else-if="
-                      ['SP_GebWB15', 'NW_absdiff'].includes(header.value)
-                    "
-                  >
-                    {{ formatNumber(item[header.value]) }}&nbsp;MWh/a
-                  </span>
-                  <span
-                    v-else-if="
-                      ['tatNu_WB_P', 'spezWBd_dP'].includes(header.value)
-                    "
-                  >
-                    {{ formatNumber(item[header.value]) }}&nbsp;%
-                  </span>
-                  <span v-else>
-                    {{ formatNumber(Math.round(item[header.value])) }}
-                  </span>
-                </span>
-                <span v-else v-bind:key="header.value">
-                  {{ $t('notAvailable') }}
+                <span v-bind:key="header.value">
+                  {{
+                    getFormattedPotentialValue(header.value, item[header.value])
+                  }}
                 </span>
               </slot>
             </template>
@@ -147,7 +140,7 @@ import {
   MapMutationsToMethods,
   MapStateToComputed
 } from '@/types/store';
-import {formatNumber} from '@/libs/format';
+import {formatPotentialValue} from '@/libs/format';
 import {adminLayers} from '@/constants/admin-layers';
 import {DataTableHeader} from 'vuetify';
 
@@ -212,10 +205,11 @@ export default Vue.extend({
         ...Object.keys(
           this.potentialConfig?.table.columns.translations || {}
         ).map(key => {
+          const locale = this.$i18n.locale;
           return {
-            // TODO: choose translation by language setting
             text:
-              this.potentialConfig?.table.columns.translations[key].en || key,
+              this.potentialConfig?.table.columns.translations[key][locale] ||
+              key,
             sortable: true,
             value: key
           };
@@ -249,6 +243,9 @@ export default Vue.extend({
           (featureId: string) => featureId === String(featureData[dataId])
         );
       });
+    },
+    barChartDisabled(): boolean {
+      return !this.currentLayerSelectedFeatureIds.length;
     }
   },
   watch: {
@@ -264,11 +261,6 @@ export default Vue.extend({
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setSelectedFeatureIdsOfAdminLayer'
     ]),
-    formatNumber(
-      ...args: Parameters<typeof formatNumber>
-    ): ReturnType<typeof formatNumber> {
-      return formatNumber(...args);
-    },
     onResize() {
       const container = this.$refs.tableContainer as Element;
       this.tableHeight = container?.getBoundingClientRect().height || 0;
@@ -303,6 +295,18 @@ export default Vue.extend({
             header.value
           )
         );
+    },
+    getFormattedPotentialValue(
+      key: string,
+      value: string | number | undefined
+    ) {
+      const formattedValue = formatPotentialValue(key, value);
+      return formattedValue !== undefined
+        ? formattedValue
+        : this.$t('notAvailable');
+    },
+    openBarChart(chartProperty: string) {
+      this.$router.push({path: this.$route.path, query: {chartProperty}});
     }
   }
 });
@@ -323,5 +327,29 @@ export default Vue.extend({
 .inspector-column-select {
   width: 18.75rem;
   margin-bottom: 1rem;
+}
+
+.potential-table-container
+  >>> .v-data-table
+  > .v-data-table__wrapper
+  > table
+  > thead
+  > tr
+  > th {
+  padding-right: 40px;
+}
+
+.chart-button {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  opacity: 0;
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.v-data-table-header th:hover .chart-button,
+.chart-button.active {
+  opacity: 1;
 }
 </style>

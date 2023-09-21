@@ -35,6 +35,9 @@ export const createBuildingLayerStyle =
   (labelProperty: string) =>
   (feature: Feature<Geometry> | RenderFeature, resolution: number) =>
     new Style({
+      fill: new Fill({
+        color: 'rgba(0, 0, 0, 0)'
+      }),
       stroke: new Stroke({
         color: '#3399CC',
         width: 1.25
@@ -71,15 +74,9 @@ export const solarPotentialLayersOptions: Array<LayerOptions> = [
     type: 'vector',
     properties: {
       name: 'buildingSolarPotential',
-      featureProperties: [
-        {
-          name: 'solarPotential',
-          id: 'p_st_mwha'
-        },
-        {
-          name: 'roofShape',
-          id: 'BEZDAF'
-        }
+      options: [
+        {name: 'solarPotential', id: 'p_st_mwha'},
+        {name: 'roofShape', id: 'BEZDAF'}
       ]
     },
     visible: false,
@@ -93,9 +90,18 @@ export const solarPotentialLayersOptions: Array<LayerOptions> = [
 export const energyPotentialLayersOptions: Array<LayerOptions> = [
   {
     type: 'tile',
-    properties: {name: 'heatAtlas'},
+    properties: {
+      name: 'heatAtlas',
+      options: [
+        {name: 'renovated', id: 'nw_spez_geb_saniert'},
+        {name: 'unrenovated', id: 'nw_spez_geb_unsaniert'}
+      ]
+    },
     visible: false,
-    source: tileSourcesOptions.HH_WMS_Waermekataster_Waermebedarf,
+    source: [
+      tileSourcesOptions.HH_WMS_Waermekataster_Waermebedarf_saniert,
+      tileSourcesOptions.HH_WMS_Waermekataster_Waermebedarf_unsaniert
+    ],
     zIndex: 5
   },
   {
@@ -108,7 +114,7 @@ export const energyPotentialLayersOptions: Array<LayerOptions> = [
     type: 'vector',
     properties: {
       name: 'buildingSpecificHeatDemand',
-      featureProperties: [
+      options: [
         {name: 'diffRenovation', id: 'Diff_WBd_P'},
         {name: 'livingSpace', id: 'wohnflaech'}
       ]
@@ -193,7 +199,15 @@ export const baseLayersOptions: Array<LayerOptions> = [
     type: 'tile',
     properties: {name: 'powerConsumption'},
     visible: false,
-    source: tileSourcesOptions.HH_WMS_Waermekataster_Stromverbrauch
+    source: tileSourcesOptions.HH_WMS_Waermekataster_Stromverbrauch,
+    zIndex: 1
+  },
+  {
+    type: 'tile',
+    properties: {name: 'streetTreeCadastre'},
+    visible: false,
+    source: tileSourcesOptions.HH_WMS_Strassenbaumkataster,
+    zIndex: 1
   }
 ];
 

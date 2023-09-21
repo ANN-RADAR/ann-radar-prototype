@@ -1,6 +1,7 @@
 <template>
-  <div class="map-wrapper">
+  <div class="map-wrapper" ref="mapWrapper">
     <div id="map"></div>
+
     <div class="map-overlays top-right">
       <MapLayerSwitcher
         v-if="showLayerSwitcher"
@@ -17,6 +18,13 @@
     </div>
     <div class="map-overlays bottom-right">
       <MapLegends v-if="showLegends" :thematicLayers="thematicLayerOptions" />
+    </div>
+
+    <div class="map-info-window" ref="infoWindow">
+      <v-btn text icon @click="closeInfoWindow">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+      <div class="map-info-window-content" ref="infoWindowContent"></div>
     </div>
 
     <v-dialog
@@ -59,7 +67,7 @@ import {
 } from '@/types/store';
 
 import 'ol/ol.css';
-import {Feature, Map, MapBrowserEvent, View} from 'ol';
+import {Feature, Map, MapBrowserEvent, Overlay, View} from 'ol';
 import {MapOptions} from 'ol/PluggableMap';
 import {ScaleLine, defaults as defaultControls} from 'ol/control';
 import {Style} from 'ol/style';
@@ -73,11 +81,12 @@ import Geometry from 'ol/geom/Geometry';
 import TileSource from 'ol/source/Tile';
 import VectorSource from 'ol/source/Vector';
 import VectorTileLayer from 'ol/layer/VectorTile';
-import {Draw, Interaction, Modify, Select} from 'ol/interaction';
-import {pointerMove} from 'ol/events/condition';
+import {DragBox, Draw, Interaction, Modify, Select} from 'ol/interaction';
+import {platformModifierKeyOnly, pointerMove} from 'ol/events/condition';
 import {register} from 'ol/proj/proj4';
 import proj4 from 'proj4';
 import GeoJSON from 'ol/format/GeoJSON';
+import {getWidth} from 'ol/extent';
 
 import {
   getMapStyleLayers,
@@ -91,6 +100,11 @@ import {dataLayerIds, dataLayerOptions} from '@/constants/data-layers';
 import {adminLayers} from '@/constants/admin-layers';
 import {drawHandleStyle, modifyHandleStyle} from '@/constants/map-layer-styles';
 
+import {
+  getInfoWindowContentFromXML,
+  getInfoWindowContentFromProperties
+} from '@/libs/info-window-content';
+
 import {AdminLayerFeatureData} from '@/types/admin-layers';
 import {DataLayerOptions, LayerOptions} from '@/types/layers';
 import {LaboratoryId} from '@/types/laboratories';
@@ -98,6 +112,7 @@ import {LaboratoryId} from '@/types/laboratories';
 import MapLayerSwitcher from './map-layer-switcher.vue';
 import MapStyleSwitcher from './map-style-switcher.vue';
 import MapLegends from './map-legends.vue';
+import {TileWMS} from 'ol/source';
 
 // projection for UTM zone 32N
 proj4.defs(
@@ -106,8 +121,13 @@ proj4.defs(
 );
 register(proj4);
 
+const dragBox = new DragBox({
+  condition: platformModifierKeyOnly
+});
+
 type Data = {
   map: null | Map;
+  infoWindow: null | Overlay;
   mapOptions: MapOptions;
   mapStyleLayers: LayerGroup;
   adminLayers: LayerGroup;
@@ -201,6 +221,7 @@ export default Vue.extend({
 
     return {
       map: null,
+      infoWindow: null,
       mapStyleLayers,
       adminLayers,
       baseLayers,
@@ -237,7 +258,7 @@ export default Vue.extend({
       'adminLayerType',
       'mapStyle',
       'baseLayerTypes',
-      'baseLayerFeatureProperties',
+      'baseLayerOptions',
       'layersConfig',
       'layerClassificationSelection',
       'laboratories',
@@ -295,16 +316,33 @@ export default Vue.extend({
       this.toggleBaseLayers();
       this.toggleLaboratoriesLayers();
     },
-    baseLayerFeatureProperties(
-      newBaseLayerFeatureProperties: Record<string, string>
-    ) {
+    baseLayerOptions(newBaseLayerOptions: Record<string, string>) {
       this.allBaseLayers.forEach(layer => {
-        if (newBaseLayerFeatureProperties[layer.get('name')]) {
-          (layer as VectorTileLayer).setStyle(
-            createBuildingLayerStyle(
-              newBaseLayerFeatureProperties[layer.get('name')]
-            )
-          );
+        const newBaseLayerOption = newBaseLayerOptions[layer.get('name')];
+
+        if (newBaseLayerOption) {
+          // Update vector layer styles
+          if (layer instanceof VectorTileLayer) {
+            layer.setStyle(createBuildingLayerStyle(newBaseLayerOption));
+            return;
+          }
+
+          // Toggle visibility of sublayers in tile layer groups
+          if (layer instanceof LayerGroup) {
+            const sublayers = layer.getLayersArray();
+
+            for (const sublayer of sublayers) {
+              const source = sublayer.getSource();
+
+              if (source instanceof TileWMS) {
+                const sourceLayers = Array.isArray(source.getParams().LAYERS)
+                  ? source.getParams().LAYERS
+                  : [source.getParams().LAYERS];
+                const isVisible = sourceLayers.includes(newBaseLayerOption);
+                sublayer.setVisible(isVisible);
+              }
+            }
+          }
         }
       });
     },
@@ -361,6 +399,9 @@ export default Vue.extend({
     },
     mobilityIsochrones() {
       this.updateMobilityIsochronesFeatures();
+    },
+    hasMultipleFeatureSelection() {
+      this.toggleBoxSelection();
     }
   },
   methods: {
@@ -418,6 +459,108 @@ export default Vue.extend({
         }
       }
     },
+    handleBoxEnd() {
+      if (!this.map || !this.adminLayerType) {
+        return;
+      }
+
+      const adminLayer = this.allAdminLayers.find(
+        layer => layer.get('name') === this.adminLayerType
+      );
+      const adminLayerSource = adminLayer?.getSource();
+
+      if (!adminLayerSource) {
+        return;
+      }
+
+      const {featureId} = adminLayers[this.adminLayerType];
+      let selectedFeatureIds = [...this.currentLayerSelectedFeatureIds];
+
+      /**
+       * OpenLayers Box Selection
+       * https://openlayers.org/en/latest/examples/box-selection.html
+       */
+      const boxExtent = dragBox.getGeometry().getExtent();
+      // if the extent crosses the antimeridian process each world separately
+      const worldExtent = this.map.getView().getProjection().getExtent();
+      const worldWidth = getWidth(worldExtent);
+      const startWorld = Math.floor(
+        (boxExtent[0] - worldExtent[0]) / worldWidth
+      );
+      const endWorld = Math.floor((boxExtent[2] - worldExtent[0]) / worldWidth);
+
+      for (let world = startWorld; world <= endWorld; ++world) {
+        const left = Math.max(
+          boxExtent[0] - world * worldWidth,
+          worldExtent[0]
+        );
+        const right = Math.min(
+          boxExtent[2] - world * worldWidth,
+          worldExtent[2]
+        );
+        const extent = [left, boxExtent[1], right, boxExtent[3]];
+
+        // features that intersect the box geometry are added to the
+        // collection of selected features (if not already included)
+        const boxFeatures = adminLayerSource
+          .getFeaturesInExtent(extent)
+          .filter(
+            feature =>
+              !selectedFeatureIds.includes(feature.get(featureId)) &&
+              feature.getGeometry()?.intersectsExtent(extent)
+          );
+
+        // if the view is not obliquely rotated the box geometry and
+        // its extent are equalivalent so intersecting features can
+        // be added directly to the collection
+        const rotation = this.map.getView().getRotation();
+        const oblique = rotation % (Math.PI / 2) !== 0;
+
+        // when the view is obliquely rotated the box extent will
+        // exceed its geometry so both the box and the candidate
+        // feature geometries are rotated around a common anchor
+        // to confirm that, with the box geometry aligned with its
+        // extent, the geometries intersect
+        if (oblique) {
+          const anchor = [0, 0];
+          const geometry = dragBox.getGeometry().clone();
+          geometry.translate(-world * worldWidth, 0);
+          geometry.rotate(-rotation, anchor);
+          const extent = geometry.getExtent();
+          boxFeatures.forEach(function (feature) {
+            const id = feature.get(featureId);
+            const geometry = feature.getGeometry()?.clone();
+
+            geometry?.rotate(-rotation, anchor);
+
+            if (geometry?.intersectsExtent(extent)) {
+              selectedFeatureIds.push(id);
+            }
+          });
+        } else {
+          const boxFeatureIds = boxFeatures.map(feature =>
+            feature.get(featureId)
+          );
+          selectedFeatureIds.push(...boxFeatureIds);
+        }
+      }
+
+      this.setSelectedFeatureIdsOfAdminLayer({
+        adminLayerType: this.adminLayerType,
+        featureIds: selectedFeatureIds
+      });
+    },
+    toggleBoxSelection() {
+      if (this.hasMultipleFeatureSelection) {
+        // Enable box selection for map with multiple feature selection
+        this.map?.addInteraction(dragBox);
+        dragBox.on('boxend', this.handleBoxEnd);
+      } else {
+        // Enable box selection for map without multiple feature selection
+        dragBox.un('boxend', this.handleBoxEnd);
+        this.map?.removeInteraction(dragBox);
+      }
+    },
     handleHoverOnMap(event: MapBrowserEvent<UIEvent>) {
       const hoveredFeatures = this.map?.getFeaturesAtPixel(
         event.pixel
@@ -458,6 +601,26 @@ export default Vue.extend({
           // Update source and style of data layers
           if (dataLayerIds.includes(layer.get('name'))) {
             this.updateDataLayer(layer, dataLayerOptions);
+            continue;
+          }
+
+          // Toggle visibility of sublayers in tile layer groups
+          const baseLayerOption = this.baseLayerOptions[layer.get('name')];
+
+          if (baseLayerOption && layer instanceof LayerGroup) {
+            const sublayers = layer.getLayersArray();
+
+            for (const sublayer of sublayers) {
+              const source = sublayer.getSource();
+
+              if (source instanceof TileWMS) {
+                const sourceLayers = Array.isArray(source.getParams().LAYERS)
+                  ? source.getParams().LAYERS
+                  : [source.getParams().LAYERS];
+                const isVisible = sourceLayers.includes(baseLayerOption);
+                sublayer.setVisible(isVisible);
+              }
+            }
           }
         } else {
           layer.setVisible(false);
@@ -709,6 +872,136 @@ export default Vue.extend({
             })
         );
       }
+    },
+    setupInfoWindow() {
+      const infoWindowContainerElement = this.$refs.infoWindow as HTMLElement;
+
+      this.infoWindow = new Overlay({
+        element: infoWindowContainerElement,
+        autoPan: {
+          animation: {
+            duration: 250
+          }
+        }
+      });
+      this.map?.addOverlay(this.infoWindow);
+    },
+    openInfoWindow(position: number[], content: string) {
+      const infoWindowContentElement = this.$refs.infoWindowContent as Element;
+      infoWindowContentElement.innerHTML = content;
+      this.infoWindow?.setPosition(position);
+    },
+    closeInfoWindow() {
+      this.infoWindow?.setPosition(undefined);
+    },
+    handleClickOutsideInfoWindow() {
+      // Close info window when user clicked anywhere on the map /
+      // outside the info window
+      this.closeInfoWindow();
+    },
+    handleClickOutsideMap(event: MouseEvent) {
+      const mapWrapperElement = this.$refs.mapWrapper as Element;
+
+      // Close info window when user clicked outside the map
+      if (
+        !(event.target instanceof Node) ||
+        !mapWrapperElement.contains(event.target)
+      ) {
+        this.closeInfoWindow();
+      }
+    },
+    async handleTileLayersInfoWindow(event: MouseEvent) {
+      // Prevent opening context menu
+      event.preventDefault();
+
+      const pixel = this.map?.getEventPixel(event);
+      const position = this.map?.getEventCoordinate(event);
+      const view = this.map?.getView();
+      const viewResolution = view?.getResolution();
+
+      if (!pixel || !position || viewResolution === undefined) {
+        this.closeInfoWindow();
+        return;
+      }
+
+      // Display info window for tile layers "Social Infrastructure",
+      // "Building and Living", "Street Tree Cadastre" and "Specific Heat Demand"
+      const layers = this.allBaseLayers
+        .filter(layer => {
+          const name = layer.get('name');
+          const layersWithInfoWindow = [
+            'buildingAndLiving',
+            'socialInfrastructure',
+            'streetTreeCadastre',
+            'heatAtlas'
+          ];
+
+          return layersWithInfoWindow.includes(name) && layer.getVisible();
+        })
+        .map(layerGroup => layerGroup?.getLayersArray() || [])
+        .flat()
+        .filter(layer => layer.getVisible());
+      const sources = layers.map(layer => layer.getSource());
+
+      let featureInfo = null;
+
+      // Fetch feature info for all tile layer sources at the clicked location
+      for await (const source of sources) {
+        const projectionCode = source.getProjection().getCode();
+        const featureInfoUrl = source.getFeatureInfoUrl(
+          position,
+          viewResolution,
+          projectionCode,
+          {INFO_FORMAT: 'text/xml'}
+        );
+
+        if (!featureInfoUrl) {
+          continue;
+        }
+
+        await fetch(featureInfoUrl)
+          .then(response => response.text())
+          .then(text => {
+            // Parse xml response and create a definition list from it
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(text, 'text/xml');
+            const hasContent = Boolean(
+              xmlDoc.getElementsByTagName('gml:featureMember').length
+            );
+
+            if (!hasContent) {
+              return;
+            }
+
+            featureInfo = getInfoWindowContentFromXML(xmlDoc);
+          });
+      }
+
+      if (!featureInfo) {
+        // Display info window for vector tile layer "Building Solar Potential"
+        const layersWithInfoWindow = ['buildingSolarPotential'];
+        const clickedFeature = this.map?.forEachFeatureAtPixel(
+          pixel,
+          feature => feature,
+          {
+            layerFilter: layer =>
+              layersWithInfoWindow.includes(layer.get('name'))
+          }
+        );
+        const properties = clickedFeature?.getProperties();
+
+        if (properties && Object.values(properties).length) {
+          featureInfo = getInfoWindowContentFromProperties(properties);
+        }
+      }
+
+      // Open the info window if feature info was found for the clicked position,
+      // otherwise close the previous shown info window.
+      if (featureInfo) {
+        this.openInfoWindow(position, featureInfo);
+      } else {
+        this.closeInfoWindow();
+      }
     }
   },
   created() {
@@ -735,10 +1028,23 @@ export default Vue.extend({
       this.addDrawingTools();
     }
 
+    // Handle info window
+    this.setupInfoWindow();
+    this.map
+      .getViewport()
+      .addEventListener('contextmenu', this.handleTileLayersInfoWindow);
+    this.map.on('click', this.handleClickOutsideInfoWindow);
+    document.body.addEventListener('click', this.handleClickOutsideMap);
+
     // Select map features
     this.map.on('click', this.handleClickOnMap);
+    this.toggleBoxSelection();
     // Hover map features
     this.map.on('pointermove', this.handleHoverOnMap);
+  },
+  beforeDestroy() {
+    // Clean up event listeners
+    document.body.removeEventListener('click', this.handleClickOutsideMap);
   }
 });
 </script>
@@ -746,6 +1052,7 @@ export default Vue.extend({
 <style scoped>
 .map-wrapper {
   position: relative;
+  grid-area: left;
 }
 
 #map {
@@ -770,6 +1077,75 @@ export default Vue.extend({
 .map-overlays.bottom-right {
   bottom: 0;
   right: 0;
+}
+
+.map-info-window {
+  position: absolute;
+  bottom: 16px;
+  left: -48px;
+  min-width: 10rem;
+  max-width: 40vw;
+  padding: 16px 52px 16px 16px;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+.map-info-window:after,
+.map-info-window:before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 48px;
+  height: 0;
+  width: 0;
+  border: solid transparent;
+  pointer-events: none;
+}
+
+.map-info-window:after {
+  margin-left: -14px;
+  border-width: 14px;
+  border-top-color: #f5f5f5;
+}
+
+.map-info-window:before {
+  margin-left: -16px;
+  border-width: 16px;
+  border-top-color: rgba(0, 0, 0, 0.14);
+}
+
+.map-info-window > button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.map-info-window-content {
+  max-height: 50vh;
+  overflow: auto;
+}
+
+.map-info-window-content::v-deep dl {
+  display: grid;
+  grid-template-columns: auto auto;
+  row-gap: 0.3em;
+  column-gap: 0.5em;
+  font-size: 0.875rem;
+}
+
+.map-info-window-content::v-deep dl:not(:first-child) {
+  margin-top: 0.3em;
+}
+
+.map-info-window-content::v-deep dt {
+  grid-column: 1;
+  font-weight: 500;
+}
+
+.map-info-window-content::v-deep dd {
+  grid-column: 2;
 }
 
 .confirmation-dialog-actions {

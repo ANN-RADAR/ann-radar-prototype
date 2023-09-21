@@ -8,7 +8,9 @@
       <section>
         <h4 class="overline">{{ $t(`layer.${layerType}`) }}</h4>
 
-        <v-list class="map-legend-classification text-body-2" dense>
+        <img v-if="'legendUrl' in legend" :src="legend.legendUrl" />
+
+        <v-list v-else class="map-legend-classification text-body-2" dense>
           <template v-for="(category, index) in legend.classification">
             <v-list-item
               v-if="!category.classification || !category.classification.length"
@@ -98,9 +100,17 @@ import {mapMutations, mapState} from 'vuex';
 import {MapMutationsToMethods, MapStateToComputed} from '@/types/store';
 import {LayerConfig, LayerOptions} from '@/types/layers';
 import {baseLayersOptions} from '@/constants/layers';
+import {
+  energyPotentialLayersOptions,
+  solarPotentialLayersOptions,
+  mobilityPotentialLayersOptions
+} from '@/constants/layers';
 
 interface Data {
   baseLayers: Array<LayerOptions>;
+  energyLayers: Array<LayerOptions>;
+  solarLayers: Array<LayerOptions>;
+  mobilityLayers: Array<LayerOptions>;
 }
 
 export default Vue.extend({
@@ -111,7 +121,12 @@ export default Vue.extend({
     }
   },
   data(): Data {
-    return {baseLayers: baseLayersOptions};
+    return {
+      baseLayers: baseLayersOptions,
+      energyLayers: energyPotentialLayersOptions,
+      solarLayers: solarPotentialLayersOptions,
+      mobilityLayers: mobilityPotentialLayersOptions
+    };
   },
   computed: {
     ...(mapState as MapStateToComputed)('root', [
@@ -124,16 +139,28 @@ export default Vue.extend({
         ({properties: {name}}) => name
       );
     },
-    legends(): Record<string, LayerConfig> {
+    legends(): Record<string, LayerConfig | {legendUrl: string}> {
       const legendsConfig = this.baseLayerTypes.reduce<
-        Record<string, LayerConfig>
-      >((config, layer) => {
+        Record<string, LayerConfig | {legendUrl: string}>
+      >((configOrUrl, layer) => {
         if (!this.availableLayers.includes(layer)) {
-          return config;
+          return configOrUrl;
         }
 
         const layerConfig = this.layersConfig[layer];
-        return {...config, ...(layerConfig && {[layer]: layerConfig})};
+        const legendUrl = !layerConfig
+          ? this.getLegendUrl(layer, [
+              ...this.energyLayers,
+              ...this.solarLayers,
+              ...this.mobilityLayers
+            ])
+          : null;
+
+        return {
+          ...configOrUrl,
+          ...(layerConfig && {[layer]: layerConfig}),
+          ...(legendUrl && {[layer]: legendUrl})
+        };
       }, {});
 
       if (
@@ -165,7 +192,30 @@ export default Vue.extend({
   methods: {
     ...(mapMutations as MapMutationsToMethods)('root', [
       'setLayerClassificationSelection'
-    ])
+    ]),
+    getLegendUrl: (layer: string, layerOptions: LayerOptions[]) => {
+      const layerOption = layerOptions.find(
+        baseLayer => baseLayer.properties.name === layer
+      );
+      if (layerOption && layerOption.type === 'tile') {
+        const layerUrl = layerOption.source
+          ? Array.isArray(layerOption.source)
+            ? layerOption.source[0].url
+            : layerOption.source.url
+          : null;
+        const layerId = layerOption.properties?.options
+          ? Array.isArray(layerOption.properties.options)
+            ? layerOption.properties.options[0].id
+            : null
+          : null;
+
+        return layerUrl && layerId
+          ? {
+              legendUrl: `${layerUrl}?REQUEST=GetLegendGraphic&VERSION=1.3.0&FORMAT=image/png&LAYER=${layerId}`
+            }
+          : null;
+      }
+    }
   }
 });
 </script>

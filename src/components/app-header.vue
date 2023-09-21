@@ -109,7 +109,7 @@
           <v-list>
             <v-list-item-group v-model="$i18n.locale" color="primary">
               <v-list-item
-                v-for="locale in ['en', 'de']"
+                v-for="locale in Object.keys(locales)"
                 :key="locale"
                 :value="locale"
               >
@@ -286,10 +286,13 @@ import ScenarioCreateDialog from './create-scenario-dialog.vue';
 import ScenarioLoadDialog from './scenario-load-dialog.vue';
 import AdminAreaSelector from './admin-area-selector.vue';
 
+import {locales} from '../i18n';
+
 interface Data {
   tab: number;
   showScenarioCreateDialog: boolean;
   showScenarioLoadDialog: boolean;
+  locales: Record<string, string>;
 }
 
 export default Vue.extend({
@@ -308,7 +311,8 @@ export default Vue.extend({
     return {
       tab: 0,
       showScenarioCreateDialog: false,
-      showScenarioLoadDialog: false
+      showScenarioLoadDialog: false,
+      locales
     };
   },
   watch: {
