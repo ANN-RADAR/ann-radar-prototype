@@ -18,7 +18,9 @@ export const getMessages = async (): Promise<VueI18n.LocaleMessages> => {
     const previousMessages = await messages;
 
     previousMessages[locale] = await (
-      await fetch(`i18n/${locale}.json`)
+      await fetch(
+        `https://storage.googleapis.com/ann-radar-data/i18n/${locale}.json`
+      )
     ).json();
     return previousMessages;
   }, Promise.resolve({}));
