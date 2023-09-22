@@ -200,7 +200,7 @@ Data of the different administration levels (building blocks, statistical areas,
 
 #### Translations
 
-The translation files are part of the code base and are stored in the /src/i18n folder as JSON files.
+The translation files are part of the code base and are stored in the cloud storage bucket ann-radar-data/i18n as JSON files.
 
 
 
