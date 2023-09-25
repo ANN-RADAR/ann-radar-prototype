@@ -933,7 +933,9 @@ export default Vue.extend({
             'buildingAndLiving',
             'socialInfrastructure',
             'streetTreeCadastre',
-            'heatAtlas'
+            'heatAtlas',
+            'schools',
+            'quarterCulture'
           ];
 
           return layersWithInfoWindow.includes(name) && layer.getVisible();
