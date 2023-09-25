@@ -200,7 +200,7 @@ Data of the different administration levels (building blocks, statistical areas,
 
 #### Translations
 
-The translation files are loading during runtime and are stored in the cloud storage bucket ann-radar-data/i18n as JSON files.
+The translation files are loaded during runtime and are stored in the cloud storage bucket ann-radar-data/i18n as JSON files.
 
 
 
