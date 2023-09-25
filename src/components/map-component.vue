@@ -378,9 +378,19 @@ export default Vue.extend({
     highlightedFeatureIds() {
       this.handleAdminAreaSelectionAndHighlighting();
     },
-    $route() {
+    $route(to) {
       this.updateLaboratoriesFeatures();
       this.toggleMobilityIsochronesLayer();
+
+      const mapWrapperElement = this.$refs.mapWrapper as Element;
+      if (mapWrapperElement) {
+        // Only set grid area to left if chart is shown
+        if ('chartProperty' in to.query) {
+          mapWrapperElement.setAttribute('style', 'grid-area:left;');
+        } else {
+          mapWrapperElement.setAttribute('style', 'grid-area:initial;');
+        }
+      }
     },
     laboratories() {
       this.updateLaboratoriesFeatures();
@@ -1081,7 +1091,6 @@ export default Vue.extend({
 <style scoped>
 .map-wrapper {
   position: relative;
-  grid-area: left;
 }
 
 #map {
