@@ -88,7 +88,9 @@
               <v-btn
                 text
                 icon
-                @click="onDeselectFeature(item[shownTableHeaders[0].value])"
+                @click="
+                  onDeselectFeature(String(item[shownTableHeaders[0].value]))
+                "
               >
                 <v-icon>mdi-close</v-icon>
               </v-btn>

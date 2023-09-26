@@ -24,6 +24,17 @@
       <v-btn text icon @click="closeInfoWindow">
         <v-icon>mdi-close</v-icon>
       </v-btn>
+      <v-btn
+        v-if="!isInfoWindowCollapsed"
+        text
+        icon
+        @click="minimizeInfoWindow"
+      >
+        <v-icon>mdi-window-minimize</v-icon>
+      </v-btn>
+      <v-btn v-if="isInfoWindowCollapsed" text icon @click="maximizeInfoWindow">
+        <v-icon>mdi-window-maximize</v-icon>
+      </v-btn>
       <div class="map-info-window-content" ref="infoWindowContent"></div>
     </div>
 
@@ -139,6 +150,7 @@ type Data = {
   modifyHandleStyle: StyleFunction | Style;
   drawingInteractions: Array<Interaction>;
   drawingLayer: VectorLayer<VectorSource<Geometry>> | null;
+  isInfoWindowCollapsed: boolean;
 };
 
 export default Vue.extend({
@@ -249,7 +261,8 @@ export default Vue.extend({
       drawHandleStyle,
       modifyHandleStyle,
       drawingInteractions: [],
-      drawingLayer: null
+      drawingLayer: null,
+      isInfoWindowCollapsed: false
     };
   },
   computed: {
@@ -365,9 +378,19 @@ export default Vue.extend({
     highlightedFeatureIds() {
       this.handleAdminAreaSelectionAndHighlighting();
     },
-    $route() {
+    $route(to) {
       this.updateLaboratoriesFeatures();
       this.toggleMobilityIsochronesLayer();
+
+      const mapWrapperElement = this.$refs.mapWrapper as Element;
+      if (mapWrapperElement) {
+        // Only set grid area to left if chart is shown
+        if ('chartProperty' in to.query) {
+          mapWrapperElement.setAttribute('style', 'grid-area:left;');
+        } else {
+          mapWrapperElement.setAttribute('style', 'grid-area:initial;');
+        }
+      }
     },
     laboratories() {
       this.updateLaboratoriesFeatures();
@@ -888,11 +911,25 @@ export default Vue.extend({
     },
     openInfoWindow(position: number[], content: string) {
       const infoWindowContentElement = this.$refs.infoWindowContent as Element;
+
       infoWindowContentElement.innerHTML = content;
+
       this.infoWindow?.setPosition(position);
     },
     closeInfoWindow() {
       this.infoWindow?.setPosition(undefined);
+    },
+    minimizeInfoWindow() {
+      const infoWindowContentElement = this.$refs.infoWindowContent as Element;
+      infoWindowContentElement.setAttribute('style', 'max-height:5vh');
+
+      this.isInfoWindowCollapsed = true;
+    },
+    maximizeInfoWindow() {
+      const infoWindowContentElement = this.$refs.infoWindowContent as Element;
+      infoWindowContentElement.setAttribute('style', 'max-height:50vh');
+
+      this.isInfoWindowCollapsed = false;
     },
     handleClickOutsideInfoWindow() {
       // Close info window when user clicked anywhere on the map /
@@ -933,7 +970,9 @@ export default Vue.extend({
             'buildingAndLiving',
             'socialInfrastructure',
             'streetTreeCadastre',
-            'heatAtlas'
+            'heatAtlas',
+            'schools',
+            'quarterCulture'
           ];
 
           return layersWithInfoWindow.includes(name) && layer.getVisible();
@@ -1052,7 +1091,6 @@ export default Vue.extend({
 <style scoped>
 .map-wrapper {
   position: relative;
-  grid-area: left;
 }
 
 #map {
@@ -1116,9 +1154,15 @@ export default Vue.extend({
   border-top-color: rgba(0, 0, 0, 0.14);
 }
 
-.map-info-window > button {
+.map-info-window > button:first-of-type {
   position: absolute;
   top: 8px;
+  right: 8px;
+}
+
+.map-info-window > button:last-of-type {
+  position: absolute;
+  top: 42px;
   right: 8px;
 }
 
