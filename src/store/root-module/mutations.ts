@@ -4,7 +4,7 @@ import {
   AdminLayerFeatureId,
   AdminLayerType
 } from '@/types/admin-layers';
-import {RootState} from '@/types/store';
+import {PotentialSortingOptions, RootState} from '@/types/store';
 import {Scorecard, ScorecardRatings, ScorecardType} from '@/types/scorecards';
 import {ScenarioMetaData} from '@/types/scenarios';
 import {MobilityLocation, PotentialConfig} from '@/types/potential';
@@ -182,6 +182,12 @@ const mutations = {
     isochrones: Record<string, Array<GeoJSONFeature>>
   ) {
     state.mobilityIsochrones = isochrones;
+  },
+  setPotentialSorting(
+    state: RootState,
+    sorting: Partial<PotentialSortingOptions>
+  ) {
+    state.potentialSorting = {...state.potentialSorting, ...sorting};
   }
 };
 
