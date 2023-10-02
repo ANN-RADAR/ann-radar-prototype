@@ -87,7 +87,7 @@ export default Vue.extend({
         },
         xaxis: {
           show: true,
-          categories: this.currentLayerSelectedFeatureIds
+          categories: this.chartData.map(({x}) => x)
         },
         yaxis: {
           show: true,
