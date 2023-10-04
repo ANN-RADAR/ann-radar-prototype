@@ -64,7 +64,8 @@ const state: RootState = {
     {} as Record<StakeholdersEngagementType, StakeholdersEngagementRatings>
   ),
   mobilityLocations: [] as Array<MobilityLocation>,
-  mobilityIsochrones: {} as Record<string, Array<GeoJSONFeature>>
+  mobilityIsochrones: {} as Record<string, Array<GeoJSONFeature>>,
+  potentialSorting: {sortBy: null, sortDesc: null}
 };
 
 export default state;

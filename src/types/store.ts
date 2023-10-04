@@ -49,6 +49,12 @@ export interface RootState {
   >;
   mobilityLocations: Array<MobilityLocation>;
   mobilityIsochrones: Record<string, Array<GeoJSONFeature>>;
+  potentialSorting: PotentialSortingOptions;
+}
+
+export interface PotentialSortingOptions {
+  sortBy: string | null;
+  sortDesc: boolean | null;
 }
 
 export interface UserState {

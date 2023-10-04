@@ -49,7 +49,8 @@ export default Vue.extend({
     ...(mapState as MapStateToComputed)('root', [
       'adminLayerData',
       'adminLayerType',
-      'potentialConfig'
+      'potentialConfig',
+      'potentialSorting'
     ]),
     ...(mapGetters as MapGettersToComputed)('root', [
       'currentLayerSelectedFeatureIds'
@@ -87,7 +88,7 @@ export default Vue.extend({
         },
         xaxis: {
           show: true,
-          categories: this.currentLayerSelectedFeatureIds
+          categories: this.chartData.map(({x}) => x)
         },
         yaxis: {
           show: true,
@@ -118,19 +119,37 @@ export default Vue.extend({
         return [];
       }
 
-      const chartProperty = this.$route.query.chartProperty as string;
-
-      return data
-        .filter((featureData: AdminLayerFeatureData) =>
+      const selectedFeaturesData = data.filter(
+        (featureData: AdminLayerFeatureData) =>
           this.currentLayerSelectedFeatureIds.some(
             (featureId: string) =>
               featureId === String(featureData[adminLayerDataId])
           )
-        )
-        .map((featureData: AdminLayerFeatureData) => ({
-          x: String(featureData[adminLayerDataId]),
-          y: featureData[chartProperty]
-        }));
+      );
+
+      const {sortBy: sortProperty, sortDesc} = this.potentialSorting;
+
+      if (sortProperty) {
+        // Sort chart data identically to the potential table
+        selectedFeaturesData.sort((dataA, dataB) => {
+          const valueA = String(dataA[sortProperty]);
+          const valueB = String(dataB[sortProperty]);
+
+          return (
+            valueA.localeCompare(valueB, undefined, {
+              numeric: true,
+              sensitivity: 'base'
+            }) * (sortDesc ? -1 : 1)
+          );
+        });
+      }
+
+      const chartProperty = this.$route.query.chartProperty as string;
+
+      return selectedFeaturesData.map((featureData: AdminLayerFeatureData) => ({
+        x: String(featureData[adminLayerDataId]),
+        y: featureData[chartProperty]
+      }));
     }
   },
   watch: {
