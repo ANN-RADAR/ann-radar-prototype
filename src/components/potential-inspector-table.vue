@@ -45,6 +45,8 @@
             :show-select="showAggregationOnly ? false : showSelected"
             :height="tableHeight"
             :fixed-header="true"
+            @update:sort-by="onSortByChange"
+            @update:sort-desc="onSortOrderChange"
             hide-default-footer
             disable-pagination
           >
@@ -262,7 +264,8 @@ export default Vue.extend({
   methods: {
     ...(mapActions as MapActionsToMethods)('root', ['fetchPotentialConfig']),
     ...(mapMutations as MapMutationsToMethods)('root', [
-      'setSelectedFeatureIdsOfAdminLayer'
+      'setSelectedFeatureIdsOfAdminLayer',
+      'setPotentialSorting'
     ]),
     onResize() {
       const container = this.$refs.tableContainer as Element;
@@ -310,6 +313,14 @@ export default Vue.extend({
     },
     openBarChart(chartProperty: string) {
       this.$router.push({path: this.$route.path, query: {chartProperty}});
+    },
+    onSortByChange(sortBy: string | Array<string>) {
+      const newSortBy = Array.isArray(sortBy) ? sortBy[0] : sortBy;
+      this.setPotentialSorting({sortBy: newSortBy || null});
+    },
+    onSortOrderChange(sortDesc: boolean | Array<boolean>) {
+      const newSortDesc = Array.isArray(sortDesc) ? sortDesc[0] : sortDesc;
+      this.setPotentialSorting({sortDesc: newSortDesc ?? null});
     }
   }
 });
