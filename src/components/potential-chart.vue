@@ -127,8 +127,7 @@ export default Vue.extend({
           )
       );
 
-      const sortProperty = this.potentialSorting.sortBy;
-      const sortDesc = this.potentialSorting.sortDesc;
+      const {sortBy: sortProperty, sortDesc} = this.potentialSorting;
 
       if (sortProperty) {
         // Sort chart data identically to the potential table
