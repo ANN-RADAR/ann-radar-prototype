@@ -46,6 +46,7 @@
             :height="tableHeight"
             :fixed-header="true"
             hide-default-footer
+            disable-pagination
           >
             <template v-slot:[`header.data-table-select`]>
               <v-btn

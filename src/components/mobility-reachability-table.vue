@@ -37,8 +37,6 @@ import booleanWithin from '@turf/boolean-within';
 import GeoJSON from 'ol/format/GeoJSON';
 import {GeoJSONFeature} from 'ol/format/GeoJSON';
 import {Polygon} from 'ol/geom';
-import proj4 from 'proj4';
-import {register} from 'ol/proj/proj4';
 
 import {vectorSourcesOptions} from '@/constants/sources';
 import {adminLayers} from '@/constants/admin-layers';
